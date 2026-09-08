@@ -235,12 +235,41 @@ Still needed, roughly in priority order:
 2. Fill remaining `PLACEHOLDER` HTML comments in `about/index.astro` and
    `contribute/index.astro` — HRPR's CIN, registered address, UPI QR image
    (`public/contribute-qr.png`), bank details
-3. Populate `scripts/config/feeds.json` with real Google Alerts RSS URLs
-   (currently placeholder strings)
+3. ~~Populate `scripts/config/feeds.json` with real Google Alerts RSS URLs~~
+   — **done 2026-09-08.** All 6 topics (the original 5 plus smokeless
+   tobacco India, added after the site owner noticed it was missing) now
+   have real feed URLs. Note: Google Alerts RSS feeds don't backfill
+   history — only new items going forward will show up.
 4. Build out `public/_redirects` with every surviving old-site URL before
    DNS cutover — currently only has section-level mappings
-5. Get the two GitHub Actions their `ANTHROPIC_API_KEY` repo secret and
-   confirm at least one successful scheduled/manual run of each
+5. ~~Get the two GitHub Actions their `ANTHROPIC_API_KEY` repo secret and
+   confirm at least one successful scheduled/manual run of each~~ — **done
+   2026-09-08.** Secret added, and a manual `workflow_dispatch` run of
+   `fetch-news.yml` completed green. One extra fix needed along the way:
+   the `vapeindia` org had "Allow GitHub Actions to create and approve
+   pull requests" switched off by default (Settings → Actions → General →
+   Workflow permissions, at the org level since repos under this org can't
+   override it) — that had to be enabled before `create-pull-request`
+   would work; if `fetch-research.yml` is ever run for the first time and
+   mysteriously fails at the same step, this is already fixed, so look
+   elsewhere. **Not yet run even once:** `fetch-research.yml` (weekly
+   cron) — same secret, should work, but hasn't actually been triggered
+   to confirm. Remaining cosmetic-only warning: both workflows pin
+   `node-version: 20`, which GitHub now force-runs on Node 24 with a
+   deprecation warning — harmless, but a one-line bump to `24` in both
+   files would silence it.
+
+## Repo status (as of 2026-09-08)
+
+The site is now pushed to `https://github.com/vapeindia/AVI-website`
+(`main` branch, GitHub org `vapeindia`) — this CLAUDE.md file, and
+everything else in this repo, now lives there too, not just locally.
+Git identity for commits in this repo is set locally (not globally) to
+`Association of Vapers India <contact@vapeindia.org>`. Two fine-grained
+PATs were used to push (Contents + Workflows: Read and write) and the
+site owner was advised to revoke/regenerate both since they were shared
+in plaintext through the conversation that set this up — worth confirming
+that happened, since a live token sitting unused is a needless risk.
 
 ## Social handles (linked in footer, not actively pulled from)
 
