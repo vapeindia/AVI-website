@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('litigation');
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+const { item } = Astro.props;
+const { Content } = await render(item);
+const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : 'Disposed');
+---
+<Base title={item.data.title}>
+  <p><a href="/litigation">← Back to litigation</a></p>
+  <h1>{item.data.title}</h1>
+  <p><small>{item.data.court}, {item.data.state} · Status: {statusLabel(item.data.status)}</small></p>
+  <p>{item.data.summary}</p>
+  {item.data.outcome && <p><strong>Outcome:</strong> {item.data.outcome}</p>}
+  <Content />
+  {item.data.documents.length > 0 && (
+    <>
+      <h2>Documents</h2>
+      <ul>
+        {item.data.documents.map((d) => <li><a href={d.path}>{d.label}</a></li>)}
+      </ul>
+    </>
+  )}
+</Base>

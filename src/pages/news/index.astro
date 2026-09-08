@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('news', ({ data }) => data.reviewed))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="News" description="Current developments on tobacco harm reduction, vaping and nicotine pouch regulation relevant to India.">
+  <h1>News</h1>
+  <p>Curated coverage of THR, vaping and nicotine policy relevant to India. Auto-gathered, human-reviewed.</p>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <time datetime={item.data.date.toISOString()}>{item.data.date.toDateString()}</time>
+        — <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
+        <br /><small>{item.data.sourceName} · {item.data.topic}</small>
+        <p>{item.data.summary}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

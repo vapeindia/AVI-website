@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const cases = await getCollection('litigation');
+const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : 'Disposed');
+---
+<Base title="Litigation" description="A decade at the forefront of tobacco harm reduction litigation in India — the cases AVI has organised and fought, and the ones it has deliberately stayed out of.">
+  <h1>AVI in court</h1>
+  <p>
+    Since 2017, AVI has organised, funded and directed legal challenges to
+    bans on e-cigarettes and vaping products in courts across India —
+    <strong>Karnataka, Delhi, Jammu &amp; Kashmir and Tamil Nadu</strong> —
+    taking some of these fights through multiple rounds of appeal. That work
+    continues today: AVI is currently running an active case in the Delhi
+    High Court against the flight ban on carrying e-cigarettes, the one
+    major restriction the national ban under PECA, 2019 never touched. Few
+    if any consumer bodies in India have pursued this fight as far, for as
+    long, or in as many courts.
+  </p>
+  <p>
+    Separately, sellers and manufacturers have brought their own challenges
+    to these bans — in Mumbai and Kolkata among other places. AVI is a
+    consumer advocacy organisation, not an industry one, and has never
+    funded, filed, or directed litigation on a vendor's or manufacturer's
+    behalf — even in cases that drew on research and legal arguments AVI
+    first developed and published. This page draws that line plainly
+    wherever it applies, alongside every case AVI has organised itself.
+  </p>
+  {cases.map((c) => (
+    <div>
+      <h2><a href={`/litigation/${c.id}`}>{c.data.title}</a></h2>
+      <p><small>{c.data.court} · Status: {statusLabel(c.data.status)}</small></p>
+      <p>{c.data.summary}</p>
+    </div>
+  ))}
+</Base>

@@ -1,0 +1,24 @@
+# Cloudflare Pages redirect rules.
+# Populate this fully before DNS cutover — every URL that appears in the
+# old site's sitemap.xml or in Google Search Console should have an entry
+# below, or you lose inbound links and press citations built up since 2016.
+
+/about-us/            /about                          301
+/research/             /science                        301
+/india/                /india                          301
+/india/overview/       /india                          301
+/india/govt/           /india/law                      301
+/india/rti-replies/    /litigation                     301
+/india/legal/          /litigation                     301
+/india/litigation/*    /litigation/:splat              301
+/india/action/         /india/law                      301
+/contact-us/           /contact                        301
+/join-us/              /contribute                     301
+/donate/               /contribute                     301
+/news-events/          /press                          301
+
+# TODO before cutover: crawl the live sitemap and old Google Search Console
+# export, and add one line per surviving post URL (including the
+# percent-encoded Hindi post slugs) pointing at its new /press or /blog
+# location. Do not skip this — press citations from 2018 outlets link to
+# these exact URLs.

@@ -1,0 +1,162 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base
+  title="Testimonials"
+  description="Real accounts from Indians who moved off combustible tobacco using vaping or nicotine pouches."
+>
+  <h1>Real stories, not just research</h1>
+  <p>
+    Behind every court filing and research brief on this site is a simple
+    fact: switching to a lower-risk product has helped real people in India
+    walk away from combustible tobacco for good. If safer nicotine products
+    did this for you, telling that story in your own words is one of the
+    most persuasive things you can do for the millions of Indian smokers who
+    have not yet found their way off cigarettes and bidis.
+  </p>
+
+  <h2>Share your story</h2>
+  <p>
+    Your name and location (city or state) are published with your
+    testimonial so readers know these are real people, not anonymous
+    quotes. <strong>Your email address is never published or shared</strong> —
+    it is used only so we can send you a short thank-you note, and to
+    contact you if we have a question about your submission before it goes
+    live. Every testimonial is read by a person before it appears on this
+    page; nothing is published automatically.
+  </p>
+
+  <form id="testimonial-form">
+    <p>
+      <label for="testimonial">Your testimonial</label><br />
+      <textarea
+        id="testimonial"
+        name="testimonial"
+        rows="6"
+        maxlength="2000"
+        required
+        placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco?"
+      ></textarea>
+    </p>
+    <p>
+      <label for="name">Name</label><br />
+      <input id="name" name="name" type="text" required maxlength="100" />
+    </p>
+    <p>
+      <label for="location">Location (city or state)</label><br />
+      <input id="location" name="location" type="text" required maxlength="100" />
+    </p>
+    <p>
+      <label for="email">Email <small>(kept private — never published)</small></label><br />
+      <input id="email" name="email" type="email" required maxlength="200" />
+    </p>
+    <!-- Honeypot: real visitors never see or fill this in. Bots that fill every
+         field on a form typically will. Any submission with this non-empty is
+         silently dropped by the function. -->
+    <p class="hp" aria-hidden="true">
+      <label for="website">Leave this field blank</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </p>
+    <p>
+      <button type="submit">Submit testimonial</button>
+    </p>
+    <p id="testimonial-status" role="status"></p>
+  </form>
+
+  {items.length > 0 && (
+    <>
+      <h2>What people are telling us</h2>
+      {items.map((item) => (
+        <blockquote>
+          <p>&ldquo;{item.data.testimonial}&rdquo;</p>
+          <footer>— {item.data.name}, {item.data.location}</footer>
+        </blockquote>
+      ))}
+    </>
+  )}
+
+  <style>
+    .hp { position: absolute; left: -9999px; }
+    label { font-weight: 600; }
+    textarea, input[type="text"], input[type="email"] {
+      width: 100%;
+      max-width: 100%;
+      font: inherit;
+      padding: 0.5rem;
+      border: 1px solid var(--border, #e4e1d8);
+      border-radius: 4px;
+      background: #fff;
+    }
+    button[type="submit"] {
+      font: inherit;
+      background: var(--accent, #1f6f5c);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
+    blockquote {
+      border-left: 3px solid var(--border, #e4e1d8);
+      margin: 0 0 1.5rem;
+      padding: 0.25rem 0 0.25rem 1rem;
+    }
+    blockquote footer { color: var(--muted, #5b6266); font-size: 0.9rem; margin-top: 0.25rem; }
+    #testimonial-status[data-state="ok"] { color: var(--accent, #1f6f5c); }
+    #testimonial-status[data-state="err"] { color: #a3342a; }
+  </style>
+
+  <script>
+    const form = document.getElementById('testimonial-form');
+    const status = document.getElementById('testimonial-status');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!status) return;
+      const data = new FormData(form);
+
+      // Honeypot: if a bot filled this in, pretend to succeed and stop.
+      if (String(data.get('website') || '').trim() !== '') {
+        status.textContent = 'Thank you — your testimonial has been submitted for review.';
+        status.dataset.state = 'ok';
+        form.reset();
+        return;
+      }
+
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+      status.textContent = 'Submitting…';
+      status.dataset.state = '';
+
+      try {
+        const res = await fetch('/api/testimonial', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            testimonial: data.get('testimonial'),
+            name: data.get('name'),
+            location: data.get('location'),
+            email: data.get('email'),
+            website: data.get('website'),
+          }),
+        });
+        if (!res.ok) throw new Error('request failed');
+        status.textContent =
+          "Thank you — your testimonial has been submitted for review, and you'll get a confirmation email shortly.";
+        status.dataset.state = 'ok';
+        form.reset();
+      } catch {
+        status.textContent =
+          "Something went wrong submitting this. Please try again, or email your testimonial directly to contact@vapeindia.org.";
+        status.dataset.state = 'err';
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  </script>
+</Base>

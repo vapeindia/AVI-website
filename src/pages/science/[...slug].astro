@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('research');
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+<Base title={item.data.title}>
+  <p><a href="/science">← Back to research library</a></p>
+  <h1>{item.data.title}</h1>
+  <p><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
+  <p><small>{item.data.studyType} · {item.data.substance.join(', ')}</small></p>
+  <p>{item.data.brief}</p>
+  {item.data.relevanceToIndia && <p><strong>Relevance to India:</strong> {item.data.relevanceToIndia}</p>}
+  <Content />
+  <p>
+    {item.data.doi && <a href={`https://doi.org/${item.data.doi}`} target="_blank" rel="noopener">View via DOI</a>}
+    {item.data.pubmedId && <a href={`https://pubmed.ncbi.nlm.nih.gov/${item.data.pubmedId}`} target="_blank" rel="noopener"> · PubMed</a>}
+  </p>
+</Base>

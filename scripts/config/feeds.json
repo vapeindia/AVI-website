@@ -1,0 +1,10 @@
+[
+  { "name": "Google Alert: PECA 2019", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
+  { "name": "Google Alert: e-cigarette India", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
+  { "name": "Google Alert: tobacco harm reduction", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
+  { "name": "Google Alert: nicotine pouch India", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
+  { "name": "Google Alert: smokeless tobacco India", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
+
+  { "name": "Filter (GFN)", "url": "https://filtermag.org/feed/" },
+  { "name": "Clive Bates", "url": "https://www.clivebates.com/feed/" }
+]

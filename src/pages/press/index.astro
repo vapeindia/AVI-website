@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const all = (await getCollection('press'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Media coverage: independent outlets writing about AVI, interviewing it, or
+// running its byline — as distinct from AVI's own issued statements below.
+const coverage = all.filter((item) => ['coverage', 'interview', 'op-ed'].includes(item.data.type));
+// AVI's own public statements and quotes, mostly distributed via PR agencies.
+const statements = all.filter((item) => ['press-release', 'quote'].includes(item.data.type));
+---
+<Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals.">
+  <h1>Press &amp; media coverage</h1>
+  <p>
+    For over a decade, AVI has been a go-to source for Indian and
+    international outlets covering tobacco harm reduction — quoted,
+    interviewed and bylined in outlets from Deccan Chronicle and Outlook
+    India to trade press like 2Firsts and Filter. Below is that independent
+    coverage, alongside AVI's own public statements, letters and rebuttals.
+  </p>
+
+  <h2>Media coverage</h2>
+  <p><small>Independent reporting, interviews and bylined op-eds — not written or issued by AVI.</small></p>
+  <ul>
+    {coverage.map((item) => (
+      <li>
+        <time datetime={item.data.date.toISOString()}>{item.data.date.toDateString()}</time>
+        — {item.data.url
+          ? <a href={item.data.url} target="_blank" rel="noopener">{item.data.title}</a>
+          : <a href={item.data.archivePdf}>{item.data.title}</a>}
+        <br /><small>{item.data.outlet} · {item.data.type}</small>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Press releases &amp; statements</h2>
+  <p><small>AVI's own public statements, quotes and rebuttals, mostly distributed via PR agencies.</small></p>
+  <ul>
+    {statements.map((item) => (
+      <li>
+        <time datetime={item.data.date.toISOString()}>{item.data.date.toDateString()}</time>
+        — {item.data.url
+          ? <a href={item.data.url} target="_blank" rel="noopener">{item.data.title}</a>
+          : <a href={item.data.archivePdf}>{item.data.title}</a>}
+        <br /><small>{item.data.outlet} · {item.data.type}</small>
+      </li>
+    ))}
+  </ul>
+</Base>

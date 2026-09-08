@@ -1,0 +1,41 @@
+name: Fetch research
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'   # every Monday 05:00 UTC (~10:30 IST)
+  workflow_dispatch: {}    # allows manual trigger from the Actions tab
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci --omit=dev --include=optional --no-audit --no-fund || npm install fast-xml-parser
+
+      - name: Fetch new research and write briefs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/fetch-research.mjs
+
+      - name: Open pull request with new drafts
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Research: add new draft entries for review"
+          title: "New research drafts — weekly fetch"
+          body: |
+            Auto-generated draft research entries from PubMed / Europe PMC.
+            Each has `reviewed: false` and will not appear on the live site
+            until that's flipped to `true` after review.
+          branch: auto/fetch-research
+          add-paths: src/content/research/**
+          delete-branch: true

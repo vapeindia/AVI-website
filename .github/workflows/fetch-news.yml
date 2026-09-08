@@ -1,0 +1,47 @@
+name: Fetch news
+
+on:
+  schedule:
+    - cron: '30 3 * * *'  # daily 03:30 UTC (~09:00 IST)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install fast-xml-parser
+
+      - name: Fetch news and write summaries
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/fetch-news.mjs
+
+      - name: Open pull request with new drafts
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "News: add new draft entries for review"
+          title: "New news drafts — daily fetch"
+          body: |
+            Auto-gathered candidate news items, paraphrased and classified.
+            Commercial/vendor domains are pre-filtered via
+            scripts/config/blocklist.json. Each entry has `reviewed: false`
+            and will not appear on /news until that's flipped to `true`.
+
+            **Review checklist before approving:**
+            - [ ] No product promotion or purchase links
+            - [ ] Summary is accurate and neutral
+            - [ ] Source is credible
+          branch: auto/fetch-news
+          add-paths: src/content/news/**
+          delete-branch: true

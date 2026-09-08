@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const latestNews = (await getCollection('news', ({ data }) => data.reviewed))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const latestResearch = (await getCollection('research', ({ data }) => data.reviewed))
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3);
+
+const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
+---
+<Base title="Home">
+  <h1>Association of Vapers India</h1>
+  <p>
+    For over ten years, AVI has been India's leading consumer advocacy voice
+    for tobacco harm reduction — a group founded by former smokers who quit
+    through vaping, working for the right of India's tobacco users, and of
+    tobacco users across the Global South, to access lower-risk alternatives
+    to combustible tobacco, backed by evidence and pursued within the law.
+  </p>
+  <p>
+    We work for smokers and the 200 million Indians who use smokeless
+    tobacco. See what a decade of that work has looked like: our
+    <a href="/litigation">litigation record</a>, our
+    <a href="/press">press coverage</a>, and
+    {testimonialCount > 0
+      ? <a href="/testimonials">testimonials from {testimonialCount}+ people it has helped</a>
+      : <a href="/testimonials">testimonials from the people it has helped</a>}.
+  </p>
+
+  <h2>Current legal position</h2>
+  <p>
+    Electronic cigarettes have been banned in India under the Prohibition of Electronic
+    Cigarettes Act, 2019 (PECA). <a href="/india/law">Read what this means for you →</a>
+  </p>
+
+  <h2>Latest news</h2>
+  <ul>
+    {latestNews.map((item) => (
+      <li>
+        <a href={`/news/${item.id}`}>{item.data.title}</a>
+        — <span>{item.data.sourceName}</span>
+      </li>
+    ))}
+  </ul>
+  <p><a href="/news">All news →</a></p>
+
+  <h2>From the evidence library</h2>
+  <ul>
+    {latestResearch.map((item) => (
+      <li>
+        <a href={`/science/${item.id}`}>{item.data.title}</a>
+        — <span>{item.data.journal}, {item.data.year}</span>
+      </li>
+    ))}
+  </ul>
+  <p><a href="/science">Full research library →</a></p>
+</Base>

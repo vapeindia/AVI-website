@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('research', ({ data }) => data.reviewed))
+  .sort((a, b) => b.data.year - a.data.year);
+---
+<Base title="Science" description="A continuously updated library of tobacco harm reduction research relevant to e-cigarettes, nicotine pouches and snus.">
+  <h1>The Science</h1>
+  <p>
+    A living library of research on e-cigarettes, nicotine pouches, snus and tobacco
+    harm reduction. New studies are added automatically from PubMed and Europe PMC
+    and reviewed before publishing.
+  </p>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <a href={`/science/${item.id}`}><strong>{item.data.title}</strong></a>
+        <br /><small>{item.data.authors} · {item.data.journal}, {item.data.year} · {item.data.studyType}</small>
+        <p>{item.data.brief}</p>
+      </li>
+    ))}
+  </ul>
+</Base>
