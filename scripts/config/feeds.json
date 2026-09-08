@@ -1,9 +1,10 @@
 [
-  { "name": "Google Alert: PECA 2019", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
-  { "name": "Google Alert: e-cigarette India", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
-  { "name": "Google Alert: tobacco harm reduction", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
-  { "name": "Google Alert: nicotine pouch India", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
-  { "name": "Google Alert: smokeless tobacco India", "url": "REPLACE_WITH_GOOGLE_ALERTS_RSS_URL" },
+  { "name": "Google Alert: PECA 2019", "url": "https://www.google.com/alerts/feeds/01495972312265356834/1322942694145613904" },
+  { "name": "Google Alert: e-cigarette India", "url": "https://www.google.com/alerts/feeds/01495972312265356834/11125377644069433945" },
+  { "name": "Google Alert: tobacco harm reduction", "url": "https://www.google.com/alerts/feeds/01495972312265356834/3066207518812157014" },
+  { "name": "Google Alert: nicotine pouch India", "url": "https://www.google.com/alerts/feeds/01495972312265356834/3066207518812157262" },
+  { "name": "Google Alert: vaping India", "url": "https://www.google.com/alerts/feeds/01495972312265356834/9174279637052810087" },
+  { "name": "Google Alert: smokeless tobacco India", "url": "https://www.google.com/alerts/feeds/01495972312265356834/11134995585635544347" },
 
   { "name": "Filter (GFN)", "url": "https://filtermag.org/feed/" },
   { "name": "Clive Bates", "url": "https://www.clivebates.com/feed/" }
