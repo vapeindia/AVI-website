@@ -249,7 +249,11 @@ Still needed, roughly in priority order:
    them.
 2. Fill remaining `PLACEHOLDER` HTML comments in `about/index.astro` and
    `contribute/index.astro` — HRPR's CIN, registered address, UPI QR image
-   (`public/contribute-qr.png`), bank details
+   (`public/contribute-qr.png`), bank details. **Partly done 2026-09-09:**
+   bank transfer details (A/C 034661900003311, IFSC YESB0000346, Yes Bank)
+   and CIN (U74999MH2020PTC336631) are filled in on both pages. **Still
+   outstanding:** the UPI QR code image itself, and HRPR's registered
+   office address.
 3. ~~Populate `scripts/config/feeds.json` with real Google Alerts RSS URLs~~
    — **done 2026-09-08.** All 6 topics (the original 5 plus smokeless
    tobacco India, added after the site owner noticed it was missing) now
