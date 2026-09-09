@@ -5,13 +5,8 @@ outlet: "Authored article, for Pinkvilla"
 type: "op-ed"
 ---
 
-**Date is approximate** — placed shortly after the events it references (a
-Delhi HC PIL filed May 5, 2020 seeking a ban on SLT sale/use, and the Union
-government's May 15, 2020 order making public spitting an offence under the
-Disaster Management Act). Distinct from this site's other Pinkvilla op-ed
-(Dhaval Gogate's, on vaping/harm reduction generally) — this one is
-specifically about smokeless tobacco (SLT): it argues bans on spitting and
-SLT sale alone won't curb COVID-19 transmission risk without also making
-cessation support (nicotine gums) and reduced-risk alternatives (snus,
-e-cigarettes) affordable and available. Not previously on the site, and
-directly relevant to this site's smokeless-tobacco coverage.
+Written days after a Delhi HC petition sought a ban on smokeless tobacco
+(SLT) sale and a Union government order made public spitting an offence
+under the Disaster Management Act. Argues those bans alone won't
+meaningfully cut Covid-19 transmission risk unless paired with real
+access to cessation support and reduced-risk alternatives.

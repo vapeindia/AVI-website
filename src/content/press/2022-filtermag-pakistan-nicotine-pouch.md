@@ -2,11 +2,13 @@
 title: "Pakistan Nicotine-Pouch Surge Brings Harm Reduction Hope in South Asia"
 date: 2022-12-16
 outlet: "Authored op-ed by Samrat Chowdhery, for Filter"
+url: "https://filtermag.org/pakistan-oral-nicotine/"
 type: "op-ed"
 ---
 
-Found via Filter's author index during a 2026-09-09 press-coverage
-recheck; full text not read for this entry. Regional (South Asia) rather
-than India-specific. Not previously on the site. See
-[Filter's author page](https://filtermag.org/author/samrat-chowdhery/)
-for the original.
+Regional (South Asia) rather than India-specific. Reports a rapid rise in
+oral nicotine pouch use in Pakistan as a substitute for traditional
+smokeless tobacco products, which cause hundreds of thousands of deaths
+across South Asia annually. Argues governments should support this kind
+of product substitution rather than pursue abstinence-only tobacco
+policy, pointing to Sweden, the UK and Japan as precedents.

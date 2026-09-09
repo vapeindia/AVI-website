@@ -2,14 +2,14 @@
 title: "Brazil Scraps Flight Ban on Vapes, in Win for Consumer Advocacy"
 date: 2024-08-29
 outlet: "Authored op-ed by Samrat Chowdhery, for Filter"
+url: "https://filtermag.org/brazil-flight-ban-vapes/"
 type: "op-ed"
 ---
 
-Found via Filter's author index during a 2026-09-09 press-coverage
-recheck; full text not read for this entry. Notably relevant given AVI is
-currently running its own flight-ban case against BCAS in the Delhi High
-Court — see the [litigation entry](/litigation/delhi-bcas-flight-ban) —
-this piece covers a comparable case elsewhere reaching a different
-outcome. Not previously on the site. See
-[Filter's author page](https://filtermag.org/author/samrat-chowdhery/)
-for the original.
+Covers Brazil's aviation regulator briefly banning vapes from flights in
+mid-2024, then reversing the ban within months after a consumer advocacy
+campaign and formal complaints. Frames the reversal as a rare consumer
+win against internationally coordinated prohibitionist tobacco-control
+funding active across the Global South — notably relevant given AVI is
+running a comparable [flight-ban case](/litigation/delhi-bcas-flight-ban)
+of its own against India's BCAS.

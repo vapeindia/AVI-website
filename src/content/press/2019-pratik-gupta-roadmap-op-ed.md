@@ -5,11 +5,7 @@ outlet: "Authored op-ed by Pratik Gupta (Director, AVI)"
 type: "op-ed"
 ---
 
-**Date is approximate** — the source has no dateline; placed at mid-2019
-because the piece refers to "14 states" having already imposed ENDS bans
-via state circulars, which places it after the earliest state bans but
-before the September 2019 national ordinance made state-by-state counting
-moot. Distinct from this site's other Pratik Gupta op-ed ("A way ahead for
-a smoking-free country," Feb 2019, via Brands2Life) — different outlet,
-different framing (a government roadmap rather than a general case for
-harm reduction), not a duplicate. Not previously on the site.
+Calls on the Indian government to set out a formal roadmap toward a
+smoke-free country, written as at least 14 states had already imposed
+their own ENDS bans by state circular ahead of the national law that
+followed later in 2019.
