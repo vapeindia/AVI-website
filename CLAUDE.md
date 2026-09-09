@@ -126,16 +126,21 @@ too (no product brand names, purchase links, or vendor mentions).
 
 ## What's built vs. what's genuinely still open
 
-Built and building clean (last verified via `npx astro build` — this repo has
-no Node/npm available in some working environments; if you can't run the
-build, verify by inspecting `src/content.config.ts` schemas against the
-frontmatter of any files you add, not by guessing): Home, About, Contribute,
-India (index + law + litigation index/detail), Litigation (index + detail,
-9 entries — see below), Press (index, split into Media Coverage / Press
-Releases & Statements, ~55 entries), Testimonials (index + submission form
-+ Cloudflare Pages Function, 0 published entries pending real submissions),
-Science (index + 1 entry), News (index, empty pending real pipeline run),
-Blog (index, empty).
+Built and building clean (last verified 2026-09-10 via the GitHub Checks
+API against Cloudflare Pages' actual build, since this repo has no
+Node/npm in every working environment — see the "Design pass and a chain
+of build failures" note below for why that verification step matters and
+how to do it without a local build): Home, About, Contribute, India
+(index + law), Litigation (index + detail, 8 entries), Press (index, card
+grid split into Media Coverage / Press Releases & Statements, 71 entries,
+19 with a working source link and 52 showing an "archive, not yet linked"
+note — see the note below), Testimonials (index + submission form +
+Cloudflare Pages Function, 0 published entries pending real submissions),
+Science (index + 46 entries, card grid), News (index + 21 entries, card
+grid — no per-article pages, cards link out to the source), Blog (index,
+empty). Press/News/Science/India/Litigation were redesigned from plain
+prose/lists to the homepage's card-based visual system 2026-09-10 — see
+that note below before changing any of their layouts again.
 
 **CHRA / HRPR:** the site now refers exclusively to **Harm Reduction Policy
 & Research (HRPR)** — never "Council for Harm Reduced Alternatives" or
@@ -349,6 +354,90 @@ Still needed, roughly in priority order:
    `node-version: 20`, which GitHub now force-runs on Node 24 with a
    deprecation warning — harmless, but a one-line bump to `24` in both
    files would silence it.
+
+## Design pass and a chain of build failures (2026-09-10) — read this if
+## the live site ever looks stale again
+
+The site owner asked for a visual design pass (Press/News/Science/India
+were plain text/lists vs. the homepage's real design system). That
+surfaced something much worse: **the live site had been stuck on a stale
+Cloudflare Pages build since the 2026-09-09 news/research PR merge** —
+every commit since then, including this session's own early fixes,
+silently failed to deploy. Confirmed via the GitHub Checks API
+(`/repos/vapeindia/AVI-website/commits/<sha>/check-runs` — no Cloudflare
+API token was available this session to read the actual build log
+directly, but the GitHub check-run's pass/fail state was enough).
+**If the live site ever looks like it's not reflecting a recent commit,
+check that API first**, before assuming the deploy just hasn't finished
+— a build can fail silently with no other visible signal from this side.
+
+Root cause: `getCollection()` validates every entry in a collection
+against its Zod schema at build time, and **one bad entry fails the
+entire site build**, not just that entry. Four research entries carried
+invalid enum values from the original PubMed-pipeline AI classification
+(`studyType: "systematic-review, meta-analysis"` — comma-joined, not a
+real enum member; `substance: [...,"smokeless",...]` and `"nicotine"` —
+neither is in the `substance` enum, which only has
+e-cigarette/nicotine-pouch/snus/combustible/general). Fixed 2026-09-10.
+**Any future automated content pipeline (fetch-news.mjs, fetch-research.mjs,
+or a manual add) should validate its enum fields before writing a file** —
+nothing currently does this, and the AI-classification step in
+`fetch-news.mjs`/`fetch-research.mjs` has no guardrail stopping it from
+writing an invalid `topic`/`studyType`/`substance` value again.
+
+Also found and fixed on the way:
+- **`/india/` redirect loop** — `public/_redirects` had a leftover
+  `/india/ -> /india` rule from the old-site URL migration that
+  self-referentially looped with Cloudflare Pages' own trailing-slash
+  normalization. Took the whole India section down (`ERR_TOO_MANY_REDIRECTS`)
+  — likely why it looked "empty" rather than just "broken."
+- **Homepage's "Latest news" links 404'd** — pointed to `/news/{id}`,
+  which doesn't exist (news has no per-article page). Now links to
+  `sourceUrl` directly, matching how the News index itself links out.
+- **Press page's links were broken for entries with neither `url` nor
+  `archivePdf`** — 52 of 71 entries (pre-existing, not new) have neither.
+  The old plain-list template rendered `href={undefined}` for these
+  invisibly; the new card template now conditionally shows "Source: AVI
+  press archive (not yet linked online)" instead. **The underlying gap —
+  52 archive documents never migrated to a real URL or a PDF in
+  `public/archive/` — is still open**, tracked as a real backlog item
+  (see "Press coverage recheck" note above for the source: the Drive
+  "AVI Board/AVI Outreach/Press releases" folder). A future session with
+  time for it could work through the `AAA-Vaping-*.zip` Drive export at
+  the top level of the local working folder (outside this repo) to
+  extract and host these.
+- 13 press entries (mostly the 10 Filter/Tobacco Reporter bylines added
+  2026-09-09) had internal research notes as their body ("Found via
+  Filter's author index... full text not read") rather than a real
+  summary — harmless while nothing rendered that body, but about to go
+  live verbatim once the press page started rendering it. Fetched and
+  read the actual 8 Filter + 1 Tobacco Reporter articles and wrote real
+  summaries; trimmed the other 4 (which already had real content mixed
+  with dating/dedup working-notes) down to public-facing text.
+
+What actually shipped, design-wise: extended the homepage's existing
+system (Fraunces/Inter type, teal/gold/rust palette, DecorativeRings,
+icon cards, color-band sections) to Press, News, Science, India (index +
+`law.astro`), and Litigation — all converted from plain prose/lists to
+card grids with type/topic/status badges, in the `wide` Base layout. Press
+cards render each entry's own markdown body as the gist (via
+`astro:content`'s `render()`), rather than adding a new schema field —
+that content already existed in every file, it just was never rendered
+anywhere before this. `india/law.astro` keeps every sentence of the
+existing legal text verbatim; only added a three-card "status at a
+glance" panel and section icons.
+
+**No local build verification was possible this session** — no
+Node/npm in this environment (checked common Windows install paths, none
+found). All verification was: (1) a hand-written Python validator
+checking all 146 content files against the exact Zod schemas in
+`content.config.ts` before pushing, (2) polling the GitHub Checks API
+after push to confirm Cloudflare's build actually succeeded, (3)
+fetching the live rendered HTML with curl/Python (not a real browser —
+the Chrome extension lost connection partway through this session and
+wouldn't reconnect) to confirm card counts and content matched
+expectations. Recommend an actual visual/browser check next session
+before treating this as fully done.
 
 ## Research memo: consumer advocacy landscape, India context, evidence base
 ## (2026-09-09)
