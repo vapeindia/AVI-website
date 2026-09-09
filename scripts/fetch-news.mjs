@@ -2,10 +2,12 @@
 /**
  * Pulls candidate news items from RSS feeds (Google Alerts + outlet feeds
  * listed in feeds.json), filters out commercial/vendor domains (PECA
- * advertising-risk guard — see blocklist.json), writes a paraphrased
- * AI summary per item, and creates draft entries under src/content/news/
- * with `reviewed: false`. A human must review and flip that flag —
- * nothing here auto-publishes.
+ * advertising-risk guard — see blocklist.json) and, for any feed with a
+ * `keywordFilter` array (e.g. Filter/GFN's feed covers all drug policy,
+ * not just tobacco/nicotine), off-topic items whose title+snippet match
+ * none of those keywords, writes a paraphrased AI summary per item, and
+ * creates draft entries under src/content/news/ with `reviewed: false`.
+ * A human must review and flip that flag — nothing here auto-publishes.
  *
  * Requires ANTHROPIC_API_KEY env var. Run via GitHub Action on a schedule.
  */
@@ -31,6 +33,12 @@ function isBlocked(url) {
   } catch {
     return true; // malformed URL — exclude rather than guess
   }
+}
+
+function matchesKeywords(item, keywords) {
+  if (!keywords || keywords.length === 0) return true;
+  const haystack = `${item.title} ${item.snippet}`.toLowerCase();
+  return keywords.some((kw) => haystack.includes(kw.toLowerCase()));
 }
 
 function existingUrls() {
@@ -125,6 +133,10 @@ async function main() {
       if (!item.url || seen.has(item.url)) continue;
       if (isBlocked(item.url)) {
         console.log(`Blocked (commercial domain): ${item.url}`);
+        continue;
+      }
+      if (!matchesKeywords(item, feed.keywordFilter)) {
+        console.log(`Skipped (off-topic per keywordFilter): ${item.title}`);
         continue;
       }
       seen.add(item.url);
