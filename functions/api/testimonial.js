@@ -1,6 +1,9 @@
 /**
  * Cloudflare Pages Function — POST /api/testimonial
  *
+ * (Trivial comment-only edit, 2026-09-09: forces a fresh commit-triggered
+ * deploy to rule out stale env vars from a "Retry deployment" replay.)
+ *
  * Handles submissions from the form at /testimonials. Two things happen on a
  * valid submission, best-effort and independently of each other:
  *
