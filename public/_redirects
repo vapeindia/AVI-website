@@ -6,7 +6,6 @@
 # --- Section-level (pre-existing) ---
 /about-us/            /about                          301
 /research/             /science                        301
-/india/                /india                          301
 /india/overview/       /india                          301
 /india/govt/           /india/law                      301
 /india/rti-replies/    /litigation                     301
@@ -83,5 +82,7 @@
 
 # --- Intentionally NOT redirected: /blocks/* (5 URLs) are WordPress
 # Gutenberg reusable-block storage, not real public pages — never
-# meaningfully linked or indexed on their own. /press/ and / are already
-# the same path on the new site, so no redirect needed for those either.
+# meaningfully linked or indexed on their own. /press/, /india/ and / are
+# already the same path on the new site, so no redirect needed for those
+# either — a bare "/india/ -> /india" rule was here briefly and caused a
+# redirect loop that took the whole India section down; fixed 2026-09-09.
