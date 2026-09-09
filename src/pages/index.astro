@@ -17,9 +17,15 @@ const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="Home" wide={true}>
   <section class="breakout hero">
+    <svg class="hero-rings" viewBox="0 0 500 500" aria-hidden="true">
+      <circle cx="250" cy="250" r="240" />
+      <circle cx="250" cy="250" r="185" />
+      <circle cx="250" cy="250" r="130" />
+      <line x1="250" y1="10" x2="250" y2="490" />
+    </svg>
     <div class="breakout-inner hero-inner">
       <p class="eyebrow">Tobacco harm reduction for India</p>
-      <h1>Still smoking? There's a safer path forward —<br class="br-desktop" /> even if you're not ready to give up nicotine.</h1>
+      <h1>Still smoking? There's a<br class="br-desktop" /> safer path forward.</h1>
       <p class="hero-sub">
         If nicotine gums and patches haven't worked for you, or you're not
         ready to quit nicotine entirely, there are lower-risk ways to keep
@@ -30,85 +36,102 @@ const yearsActive = new Date().getFullYear() - 2016;
         <a class="btn btn-gold" href="/science">See the evidence →</a>
         <a class="btn btn-outline" href="/india/law">What the law says →</a>
       </div>
-      <p class="hero-note">
-        We also work on harm reduction for the 200 million Indians who use
-        smokeless tobacco — <a href="/science">read more →</a>
-      </p>
+      <div class="hero-stats">
+        <div><strong>{litigationCount}</strong><span>court cases</span></div>
+        <div><strong>{pressCount}+</strong><span>press features</span></div>
+        <div><strong>{yearsActive}+</strong><span>years active</span></div>
+      </div>
     </div>
   </section>
 
-  <section class="breakout credibility">
+  <section class="breakout paths">
     <div class="breakout-inner">
-      <div class="stats">
-        <div class="stat"><strong>{litigationCount}</strong><span>court cases fought</span></div>
-        <div class="stat"><strong>{pressCount}+</strong><span>press features</span></div>
-        <div class="stat"><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
-      </div>
-      <div class="photo-strip">
-        <figure>
-          <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting India's Minister of State for Health" loading="lazy" />
-          <figcaption>Briefing the Ministry of Health on harm reduction</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/press-club-bangalore.jpg" alt="AVI presenting research to press at the Press Club of Bangalore" loading="lazy" />
-          <figcaption>Presenting the evidence to press in Bangalore</figcaption>
-        </figure>
+      <h2 class="paths-heading">Three groups, one goal</h2>
+      <div class="path-grid">
+        <div class="path-card path-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.4-9.5-9C1 8.5 2.6 5 6 5c2 0 3.4 1.2 4 2.4C10.6 6.2 12 5 14 5c3.4 0 5 3.5 3.5 7-2.5 4.6-9.5 9-9.5 9z"/></svg>
+          <h3>If you smoke</h3>
+          <p>NRTs don't work for everyone. See the evidence on lower-risk ways to keep using nicotine.</p>
+          <a href="/science">Explore your options →</a>
+        </div>
+        <div class="path-card path-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2c-1 3-5 4-5 9a5 5 0 0 0 10 0c0-5-4-6-5-9z"/></svg>
+          <h3>Smokeless tobacco users</h3>
+          <p>We also work on harm reduction for India's 200 million smokeless tobacco users.</p>
+          <a href="/science">Read the research →</a>
+        </div>
+        <div class="path-card path-rust">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-2.9 8.2-7 9-4.1-.8-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          <h3>Policymakers &amp; researchers</h3>
+          <p>Our advocacy is built on published evidence, litigation, and a decade-long public record.</p>
+          <a href="/india/law">See the legal position →</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="policy-section">
-    <h2>For policymakers &amp; researchers</h2>
-    <p>
-      Our advocacy is built on published evidence, not opinion. See our
-      <a href="/science">evidence library</a> of peer-reviewed research on
-      reduced-risk nicotine products, the <a href="/india/law">current legal
-      position</a> under PECA, 2019, and the <a href="/litigation">litigation
-      record</a> of a decade spent testing these bans in court.
+  <section class="breakout stats-band">
+    <div class="breakout-inner stats-grid">
+      <div class="big-stat">
+        <strong>{litigationCount}</strong>
+        <span>Court cases fought since 2017 — Karnataka, Delhi, J&amp;K, Tamil Nadu, and an active case against the airport flight ban.</span>
+      </div>
+      <div class="big-stat">
+        <strong>{pressCount}+</strong>
+        <span>Press features — quoted, interviewed and bylined from Deccan Chronicle to international outlets.</span>
+      </div>
+      <div class="big-stat">
+        <strong>{yearsActive}+</strong>
+        <span>Years of advocacy — founded 2016 by former smokers who quit through vaping.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="feed-section">
+    <div class="feed-grid">
+      <div>
+        <div class="feed-head"><h2>Latest news</h2><a href="/news">All news →</a></div>
+        <ul class="feed-list feed-news">
+          {latestNews.map((item) => (
+            <li>
+              <a href={`/news/${item.id}`}>{item.data.title}</a>
+              <span>{item.data.sourceName}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <div class="feed-head"><h2>Evidence library</h2><a href="/science">Full library →</a></div>
+        <ul class="feed-list feed-research">
+          {latestResearch.map((item) => (
+            <li>
+              <a href={`/science/${item.id}`}>{item.data.title}</a>
+              <span>{item.data.journal}, {item.data.year}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <p class="legal-note">
+      Electronic cigarettes are banned in India under the Prohibition of
+      Electronic Cigarettes Act, 2019 (PECA). <a href="/india/law">Read what this means for you →</a>
     </p>
   </section>
 
-  <h2>Current legal position</h2>
-  <p>
-    Electronic cigarettes have been banned in India under the Prohibition of Electronic
-    Cigarettes Act, 2019 (PECA). <a href="/india/law">Read what this means for you →</a>
-  </p>
-
-  <h2>Latest news</h2>
-  <ul>
-    {latestNews.map((item) => (
-      <li>
-        <a href={`/news/${item.id}`}>{item.data.title}</a>
-        — <span>{item.data.sourceName}</span>
-      </li>
-    ))}
-  </ul>
-  <p><a href="/news">All news →</a></p>
-
-  <h2>From the evidence library</h2>
-  <ul>
-    {latestResearch.map((item) => (
-      <li>
-        <a href={`/science/${item.id}`}>{item.data.title}</a>
-        — <span>{item.data.journal}, {item.data.year}</span>
-      </li>
-    ))}
-  </ul>
-  <p><a href="/science">Full research library →</a></p>
-
   <section class="breakout donate-pitch">
     <div class="breakout-inner donate-inner">
+      <p class="eyebrow eyebrow-light">For those it's already helped</p>
       <h2>Quit smoking because you found a safer alternative?</h2>
       <p>
         AVI exists because harm reduction worked for people like you, and we
-        want it available to the millions still smoking. Our work — litigation,
+        want it available to the millions still smoking. This work — litigation,
         evidence review, correcting misinformation — is funded entirely by
         individual contributions, not industry.{' '}
         {testimonialCount > 0
           ? <a href="/testimonials">Read {testimonialCount}+ stories from people it's helped →</a>
           : <a href="/testimonials">Read stories from people it's helped →</a>}
       </p>
-      <a class="btn btn-primary" href="/contribute">Support this work →</a>
+      <a class="btn btn-gold" href="/contribute">Support this work →</a>
     </div>
   </section>
 
@@ -121,71 +144,133 @@ const yearsActive = new Date().getFullYear() - 2016;
       color: var(--gold-dark);
       margin: 0 0 0.75rem;
     }
+    .eyebrow-light { color: var(--gold-light); }
+
+    /* Hero */
     .hero {
-      background: var(--accent-dark);
+      background: var(--ink-black);
       color: #f4f1e6;
       padding: 4.5rem 0 4rem;
+      position: relative;
+      overflow: hidden;
     }
-    .hero .eyebrow { color: #d8c98f; }
-    .hero-inner { max-width: 46rem; }
+    .hero-rings {
+      position: absolute;
+      top: 50%;
+      right: -8%;
+      transform: translateY(-50%);
+      width: 34rem;
+      height: 34rem;
+      max-width: 60vw;
+      max-height: 60vw;
+      color: var(--accent-light);
+      opacity: 0.35;
+    }
+    .hero-rings circle, .hero-rings line { fill: none; stroke: currentColor; stroke-width: 1; }
+    .hero-rings circle:nth-child(2) { color: var(--gold-light); opacity: 0.8; }
+    .hero-inner { max-width: 46rem; position: relative; }
+    .hero .eyebrow { color: var(--gold-light); }
     .hero h1 {
       color: #fff;
-      font-size: clamp(1.9rem, 4vw, 2.75rem);
+      font-size: clamp(2rem, 4.2vw, 3rem);
       margin: 0 0 1.25rem;
     }
     .hero-sub {
       font-size: 1.1rem;
-      color: #d8ded9;
-      max-width: 40rem;
+      color: #cdd6cf;
+      max-width: 38rem;
       margin: 0 0 2rem;
     }
-    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
-    .hero .btn-outline { border-color: #4d6b62; color: #f4f1e6; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .hero .btn-outline { border-color: #46524a; color: #f4f1e6; }
     .hero .btn-outline:hover { border-color: #f4f1e6; color: #fff; }
-    .hero-note { font-size: 0.92rem; color: #b7c4bd; margin: 0; }
-    .hero-note a { color: #d8c98f; }
-
-    .credibility { background: var(--paper-alt); padding: 3rem 0; }
-    .stats {
+    .hero-stats {
       display: flex;
-      gap: 3rem;
+      gap: 2.5rem;
       flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-      padding-bottom: 2.5rem;
-      border-bottom: 1px solid var(--border);
+      padding-top: 1.75rem;
+      border-top: 1px solid #333c34;
     }
-    .stat strong {
+    .hero-stats strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 2.25rem;
-      color: var(--accent-dark);
+      font-size: 1.8rem;
+      color: var(--gold-light);
       line-height: 1;
     }
-    .stat span { font-size: 0.9rem; color: var(--muted); }
-    .photo-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+    .hero-stats span { font-size: 0.82rem; color: #9fada2; }
+
+    /* Three paths */
+    .paths { background: var(--paper); padding: 4rem 0 3.5rem; }
+    .paths-heading { text-align: center; margin: 0 0 2.5rem; font-size: 1.7rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .path-card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 1.75rem 1.5rem;
+      border-top: 4px solid;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
     }
-    .photo-strip figure { margin: 0; }
-    .photo-strip img { width: 100%; height: 220px; object-fit: cover; border-radius: 4px; display: block; }
-    .photo-strip figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
-    @media (max-width: 640px) {
-      .photo-strip { grid-template-columns: 1fr; }
-      .stats { gap: 2rem; }
+    .path-card svg { width: 2rem; height: 2rem; margin-bottom: 1rem; }
+    .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
+    .path-card a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .path-green { border-color: var(--accent); }
+    .path-green svg { color: var(--accent); }
+    .path-green a { color: var(--accent-dark); }
+    .path-gold { border-color: var(--gold); }
+    .path-gold svg { color: var(--gold); }
+    .path-gold a { color: var(--gold-dark); }
+    .path-rust { border-color: var(--rust); }
+    .path-rust svg { color: var(--rust); }
+    .path-rust a { color: var(--rust-dark); }
+    @media (max-width: 780px) {
+      .path-grid { grid-template-columns: 1fr; }
     }
 
-    .policy-section {
-      max-width: var(--max-w);
-      margin: 3rem auto 0;
-      padding: 0 1.5rem;
+    /* Stats band */
+    .stats-band { background: var(--accent-dark); color: #fff; padding: 3.5rem 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .big-stat strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 3.25rem;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 0.6rem;
     }
-    .policy-section h2 { margin-top: 0; }
+    .big-stat span { font-size: 0.92rem; color: #cfe0d8; line-height: 1.5; }
+    @media (max-width: 780px) {
+      .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
 
-    .donate-pitch { background: var(--accent); color: #fff; padding: 3.5rem 0; margin-top: 3.5rem; }
+    /* Feed section */
+    .feed-section { max-width: var(--max-w-wide); margin: 3.5rem auto 0; padding: 0 1.5rem; }
+    .feed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+    .feed-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+    .feed-head h2 { margin: 0; font-size: 1.3rem; }
+    .feed-head a { font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+    .feed-list { list-style: none; margin: 0; padding: 0; }
+    .feed-list li {
+      padding: 0.85rem 0 0.85rem 1rem;
+      border-left: 3px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+    .feed-news li { border-left-color: var(--gold); }
+    .feed-research li { border-left-color: var(--accent); }
+    .feed-list a { display: block; font-weight: 600; text-decoration: none; color: var(--ink); margin-bottom: 0.2rem; }
+    .feed-list a:hover { color: var(--accent); }
+    .feed-list span { font-size: 0.82rem; color: var(--muted); }
+    .legal-note { font-size: 0.92rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    @media (max-width: 780px) {
+      .feed-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Donate */
+    .donate-pitch { background: var(--rust); color: #fff; padding: 3.75rem 0; margin-top: 3.5rem; }
     .donate-inner { max-width: 40rem; }
-    .donate-pitch h2 { color: #fff; margin-top: 0; }
-    .donate-pitch p { color: #dcece7; }
-    .donate-pitch a:not(.btn) { color: #f4f1e6; text-decoration-color: rgba(244,241,230,0.5); }
+    .donate-pitch h2 { color: #fff; margin: 0 0 1rem; font-size: 1.9rem; }
+    .donate-pitch p { color: #fbe6db; }
+    .donate-pitch a:not(.btn) { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
   </style>
 </Base>
