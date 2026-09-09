@@ -248,12 +248,14 @@ Still needed, roughly in priority order:
    pipelines, not test artifacts — review them properly, don't just close
    them.
 2. Fill remaining `PLACEHOLDER` HTML comments in `about/index.astro` and
-   `contribute/index.astro` — HRPR's CIN, registered address, UPI QR image
-   (`public/contribute-qr.png`), bank details. **Partly done 2026-09-09:**
-   bank transfer details (A/C 034661900003311, IFSC YESB0000346, Yes Bank)
-   and CIN (U74999MH2020PTC336631) are filled in on both pages. **Still
-   outstanding:** the UPI QR code image itself, and HRPR's registered
-   office address.
+   `contribute/index.astro` — HRPR's CIN, registered address, UPI QR image,
+   bank details. **Done 2026-09-09 except registered office address:**
+   bank transfer details (A/C 034661900003311, IFSC YESB0000346, Yes Bank),
+   CIN (U74999MH2020PTC336631), and the UPI QR code
+   (`public/contribute-qr.jpg` — note `.jpg`, not the `.png` the old
+   placeholder comment assumed; source file's actual format) with its UPI
+   ID (`yespay.bizsbiz129416@yesbankltd`) are all live on `/contribute` and
+   `/about`. **Still outstanding:** HRPR's registered office address only.
 3. ~~Populate `scripts/config/feeds.json` with real Google Alerts RSS URLs~~
    — **done 2026-09-08.** All 6 topics (the original 5 plus smokeless
    tobacco India, added after the site owner noticed it was missing) now
