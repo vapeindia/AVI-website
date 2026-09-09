@@ -158,9 +158,10 @@ name, location, email and testimonial. The email is used only to send a
 thank-you note (via Resend) and is **never** committed to the repo or
 rendered on the site — see `functions/README.md` for the full design and
 the Cloudflare secrets (`GITHUB_TOKEN`, `GITHUB_REPO`, `RESEND_API_KEY`,
-etc.) that must be set before submissions actually open a review PR and
-send mail. **This is not yet configured — nothing will happen on a live
-submission until those secrets are set.**
+etc.) needed before submissions open a review PR and send mail. **Update
+2026-09-09: this is now configured and confirmed working** (PR-opening
+half verified end-to-end; email half still blocked on Resend domain
+verification, in progress — see the Hosting/DNS section further down).
 
 **Media coverage research (2026-09-07):** a web search pass found ~10
 genuine third-party articles/interviews mentioning AVI or Samrat Chowdhery
@@ -229,9 +230,23 @@ content. None of this blocks anything currently built; flagging in case a
 future session is asked to pull content from these accounts.
 
 Still needed, roughly in priority order:
-1. Configure the Cloudflare secrets in `functions/README.md` so the
+1. ~~Configure the Cloudflare secrets in `functions/README.md` so the
    testimonials pipeline actually works, then do a real end-to-end test
-   submission before pointing anyone at `/testimonials`
+   submission~~ — **done 2026-09-09.** `GITHUB_TOKEN`, `GITHUB_REPO`,
+   `GITHUB_BRANCH`, `NOTIFY_EMAIL` all set on Production; a real submission
+   opened PR #3 successfully. Root cause of a long debugging session: the
+   stored `GITHUB_TOKEN` secret value was silently bad after an in-place
+   name+type edit (TOKE→TOKEN, plain_text→secret_text) — editing a secret
+   field in place is not reliable, **delete and re-add fresh rather than
+   editing** if this happens again. `RESEND_API_KEY` is also set, but
+   email sending is still blocked on Resend domain verification (see DNS
+   section below — the records are now in Cloudflare's zone, just not
+   authoritative yet). **Correction/caution:** PR #3 ("New testimonial —
+   Test Submission 12...") is a test artifact from this session's
+   debugging — safe to close without merging. PRs #1 (news) and #2
+   (research) are **real content drafts** from the actual automation
+   pipelines, not test artifacts — review them properly, don't just close
+   them.
 2. Fill remaining `PLACEHOLDER` HTML comments in `about/index.astro` and
    `contribute/index.astro` — HRPR's CIN, registered address, UPI QR image
    (`public/contribute-qr.png`), bank details
@@ -296,25 +311,49 @@ any acknowledgment of a rebuild). Key finding: **DNS/hosting control and
 registrar control are separate — the site owner already has full GoDaddy
 access and does NOT need the designer's cooperation to cut over.**
 
-Agreed plan (not yet executed as of this writing — confirm current state
-before assuming any step below is done):
-1. Add `vapeindia.org` to Cloudflare as a site (not a nameserver change
-   yet) — triggers Cloudflare to scan/import Hostinger's existing DNS
-   records, including the Gmail MX records for `contact@vapeindia.org`.
-   Safe, reversible, doesn't affect anything live.
-2. Review the imported zone — confirm MX records came through correctly,
-   check for anything else running on that domain the owner didn't expect.
-3. Add the Resend domain-verification DNS records (see `functions/README.md`
-   and the testimonials section above) into this same Cloudflare zone —
-   this also resolves the testimonials-email blocker without ever touching
-   Hostinger.
+Plan and progress (steps 1-3 done 2026-09-09; confirm current state before
+assuming later steps are done too):
+1. ~~Add `vapeindia.org` to Cloudflare as a site~~ — **done**, zone status
+   is `pending` (added, not yet authoritative — nameservers still point
+   at Hostinger). Zone ID `9c760428f876e7210fa37691ac168284`, account ID
+   `87f97f5fd0a6fad0d648b9d28151a66e` ("Contact@vapeindia.org's Account").
+2. ~~Review the imported zone~~ — **done.** Gmail's 5 MX records came
+   through correctly. Two things found worth knowing: `autoconfig`/
+   `autodiscover` CNAMEs still point at Hostinger's mail service (likely
+   inert leftovers from before a mail migration, given MX is fully on
+   Google — not confirmed either way, hasn't needed resolving yet); the
+   root SPF TXT record only included `_spf.mail.hostinger.com`, not
+   Google's — **fixed 2026-09-09** by merging in `include:_spf.google.com`
+   alongside (not replacing) Hostinger's, so nothing already relying on it
+   breaks. Record content on this zone is stored with literal wrapping
+   quote characters (a Hostinger-import quirk) — preserve that convention
+   if editing this record again.
+3. ~~Add the Resend domain-verification DNS records~~ — **done**, all 4
+   records (DKIM TXT, 2 CNAMEs, DMARC TXT) added to the Cloudflare zone
+   with zero conflicts. Won't actually verify in Resend until nameservers
+   switch (Hostinger is still authoritative), but nothing left to do here
+   until then.
 4. Add `vapeindia.org` as a custom domain on the Cloudflare Pages project
-   (`avi-website`, currently at `avi-website-9f9.pages.dev`).
+   (`avi-website`, currently at `avi-website-9f9.pages.dev`) — **not done
+   yet.**
 5. Only once 1-4 are verified working: change nameservers at GoDaddy from
    Hostinger's to Cloudflare's. This is the actual go-live moment — do it
    deliberately, with a buffer day, per the original deadline-context
    guidance below. Confirm email still works and the new site loads
-   correctly afterward.
+   correctly afterward. **Not done yet.**
+
+**API access set up 2026-09-09, for this and future sessions:** a
+fine-grained GitHub PAT (Contents/Workflows/Pull requests/Actions/Secrets:
+Read and write, scoped to `vapeindia/AVI-website` only, 90-day expiry) and
+a Cloudflare API token (Account→Cloudflare Pages: Edit, Zone→Zone: Read,
+Zone→DNS: Edit, scoped to the one zone/account above, 90-day expiry) were
+both issued to reduce the friction of walking the site owner through
+manual dashboard steps and screenshot/log-paste cycles. Neither token
+value is stored anywhere in this repo or in this file — they exist only
+within the session(s) they were shared in. A fresh session has neither and
+will need to ask the site owner for new ones (same permission sets above)
+to regain this capability; don't assume a past session's tokens are still
+live.
 
 ## Repo status (as of 2026-09-08)
 
