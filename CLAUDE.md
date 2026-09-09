@@ -210,13 +210,13 @@ though the archive didn't include the underlying PIL filing itself, so AVI's
 exact role there rests on a March 2018 board resolution retaining counsel,
 one inference short of the Delhi/Karnataka level of proof.
 
-Two items flagged, not yet acted on — need the site owner's call, not a
+One item flagged, not yet acted on — need the site owner's call, not a
 unilateral edit:
-1. **Flight ban hearing date** — the entry states a hearing "scheduled for
+1. ~~**Flight ban hearing date** — the entry states a hearing "scheduled for
    15 September 2026." Nothing in the archive (which stops in July 2023)
-   can confirm this; it must rest on more recent information the site owner
-   has directly. Worth a final double-check before go-live, since a wrong
-   date on a live legal-status page is a credibility risk.
+   can confirm this~~ — **confirmed accurate by the site owner, 2026-09-09**
+   (asked specifically since that date was then only 6 days out). No change
+   needed to `delhi-bcas-flight-ban.md`.
 2. **Chennai/Madras and the second Mumbai matter have no locatable court
    order in the archive.** Chennai is corroborated only by an AVI press
    release already in `src/content/press/2018-madras-hc-first-hearing.md`
@@ -294,6 +294,28 @@ Still needed, roughly in priority order:
    (`yespay.bizsbiz129416@yesbankltd`) are all live on `/contribute` and
    `/about`. **Registered office address deliberately omitted** — explicit
    site-owner decision, not an oversight; don't re-add a placeholder for it.
+   **Correction:** a second `about/index.astro` placeholder (board/advisor
+   names + a "few lakh" community-size claim) was missed in that earlier
+   pass and only found/closed 2026-09-09. Resolved by pulling the Governing
+   Board list from the old site's `contact-us` page (archived at
+   `vapeindia-org-archive-2026-09-09/contact-us/index.html`) — Samrat
+   Chowdhery (kept minimal, per the de-emphasis instruction elsewhere in
+   this file), Dhaval Gogate, Maneesh Kasera, Olivier Vulliamy, Kanav Rishi
+   Kumar, Shreyas Madhan — confirmed by the site owner (2026-09-09) as
+   still the current board. Bios were condensed from the old site's full
+   personal quit-story paragraphs to one line each in this site's more
+   institutional tone; deliberately dropped the old bio's mention that
+   Maneesh Kasera "established a vape business" — even unnamed, a board
+   bio mentioning a member's vape business reads too close to the
+   PECA advertising-risk line for AVI's own About page. Also deliberately
+   did not carry over the old site's per-member WhatsApp/email/Twitter
+   contact links — 8-year-old personal contact info, not something to
+   republish without asking first. The "few lakh" community-size figure
+   was dropped entirely rather than sourced — nothing in the old-site
+   archive supports a specific number (searched the full archive for
+   "lakh"; the only hits are about tobacco's economic cost, not AVI's
+   community size), and the site owner confirmed dropping the claim
+   rather than supplying one.
 3. ~~Populate `scripts/config/feeds.json` with real Google Alerts RSS URLs~~
    — **done 2026-09-08.** All 6 topics (the original 5 plus smokeless
    tobacco India, added after the site owner noticed it was missing) now
