@@ -258,10 +258,33 @@ Still needed, roughly in priority order:
    section below — the records are now in Cloudflare's zone, just not
    authoritative yet). **Correction/caution:** PR #3 ("New testimonial —
    Test Submission 12...") is a test artifact from this session's
-   debugging — safe to close without merging. PRs #1 (news) and #2
-   (research) are **real content drafts** from the actual automation
-   pipelines, not test artifacts — review them properly, don't just close
-   them.
+   debugging — safe to close without merging. ~~PRs #1 (news) and #2
+   (research) are real content drafts from the actual automation
+   pipelines — review them properly, don't just close them~~ — **reviewed
+   and merged directly to `main` 2026-09-09** (no `gh`/API token available
+   in that session; merged via authenticated `git` instead — PR #1/#2 on
+   GitHub will likely still show as open/stale and should be closed
+   manually, their content already landed). PR #2 (research, 43 entries):
+   all on-topic, merged and `reviewed: true`; 3 borderline entries kept
+   but flagged for the site owner (tobacco/cigarettes only a secondary
+   variable — a cannabis-treatment trial, a cocaine-addiction drug repurposed
+   for smoking, a general COPD-mechanism review). PR #1 (news, 30 candidate
+   entries): found that `scripts/config/feeds.json`'s `filtermag.org/feed/`
+   entry pulls Filter's **entire** output across all drugs, not just
+   tobacco/nicotine — 9 of 30 candidate entries were general US drug-policy
+   content with zero tobacco/vaping relevance (methadone reform, a fentanyl
+   survey, prison re-entry, a workforce-grant bill, a hemp-ban campaign,
+   drug-war-myths commentary, a meth piece, one on violence against women
+   who use drugs) and were dropped rather than merged. Remaining 21 (20
+   Clive Bates + 1 on-topic Filter piece) merged and `reviewed: true`.
+   **Fixed the root cause too:** added a `keywordFilter` field to the
+   Filter (GFN) feed entry in `feeds.json` and taught `fetch-news.mjs` to
+   skip items whose title+snippet match none of those keywords, so future
+   scheduled runs shouldn't need this manual pruning again. Also noted in
+   passing: Filter published "The Unfolding Tragedy of India's Vape
+   Prohibition" (filtermag.org/india-vape-prohibition/), India-specific and
+   highly relevant, which postdates this PR's pipeline run — will show up
+   next time `fetch-news.yml` runs.
 2. ~~Fill remaining `PLACEHOLDER` HTML comments in `about/index.astro` and
    `contribute/index.astro`~~ — **done 2026-09-09.** Bank transfer details
    (A/C 034661900003311, IFSC YESB0000346, Yes Bank), CIN
