@@ -6,7 +6,7 @@ year: 2026
 doi: "10.1093/milmed/usag079"
 pubmedId: "41773924"
 studyType: "cross-sectional"
-substance: ["nicotine-pouch","smokeless","general"]
+substance: ["nicotine-pouch","snus","general"]
 brief: "A study of U.S. Military Academy cadets found that nicotine use roughly tripled during their four years of attendance, with users increasingly shifting toward smokeless products like nicotine pouches rather than traditional cigarettes. This suggests the military academy environment itself may be associated with increased nicotine adoption among young adults."
 relevanceToIndia: "None stated."
 reviewed: true
