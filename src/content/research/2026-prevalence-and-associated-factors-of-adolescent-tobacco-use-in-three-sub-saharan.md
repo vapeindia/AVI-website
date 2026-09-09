@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["combustible","general"]
 brief: "Researchers surveyed over 18,000 young people aged 10-17 across three African countries and found that tobacco use varied significantly by location (ranging from 2.5% to 11.9%), with higher rates among boys, older teens, and working youth. School enrollment and having both parents alive were protective factors, though the relationship with parental education differed across countries."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

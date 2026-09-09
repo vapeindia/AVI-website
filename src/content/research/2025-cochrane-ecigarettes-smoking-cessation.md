@@ -8,7 +8,7 @@ studyType: "systematic-review"
 substance: ["e-cigarette"]
 brief: "Cochrane's living review of e-cigarettes for smoking cessation, high-certainty evidence: per 100 people trying to quit smoking, roughly 8-10 succeed using nicotine e-cigarettes, compared with about 6 using nicotine replacement therapy (gums, patches), 7 using non-nicotine e-cigarettes, and 4 with no support. Nicotine e-cigarettes outperformed NRT head-to-head."
 relevanceToIndia: "Directly undercuts the most common policy response to a harm-reduction argument in India — 'just use the NRTs that are already legal' — by showing NRT itself is the weaker option of the two in head-to-head quit-rate evidence."
-reviewed: false
+reviewed: true
 ---
 
 Found during a 2026-09-09 research pass. This is a living Cochrane review,

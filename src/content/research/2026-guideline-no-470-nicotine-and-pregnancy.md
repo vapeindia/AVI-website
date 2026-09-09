@@ -9,7 +9,7 @@ studyType: "policy-report"
 substance: ["combustible","e-cigarette","general"]
 brief: "A Canadian medical guideline recommends that pregnant women and those planning pregnancy be routinely screened for nicotine use from any source. The guideline advises behavioral counseling as the primary approach, with careful consideration of nicotine replacement or other medicines when needed, plus ongoing support after delivery to prevent relapse."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

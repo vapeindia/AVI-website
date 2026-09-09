@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["combustible"]
 brief: "This review examines how cellular metabolic changes trigger epigenetic modifications that alter immune cell behavior in COPD patients. The authors propose that COPD involves a persistent 'inflammatory memory' driven by metabolic dysfunction and oxidative stress, even after smoking stops, and suggest targeting these metabolic-epigenetic pathways could offer new treatments."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

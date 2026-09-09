@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["e-cigarette","combustible"]
 brief: "A survey of Israeli adults found widespread confusion about e-cigarette harms: only 29% correctly understood e-cigarettes as less harmful than regular cigarettes, while over half believed they were equally or more harmful. Smokers and older adults were especially likely to overestimate e-cigarette dangers, suggesting public health communication about relative risks has been ineffective."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

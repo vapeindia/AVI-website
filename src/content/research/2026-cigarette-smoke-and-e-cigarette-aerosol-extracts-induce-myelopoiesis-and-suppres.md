@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["combustible","e-cigarette"]
 brief: "Laboratory research comparing cigarette smoke and e-cigarette vapor found both substances reduce the immune system's ability to fight infections and inflammation, while causing lasting changes to bone marrow cells that increase production of certain white blood cells. These changes persisted even after exposure stopped, suggesting potential long-term health consequences."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

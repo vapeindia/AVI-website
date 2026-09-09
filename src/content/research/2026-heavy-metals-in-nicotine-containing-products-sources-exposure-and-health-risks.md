@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["combustible","e-cigarette","snus","nicotine-pouch"]
 brief: "Researchers found that both traditional cigarettes and newer nicotine products like e-cigarettes, snus, and nicotine pouches contain dangerous heavy metals including mercury, lead, cadmium, and arsenic. While alternative products may reduce some smoking-related harms, users still face significant exposure to these toxic metals. Better monitoring and stricter regulations are needed across all nicotine products."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

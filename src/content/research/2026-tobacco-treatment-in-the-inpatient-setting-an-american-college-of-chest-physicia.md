@@ -9,7 +9,7 @@ studyType: "policy-report"
 substance: ["combustible"]
 brief: "A major medical guideline recommends that hospitals use an opt-out approach to offer all smoking patients counseling and stop-smoking medications during their stay, plus follow-up support after discharge. The review found moderate evidence that this strategy can help patients quit smoking and reduce hospital readmissions."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

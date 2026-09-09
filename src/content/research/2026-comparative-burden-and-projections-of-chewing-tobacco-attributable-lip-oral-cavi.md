@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["combustible"]
 brief: "Chewing tobacco is causing an increasing burden of lip, oral cavity, and esophageal cancers globally and especially in China between 2000-2021. While oral cancer cases are projected to keep rising (particularly in men), esophageal cancer cases are declining. Population growth and aging are the main drivers of these trends."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

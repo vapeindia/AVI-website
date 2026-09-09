@@ -5,5 +5,5 @@ sourceName: "Clive Bates"
 sourceUrl: "https://clivebates.com/uk-policy-on-tobacco-and-vaping-a-muddle-and-a-mess/"
 summary: "The UK government's tobacco and vaping policies are criticized as ineffective and counterproductive, with measures on vaping potentially hindering smoking reduction progress despite the government's public health leadership opportunity."
 topic: "policy"
-reviewed: false
+reviewed: true
 ---

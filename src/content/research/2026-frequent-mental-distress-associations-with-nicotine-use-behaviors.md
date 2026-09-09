@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["combustible","e-cigarette","general"]
 brief: "Adults experiencing frequent mental distress are significantly more likely to use nicotine products, including cigarettes and e-cigarettes, compared to those without mental distress. Notably, people with mental distress who smoke are also more motivated to quit, suggesting they may be responsive to cessation support."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

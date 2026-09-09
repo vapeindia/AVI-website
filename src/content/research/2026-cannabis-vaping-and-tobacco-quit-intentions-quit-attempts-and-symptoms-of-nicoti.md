@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["e-cigarette"]
 brief: "Among U.S. youth tobacco users, those who vaped cannabis in the past month were less likely to want to quit tobacco and showed stronger signs of nicotine dependence, including more frequent cravings and quicker use after waking."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["nicotine-pouch","e-cigarette","combustible"]
 brief: "A study of 700 American smokers and vapers found that people using oral nicotine pouches tend to have lower motivation to quit smoking or vaping. Interestingly, among smokers, those who had attempted quitting more frequently used nicotine pouches more often, while among vapers, greater confidence in quitting was linked to higher pouch use."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["e-cigarette"]
 brief: "Counsellors at Australian smoking quitlines found they could effectively support people with drug and alcohol problems to quit smoking using vaping products or nicotine replacement therapy, when given proper training and organisational support. The study shows that quitline services can adapt quickly to work with addiction treatment centres and help smokers access reduced-harm nicotine options."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

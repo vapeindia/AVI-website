@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["nicotine-pouch"]
 brief: "Researchers analyzed the chemical contents of nicotine pouches and found they release not just nicotine, but also dozens of potentially harmful substances including allergens, suspected cancer-causing chemicals, and banned plasticizers. A child consuming multiple pouches could be exposed to dangerous nicotine levels."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

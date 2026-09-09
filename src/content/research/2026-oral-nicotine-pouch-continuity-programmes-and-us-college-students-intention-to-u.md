@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["nicotine-pouch"]
 brief: "College students in the US who knew about nicotine pouch loyalty programmes were nearly five times more likely to intend using these products and four times more likely to have already used them. Most students learned about these programmes through social media influencers and word-of-mouth rather than direct company marketing."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

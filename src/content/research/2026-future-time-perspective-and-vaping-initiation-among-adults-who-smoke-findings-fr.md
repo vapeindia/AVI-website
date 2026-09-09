@@ -9,7 +9,7 @@ studyType: "cohort"
 substance: ["e-cigarette","combustible"]
 brief: "Smokers aged over 55 who think about long-term consequences were nearly four times more likely to try vaping. People who believed vaping was less harmful than smoking were also significantly more likely to start vaping, regardless of age or how they thought about the future."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

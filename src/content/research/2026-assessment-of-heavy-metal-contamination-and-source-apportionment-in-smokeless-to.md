@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["combustible"]
 brief: "Researchers found concerning levels of heavy metals like arsenic, lead, and chromium in smokeless tobacco products sold across India, with samples from Uttar Pradesh showing the highest contamination. While non-cancer risks appeared low, cancer risks from these metals—especially for regular users—were moderate to concerning and warrant urgent regulatory action."
 relevanceToIndia: "The study directly examined smokeless tobacco products from three Indian states, making its findings directly applicable to Indian public health policy and consumer protection."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

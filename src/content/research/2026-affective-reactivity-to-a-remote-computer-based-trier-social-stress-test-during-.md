@@ -9,7 +9,7 @@ studyType: "rct"
 substance: ["combustible"]
 brief: "When smokers trying to quit experience heightened anxiety during a stressful task while already deprived of nicotine, they are more likely to smoke cigarettes and relapse within 48 hours. The study suggests that measuring anxiety responses might help identify smokers at higher risk of early failure in quit attempts."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

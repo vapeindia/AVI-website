@@ -9,7 +9,7 @@ studyType: "cross-sectional"
 substance: ["combustible","e-cigarette"]
 brief: "A study of nearly 500 Black adults found that those who use both traditional cigarettes and e-cigarettes together experience higher rates of anxiety, depression, drug use problems, and hazardous alcohol consumption compared to those who smoke only combustible cigarettes."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

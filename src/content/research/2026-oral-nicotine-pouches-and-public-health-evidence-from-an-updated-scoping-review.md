@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["nicotine-pouch"]
 brief: "Researchers reviewed recent studies on oral nicotine pouches and found their use among young people is gradually rising, sales have tripled since 2021, and they can help some smokers reduce cigarette consumption—though most users continue smoking both products rather than quitting completely."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

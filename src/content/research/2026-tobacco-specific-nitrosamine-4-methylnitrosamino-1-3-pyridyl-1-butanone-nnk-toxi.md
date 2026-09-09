@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["combustible","general"]
 brief: "This research examines how NNK, a cancer-causing chemical found in tobacco products, damages DNA in the human body. The study explains the biological pathways through which NNK becomes toxic after being consumed and metabolized, and identifies how individual genetic differences affect cancer risk from exposure."
 relevanceToIndia: "The study notes that NNK is present in smokeless tobacco products, which are widely used across India, making this research directly relevant to understanding cancer risks in Indian tobacco users."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

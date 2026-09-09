@@ -9,7 +9,7 @@ studyType: "cohort"
 substance: ["combustible"]
 brief: "This analysis of nearly 830 people across seven cannabis treatment trials found that people trying to reduce cannabis use showed modest increases in alcohol consumption when experiencing strong cravings, but actually smoked fewer cigarettes when using more cannabis. Drug treatment medications did not significantly change these patterns, though people on active treatment who craved cannabis more tended to smoke less."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

@@ -9,7 +9,7 @@ studyType: "policy-report"
 substance: ["e-cigarette","combustible"]
 brief: "International tobacco researchers recommend that doctors discuss e-cigarettes as a cessation option alongside other nicotine treatments when helping adult smokers quit, noting that e-cigarettes are less harmful than cigarettes and more effective than FDA-approved nicotine replacement therapies."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

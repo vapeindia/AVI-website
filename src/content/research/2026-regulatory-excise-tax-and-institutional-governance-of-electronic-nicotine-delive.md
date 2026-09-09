@@ -9,7 +9,7 @@ studyType: "policy-report"
 substance: ["e-cigarette"]
 brief: "Researchers compared how eleven low- and middle-income countries regulate e-cigarettes, tax them, and assign oversight responsibility. Countries fell into three groups: strict prohibition, transitional policies, or differentiated approaches. Most countries with legal e-cigarette markets had specific taxes on these products, though tax design didn't always match how permissive regulations were."
 relevanceToIndia: "India is included in this study as part of the prohibitionist group, making findings directly applicable to understanding India's e-cigarette policy approach compared to other similar-income countries."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

@@ -9,7 +9,7 @@ studyType: "policy-report"
 substance: ["e-cigarette","nicotine","combustible"]
 brief: "A global group of pediatric respiratory specialists warns that e-cigarettes are widely used by young people worldwide and expose them to harmful chemicals and nicotine. Research shows vaping is linked to respiratory problems, mental health issues, and often leads teenagers to start smoking regular cigarettes. The organization calls for countries to ban e-cigarette sales and advertising to protect children's health."
 relevanceToIndia: "India has a large youth population vulnerable to e-cigarette marketing, and establishing strong regulatory frameworks could prevent the establishment of a widespread vaping epidemic among Indian children."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

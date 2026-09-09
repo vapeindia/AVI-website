@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["nicotine-pouch"]
 brief: "A study of nearly 100 young Australians revealed widespread exposure to illegal nicotine pouch advertising, primarily through social media platforms like TikTok featuring attractive influencers. Despite advertising bans, these products are readily available through tobacconists and convenience stores, with marketing strategies portraying nicotine as natural and appealing."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

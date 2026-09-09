@@ -8,7 +8,7 @@ studyType: "cross-sectional"
 substance: ["e-cigarette", "general"]
 brief: "An interview-based survey of 3,000 vapers across India's 8 largest metros. 71.3% of smokers reported quitting (30.0%) or reducing (41.3%) smoking with the help of e-cigarettes; similar patterns held among smokeless tobacco users. 79% believed e-cigarettes less harmful than smoking; 80% had first used nicotine via smoking or smokeless tobacco, not vaping — evidence against a vaping-as-gateway pattern in this sample."
 relevanceToIndia: "The largest India-specific study of its kind found — directly answers the question of whether e-cigarettes work as a quitting/reduction tool for Indian smokers and smokeless tobacco users specifically, rather than relying only on evidence from the UK, US or Sweden."
-reviewed: false
+reviewed: true
 ---
 
 Found during a 2026-09-09 research pass into the evidence base available

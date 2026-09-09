@@ -9,7 +9,7 @@ studyType: "systematic-review, meta-analysis"
 substance: ["e-cigarette"]
 brief: "A comprehensive analysis of 11 research studies found that people who use hallucinogens are approximately 4.5 times more likely to also use e-cigarettes. While this strong association was consistent across different populations, researchers note the underlying reasons remain unclear and may involve shared social environments, psychological factors, or genetic influences."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

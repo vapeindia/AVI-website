@@ -9,7 +9,7 @@ studyType: "cohort"
 substance: ["e-cigarette"]
 brief: "Among U.S. teenagers who vape, about 30% want to quit. Youth are less likely to want to quit if they vape daily, have tried many times before, use flavored products, use other drugs, or have friends who vape. Teens who believe vaping is harmful or addictive, or who have previously attempted to quit, show stronger intentions to stop."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

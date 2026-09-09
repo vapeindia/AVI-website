@@ -9,7 +9,7 @@ studyType: "rct"
 substance: ["e-cigarette","combustible"]
 brief: "Researchers gave e-cigarettes to people with opioid addiction who smoked cigarettes but didn't want to quit. Those receiving e-cigarettes reduced their daily cigarette consumption by more than half over 8 weeks, while the control group showed minimal reduction. Their smoking-related toxin exposure also decreased significantly, with no negative effects on their opioid treatment."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

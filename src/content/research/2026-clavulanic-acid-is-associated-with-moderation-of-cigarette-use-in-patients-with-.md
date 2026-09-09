@@ -9,7 +9,7 @@ studyType: "other"
 substance: ["combustible"]
 brief: "Researchers tested whether clavulanic acid, a drug being studied for cocaine addiction, might also reduce cigarette smoking. Among people with low childhood trauma histories, the drug showed promise in reducing smoking; however, those with high childhood trauma histories smoked more when taking the drug."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.

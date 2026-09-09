@@ -9,7 +9,7 @@ studyType: "meta-analysis"
 substance: ["e-cigarette"]
 brief: "Researchers found that when reviewing evidence on e-cigarettes for quitting smoking, one large study (Hajek et al.) overwhelmingly influenced the overall conclusion, potentially distorting the true picture. They propose a new testing method to detect when single studies unfairly dominate systematic reviews, helping policymakers better understand the actual strength of evidence."
 relevanceToIndia: "None stated."
-reviewed: false
+reviewed: true
 ---
 
 Auto-generated draft. Review the brief above against the source, set `reviewed: true` to publish.
