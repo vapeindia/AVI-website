@@ -1,27 +1,155 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import DecorativeRings from '../../components/DecorativeRings.astro';
 ---
-<Base title="India" description="The regulatory and legal situation for tobacco harm reduction products in India.">
-  <h1>Tobacco harm reduction in India</h1>
-  <p>
-    India has an estimated 100 million adult smokers and around 200
-    million users of smokeless tobacco (SLT) — more smokeless users than
-    smokers. Per the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">second round of the Global Adult Tobacco Survey (GATS-2, 2016-17)</a>,
-    the last full national round conducted, smoking prevalence sits at
-    9.3-10.4% of adults and SLT prevalence at 21.38% — smoking-only 7.23%,
-    SLT-only 17.94%, dual use 3.44%. SLT use is markedly higher among
-    tribal communities specifically, at 32%. The most-used SLT products
-    are khaini, gutkha, betel quid with tobacco, and zarda — not a single
-    generic category.
-  </p>
-  <p>
-    This section covers the current legal position on lower-risk
-    alternatives, and the history of legal challenges to state and
-    national bans.
-  </p>
-  <ul>
-    <li><a href="/india/law">Current law</a> — what PECA and related rules actually say, today</li>
-    <li><a href="/litigation">Litigation</a> — the legal challenges to state and national bans that AVI has organised and fought since 2017, and their outcomes</li>
-    <li><a href="/science">Evidence library</a> — the published research behind AVI's position, including India-specific studies</li>
-  </ul>
+<Base title="India" description="The regulatory and legal situation for tobacco harm reduction products in India." wide={true}>
+  <section class="breakout india-hero">
+    <DecorativeRings class="india-rings" />
+    <div class="breakout-inner">
+      <p class="eyebrow">Tobacco harm reduction in India</p>
+      <h1>A market larger than any other — and none of it regulated for harm reduction</h1>
+      <p class="hero-sub">
+        India has more tobacco users than any country outside China, split
+        across smoking and smokeless products in a way most global tobacco
+        policy doesn't account for. Here's where the numbers, the law and
+        the litigation currently stand.
+      </p>
+    </div>
+  </section>
+
+  <section class="stat-band">
+    <div class="stat-band-inner">
+      <div class="stat"><strong>100M</strong><span>adult smokers</span></div>
+      <div class="stat"><strong>200M</strong><span>smokeless tobacco users</span></div>
+      <div class="stat"><strong>32%</strong><span>SLT use among tribal communities</span></div>
+      <div class="stat"><strong>9.3–10.4%</strong><span>national smoking prevalence</span></div>
+    </div>
+    <p class="stat-source">
+      Per the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">second round of the Global Adult Tobacco Survey (GATS-2, 2016-17)</a>,
+      the last full national round conducted — SLT prevalence breaks down to
+      smoking-only 7.23%, SLT-only 17.94%, dual use 3.44%. The most-used SLT
+      products are khaini, gutkha, betel quid with tobacco, and zarda — not
+      a single generic category.
+    </p>
+  </section>
+
+  <section class="path-section">
+    <h2>Three ways into this section</h2>
+    <div class="path-grid">
+      <a class="path-card path-green" href="/india/law">
+        <Icon name="scale" />
+        <h3>Current law</h3>
+        <p>What PECA and related rules actually say today — for e-cigarettes, nicotine pouches, and NRT for contrast.</p>
+        <span class="path-cta">Read the law →</span>
+      </a>
+      <a class="path-card path-rust" href="/litigation">
+        <Icon name="document" />
+        <h3>Litigation</h3>
+        <p>The legal challenges to state and national bans AVI has organised and fought since 2017, and their outcomes.</p>
+        <span class="path-cta">See the cases →</span>
+      </a>
+      <a class="path-card path-gold" href="/science">
+        <Icon name="chart" />
+        <h3>Evidence library</h3>
+        <p>The published research behind AVI's position, including India-specific studies on smoking and SLT use.</p>
+        <span class="path-cta">Browse the evidence →</span>
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+
+    .india-hero {
+      background: var(--ink-black);
+      color: #f4f1e6;
+      padding: 4rem 0 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .india-hero :global(.india-rings) {
+      position: absolute;
+      top: 50%;
+      right: -10%;
+      transform: translateY(-50%);
+      width: 30rem;
+      height: 30rem;
+      max-width: 55vw;
+      max-height: 55vw;
+      color: var(--gold-light);
+      opacity: 0.3;
+    }
+    .india-hero .eyebrow { color: var(--gold-light); }
+    .india-hero h1 {
+      color: #fff;
+      font-size: clamp(1.9rem, 3.8vw, 2.7rem);
+      max-width: 42rem;
+      margin: 0 0 1.1rem;
+      position: relative;
+    }
+    .hero-sub { color: #cdd6cf; max-width: 38rem; font-size: 1.05rem; margin: 0; position: relative; }
+
+    .stat-band { background: var(--accent-dark); color: #fff; padding: 3rem 1.5rem; }
+    .stat-band-inner {
+      max-width: var(--max-w-wide);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      padding-bottom: 1.75rem;
+    }
+    .stat strong { display: block; font-family: var(--font-serif); font-size: 2.2rem; color: var(--gold-light); line-height: 1; margin-bottom: 0.4rem; }
+    .stat span { font-size: 0.82rem; color: #cfe0d8; }
+    .stat-source {
+      max-width: var(--max-w-wide);
+      margin: 0 auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid #2a5648;
+      font-size: 0.85rem;
+      color: #b9cdc3;
+      line-height: 1.6;
+    }
+    .stat-source a { color: var(--gold-light); }
+    @media (max-width: 780px) {
+      .stat-band-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .path-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3.5rem 1.5rem 4rem; }
+    .path-section h2 { text-align: center; margin: 0 0 2.25rem; font-size: 1.5rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .path-card {
+      display: block;
+      background: #fff;
+      border-radius: 6px;
+      padding: 1.75rem 1.5rem;
+      border-top: 4px solid;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
+      text-decoration: none;
+      color: inherit;
+    }
+    .path-card :global(svg) { width: 2rem; height: 2rem; margin-bottom: 1rem; }
+    .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
+    .path-cta { font-weight: 600; font-size: 0.9rem; }
+    .path-green { border-color: var(--accent); }
+    .path-green :global(svg) { color: var(--accent); }
+    .path-green .path-cta { color: var(--accent-dark); }
+    .path-gold { border-color: var(--gold); }
+    .path-gold :global(svg) { color: var(--gold); }
+    .path-gold .path-cta { color: var(--gold-dark); }
+    .path-rust { border-color: var(--rust); }
+    .path-rust :global(svg) { color: var(--rust); }
+    .path-rust .path-cta { color: var(--rust-dark); }
+    @media (max-width: 780px) {
+      .path-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </Base>

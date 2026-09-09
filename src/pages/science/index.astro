@@ -4,21 +4,112 @@ import { getCollection } from 'astro:content';
 
 const items = (await getCollection('research', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.year - a.data.year);
+
+const studyTypeLabel: Record<string, string> = {
+  'systematic-review': 'Systematic review',
+  'meta-analysis': 'Meta-analysis',
+  rct: 'RCT',
+  cohort: 'Cohort study',
+  'cross-sectional': 'Cross-sectional',
+  'policy-report': 'Policy report',
+  other: 'Study',
+};
+const substanceLabel: Record<string, string> = {
+  'e-cigarette': 'E-cigarettes',
+  'nicotine-pouch': 'Nicotine pouches',
+  snus: 'Snus',
+  combustible: 'Combustible tobacco',
+  general: 'General',
+};
 ---
-<Base title="Science" description="A continuously updated library of tobacco harm reduction research relevant to e-cigarettes, nicotine pouches and snus.">
-  <h1>The Science</h1>
-  <p>
-    A living library of research on e-cigarettes, nicotine pouches, snus and tobacco
-    harm reduction. New studies are added automatically from PubMed and Europe PMC
-    and reviewed before publishing.
-  </p>
-  <ul>
-    {items.map((item) => (
-      <li>
-        <a href={`/science/${item.id}`}><strong>{item.data.title}</strong></a>
-        <br /><small>{item.data.authors} · {item.data.journal}, {item.data.year} · {item.data.studyType}</small>
-        <p>{item.data.brief}</p>
-      </li>
-    ))}
-  </ul>
+<Base title="Science" description="A continuously updated library of tobacco harm reduction research relevant to e-cigarettes, nicotine pouches and snus." wide={true}>
+  <section class="breakout science-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">The evidence base</p>
+      <h1>The Science</h1>
+      <p class="science-sub">
+        A living library of research on e-cigarettes, nicotine pouches, snus
+        and tobacco harm reduction. New studies are added automatically from
+        PubMed and Europe PMC, in plain language, and reviewed before
+        publishing.
+      </p>
+    </div>
+  </section>
+
+  <div class="science-body">
+    <div class="science-grid">
+      {items.map((item) => (
+        <article class="science-card">
+          <div class="card-top">
+            <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
+            <span class="year">{item.data.year}</span>
+          </div>
+          <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
+          <p class="byline">{item.data.authors} · {item.data.journal}</p>
+          <div class="tags">
+            {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
+          </div>
+          <p class="gist">{item.data.brief}</p>
+          <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+    .science-hero { background: var(--ink-black); color: #f4f1e6; padding: 3.5rem 0 3rem; }
+    .science-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .science-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0; }
+
+    .science-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
+    .science-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      gap: 1.5rem;
+    }
+    .science-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .year { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+    .study-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+    }
+    .science-card h3 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
+    .science-card h3 a { color: var(--ink); text-decoration: none; }
+    .science-card h3 a:hover { color: var(--accent); }
+    .byline { margin: 0 0 0.6rem; font-size: 0.8rem; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+      background: var(--paper-alt);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
+    .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+  </style>
 </Base>

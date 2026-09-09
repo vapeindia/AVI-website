@@ -1,101 +1,202 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 ---
-<Base title="Current law in India" description="What Indian law actually says about e-cigarettes and smokeless nicotine products, as of today.">
-  <h1>The law in India, as it stands</h1>
+<Base title="Current law in India" description="What Indian law actually says about e-cigarettes and smokeless nicotine products, as of today." wide={true}>
+  <section class="breakout law-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">As of today</p>
+      <h1>The law in India, as it stands</h1>
+    </div>
+  </section>
 
-  <h2>E-cigarettes and ENDS</h2>
-  <p>
-    Electronic cigarettes are banned in India under the
-    <a href="https://www.indiacode.nic.in/handle/123456789/13078" target="_blank" rel="noopener">Prohibition of Electronic Cigarettes Act, 2019 (PECA)</a>,
-    Act No. 42 of 2019, passed by Parliament on 5 December 2019 (it repealed
-    an earlier ordinance of the same name). The Act prohibits the
-    production, manufacture, import, export, transport, sale, distribution,
-    storage and advertisement of e-cigarettes and all Electronic Nicotine
-    Delivery Systems (ENDS), including heat-not-burn products and e-hookah.
-  </p>
-  <p>
-    PECA does not explicitly criminalise personal possession, but the Union
-    Health Ministry clarified in October 2023 that possession of
-    e-cigarettes "in any quantity" is not possible without contravening the
-    Act, given the breadth of the storage and transport prohibitions.
-    First-offence penalties include imprisonment of up to one year and a
-    fine of up to ₹1 lakh; repeat offences carry higher penalties.
-  </p>
+  <div class="law-body">
+    <div class="status-grid">
+      <div class="status-card status-banned">
+        <Icon name="shield" />
+        <h3>E-cigarettes &amp; ENDS</h3>
+        <p class="status-tag">Banned nationally</p>
+        <p>Prohibited outright under PECA, 2019 — production, sale, import, advertisement, and (per a 2023 clarification) possession in any quantity.</p>
+      </div>
+      <div class="status-card status-blocked">
+        <Icon name="leaf" />
+        <h3>Nicotine pouches &amp; snus</h3>
+        <p class="status-tag">No lawful pathway</p>
+        <p>Not named in any ban, but blocked by two separate mechanisms — no FSSAI approval to sell, and import treated as case-by-case discretionary refusal.</p>
+      </div>
+      <div class="status-card status-legal">
+        <Icon name="heart" />
+        <h3>NRT (gums, patches)</h3>
+        <p class="status-tag">Legal &amp; regulated</p>
+        <p>Regulated as medicines under the Drugs and Cosmetics Act, 1940, and actively supported by government as a cessation aid.</p>
+      </div>
+    </div>
 
-  <h2>Nicotine pouches and snus</h2>
-  <p>
-    Nicotine pouches and snus fall outside PECA's definition of ENDS — they
-    involve no vapour, aerosol or heating element. That doesn't mean they're
-    lawfully available, though — they're blocked by a combination of two
-    separate mechanisms, neither of which is a clean, single-line ban the
-    way PECA is for e-cigarettes:
-  </p>
-  <ul>
-    <li>
-      <strong>No domestic sale pathway.</strong> As oral products intended
-      for human consumption, they fall within the Food Safety and Standards
-      Authority of India's (FSSAI) regulatory ambit under the Food Safety
-      and Standards Act, 2006, and FSSAI has not approved nicotine for use
-      in any food product.
-    </li>
-    <li>
-      <strong>Import is a case-by-case discretionary call, not an outright
-      ban.</strong> Nicotine pouches fall under a "restricted" (not
-      prohibited) goods classification with India's customs authorities,
-      meaning import requires a specific licence for which the Directorate
-      General of Foreign Trade (DGFT) consults the health ministry — in
-      practice resulting in refusal, but this is administrative discretion
-      applied case by case, not a standing statutory prohibition the way
-      PECA is.
-    </li>
-  </ul>
-  <p>
-    The net effect — no lawful way to sell, and no reliable way to import —
-    is similar to PECA's outcome for e-cigarettes, but the legal *mechanism*
-    genuinely differs, and unlike PECA there is no single Act that names
-    nicotine pouches directly. COTPA (2003) doesn't list them among
-    regulated tobacco products, PECA covers only electronic/vapour devices,
-    and their status under the Drugs and Cosmetics Act, 1940 is unsettled.
-    <a href="https://vajiramandravi.com/current-affairs/nicotine-pouches-in-india-legal-status-regulation-and-health-concerns/" target="_blank" rel="noopener">Some commentators have argued</a>
-    a direct Customs Act / Foreign Trade Act notification could close this
-    gap cleanly in a way that hasn't yet been done.
-  </p>
-  <p>
-    <em>This is AVI's understanding of the regulatory position, not formal
-    legal advice; independent verification is recommended for anyone
-    making decisions based on it.</em>
-  </p>
+    <div class="law-prose">
+      <h2><Icon name="shield" /> E-cigarettes and ENDS</h2>
+      <p>
+        Electronic cigarettes are banned in India under the
+        <a href="https://www.indiacode.nic.in/handle/123456789/13078" target="_blank" rel="noopener">Prohibition of Electronic Cigarettes Act, 2019 (PECA)</a>,
+        Act No. 42 of 2019, passed by Parliament on 5 December 2019 (it repealed
+        an earlier ordinance of the same name). The Act prohibits the
+        production, manufacture, import, export, transport, sale, distribution,
+        storage and advertisement of e-cigarettes and all Electronic Nicotine
+        Delivery Systems (ENDS), including heat-not-burn products and e-hookah.
+      </p>
+      <p>
+        PECA does not explicitly criminalise personal possession, but the Union
+        Health Ministry clarified in October 2023 that possession of
+        e-cigarettes "in any quantity" is not possible without contravening the
+        Act, given the breadth of the storage and transport prohibitions.
+        First-offence penalties include imprisonment of up to one year and a
+        fine of up to ₹1 lakh; repeat offences carry higher penalties.
+      </p>
 
-  <h2>Nicotine replacement therapy (NRT), for contrast</h2>
-  <p>
-    Gums, patches and similar nicotine replacement products are legal in
-    India, regulated as medicines under the Drugs and Cosmetics Act, 1940,
-    and receive government support as cessation aids. AVI's position isn't
-    that NRT should be restricted — it's that reduced-risk nicotine
-    products are being held to a different, stricter standard than NRT
-    despite comparable or better real-world quit outcomes; see our
-    <a href="/science">evidence library</a> for the research behind that
-    claim.
-  </p>
+      <h2><Icon name="leaf" /> Nicotine pouches and snus</h2>
+      <p>
+        Nicotine pouches and snus fall outside PECA's definition of ENDS — they
+        involve no vapour, aerosol or heating element. That doesn't mean they're
+        lawfully available, though — they're blocked by a combination of two
+        separate mechanisms, neither of which is a clean, single-line ban the
+        way PECA is for e-cigarettes:
+      </p>
+      <ul>
+        <li>
+          <strong>No domestic sale pathway.</strong> As oral products intended
+          for human consumption, they fall within the Food Safety and Standards
+          Authority of India's (FSSAI) regulatory ambit under the Food Safety
+          and Standards Act, 2006, and FSSAI has not approved nicotine for use
+          in any food product.
+        </li>
+        <li>
+          <strong>Import is a case-by-case discretionary call, not an outright
+          ban.</strong> Nicotine pouches fall under a "restricted" (not
+          prohibited) goods classification with India's customs authorities,
+          meaning import requires a specific licence for which the Directorate
+          General of Foreign Trade (DGFT) consults the health ministry — in
+          practice resulting in refusal, but this is administrative discretion
+          applied case by case, not a standing statutory prohibition the way
+          PECA is.
+        </li>
+      </ul>
+      <p>
+        The net effect — no lawful way to sell, and no reliable way to import —
+        is similar to PECA's outcome for e-cigarettes, but the legal <em>mechanism</em>
+        genuinely differs, and unlike PECA there is no single Act that names
+        nicotine pouches directly. COTPA (2003) doesn't list them among
+        regulated tobacco products, PECA covers only electronic/vapour devices,
+        and their status under the Drugs and Cosmetics Act, 1940 is unsettled.
+        <a href="https://vajiramandravi.com/current-affairs/nicotine-pouches-in-india-legal-status-regulation-and-health-concerns/" target="_blank" rel="noopener">Some commentators have argued</a>
+        a direct Customs Act / Foreign Trade Act notification could close this
+        gap cleanly in a way that hasn't yet been done.
+      </p>
+      <p class="callout-note">
+        This is AVI's understanding of the regulatory position, not formal
+        legal advice; independent verification is recommended for anyone
+        making decisions based on it.
+      </p>
 
-  <h2>What this means practically</h2>
-  <p>
-    This site does not sell, advertise, or facilitate access to any
-    nicotine product, in India or otherwise, and does not provide
-    purchasing guidance. Nothing on this site should be read as
-    encouraging violation of PECA or any other applicable law. AVI's
-    position is that adult smokers should have <em>legal, regulated</em>
-    access to lower-risk alternatives — our advocacy is directed at
-    changing the law through evidence, litigation and public debate, not
-    at circumventing it.
-  </p>
+      <h2><Icon name="heart" /> Nicotine replacement therapy (NRT), for contrast</h2>
+      <p>
+        Gums, patches and similar nicotine replacement products are legal in
+        India, regulated as medicines under the Drugs and Cosmetics Act, 1940,
+        and receive government support as cessation aids. AVI's position isn't
+        that NRT should be restricted — it's that reduced-risk nicotine
+        products are being held to a different, stricter standard than NRT
+        despite comparable or better real-world quit outcomes; see our
+        <a href="/science">evidence library</a> for the research behind that
+        claim.
+      </p>
 
-  <p>
-    See our <a href="/litigation">litigation</a> page for the legal
-    challenges AVI has organised and fought against state-level bans that
-    preceded PECA, and against the aviation-security flight ban that PECA
-    doesn't touch — including the case AVI is actively running today — and
-    their current status.
-  </p>
+      <h2><Icon name="document" /> What this means practically</h2>
+      <p>
+        This site does not sell, advertise, or facilitate access to any
+        nicotine product, in India or otherwise, and does not provide
+        purchasing guidance. Nothing on this site should be read as
+        encouraging violation of PECA or any other applicable law. AVI's
+        position is that adult smokers should have <em>legal, regulated</em>
+        access to lower-risk alternatives — our advocacy is directed at
+        changing the law through evidence, litigation and public debate, not
+        at circumventing it.
+      </p>
+
+      <p>
+        See our <a href="/litigation">litigation</a> page for the legal
+        challenges AVI has organised and fought against state-level bans that
+        preceded PECA, and against the aviation-security flight ban that PECA
+        doesn't touch — including the case AVI is actively running today — and
+        their current status.
+      </p>
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .law-hero { background: var(--ink-black); padding: 3.25rem 0 2.75rem; }
+    .law-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+
+    .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .status-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem 1.5rem 1.6rem;
+      border-top: 4px solid;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
+    }
+    .status-card :global(svg) { width: 1.8rem; height: 1.8rem; margin-bottom: 0.85rem; }
+    .status-card h3 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+    .status-card p { margin: 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+    .status-tag {
+      font-weight: 700 !important;
+      font-size: 0.78rem !important;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.6rem !important;
+    }
+    .status-banned { border-color: var(--rust); }
+    .status-banned :global(svg) { color: var(--rust); }
+    .status-banned .status-tag { color: var(--rust-dark); }
+    .status-blocked { border-color: var(--gold); }
+    .status-blocked :global(svg) { color: var(--gold); }
+    .status-blocked .status-tag { color: var(--gold-dark); }
+    .status-legal { border-color: var(--accent); }
+    .status-legal :global(svg) { color: var(--accent); }
+    .status-legal .status-tag { color: var(--accent-dark); }
+    @media (max-width: 780px) {
+      .status-grid { grid-template-columns: 1fr; }
+    }
+
+    .law-prose { max-width: var(--max-w); }
+    .law-prose h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      margin: 2.5rem 0 1rem;
+    }
+    .law-prose h2:first-child { margin-top: 0; }
+    .law-prose h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--accent); flex-shrink: 0; }
+    .callout-note {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+  </style>
 </Base>

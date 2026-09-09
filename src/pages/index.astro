@@ -97,7 +97,7 @@ const yearsActive = new Date().getFullYear() - 2016;
         <ul class="feed-list feed-news">
           {latestNews.map((item) => (
             <li>
-              <a href={`/news/${item.id}`}>{item.data.title}</a>
+              <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
               <span>{item.data.sourceName}</span>
             </li>
           ))}

@@ -1,37 +1,107 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 import { getCollection } from 'astro:content';
 
 const cases = await getCollection('litigation');
-const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : 'Disposed');
+const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superseded-by-peca' ? 'Superseded by PECA' : s === 'withdrawn' ? 'Withdrawn' : 'Disposed');
 ---
-<Base title="Litigation" description="A decade at the forefront of tobacco harm reduction litigation in India — the cases AVI has organised and fought, and the ones it has deliberately stayed out of.">
-  <h1>AVI in court</h1>
-  <p>
-    Since 2017, AVI has organised, funded and directed legal challenges to
-    bans on e-cigarettes and vaping products in courts across India —
-    <strong>Karnataka, Delhi, Jammu &amp; Kashmir and Tamil Nadu</strong> —
-    taking some of these fights through multiple rounds of appeal. That work
-    continues today: AVI is currently running an active case in the Delhi
-    High Court against the flight ban on carrying e-cigarettes, the one
-    major restriction the national ban under PECA, 2019 never touched. Few
-    if any consumer bodies in India have pursued this fight as far, for as
-    long, or in as many courts.
-  </p>
-  <p>
-    Separately, sellers and manufacturers have brought their own challenges
-    to these bans — in Mumbai and Kolkata among other places. AVI is a
-    consumer advocacy organisation, not an industry one, and has never
-    funded, filed, or directed litigation on a vendor's or manufacturer's
-    behalf — even in cases that drew on research and legal arguments AVI
-    first developed and published. This page draws that line plainly
-    wherever it applies, alongside every case AVI has organised itself.
-  </p>
-  {cases.map((c) => (
-    <div>
-      <h2><a href={`/litigation/${c.id}`}>{c.data.title}</a></h2>
-      <p><small>{c.data.court} · Status: {statusLabel(c.data.status)}</small></p>
-      <p>{c.data.summary}</p>
+<Base title="Litigation" description="A decade at the forefront of tobacco harm reduction litigation in India — the cases AVI has organised and fought, and the ones it has deliberately stayed out of." wide={true}>
+  <section class="breakout lit-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">A decade in court</p>
+      <h1>AVI in court</h1>
+      <p class="lit-sub">
+        Since 2017, AVI has organised, funded and directed legal challenges to
+        bans on e-cigarettes and vaping products in courts across India —
+        Karnataka, Delhi, Jammu &amp; Kashmir and Tamil Nadu — taking some of
+        these fights through multiple rounds of appeal. That work continues
+        today: AVI is currently running an active case in the Delhi High
+        Court against the flight ban on carrying e-cigarettes, the one major
+        restriction the national ban under PECA, 2019 never touched.
+      </p>
+      <p class="lit-sub">
+        Separately, sellers and manufacturers have brought their own
+        challenges to these bans — in Mumbai and Kolkata among other places.
+        AVI is a consumer advocacy organisation, not an industry one, and has
+        never funded, filed, or directed litigation on a vendor's or
+        manufacturer's behalf, even in cases that drew on research and legal
+        arguments AVI first developed and published. Each card below draws
+        that line plainly wherever it applies.
+      </p>
     </div>
-  ))}
+  </section>
+
+  <div class="lit-body">
+    <div class="lit-grid">
+      {cases.map((c) => (
+        <a class={`lit-card status-${c.data.status}`} href={`/litigation/${c.id}`}>
+          <div class="card-top">
+            <Icon name="scale" />
+            <span class="status-badge">{statusLabel(c.data.status)}</span>
+          </div>
+          <h2>{c.data.title}</h2>
+          <p class="court">{c.data.state} · {c.data.court}</p>
+          <p class="summary">{c.data.summary}</p>
+          <span class="read-link">Full case record →</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .lit-hero { background: var(--ink-black); color: #f4f1e6; padding: 3.5rem 0 3rem; }
+    .lit-hero h1 { color: #fff; margin: 0 0 1.25rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .lit-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0 0 1rem; }
+    .lit-sub:last-child { margin-bottom: 0; }
+
+    .lit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .lit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      gap: 1.5rem;
+    }
+    .lit-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1.5rem 1.6rem;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      text-decoration: none;
+      color: inherit;
+      border-top: 4px solid var(--accent);
+    }
+    .lit-card.status-pending { border-top-color: var(--gold); }
+    .lit-card.status-superseded-by-peca { border-top-color: var(--muted); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .card-top :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); }
+    .status-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+    }
+    .status-pending .status-badge { background: var(--gold-dark); }
+    .status-superseded-by-peca .status-badge { background: var(--muted); }
+    .status-withdrawn .status-badge { background: var(--muted); }
+
+    .lit-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; line-height: 1.35; color: var(--ink); }
+    .court { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    .summary { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
+    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); margin-top: auto; }
+  </style>
 </Base>

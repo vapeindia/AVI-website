@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const all = (await getCollection('press'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -10,42 +10,157 @@ const all = (await getCollection('press'))
 const coverage = all.filter((item) => ['coverage', 'interview', 'op-ed'].includes(item.data.type));
 // AVI's own public statements and quotes, mostly distributed via PR agencies.
 const statements = all.filter((item) => ['press-release', 'quote'].includes(item.data.type));
+
+async function withBody(items: typeof all) {
+  return Promise.all(items.map(async (item) => ({ item, Content: (await render(item)).Content })));
+}
+const coverageWithBody = await withBody(coverage);
+const statementsWithBody = await withBody(statements);
+
+const typeLabel: Record<string, string> = {
+  coverage: 'Coverage',
+  interview: 'Interview',
+  'op-ed': 'Op-ed',
+  'press-release': 'Press release',
+  quote: 'Quote',
+};
 ---
-<Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals.">
-  <h1>Press &amp; media coverage</h1>
-  <p>
-    For over a decade, AVI has been a go-to source for Indian and
-    international outlets covering tobacco harm reduction — quoted,
-    interviewed and bylined in outlets from Deccan Chronicle and Outlook
-    India to trade press like 2Firsts and Filter. Below is that independent
-    coverage, alongside AVI's own public statements, letters and rebuttals.
-  </p>
+<Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." wide={true}>
+  <section class="breakout press-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">A decade in the press</p>
+      <h1>Press &amp; media coverage</h1>
+      <p class="press-sub">
+        For over a decade, AVI has been a go-to source for Indian and
+        international outlets covering tobacco harm reduction — quoted,
+        interviewed and bylined in outlets from Deccan Chronicle and Outlook
+        India to trade press like 2Firsts and Filter. Below is that
+        independent coverage, alongside AVI's own public statements, letters
+        and rebuttals — headline and gist first, so you don't have to open
+        every link to know what it says.
+      </p>
+    </div>
+  </section>
 
-  <h2>Media coverage</h2>
-  <p><small>Independent reporting, interviews and bylined op-eds — not written or issued by AVI.</small></p>
-  <ul>
-    {coverage.map((item) => (
-      <li>
-        <time datetime={item.data.date.toISOString()}>{item.data.date.toDateString()}</time>
-        — {item.data.url
-          ? <a href={item.data.url} target="_blank" rel="noopener">{item.data.title}</a>
-          : <a href={item.data.archivePdf}>{item.data.title}</a>}
-        <br /><small>{item.data.outlet} · {item.data.type}</small>
-      </li>
-    ))}
-  </ul>
+  <div class="press-body">
+    <section class="press-section">
+      <div class="section-head">
+        <h2>Media coverage</h2>
+        <p>Independent reporting, interviews and bylined op-eds — not written or issued by AVI.</p>
+      </div>
+      <div class="press-grid">
+        {coverageWithBody.map(({ item, Content }) => (
+          <article class={`press-card type-${item.data.type}`}>
+            <div class="card-top">
+              <span class="type-badge">{typeLabel[item.data.type]}</span>
+              <time datetime={item.data.date.toISOString()}>
+                {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+            <h3>{item.data.title}</h3>
+            <p class="outlet">{item.data.outlet}</p>
+            <div class="gist"><Content /></div>
+            {(item.data.url || item.data.archivePdf)
+              ? <a class="read-link" href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">Read the original →</a>
+              : <span class="pending-link">Source: AVI press archive (not yet linked online)</span>}
+          </article>
+        ))}
+      </div>
+    </section>
 
-  <h2>Press releases &amp; statements</h2>
-  <p><small>AVI's own public statements, quotes and rebuttals, mostly distributed via PR agencies.</small></p>
-  <ul>
-    {statements.map((item) => (
-      <li>
-        <time datetime={item.data.date.toISOString()}>{item.data.date.toDateString()}</time>
-        — {item.data.url
-          ? <a href={item.data.url} target="_blank" rel="noopener">{item.data.title}</a>
-          : <a href={item.data.archivePdf}>{item.data.title}</a>}
-        <br /><small>{item.data.outlet} · {item.data.type}</small>
-      </li>
-    ))}
-  </ul>
+    <section class="press-section">
+      <div class="section-head">
+        <h2>Press releases &amp; statements</h2>
+        <p>AVI's own public statements, quotes and rebuttals, mostly distributed via PR agencies.</p>
+      </div>
+      <div class="press-grid">
+        {statementsWithBody.map(({ item, Content }) => (
+          <article class={`press-card type-${item.data.type}`}>
+            <div class="card-top">
+              <span class="type-badge">{typeLabel[item.data.type]}</span>
+              <time datetime={item.data.date.toISOString()}>
+                {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+            <h3>{item.data.title}</h3>
+            <p class="outlet">{item.data.outlet}</p>
+            <div class="gist"><Content /></div>
+            {(item.data.url || item.data.archivePdf)
+              ? <a class="read-link" href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">Read the original →</a>
+              : <span class="pending-link">Source: AVI press archive (not yet linked online)</span>}
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+    .press-hero { background: var(--ink-black); color: #f4f1e6; padding: 3.5rem 0 3rem; }
+    .press-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .press-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0; }
+
+    .press-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
+    .press-section + .press-section { margin-top: 3.5rem; }
+    .section-head { margin-bottom: 1.75rem; }
+    .section-head h2 { margin: 0 0 0.35rem; font-size: 1.5rem; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .press-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      gap: 1.5rem;
+    }
+    .press-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .card-top time { font-size: 0.78rem; color: var(--muted); }
+    .type-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+    }
+    .type-coverage .type-badge { background: var(--accent); }
+    .type-interview .type-badge { background: var(--gold); }
+    .type-op-ed .type-badge { background: var(--rust); }
+    .type-press-release .type-badge { background: var(--accent-dark); }
+    .type-quote .type-badge { background: var(--muted); }
+
+    .press-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; line-height: 1.35; }
+    .outlet { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    .gist {
+      font-size: 0.88rem;
+      color: var(--ink);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .gist :global(p) { margin: 0 0 0.6rem; }
+    .gist :global(p:last-child) { margin-bottom: 0; }
+    .gist :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
+    .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+    .pending-link { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: auto; }
+  </style>
 </Base>

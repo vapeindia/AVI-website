@@ -4,18 +4,98 @@ import { getCollection } from 'astro:content';
 
 const items = (await getCollection('news', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const topicLabel: Record<string, string> = {
+  policy: 'Policy',
+  litigation: 'Litigation',
+  science: 'Science',
+  industry: 'Industry',
+  other: 'Commentary',
+};
 ---
-<Base title="News" description="Current developments on tobacco harm reduction, vaping and nicotine pouch regulation relevant to India.">
-  <h1>News</h1>
-  <p>Curated coverage of THR, vaping and nicotine policy relevant to India. Auto-gathered, human-reviewed.</p>
-  <ul>
-    {items.map((item) => (
-      <li>
-        <time datetime={item.data.date.toISOString()}>{item.data.date.toDateString()}</time>
-        — <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
-        <br /><small>{item.data.sourceName} · {item.data.topic}</small>
-        <p>{item.data.summary}</p>
-      </li>
-    ))}
-  </ul>
+<Base title="News" description="Current developments on tobacco harm reduction, vaping and nicotine pouch regulation relevant to India." wide={true}>
+  <section class="breakout news-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Updated as it happens</p>
+      <h1>News</h1>
+      <p class="news-sub">
+        Curated coverage of tobacco harm reduction, vaping and nicotine
+        policy relevant to India — auto-gathered from policy commentary and
+        outlet feeds, human-reviewed before it appears here.
+      </p>
+    </div>
+  </section>
+
+  <div class="news-body">
+    <div class="news-grid">
+      {items.map((item) => (
+        <article class={`news-card topic-${item.data.topic}`}>
+          <div class="card-top">
+            <span class="topic-badge">{topicLabel[item.data.topic]}</span>
+            <time datetime={item.data.date.toISOString()}>
+              {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+          </div>
+          <h3><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h3>
+          <p class="source">{item.data.sourceName}</p>
+          <p class="gist">{item.data.summary}</p>
+          <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+    .news-hero { background: var(--accent-dark); color: #fff; padding: 3.5rem 0 3rem; }
+    .news-hero .eyebrow { color: var(--gold-light); }
+    .news-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .news-sub { color: #cfe0d8; max-width: 42rem; font-size: 1.05rem; margin: 0; }
+
+    .news-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      gap: 1.5rem;
+    }
+    .news-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .card-top time { font-size: 0.78rem; color: var(--muted); }
+    .topic-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+    }
+    .topic-policy .topic-badge { background: var(--accent); }
+    .topic-litigation .topic-badge { background: var(--rust); }
+    .topic-science .topic-badge { background: var(--accent-dark); }
+    .topic-industry .topic-badge { background: var(--gold); }
+    .topic-other .topic-badge { background: var(--muted); }
+
+    .news-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; line-height: 1.35; }
+    .news-card h3 a { color: var(--ink); text-decoration: none; }
+    .news-card h3 a:hover { color: var(--accent); }
+    .source { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
+    .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+  </style>
 </Base>

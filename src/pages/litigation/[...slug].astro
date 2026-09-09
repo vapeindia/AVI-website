@@ -8,14 +8,15 @@ export async function getStaticPaths() {
 }
 const { item } = Astro.props;
 const { Content } = await render(item);
-const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : 'Disposed');
+const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superseded-by-peca' ? 'Superseded by PECA' : s === 'withdrawn' ? 'Withdrawn' : 'Disposed');
 ---
 <Base title={item.data.title}>
   <p><a href="/litigation">← Back to litigation</a></p>
+  <span class={`status-pill status-${item.data.status}`}>{statusLabel(item.data.status)}</span>
   <h1>{item.data.title}</h1>
-  <p><small>{item.data.court}, {item.data.state} · Status: {statusLabel(item.data.status)}</small></p>
-  <p>{item.data.summary}</p>
-  {item.data.outcome && <p><strong>Outcome:</strong> {item.data.outcome}</p>}
+  <p class="meta"><small>{item.data.court}, {item.data.state}</small></p>
+  <p class="lead">{item.data.summary}</p>
+  {item.data.outcome && <p class="outcome"><strong>Outcome:</strong> {item.data.outcome}</p>}
   <Content />
   {item.data.documents.length > 0 && (
     <>
@@ -25,4 +26,29 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : 'Disposed');
       </ul>
     </>
   )}
+
+  <style>
+    .status-pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .status-pending { background: var(--gold-dark); }
+    .status-superseded-by-peca, .status-withdrawn { background: var(--muted); }
+    h1 { margin-top: 0.25rem; }
+    .meta { color: var(--muted); margin-top: -0.5rem; }
+    .lead { font-size: 1.05rem; }
+    .outcome {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.25rem;
+    }
+  </style>
 </Base>

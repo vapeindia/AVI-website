@@ -11,14 +11,52 @@ const { Content } = await render(item);
 ---
 <Base title={item.data.title}>
   <p><a href="/science">← Back to research library</a></p>
+  <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
-  <p><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
-  <p><small>{item.data.studyType} · {item.data.substance.join(', ')}</small></p>
-  <p>{item.data.brief}</p>
-  {item.data.relevanceToIndia && <p><strong>Relevance to India:</strong> {item.data.relevanceToIndia}</p>}
+  <p class="byline"><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
+  <div class="tags">
+    {item.data.substance.map((s) => <span class="tag">{s}</span>)}
+  </div>
+  <p class="lead">{item.data.brief}</p>
+  {item.data.relevanceToIndia && (
+    <p class="india-note"><strong>Relevance to India:</strong> {item.data.relevanceToIndia}</p>
+  )}
   <Content />
-  <p>
+  <p class="links">
     {item.data.doi && <a href={`https://doi.org/${item.data.doi}`} target="_blank" rel="noopener">View via DOI</a>}
     {item.data.pubmedId && <a href={`https://pubmed.ncbi.nlm.nih.gov/${item.data.pubmedId}`} target="_blank" rel="noopener"> · PubMed</a>}
   </p>
+
+  <style>
+    .study-pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    h1 { margin-top: 0.25rem; }
+    .byline { color: var(--muted); margin-top: -0.5rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0 1.25rem; }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+      background: var(--paper-alt);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .lead { font-size: 1.05rem; }
+    .india-note {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.25rem;
+    }
+    .links { margin-top: 2rem; font-weight: 600; }
+  </style>
 </Base>
