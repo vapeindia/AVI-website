@@ -290,6 +290,23 @@ Still needed, roughly in priority order:
    deprecation warning — harmless, but a one-line bump to `24` in both
    files would silence it.
 
+## Research memo: consumer advocacy landscape, India context, evidence base
+## (2026-09-09)
+
+`research/consumer-advocacy-landscape-2026-09-09.md` in this repo — a deep
+research pass across the global THR consumer advocacy movement (52 orgs
+worldwide per Jerzyński et al. 2023, regional umbrella bodies CASA/ARDT
+Iberoamérica/ETHRA/CAPHRA, design references from ~10 peer orgs), India's
+tobacco use landscape (GATS-2 data, product-level SLT breakdown, a tribal-
+community equity angle not yet used on the site), and an evidence-base
+catalog (a 2020 India-specific 8-city vaper survey and the current
+Cochrane e-cigarette-vs-NRT review, both added as draft `/science` entries
+— `reviewed: false`, pending site-owner approval like everything else in
+that pipeline). Read that file before doing further design or `/science`
+content work — it has citations, caveats, and a couple of leads flagged
+as unverified (a September 2025 NTCP nicotine-pouch licensing detail in
+particular) rather than treated as confirmed fact.
+
 ## Old-site archive (2026-09-09)
 
 Before any DNS/hosting changes, the live `vapeindia.org` (still on WordPress
