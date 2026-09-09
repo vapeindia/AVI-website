@@ -1,8 +1,9 @@
 # Cloudflare Pages redirect rules.
-# Populate this fully before DNS cutover — every URL that appears in the
-# old site's sitemap.xml or in Google Search Console should have an entry
-# below, or you lose inbound links and press citations built up since 2016.
+# Populated 2026-09-09 from the live old-site sitemap.xml (66 URLs) — every
+# surviving old-site URL is mapped below, so 2016-2020 press citations and
+# any inbound links don't 404 after DNS cutover.
 
+# --- Section-level (pre-existing) ---
 /about-us/            /about                          301
 /research/             /science                        301
 /india/                /india                          301
@@ -17,8 +18,70 @@
 /donate/               /contribute                     301
 /news-events/          /press                          301
 
-# TODO before cutover: crawl the live sitemap and old Google Search Console
-# export, and add one line per surviving post URL (including the
-# percent-encoded Hindi post slugs) pointing at its new /press or /blog
-# location. Do not skip this — press citations from 2018 outlets link to
-# these exact URLs.
+# --- Individual old posts/pages with a confident specific match ---
+/pil-karnataka/                          /litigation/karnataka-ends-circular-challenge   301
+/share-your-vaping-experience/           /testimonials                                    301
+/mission-vision-and-goal/                /about                                            301
+/donate-bk/                              /contribute                                       301
+/joinus/                                 /contribute                                       301
+/join-avi/                               /contribute                                       301
+/subscribe-now/                          /contribute                                       301
+/thanks-for-payment/                     /contribute                                       301
+/enquiry-form/                           /contact                                          301
+
+# --- Old press/news posts — no per-article page exists on the new site
+# (the press collection renders as one index, not individual pages), so
+# these land on the section index rather than a specific article. Still
+# beats a 404 for anyone following a 2016-2020 citation. ---
+/hindu-rebuttal/                                                                                                                 /press   301
+/delhi-high-court-hearing-on-21st-august/                                                                                        /press   301
+/avi-counters-on-e-cig-ban/                                                                                                      /press   301
+/avi-requests-rajasthan-govt-to-regulate-vaping/                                                                                 /press   301
+/rajasthan-courts-verdict-welocmed-by-consumers/                                                                                 /press   301
+/rajasthan-courts-verdict-welocmed-by-consumers-2/                                                                               /press   301
+/rajasthan-courts-verdict-welocmed-by-consumer-group/                                                                            /press   301
+/rajasthan-courts-verdict-welocmed-by-consumer-group-2/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death/                                                                            /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-2/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking/                                                                                          /press   301
+/centraladvisory/                                                                                                                /press   301
+/all-coverages/                                                                                                                  /press   301
+/skarora/                                                                                                                        /press   301
+/letter-to-union-health-minister-india/                                                                                          /press   301
+/you-ken-rebuttal/                                                                                                               /press   301
+/protest/                                                                                                                        /press   301
+/worldvapeday/                                                                                                                   /press   301
+/mpletter/                                                                                                                       /press   301
+/shadowreport/                                                                                                                   /press   301
+/warontar/                                                                                                                       /press   301
+# Four near-duplicate Hindi-slug press-conference posts (same rendered title):
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8/    /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%aa%e0%a4%a1/    /press   301
+
+# --- Pages with no equivalent content on the new site — sent home rather
+# than to a section that would misrepresent what's there. Worth a look
+# later: /terms-conditions/, /dangers-of-smoking-tobacco/, /quitting-tools/
+# may deserve real pages eventually rather than just a redirect home. ---
+/dangers-of-smoking-tobacco/             /   301
+/quitting-tools/                         /   301
+/terms-conditions/                       /   301
+/resist/                                 /   301
+/scthankyou/                             /   301
+
+# --- WordPress account-system pages — no user-account system exists on
+# the new static site, nothing meaningful to redirect these to. ---
+/logout/                                 /   301
+/register/                               /   301
+/membership-login/                       /   301
+/membership-login/membership-profile/    /   301
+/membership-login/password-reset/        /   301
+/my-account/                             /   301
+
+# --- Intentionally NOT redirected: /blocks/* (5 URLs) are WordPress
+# Gutenberg reusable-block storage, not real public pages — never
+# meaningfully linked or indexed on their own. /press/ and / are already
+# the same path on the new site, so no redirect needed for those either.

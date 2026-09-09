@@ -240,8 +240,18 @@ Still needed, roughly in priority order:
    tobacco India, added after the site owner noticed it was missing) now
    have real feed URLs. Note: Google Alerts RSS feeds don't backfill
    history — only new items going forward will show up.
-4. Build out `public/_redirects` with every surviving old-site URL before
-   DNS cutover — currently only has section-level mappings
+4. ~~Build out `public/_redirects` with every surviving old-site URL before
+   DNS cutover~~ — **done 2026-09-09.** All 66 URLs from the live
+   `sitemap.xml` are now covered: specific matches where a confident
+   mapping existed (e.g. `/pil-karnataka/` → the Karnataka litigation
+   detail page, `/share-your-vaping-experience/` → `/testimonials`), a
+   `/press` fallback for old individual posts (the press collection has no
+   per-article pages on the new site, so this is the best available
+   landing spot, not a deep link), `/` for WordPress account-system pages
+   and pages with no new-site equivalent, and `/blocks/*` (5 URLs)
+   deliberately left unredirected — those are Gutenberg reusable-block
+   storage, never real public pages. Verified programmatically against the
+   sitemap list — zero gaps.
 5. ~~Get the two GitHub Actions their `ANTHROPIC_API_KEY` repo secret and
    confirm at least one successful scheduled/manual run of each~~ — **done
    2026-09-08.** Secret added, and a manual `workflow_dispatch` run of
@@ -258,6 +268,53 @@ Still needed, roughly in priority order:
    `node-version: 20`, which GitHub now force-runs on Node 24 with a
    deprecation warning — harmless, but a one-line bump to `24` in both
    files would silence it.
+
+## Old-site archive (2026-09-09)
+
+Before any DNS/hosting changes, the live `vapeindia.org` (still on WordPress
+5.9.16 via Hostinger — see below) was fully archived to
+`C:\Users\samra\OneDrive\Documents\AVI Website\vapeindia-org-archive-2026-09-09\`
+(outside this repo — it's a local backup, not committed): 848 files, 311MB —
+all 66 sitemap pages, 541/545 media files known to WordPress (including 298
+orphaned uploads never linked from any public page, found only via the WXR
+export), and a full WXR/XML content export
+(`wordpress-export/...WordPress.2026-09-09.xml`) with every post, page,
+comment, custom field, and nav menu. Only 4 files are missing, and all 4
+404 directly from WordPress's own server too — genuinely gone, not an
+archive gap. This exists so the site owner can safely change nameservers
+without needing the (unresponsive) web designer's cooperation — see next
+section.
+
+## Hosting/DNS situation (as of 2026-09-09) — important context for any
+## future session touching DNS or hosting
+
+`vapeindia.org` is **registered at GoDaddy but its DNS is currently
+managed at Hostinger**, apparently set up by the site owner's web
+designer, who has gone unresponsive and is a soft blocker the owner wants
+to route around rather than confront (worried about being charged for
+any acknowledgment of a rebuild). Key finding: **DNS/hosting control and
+registrar control are separate — the site owner already has full GoDaddy
+access and does NOT need the designer's cooperation to cut over.**
+
+Agreed plan (not yet executed as of this writing — confirm current state
+before assuming any step below is done):
+1. Add `vapeindia.org` to Cloudflare as a site (not a nameserver change
+   yet) — triggers Cloudflare to scan/import Hostinger's existing DNS
+   records, including the Gmail MX records for `contact@vapeindia.org`.
+   Safe, reversible, doesn't affect anything live.
+2. Review the imported zone — confirm MX records came through correctly,
+   check for anything else running on that domain the owner didn't expect.
+3. Add the Resend domain-verification DNS records (see `functions/README.md`
+   and the testimonials section above) into this same Cloudflare zone —
+   this also resolves the testimonials-email blocker without ever touching
+   Hostinger.
+4. Add `vapeindia.org` as a custom domain on the Cloudflare Pages project
+   (`avi-website`, currently at `avi-website-9f9.pages.dev`).
+5. Only once 1-4 are verified working: change nameservers at GoDaddy from
+   Hostinger's to Cloudflare's. This is the actual go-live moment — do it
+   deliberately, with a buffer day, per the original deadline-context
+   guidance below. Confirm email still works and the new site loads
+   correctly afterward.
 
 ## Repo status (as of 2026-09-08)
 
