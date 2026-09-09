@@ -2,8 +2,9 @@
 interface Props {
   title: string;
   description?: string;
+  wide?: boolean;
 }
-const { title, description = "Tobacco harm reduction advocacy and evidence for India." } = Astro.props;
+const { title, description = "Tobacco harm reduction advocacy and evidence for India.", wide = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -13,39 +14,82 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
   <meta name="description" content={description} />
   <title>{title} · AVI — Association of Vapers India</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink: #14181b;
-      --paper: #fdfcf9;
+      --ink: #1a211d;
+      --paper: #faf6ec;
+      --paper-alt: #f2ead9;
       --accent: #1f6f5c;
-      --muted: #5b6266;
-      --border: #e4e1d8;
+      --accent-dark: #123c31;
+      --gold: #a97327;
+      --gold-dark: #7d5419;
+      --muted: #5c6660;
+      --border: #e2dcc7;
       --max-w: 42rem;
+      --max-w-wide: 72rem;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       background: var(--paper);
       color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Georgia, serif;
-      line-height: 1.6;
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 {
+      font-family: var(--font-serif);
+      line-height: 1.2;
+      font-weight: 500;
+      letter-spacing: -0.01em;
     }
     a { color: var(--accent); }
+    a:hover { color: var(--accent-dark); }
+
+    /* Escapes the constrained <main> width for full-bleed sections. */
+    .breakout {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+    }
+    .breakout > .breakout-inner {
+      max-width: var(--max-w-wide);
+      margin: 0 auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
     header.site {
       border-bottom: 1px solid var(--border);
-      padding: 1.25rem 1.5rem;
+      padding: 1.1rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    header.site .brand { font-weight: 700; text-decoration: none; color: var(--ink); font-size: 1.1rem; }
+    header.site .brand {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 1.35rem;
+      text-decoration: none;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
     nav.site a {
       color: var(--muted);
       text-decoration: none;
       margin-left: 1.25rem;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
+      font-weight: 500;
     }
     nav.site a:hover { color: var(--ink); }
     main {
@@ -53,13 +97,39 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       margin: 0 auto;
       padding: 2.5rem 1.5rem 4rem;
     }
+    main.wide { max-width: none; padding: 0 0 4rem; }
+    main.wide > :not(.breakout) {
+      max-width: var(--max-w);
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 3px;
+      border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-dark); color: #fff; }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: var(--gold-dark); color: #fff; }
+    .btn-outline { background: transparent; color: var(--ink); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
     footer.site {
       border-top: 1px solid var(--border);
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 1.5rem 2rem;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       text-align: center;
     }
+    footer.site img.mark { height: 56px; opacity: 0.85; margin-bottom: 1rem; }
     footer.site .social a { margin: 0 0.5rem; }
   </style>
 </head>
@@ -78,10 +148,11 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       <a href="/contribute">Contribute</a>
     </nav>
   </header>
-  <main>
+  <main class={wide ? 'wide' : ''}>
     <slot />
   </main>
   <footer class="site">
+    <img class="mark" src="/images/avi-logo.png" alt="Association of Vapers India — Est. 2016" />
     <div class="social">
       <a href="https://x.com/vapeindia">X</a>·
       <a href="https://facebook.com/avindia">Facebook</a>·

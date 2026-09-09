@@ -11,25 +11,62 @@ const latestResearch = (await getCollection('research', ({ data }) => data.revie
   .slice(0, 3);
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
+const litigationCount = (await getCollection('litigation')).length;
+const pressCount = (await getCollection('press')).length;
+const yearsActive = new Date().getFullYear() - 2016;
 ---
-<Base title="Home">
-  <h1>Association of Vapers India</h1>
-  <p>
-    For over ten years, AVI has been India's leading consumer advocacy voice
-    for tobacco harm reduction — a group founded by former smokers who quit
-    through vaping, working for the right of India's tobacco users, and of
-    tobacco users across the Global South, to access lower-risk alternatives
-    to combustible tobacco, backed by evidence and pursued within the law.
-  </p>
-  <p>
-    We work for smokers and the 200 million Indians who use smokeless
-    tobacco. See what a decade of that work has looked like: our
-    <a href="/litigation">litigation record</a>, our
-    <a href="/press">press coverage</a>, and
-    {testimonialCount > 0
-      ? <a href="/testimonials">testimonials from {testimonialCount}+ people it has helped</a>
-      : <a href="/testimonials">testimonials from the people it has helped</a>}.
-  </p>
+<Base title="Home" wide={true}>
+  <section class="breakout hero">
+    <div class="breakout-inner hero-inner">
+      <p class="eyebrow">Tobacco harm reduction for India</p>
+      <h1>Still smoking? There's a safer path forward —<br class="br-desktop" /> even if you're not ready to give up nicotine.</h1>
+      <p class="hero-sub">
+        If nicotine gums and patches haven't worked for you, or you're not
+        ready to quit nicotine entirely, there are lower-risk ways to keep
+        using it. We've spent a decade reviewing the evidence and fighting
+        in court for your right to know about them.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="/science">See the evidence →</a>
+        <a class="btn btn-outline" href="/india/law">What the law says →</a>
+      </div>
+      <p class="hero-note">
+        We also work on harm reduction for the 200 million Indians who use
+        smokeless tobacco — <a href="/science">read more →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="breakout credibility">
+    <div class="breakout-inner">
+      <div class="stats">
+        <div class="stat"><strong>{litigationCount}</strong><span>court cases fought</span></div>
+        <div class="stat"><strong>{pressCount}+</strong><span>press features</span></div>
+        <div class="stat"><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
+      </div>
+      <div class="photo-strip">
+        <figure>
+          <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting India's Minister of State for Health" loading="lazy" />
+          <figcaption>Briefing the Ministry of Health on harm reduction</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/press-club-bangalore.jpg" alt="AVI presenting research to press at the Press Club of Bangalore" loading="lazy" />
+          <figcaption>Presenting the evidence to press in Bangalore</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="policy-section">
+    <h2>For policymakers &amp; researchers</h2>
+    <p>
+      Our advocacy is built on published evidence, not opinion. See our
+      <a href="/science">evidence library</a> of peer-reviewed research on
+      reduced-risk nicotine products, the <a href="/india/law">current legal
+      position</a> under PECA, 2019, and the <a href="/litigation">litigation
+      record</a> of a decade spent testing these bans in court.
+    </p>
+  </section>
 
   <h2>Current legal position</h2>
   <p>
@@ -58,4 +95,97 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     ))}
   </ul>
   <p><a href="/science">Full research library →</a></p>
+
+  <section class="breakout donate-pitch">
+    <div class="breakout-inner donate-inner">
+      <h2>Quit smoking because you found a safer alternative?</h2>
+      <p>
+        AVI exists because harm reduction worked for people like you, and we
+        want it available to the millions still smoking. Our work — litigation,
+        evidence review, correcting misinformation — is funded entirely by
+        individual contributions, not industry.
+        {testimonialCount > 0
+          ? <a href="/testimonials">Read {testimonialCount}+ stories from people it's helped →</a>
+          : <a href="/testimonials">Read stories from people it's helped →</a>}
+      </p>
+      <a class="btn btn-primary" href="/contribute">Support this work →</a>
+    </div>
+  </section>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+    .hero {
+      background: var(--accent-dark);
+      color: #f4f1e6;
+      padding: 4.5rem 0 4rem;
+    }
+    .hero .eyebrow { color: #d8c98f; }
+    .hero-inner { max-width: 46rem; }
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(1.9rem, 4vw, 2.75rem);
+      margin: 0 0 1.25rem;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: #d8ded9;
+      max-width: 40rem;
+      margin: 0 0 2rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .hero .btn-outline { border-color: #4d6b62; color: #f4f1e6; }
+    .hero .btn-outline:hover { border-color: #f4f1e6; color: #fff; }
+    .hero-note { font-size: 0.92rem; color: #b7c4bd; margin: 0; }
+    .hero-note a { color: #d8c98f; }
+
+    .credibility { background: var(--paper-alt); padding: 3rem 0; }
+    .stats {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      color: var(--accent-dark);
+      line-height: 1;
+    }
+    .stat span { font-size: 0.9rem; color: var(--muted); }
+    .photo-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .photo-strip figure { margin: 0; }
+    .photo-strip img { width: 100%; height: 220px; object-fit: cover; border-radius: 4px; display: block; }
+    .photo-strip figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+    @media (max-width: 640px) {
+      .photo-strip { grid-template-columns: 1fr; }
+      .stats { gap: 2rem; }
+    }
+
+    .policy-section {
+      max-width: var(--max-w);
+      margin: 3rem auto 0;
+      padding: 0 1.5rem;
+    }
+    .policy-section h2 { margin-top: 0; }
+
+    .donate-pitch { background: var(--accent); color: #fff; padding: 3.5rem 0; margin-top: 3.5rem; }
+    .donate-inner { max-width: 40rem; }
+    .donate-pitch h2 { color: #fff; margin-top: 0; }
+    .donate-pitch p { color: #dcece7; }
+    .donate-pitch a:not(.btn) { color: #f4f1e6; text-decoration-color: rgba(244,241,230,0.5); }
+  </style>
 </Base>
