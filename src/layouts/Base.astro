@@ -84,6 +84,9 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       gap: 1rem;
     }
     header.site .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
       font-family: var(--font-serif);
       font-weight: 600;
       font-size: 1.35rem;
@@ -91,6 +94,7 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       color: var(--ink);
       letter-spacing: -0.01em;
     }
+    header.site .brand img { height: 38px; width: auto; }
     nav.site a {
       color: var(--muted);
       text-decoration: none;
@@ -142,7 +146,10 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
 </head>
 <body>
   <header class="site">
-    <a class="brand" href="/">AVI</a>
+    <a class="brand" href="/">
+      <img src="/images/avi-logo.png" alt="Association of Vapers India" />
+      <span>AVI</span>
+    </a>
     <nav class="site">
       <a href="/about">About</a>
       <a href="/science">Science</a>

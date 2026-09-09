@@ -1,5 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import DecorativeRings from '../components/DecorativeRings.astro';
+import PullQuote from '../components/PullQuote.astro';
 import { getCollection } from 'astro:content';
 
 const latestNews = (await getCollection('news', ({ data }) => data.reviewed))
@@ -17,12 +20,7 @@ const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="Home" wide={true}>
   <section class="breakout hero">
-    <svg class="hero-rings" viewBox="0 0 500 500" aria-hidden="true">
-      <circle cx="250" cy="250" r="240" />
-      <circle cx="250" cy="250" r="185" />
-      <circle cx="250" cy="250" r="130" />
-      <line x1="250" y1="10" x2="250" y2="490" />
-    </svg>
+    <DecorativeRings class="hero-rings" />
     <div class="breakout-inner hero-inner">
       <p class="eyebrow">Tobacco harm reduction for India</p>
       <h1>Still smoking? There's a<br class="br-desktop" /> safer path forward.</h1>
@@ -49,19 +47,19 @@ const yearsActive = new Date().getFullYear() - 2016;
       <h2 class="paths-heading">Three groups, one goal</h2>
       <div class="path-grid">
         <div class="path-card path-green">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.4-9.5-9C1 8.5 2.6 5 6 5c2 0 3.4 1.2 4 2.4C10.6 6.2 12 5 14 5c3.4 0 5 3.5 3.5 7-2.5 4.6-9.5 9-9.5 9z"/></svg>
+          <Icon name="heart" />
           <h3>If you smoke</h3>
           <p>NRTs don't work for everyone. See the evidence on lower-risk ways to keep using nicotine.</p>
           <a href="/science">Explore your options →</a>
         </div>
         <div class="path-card path-gold">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2c-1 3-5 4-5 9a5 5 0 0 0 10 0c0-5-4-6-5-9z"/></svg>
+          <Icon name="leaf" />
           <h3>Smokeless tobacco users</h3>
           <p>We also work on harm reduction for India's 200 million smokeless tobacco users.</p>
           <a href="/science">Read the research →</a>
         </div>
         <div class="path-card path-rust">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-2.9 8.2-7 9-4.1-.8-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          <Icon name="shield" />
           <h3>Policymakers &amp; researchers</h3>
           <p>Our advocacy is built on published evidence, litigation, and a decade-long public record.</p>
           <a href="/india/law">See the legal position →</a>
@@ -69,6 +67,11 @@ const yearsActive = new Date().getFullYear() - 2016;
       </div>
     </div>
   </section>
+
+  <PullQuote
+    quote="People smoke for nicotine, but they die from the tar."
+    attribution="Professor Michael Russell, 1976"
+  />
 
   <section class="breakout stats-band">
     <div class="breakout-inner stats-grid">
@@ -154,7 +157,7 @@ const yearsActive = new Date().getFullYear() - 2016;
       position: relative;
       overflow: hidden;
     }
-    .hero-rings {
+    .hero :global(.hero-rings) {
       position: absolute;
       top: 50%;
       right: -8%;
@@ -166,8 +169,7 @@ const yearsActive = new Date().getFullYear() - 2016;
       color: var(--accent-light);
       opacity: 0.35;
     }
-    .hero-rings circle, .hero-rings line { fill: none; stroke: currentColor; stroke-width: 1; }
-    .hero-rings circle:nth-child(2) { color: var(--gold-light); opacity: 0.8; }
+    .hero :global(.hero-rings circle:nth-child(2)) { color: var(--gold-light); opacity: 0.8; }
     .hero-inner { max-width: 46rem; position: relative; }
     .hero .eyebrow { color: var(--gold-light); }
     .hero h1 {
@@ -211,18 +213,18 @@ const yearsActive = new Date().getFullYear() - 2016;
       border-top: 4px solid;
       box-shadow: 0 1px 3px rgba(20,25,20,0.06);
     }
-    .path-card svg { width: 2rem; height: 2rem; margin-bottom: 1rem; }
+    .path-card :global(svg) { width: 2rem; height: 2rem; margin-bottom: 1rem; }
     .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
     .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
     .path-card a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
     .path-green { border-color: var(--accent); }
-    .path-green svg { color: var(--accent); }
+    .path-green :global(svg) { color: var(--accent); }
     .path-green a { color: var(--accent-dark); }
     .path-gold { border-color: var(--gold); }
-    .path-gold svg { color: var(--gold); }
+    .path-gold :global(svg) { color: var(--gold); }
     .path-gold a { color: var(--gold-dark); }
     .path-rust { border-color: var(--rust); }
-    .path-rust svg { color: var(--rust); }
+    .path-rust :global(svg) { color: var(--rust); }
     .path-rust a { color: var(--rust-dark); }
     @media (max-width: 780px) {
       .path-grid { grid-template-columns: 1fr; }

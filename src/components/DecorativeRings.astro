@@ -1,0 +1,22 @@
+---
+// Decorative concentric-ring motif echoing the AVI logo's circular badge.
+// A photo-free way to give a hero/section some visual weight — used on
+// the homepage, reusable anywhere else that wants the same device.
+interface Props {
+  class?: string;
+}
+const { class: extraClass = '' } = Astro.props;
+---
+<svg class={`decorative-rings ${extraClass}`} viewBox="0 0 500 500" aria-hidden="true">
+  <circle cx="250" cy="250" r="240" />
+  <circle cx="250" cy="250" r="185" />
+  <circle cx="250" cy="250" r="130" />
+  <line x1="250" y1="10" x2="250" y2="490" />
+</svg>
+<style>
+  .decorative-rings circle, .decorative-rings line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+  }
+</style>

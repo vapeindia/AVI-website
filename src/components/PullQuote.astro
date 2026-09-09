@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  quote: string;
+  attribution: string;
+}
+const { quote, attribution } = Astro.props;
+---
+<figure class="pull-quote">
+  <Icon name="quote" class="pull-quote-mark" />
+  <blockquote>{quote}</blockquote>
+  <figcaption>— {attribution}</figcaption>
+</figure>
+<style>
+  .pull-quote {
+    margin: 0;
+    padding: 2.5rem 0;
+    text-align: center;
+  }
+  .pull-quote :global(.pull-quote-mark) {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 1rem;
+  }
+  .pull-quote blockquote {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    line-height: 1.35;
+    color: var(--ink);
+    max-width: 38rem;
+    margin: 0 auto;
+  }
+  .pull-quote figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+</style>

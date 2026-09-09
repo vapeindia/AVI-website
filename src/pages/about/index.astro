@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 ---
 <Base title="About" description="Who AVI is, how it works, and how it is funded.">
   <h1>About AVI</h1>
@@ -7,13 +8,33 @@ import Base from '../../layouts/Base.astro';
   <p>
     Founded in 2016, the Association of Vapers India (AVI) is now in its
     second decade as India's leading consumer advocacy voice for tobacco
-    harm reduction (THR) — founded by former smokers who quit through
-    vaping, and working for the right of India's tobacco users to access
-    lower-risk alternatives to combustible tobacco. Our focus has expanded
-    to include smokeless nicotine products — nicotine pouches and snus —
-    given that an estimated 200 million Indians use smokeless tobacco,
-    roughly twice the number who smoke.
+    harm reduction (THR) — a group founded by former smokers who quit
+    through vaping, working for the right of India's tobacco users to
+    access lower-risk alternatives to combustible tobacco. Our focus has
+    expanded to include smokeless nicotine products — nicotine pouches and
+    snus — given that an estimated 200 million Indians use smokeless
+    tobacco, roughly twice the number who smoke.
   </p>
+
+  <p>
+    AVI is not a lone effort. It's one of roughly 50 consumer advocacy
+    organisations for safer nicotine products active worldwide, most of
+    them volunteer-run on shoestring budgets, organised under regional
+    coalitions — Europe, Africa, Latin America and Asia-Pacific each have
+    one — that in turn sit under the International Network of Nicotine
+    Consumer Organisations (INNCO), a global federation with UN observer
+    status. AVI has represented Indian and Global South consumers at that
+    level directly, including at the Global Forum on Nicotine and WHO
+    Framework Convention on Tobacco Control conferences — work aimed at
+    keeping India's actual experience, not just Western tobacco-control
+    models, in front of the people who set global policy.
+  </p>
+
+  <div class="stat-row">
+    <div><Icon name="scale" /><strong>8</strong><span>court cases fought since 2017</span></div>
+    <div><Icon name="megaphone" /><strong>60+</strong><span>press features</span></div>
+    <div><Icon name="chart" /><strong>10+</strong><span>years of advocacy</span></div>
+  </div>
 
   <p>
     Over ten years, AVI has built a track record few consumer bodies
@@ -21,25 +42,11 @@ import Base from '../../layouts/Base.astro';
     litigation across more Indian courts than any other THR advocacy
     group, built a citizen movement that has taken its case directly to
     government and the public, and helped carry India's experience — good
-    and bad — onto the international stage, where restrictive,
-    Western-designed tobacco-control models are too often exported to
-    lower-income countries without regard for local reality. See our
+    and bad — onto the international stage. See our
     <a href="/litigation">litigation</a> and
     <a href="/press">press coverage</a> for the documented record of this
     work, and our <a href="/testimonials">testimonials</a> page for
     accounts from the Indians this work has been for all along.
-  </p>
-
-  <p>
-    AVI was founded by <strong>Samrat Chowdhery</strong>, who continues to
-    direct the organisation. Samrat is the past president of the
-    International Network of Nicotine Consumer Organisations (INNCO), which
-    represents advocacy bodies across dozens of countries with UN observer
-    status, and has represented Indian and Global South consumers at
-    international forums including the Global Forum on Nicotine and the WHO
-    Framework Convention on Tobacco Control conferences — work that has
-    repeatedly put Indian THR advocacy, rather than only Western
-    experience, in front of global policymakers.
   </p>
 
   <!--
@@ -51,15 +58,24 @@ import Base from '../../layouts/Base.astro';
   -->
 
   <h2>What we do</h2>
-  <p>
-    AVI's work over the past decade has centred on three activities:
-    organising and fighting legal challenges to state and national bans on
-    safer nicotine products, public correction of misinformation in media
-    coverage of vaping and THR, and building an accessible evidence library
-    on tobacco harm reduction for policymakers, journalists and the public.
-    See our <a href="/litigation">litigation</a> and
-    <a href="/press">press coverage</a> for the record of this work.
-  </p>
+  <div class="what-we-do-grid">
+    <div>
+      <Icon name="scale" />
+      <h3>Litigation</h3>
+      <p>Organising and fighting legal challenges to state and national bans on safer nicotine products.</p>
+    </div>
+    <div>
+      <Icon name="megaphone" />
+      <h3>Public correction</h3>
+      <p>Correcting misinformation in media coverage of vaping and tobacco harm reduction.</p>
+    </div>
+    <div>
+      <Icon name="document" />
+      <h3>Evidence library</h3>
+      <p>Building an accessible record of research for policymakers, journalists and the public.</p>
+    </div>
+  </div>
+  <p>See our <a href="/litigation">litigation</a> and <a href="/press">press coverage</a> for the record of this work.</p>
 
   <h2>How AVI is funded and governed</h2>
   <p>
@@ -67,9 +83,9 @@ import Base from '../../layouts/Base.astro';
     support of AVI's advocacy work are received and accounted for through
     <strong>Harm Reduction Policy &amp; Research Pvt. Ltd. (HRPR)</strong>,
     a private limited company registered with the Ministry of Corporate
-    Affairs, of which Samrat Chowdhery is director. This arrangement keeps
-    contributions on the books of an audited, taxed entity rather than a
-    personal account.
+    Affairs. This arrangement keeps contributions on the books of an
+    audited, taxed entity rather than a personal account. AVI's founding
+    director, Samrat Chowdhery, also directs HRPR.
   </p>
 
   <p>
@@ -84,4 +100,33 @@ import Base from '../../layouts/Base.astro';
     work is considered only as contracted, invoiced project work — see
     <a href="/contribute">Contribute</a> for what this means in practice.
   </p>
+
+  <style>
+    .stat-row {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-row > div { display: flex; align-items: center; gap: 0.6rem; }
+    .stat-row :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); flex-shrink: 0; }
+    .stat-row strong { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); }
+    .stat-row span { font-size: 0.85rem; color: var(--muted); }
+
+    .what-we-do-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .what-we-do-grid :global(svg) { width: 1.75rem; height: 1.75rem; color: var(--accent); margin-bottom: 0.5rem; }
+    .what-we-do-grid h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+    .what-we-do-grid p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 640px) {
+      .what-we-do-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </Base>
