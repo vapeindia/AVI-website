@@ -163,6 +163,21 @@ etc.) needed before submissions open a review PR and send mail. **Update
 half verified end-to-end; email half still blocked on Resend domain
 verification, in progress — see the Hosting/DNS section further down).
 
+**Press coverage recheck (2026-09-09):** searching specifically on Samrat
+Chowdhery's name (not just "AVI"/"vapeindia") surfaced 10 legitimate,
+previously-uncaptured bylines — 9 at Filter magazine (2018-2024, where he's
+a recurring contributor covering India and broader Global South THR
+policy) and 1 at Tobacco Reporter — now added to `press/`. Most were added
+from title + date only (found via Filter's author index page, not each
+article's full text) — worth a follow-up pass to read each in full and
+add a real one-line summary once someone has time, rather than treating
+the current placeholder notes as final. **Note for future sessions:**
+per an explicit 2026-09-09 site-owner instruction, Samrat Chowdhery's name
+and photo should stay understated in AVI's *own* copy (About page, hero
+sections, etc. — done, see below) — that instruction does NOT extend to
+scrubbing his name from accurate third-party byline/press records, which
+is what this section is for.
+
 **Media coverage research (2026-09-07):** a web search pass found ~10
 genuine third-party articles/interviews mentioning AVI or Samrat Chowdhery
 by name (Deccan Chronicle, Outlook India, Ecigclick, The Week/PTI, Filter,
