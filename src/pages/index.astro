@@ -74,18 +74,15 @@ const yearsActive = new Date().getFullYear() - 2016;
   />
 
   <section class="breakout stats-band">
-    <div class="breakout-inner stats-grid">
+    <div class="breakout-inner global-stat">
       <div class="big-stat">
-        <strong>{litigationCount}</strong>
-        <span>Court cases fought since 2017 — Karnataka, Delhi, J&amp;K, Tamil Nadu, and an active case against the airport flight ban.</span>
-      </div>
-      <div class="big-stat">
-        <strong>{pressCount}+</strong>
-        <span>Press features — quoted, interviewed and bylined from Deccan Chronicle to international outlets.</span>
-      </div>
-      <div class="big-stat">
-        <strong>{yearsActive}+</strong>
-        <span>Years of advocacy — founded 2016 by former smokers who quit through vaping.</span>
+        <strong>200M+</strong>
+        <span>
+          People worldwide now use safer nicotine products — vapes, heated
+          tobacco, snus and nicotine pouches — a fifth to a quarter of all
+          smokers globally, per
+          <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR's 2026 Global State of Tobacco Harm Reduction report</a>.
+        </span>
       </div>
     </div>
   </section>
@@ -232,19 +229,18 @@ const yearsActive = new Date().getFullYear() - 2016;
 
     /* Stats band */
     .stats-band { background: var(--accent-dark); color: #fff; padding: 3.5rem 0; }
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .global-stat { display: flex; justify-content: center; }
+    .global-stat .big-stat { max-width: 34rem; text-align: center; }
     .big-stat strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 3.25rem;
+      font-size: 3.75rem;
       color: var(--gold-light);
       line-height: 1;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.75rem;
     }
-    .big-stat span { font-size: 0.92rem; color: #cfe0d8; line-height: 1.5; }
-    @media (max-width: 780px) {
-      .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
-    }
+    .big-stat span { font-size: 0.98rem; color: #cfe0d8; line-height: 1.6; }
+    .big-stat span a { color: var(--gold-light); }
 
     /* Feed section */
     .feed-section { max-width: var(--max-w-wide); margin: 3.5rem auto 0; padding: 0 1.5rem; }
