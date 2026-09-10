@@ -5,6 +5,65 @@ import { getCollection } from 'astro:content';
 const items = (await getCollection('research', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.year - a.data.year);
 
+// Curated topline evidence — a fixed, hand-picked set of major bodies and
+// headline findings, for people who want the gist without reading a
+// research paper. A far more exhaustive list of 180+ international
+// medical, scientific and government bodies with public positions on THR
+// (compiled with sourcing/wayback links) is linked at the end of this
+// section rather than reproduced here in full.
+const topline = [
+  {
+    body: 'Cochrane (living systematic review, 2025)',
+    finding: 'High-certainty evidence: per 100 smokers trying to quit, about 8–10 succeed using nicotine e-cigarettes, versus 6 using nicotine replacement therapy (gums, patches) and 4 with no support.',
+    url: 'https://www.cochrane.org/evidence/CD010216_can-electronic-cigarettes-help-people-stop-smoking-and-do-they-have-any-unwanted-effects-when-used',
+  },
+  {
+    body: 'JAMA / Society for Research on Nicotine and Tobacco (2026)',
+    finding: 'A consensus statement from SRNT’s Treatment Research Network recommends clinicians discuss nicotine e-cigarettes as a cessation option with adult smokers, alongside other evidence-based treatments.',
+    url: 'https://doi.org/10.1001/jama.2026.13087',
+  },
+  {
+    body: 'UK Office for Health Improvement & Disparities',
+    finding: 'Vaping poses a small fraction of the risks of smoking — the UK government’s standing evidence-review estimate is at least 95% less harmful.',
+    url: 'https://www.gov.uk/government/publications/vaping-in-england-evidence-update',
+  },
+  {
+    body: 'Royal College of Physicians (UK)',
+    finding: 'The hazard to health from long-term vapour inhalation is unlikely to exceed 5% of the harm from smoking tobacco.',
+    url: 'https://www.rcplondon.ac.uk/projects/outputs/nicotine-without-smoke-tobacco-harm-reduction',
+  },
+  {
+    body: 'US National Academies of Sciences, Engineering and Medicine',
+    finding: 'Exclusive e-cigarette use is likely to be far less harmful than combustible tobacco cigarette use across all disease outcomes examined.',
+    url: 'https://www.nap.edu/catalog/24952',
+  },
+  {
+    body: 'US Food and Drug Administration',
+    finding: 'The FDA has authorised specific reduced-risk and modified-risk marketing claims for e-cigarette, heated-tobacco and nicotine-pouch products found, after scientific review, to reduce exposure to harmful chemicals versus cigarettes.',
+    url: 'https://www.fda.gov/tobacco-products/advertising-and-promotion/modified-risk-granted-orders',
+  },
+  {
+    body: 'World Health Organization, Regional Office for Europe',
+    finding: 'Completely substituting electronic nicotine delivery systems for combustible cigarettes reduces users’ exposure to numerous toxicants found in cigarette smoke.',
+    url: 'https://www.who.int/europe',
+  },
+  {
+    body: 'New Zealand Ministry of Health',
+    finding: 'Vaping products carry much less risk than smoking cigarettes — official position underpinning NZ’s regulated-access approach.',
+    url: 'https://www.health.govt.nz/',
+  },
+  {
+    body: 'Health Canada',
+    finding: 'Switching completely from smoking to vaping is a less harmful option than continuing to smoke.',
+    url: 'https://www.canada.ca/en/health-canada.html',
+  },
+  {
+    body: 'Cancer Research UK',
+    finding: 'Vaping is far less harmful than smoking, and switching completely could benefit a smoker’s health.',
+    url: 'https://www.cancerresearchuk.org/',
+  },
+];
+
 const studyTypeLabel: Record<string, string> = {
   'systematic-review': 'Systematic review',
   'meta-analysis': 'Meta-analysis',
@@ -28,16 +87,44 @@ const substanceLabel: Record<string, string> = {
       <p class="eyebrow">The evidence base</p>
       <h1>The Science</h1>
       <p class="science-sub">
-        A living library of research on e-cigarettes, nicotine pouches, snus
-        and tobacco harm reduction. New studies are added automatically from
-        PubMed and Europe PMC, in plain language, and reviewed before
-        publishing.
+        Two ways into the evidence: a quick topline of what the major
+        medical, scientific and regulatory bodies have concluded, and below
+        it a living library of individual studies for anyone who wants to
+        go deeper.
       </p>
     </div>
   </section>
 
   <div class="science-body">
-    <div class="science-grid">
+    <section class="topline-section">
+      <div class="section-head">
+        <h2>Topline: what the major bodies say</h2>
+        <p>A curated sample — not an exhaustive list. See the fuller compilation of 180+ international bodies' positions, with sourcing, linked below.</p>
+      </div>
+      <div class="topline-grid">
+        {topline.map((t) => (
+          <a class="topline-card" href={t.url} target="_blank" rel="noopener">
+            <h3>{t.body}</h3>
+            <p>{t.finding}</p>
+          </a>
+        ))}
+      </div>
+      <p class="topline-more">
+        For a fuller, sourced compilation of 180+ international medical,
+        scientific and government bodies' public positions on tobacco harm
+        reduction, see this
+        <a href="https://bit.ly/vape_orgs" target="_blank" rel="noopener">community-maintained reference list</a>.
+        AVI did not compile it and cannot vouch for every entry — verify
+        anything you plan to rely on against the body's own site.
+      </p>
+    </section>
+
+    <section class="live-section">
+      <div class="section-head">
+        <h2>Ongoing research</h2>
+        <p>Individual studies, added automatically from PubMed and Europe PMC, summarised in plain language and reviewed before publishing.</p>
+      </div>
+      <div class="science-grid">
       {items.map((item) => (
         <article class="science-card">
           <div class="card-top">
@@ -53,7 +140,8 @@ const substanceLabel: Record<string, string> = {
           <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
         </article>
       ))}
-    </div>
+      </div>
+    </section>
   </div>
 
   <style>
@@ -69,7 +157,31 @@ const substanceLabel: Record<string, string> = {
     .science-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .science-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0; }
 
-    .science-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
+    .science-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .section-head { margin-bottom: 1.75rem; }
+    .section-head h2 { margin: 0 0 0.35rem; font-size: 1.5rem; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .topline-section { margin-bottom: 3.5rem; }
+    .topline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .topline-card {
+      display: block;
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.1rem 1.25rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .topline-card h3 { margin: 0 0 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--accent-dark); }
+    .topline-card p { margin: 0; font-size: 0.88rem; color: var(--ink); line-height: 1.55; }
+    .topline-more { font-size: 0.82rem; color: var(--muted); max-width: 46rem; }
+
     .science-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import DecorativeRings from '../components/DecorativeRings.astro';
 import PullQuote from '../components/PullQuote.astro';
 import { getCollection } from 'astro:content';
@@ -42,6 +43,31 @@ const yearsActive = new Date().getFullYear() - 2016;
         Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> ·
         <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
       </p>
+    </div>
+  </section>
+
+  <section class="breakout paths">
+    <div class="breakout-inner">
+      <div class="path-grid">
+        <div class="path-card path-green">
+          <Icon name="heart" />
+          <h3>If you smoke, or use gutka, khaini or other toxic SLT</h3>
+          <p>See the evidence on lower-risk ways to keep using nicotine, and how people have quit combustible tobacco successfully with them.</p>
+          <a href="/quit">How to quit with safer alternatives →</a>
+        </div>
+        <div class="path-card path-gold">
+          <Icon name="scale" />
+          <h3>Policymakers</h3>
+          <p>The global policy case for tobacco harm reduction — what's working elsewhere, what isn't, and what it means for India.</p>
+          <a href="/policy">See the policy case →</a>
+        </div>
+        <div class="path-card path-rust">
+          <Icon name="megaphone" />
+          <h3>Media</h3>
+          <p>AVI has been quoted, interviewed and bylined on tobacco harm reduction in India for over a decade. We're always available for comment.</p>
+          <a href="/press">Press coverage &amp; contact →</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -184,6 +210,33 @@ const yearsActive = new Date().getFullYear() - 2016;
       color: #79867e;
     }
     .hero-stats-source a { color: #9fada2; }
+
+    /* Three paths */
+    .paths { background: var(--paper); padding: 4rem 0 3.5rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .path-card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 1.75rem 1.5rem;
+      border-top: 4px solid;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
+    }
+    .path-card :global(svg) { width: 2rem; height: 2rem; margin-bottom: 1rem; }
+    .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
+    .path-card a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .path-green { border-color: var(--accent); }
+    .path-green :global(svg) { color: var(--accent); }
+    .path-green a { color: var(--accent-dark); }
+    .path-gold { border-color: var(--gold); }
+    .path-gold :global(svg) { color: var(--gold); }
+    .path-gold a { color: var(--gold-dark); }
+    .path-rust { border-color: var(--rust); }
+    .path-rust :global(svg) { color: var(--rust); }
+    .path-rust a { color: var(--rust-dark); }
+    @media (max-width: 780px) {
+      .path-grid { grid-template-columns: 1fr; }
+    }
 
     /* Stats band */
     .stats-band { background: var(--accent-dark); color: #fff; padding: 3.5rem 0; }

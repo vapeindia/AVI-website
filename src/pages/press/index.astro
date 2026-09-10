@@ -31,14 +31,28 @@ const typeLabel: Record<string, string> = {
       <p class="eyebrow">A decade in the press</p>
       <h1>Press &amp; media coverage</h1>
       <p class="press-sub">
-        For over a decade, AVI has been a go-to source for Indian and
-        international outlets covering tobacco harm reduction — quoted,
+        The scientific evidence now overwhelmingly favours tobacco harm
+        reduction as public health policy — see our
+        <a href="/science">evidence library</a>. For over a decade, AVI has
+        been instrumental in furthering that debate in India: quoted,
         interviewed and bylined in outlets from Deccan Chronicle and Outlook
         India to trade press like 2Firsts and Filter. Below is that
         independent coverage, alongside AVI's own public statements, letters
         and rebuttals — headline and gist first, so you don't have to open
-        every link to know what it says.
+        every link to know what it says. We're always available to provide
+        further insight for a story, including where it means balancing
+        views on the other side of this debate.
       </p>
+      <div class="press-contact">
+        <div>
+          <span class="contact-label">Press queries</span>
+          <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a>
+        </div>
+        <div>
+          <span class="contact-label">For faster response — WhatsApp Samrat Chowdhery, Director</span>
+          <a href="https://wa.me/919920076599" target="_blank" rel="noopener">+91 99200 76599</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -92,6 +106,17 @@ const typeLabel: Record<string, string> = {
         ))}
       </div>
     </section>
+
+    <section class="photo-strip">
+      <figure>
+        <img src="/images/press-club-bangalore.jpg" alt="AVI presenting research and case studies on e-cigarettes/ENDS at a press conference, Press Club of Bangalore" loading="lazy" />
+        <figcaption>Presenting research at the Press Club of Bangalore</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting with the Union Minister of State for Health" loading="lazy" />
+        <figcaption>An AVI delegation meeting with the Union Minister of State for Health</figcaption>
+      </figure>
+    </section>
   </div>
 
   <style>
@@ -105,7 +130,18 @@ const typeLabel: Record<string, string> = {
     }
     .press-hero { background: var(--ink-black); color: #f4f1e6; padding: 3.5rem 0 3rem; }
     .press-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
-    .press-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0; }
+    .press-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0 0 1.75rem; }
+    .press-sub a { color: var(--gold-light); }
+    .press-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #333c34;
+      max-width: 42rem;
+    }
+    .contact-label { display: block; font-size: 0.78rem; color: #9fada2; margin-bottom: 0.3rem; }
+    .press-contact a { color: var(--gold-light); font-weight: 600; text-decoration: none; }
 
     .press-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
     .press-section + .press-section { margin-top: 3.5rem; }
@@ -162,5 +198,15 @@ const typeLabel: Record<string, string> = {
     .gist :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
     .pending-link { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: auto; }
+
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      gap: 1.5rem;
+      margin: 3.5rem 0 0;
+    }
+    .photo-strip figure { margin: 0; }
+    .photo-strip img { width: 100%; height: 16rem; object-fit: cover; border-radius: 8px; display: block; }
+    .photo-strip figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); }
   </style>
 </Base>
