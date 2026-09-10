@@ -58,7 +58,13 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
       color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
-    .lit-hero { background: var(--ink-black); color: #f4f1e6; padding: 3.5rem 0 3rem; }
+    .lit-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
     .lit-hero h1 { color: #fff; margin: 0 0 1.25rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .lit-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0 0 1rem; }
     .lit-sub:last-child { margin-bottom: 0; }

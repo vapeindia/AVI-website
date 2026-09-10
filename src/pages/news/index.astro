@@ -54,7 +54,13 @@ const topicLabel: Record<string, string> = {
       color: var(--gold-dark);
       margin: 0 0 0.75rem;
     }
-    .news-hero { background: var(--accent-dark); color: #fff; padding: 3.5rem 0 3rem; }
+    .news-hero {
+      background: linear-gradient(rgba(18,60,49,0.85), rgba(18,60,49,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center 70%;
+      color: #fff;
+      padding: 3.5rem 0 3rem;
+    }
     .news-hero .eyebrow { color: var(--gold-light); }
     .news-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .news-sub { color: #cfe0d8; max-width: 42rem; font-size: 1.05rem; margin: 0; }

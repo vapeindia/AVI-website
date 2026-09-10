@@ -107,15 +107,37 @@ const typeLabel: Record<string, string> = {
       </div>
     </section>
 
-    <section class="photo-strip">
-      <figure>
-        <img src="/images/press-club-bangalore.jpg" alt="AVI presenting research and case studies on e-cigarettes/ENDS at a press conference, Press Club of Bangalore" loading="lazy" />
-        <figcaption>Presenting research at the Press Club of Bangalore</figcaption>
-      </figure>
-      <figure>
-        <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting with the Union Minister of State for Health" loading="lazy" />
-        <figcaption>An AVI delegation meeting with the Union Minister of State for Health</figcaption>
-      </figure>
+    <section class="campaigns-section">
+      <div class="section-head">
+        <h2>AVI campaigns, on the ground</h2>
+        <p>Press coverage and statements are one record of this work — the on-the-ground campaigning behind them is another.</p>
+      </div>
+      <div class="photo-strip">
+        <figure>
+          <img src="/images/campaigns/six-city-protest.jpg" alt="Vapers holding placards reading 'Vaping is 95% safer than smoking' and listing Delhi, Kolkata, Mumbai, Hyderabad, Bengaluru and Chennai, at a coordinated multi-city protest against the ENDS ban" loading="lazy" />
+          <figcaption>A coordinated protest against the ENDS ban across six cities — Delhi, Kolkata, Mumbai, Hyderabad, Bengaluru and Chennai</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/campaigns/delhi-policy-dialogue.jpg" alt="Samrat Chowdhery being interviewed by a television crew at an AVI Policy Dialogue on E-Cigarettes, New Delhi" loading="lazy" />
+          <figcaption>Media interview at AVI's Policy Dialogue on E-Cigarettes, New Delhi</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/campaigns/chandigarh-presser.jpg" alt="AVI press conference on tobacco harm reduction, Chandigarh" loading="lazy" />
+          <figcaption>Press conference on tobacco harm reduction, Chandigarh</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/campaigns/city-presser-2.jpg" alt="AVI press conference on tobacco harm reduction, part of a multi-city series" loading="lazy" />
+          <figcaption>Part of the same multi-city press conference series</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/press-club-bangalore.jpg" alt="AVI presenting research and case studies on e-cigarettes/ENDS at a press conference, Press Club of Bangalore" loading="lazy" />
+          <figcaption>Presenting research at the Press Club of Bangalore</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting with the Union Minister of State for Health" loading="lazy" />
+          <figcaption>An AVI delegation meeting with the Union Minister of State for Health</figcaption>
+        </figure>
+      </div>
     </section>
   </div>
 
@@ -128,7 +150,13 @@ const typeLabel: Record<string, string> = {
       color: var(--gold-dark);
       margin: 0 0 0.75rem;
     }
-    .press-hero { background: var(--ink-black); color: #f4f1e6; padding: 3.5rem 0 3rem; }
+    .press-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
     .press-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .press-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0 0 1.75rem; }
     .press-sub a { color: var(--gold-light); }
@@ -199,14 +227,14 @@ const typeLabel: Record<string, string> = {
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
     .pending-link { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: auto; }
 
+    .campaigns-section { margin: 3.75rem 0 0; }
     .photo-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
       gap: 1.5rem;
-      margin: 3.5rem 0 0;
     }
     .photo-strip figure { margin: 0; }
-    .photo-strip img { width: 100%; height: 16rem; object-fit: cover; border-radius: 8px; display: block; }
+    .photo-strip img { width: 100%; height: 14rem; object-fit: cover; border-radius: 8px; display: block; }
     .photo-strip figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); }
   </style>
 </Base>

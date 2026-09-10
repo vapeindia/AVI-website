@@ -139,7 +139,12 @@ import Icon from '../../components/Icon.astro';
       color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
-    .law-hero { background: var(--ink-black); padding: 3.25rem 0 2.75rem; }
+    .law-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center 60%;
+      padding: 3.25rem 0 2.75rem;
+    }
     .law-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
 
     .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }

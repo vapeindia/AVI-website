@@ -177,11 +177,46 @@ import Icon from '../components/Icon.astro';
         <Icon name="document" />
         <h2>International backing for this position</h2>
       </div>
+
+      <div class="innco-block">
+        <h3>INNCO's LMIC position paper</h3>
+        <p class="lead">
+          "10 Reasons Why Blanket Bans of E-Cigarettes and HTPs in Low- and
+          Middle-Income Countries Are Not Fit for Purpose" — published by
+          the International Network of Nicotine Consumer Organisations, the
+          global federation AVI's own director, Samrat Chowdhery, currently
+          presides over. Written in direct response to a 2020 call by The
+          Union (a Bloomberg tobacco-control partner) for LMICs to ban ENDS
+          and HTPs outright.
+        </p>
+        <blockquote class="innco-quote">
+          "In India for example, there are significantly more users of
+          smokeless tobacco, often high-risk non-food grade smokeless
+          tobacco, than cigarette smokers. Traditional cessation services
+          may not work in such an environment and for all tobacco users
+          &hellip; on behalf of those in LMICs, we say loud and clear —
+          nothing about us without us."
+          <cite>— Samrat Chowdhery, Foreword</cite>
+        </blockquote>
+        <ol class="innco-reasons">
+          <li>Bans are an overly simplistic solution to a complex issue and will not work</li>
+          <li>Prioritising the banning of reduced harm alternatives over cigarettes is illogical</li>
+          <li>Reduction and substitution are valid goals for smokers in LMICs</li>
+          <li>People who smoke have the right to choose to reduce their own risk of harm</li>
+          <li>Reduced harm alternatives can significantly contribute to the aims of global tobacco control</li>
+          <li>Lack of research in LMICs is not a valid reason to ban reduced harm alternatives</li>
+          <li>The prohibitionist approach in LMICs is outdated, unrealistic and condescending</li>
+          <li>Bans in LMICs lead to illicit markets, more crime, and no tax revenue — with real examples from Bhutan, Singapore, Mexico, Brazil and Thailand</li>
+          <li>Banning reduced harm alternatives leads people back to smoking and greater harm — South Korea and Mexico both saw this after tightening HTP/ENDS rules</li>
+          <li>Blanket bans in LMICs are a form of "philanthropic colonialism"</li>
+        </ol>
+        <div class="innco-links">
+          <a href="/documents/innco-lmic-10-reasons.pdf" target="_blank" rel="noopener">Read the full paper (PDF) →</a>
+          <a href="https://web.archive.org/web/20240919052445/https://innco.org/why-bans-in-low-middle-income-countries-dont-work/" target="_blank" rel="noopener">Original publication (archived) →</a>
+        </div>
+      </div>
+
       <ul class="backing-list">
-        <li>
-          <strong>INNCO's LMIC position paper</strong> — "10 Reasons Why Blanket Bans of E-Cigarettes and HTPs in Low- and Middle-Income Countries Are Not Fit for Purpose," from the global federation of consumer advocacy organisations AVI's own director currently leads.
-          <a href="https://innco.org/" target="_blank" rel="noopener">innco.org →</a>
-        </li>
         <li>
           <strong>180+ documented positions</strong> from international medical, scientific and government bodies backing THR as a public-health strategy — WHO Europe, Cochrane, national medical academies, cancer and heart-disease bodies across a dozen countries.
           <a href="https://bit.ly/vape_orgs" target="_blank" rel="noopener">See the compiled list →</a> (AVI did not compile this and cannot vouch for every entry individually)
@@ -204,10 +239,19 @@ import Icon from '../components/Icon.astro';
         <a href="/press">letters, statements and rebuttals documented in our press archive</a>,
         and litigation organised across four states challenging bans on the
         evidentiary grounds set out on this page — see our
-        <a href="/litigation">full litigation record</a>. A complete inventory of every
-        submission sent isn't yet published on this site as a standalone
-        record — if you're a policymaker or researcher and want the full
-        history, contact us directly (see below) and we'll provide it.
+        <a href="/litigation">full litigation record</a>. One example: a
+        formal submission to the Ministry of Health and Family Welfare's
+        Tobacco Control Division, dated 8 November 2019, responding directly
+        to the draft PECA bill with a 34-source evidence citation —
+        <a href="/documents/avi-submission-peca-bill-2019.pdf" target="_blank" rel="noopener">read the submission (PDF) →</a>.
+        AVI has also organised on-the-ground public campaigns, including a
+        multi-city "Tobacco Harm Reduction" press conference series and
+        protests across six metros against the 2019/2020 ban — see the
+        <a href="/press">campaigns section of our press page</a>. A complete
+        inventory of every submission sent isn't yet published on this site
+        as a standalone record — if you're a policymaker or researcher and
+        want the full history, contact us directly (see below) and we'll
+        provide it.
       </p>
     </section>
 
@@ -237,7 +281,13 @@ import Icon from '../components/Icon.astro';
       margin: 0 0 0.75rem;
     }
     .eyebrow-light { color: var(--gold-light); }
-    .hero { background: var(--ink-black); color: #f4f1e6; padding: 4rem 0 3.5rem; }
+    .hero {
+      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 4rem 0 3.5rem;
+    }
     .hero-inner { max-width: 50rem; }
     .hero h1 { color: #fff; font-size: clamp(1.8rem, 3.4vw, 2.5rem); margin: 0 0 1.1rem; }
     .hero-sub { color: #cdd6cf; font-size: 1.05rem; margin: 0; max-width: 42rem; }
@@ -275,6 +325,33 @@ import Icon from '../components/Icon.astro';
     .country-card h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
     .country-card p { margin: 0 0 0.85rem; font-size: 0.9rem; line-height: 1.55; color: var(--ink); }
     .country-card a { font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+
+    .innco-block {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 1.75rem 2rem;
+      max-width: 52rem;
+      margin-bottom: 1.75rem;
+    }
+    .innco-block h3 { margin: 0 0 0.75rem; font-size: 1.15rem; }
+    .innco-block .lead { font-size: 0.94rem; margin-bottom: 1.25rem; }
+    .innco-quote {
+      margin: 0 0 1.5rem;
+      padding: 0.25rem 0 0.25rem 1.25rem;
+      border-left: 3px solid var(--gold);
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .innco-quote cite { display: block; margin-top: 0.6rem; font-family: var(--font-sans); font-style: normal; font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+    .innco-reasons { margin: 0 0 1.5rem; padding-left: 1.4rem; font-size: 0.9rem; line-height: 1.65; color: var(--ink); }
+    .innco-reasons li { margin-bottom: 0.4rem; }
+    .innco-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .innco-links a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
 
     .backing-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; max-width: 50rem; }
     .backing-list li {
