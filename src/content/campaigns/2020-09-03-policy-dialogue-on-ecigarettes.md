@@ -8,6 +8,7 @@ photos:
   - src: "/images/campaigns/delhi-policy-dialogue.jpg"
     alt: "Samrat Chowdhery being interviewed by a television crew at an AVI Policy Dialogue on E-Cigarettes, New Delhi"
     caption: "Media interview at AVI's Policy Dialogue on E-Cigarettes, New Delhi"
+    focus: "30% 15%"
 ---
 
 Roughly a year into the national ENDS ban, AVI convened a public policy

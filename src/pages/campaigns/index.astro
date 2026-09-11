@@ -61,7 +61,7 @@ function fmtRange(start: Date, end?: Date) {
             <div class="photo-strip">
               {item.data.photos.map((p) => (
                 <figure>
-                  <img src={p.src} alt={p.alt} loading="lazy" />
+                  <img src={p.src} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
                   {p.caption && <figcaption>{p.caption}</figcaption>}
                 </figure>
               ))}

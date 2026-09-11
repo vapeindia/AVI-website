@@ -171,6 +171,11 @@ const campaigns = defineCollection({
       src: z.string(),
       alt: z.string(),
       caption: z.string().optional(),
+      // CSS object-position for the cropped thumbnail (e.g. "50% 15%") —
+      // only needed when the default centered crop cuts off the subject,
+      // e.g. a full-body shot where a short thumbnail would otherwise crop
+      // to the torso instead of the face.
+      focus: z.string().optional(),
     })).default([]),
   }),
 });
