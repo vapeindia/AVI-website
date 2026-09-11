@@ -240,7 +240,13 @@ const yearsActive = new Date().getFullYear() - 2016;
     }
 
     /* Stats band */
-    .stats-band { background: var(--accent-dark); color: #fff; padding: 3.5rem 0; }
+    .stats-band {
+      background: linear-gradient(rgba(18,60,49,0.92), rgba(18,60,49,0.92)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 3.5rem 0;
+    }
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
     .big-stat strong {
       display: block;
