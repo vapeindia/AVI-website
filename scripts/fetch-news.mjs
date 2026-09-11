@@ -2,12 +2,19 @@
 /**
  * Pulls candidate news items from RSS feeds (Google Alerts + outlet feeds
  * listed in feeds.json), filters out commercial/vendor domains (PECA
- * advertising-risk guard — see blocklist.json) and, for any feed with a
- * `keywordFilter` array (e.g. Filter/GFN's feed covers all drug policy,
- * not just tobacco/nicotine), off-topic items whose title+snippet match
- * none of those keywords, writes a paraphrased AI summary per item, and
- * creates draft entries under src/content/news/ with `reviewed: false`.
- * A human must review and flip that flag — nothing here auto-publishes.
+ * advertising-risk guard — see blocklist.json), industry press releases
+ * (press-wire-domains.json + launch-language title patterns — see
+ * isIndustryPressRelease() below) and, for any feed with a `keywordFilter`
+ * array (e.g. Filter/GFN's feed covers all drug policy, not just
+ * tobacco/nicotine), off-topic items whose title+snippet match none of
+ * those keywords. Writes a paraphrased AI summary per item and creates
+ * entries under src/content/news/ with `reviewed: true` — as of 2026-09
+ * this pipeline is fully automated (explicit site-owner instruction) and
+ * the GitHub Action commits straight to main, no PR/human gate. `reviewed`
+ * here means "passed the automated filters above," not "a person checked
+ * it" — see the standing disclaimer on the News index page. This is scoped
+ * to `news` only; fetch-research.mjs and the testimonials pipeline are
+ * unchanged and still require human review.
  *
  * Requires ANTHROPIC_API_KEY env var. Run via GitHub Action on a schedule.
  */
@@ -172,7 +179,7 @@ sourceName: ${JSON.stringify(item.sourceName)}
 sourceUrl: ${JSON.stringify(item.url)}
 summary: ${JSON.stringify(ai.summary)}
 topic: ${JSON.stringify(ai.topic)}
-reviewed: false
+reviewed: true
 ---
 `;
 }
@@ -213,7 +220,7 @@ async function main() {
       console.log(`Wrote draft: ${filename}`);
     }
   }
-  console.log(`Done. ${written} new draft news entries written (reviewed: false).`);
+  console.log(`Done. ${written} new news entries written (reviewed: true — passed automated filters, no human gate).`);
 }
 
 main().catch((err) => {

@@ -117,12 +117,59 @@ access control, keep them apart.
   a review PR (no email address in it — see `functions/README.md`).
   `reviewed: false` by default, same gate as `news`/`research`.
 
-Both automated pipelines write `reviewed: false` drafts only; a human (or
-Claude, on explicit instruction) must flip that flag before anything
-appears on a live index page. Never auto-approve. The same rule applies to
-`testimonials` PRs — read every one before flipping the flag; this is
-public-facing user content, and PECA's advertising-risk guard applies to it
-too (no product brand names, purchase links, or vendor mentions).
+`research` and `testimonials` write `reviewed: false` drafts only; a human
+(or Claude, on explicit instruction) must flip that flag before anything
+appears on a live index page. Never auto-approve these two. The same rule
+applies to `testimonials` PRs — read every one before flipping the flag;
+this is public-facing user content, and PECA's advertising-risk guard
+applies to it too (no product brand names, purchase links, or vendor
+mentions).
+
+**`news` is the one exception, as of 2026-09 (explicit site-owner
+instruction): it is fully automated, no human review gate.**
+`scripts/fetch-news.mjs` writes `reviewed: true` directly and the GitHub
+Action (`fetch-news.yml`) commits straight to `main` — no PR. `reviewed`
+on a `news` entry now means "passed the automated filters" (commercial/
+vendor domains via `blocklist.json`, industry press releases via
+`press-wire-domains.json` + launch-language title patterns, and a feed's
+own `keywordFilter`), not "a person checked it." The compensating control
+the site owner asked for is a standing disclaimer on the News index page
+itself: these are auto-generated from a wide pool of Indian and
+international sources and don't reflect AVI's views. Two more layers were
+added the same day, both similarly automated (no PR): `newsDigests` now
+has daily → weekly → monthly digest tiers (`scripts/generate-weekly-
+digest.mjs` / `generate-monthly-digest.mjs`, run by their own GitHub
+Actions on Mondays / the 3rd of each month) that collapse elapsed weeks
+and months into single roundup cards on `/news`, each expandable down to
+the underlying daily digests and article cards. If asked to touch this
+pipeline again: don't reflexively add a review gate back — that would
+contradict the explicit instruction — but do flag it if you spot the
+automated filters letting something through they shouldn't (a product
+promotion, a mis-tagged item), since nothing else is checking anymore.
+
+**News sources (2026-09):** beyond the 6 original Google Alerts
+(`contact@vapeindia.org`) and Filter/Clive Bates, `feeds.json` now also
+pulls Vapers Digest (vapers.org.uk), Vaping Post, Clearing the Air and
+Quit Like Sweden — all real outlet RSS feeds, all tagged `advocacy: true`.
+`vaping360.com`'s `/feed/` was tried and rejected: Cloudflare bot
+protection blocks it even with `-L`, returning a 403 after redirecting to
+the homepage — don't re-add it without checking that's changed.
+**2023-2025 historical backfill (2026-09):** a one-time manual research
+pass (WebSearch/WebFetch, not RSS — Google Alerts and most outlet feeds
+only return recent items, they don't backfill) added 16 real, dated,
+verified stories spread across 2023-2025 (Australia's vaping reforms, the
+UK Tobacco and Vapes Bill's progress through Parliament, Sweden crossing
+the WHO's 5%-smoking "smoke-free" threshold, India e-cigarette seizure
+figures, Philippines/Japan developments, FDA menthol-ban delays, a
+Cochrane review update, WHO FCTC COP10) plus one 2026 item found along the
+way (Adani's Mumbai airport duty-free nicotine-pouch court case, July
+2026). This measurably improved density but is **not exhaustive** — most
+months in that window still have only 1-3 items, well below 2026's
+feed-driven density, because it was a bounded search pass, not a full
+archive trawl of every outlet. A future session with more time could go
+outlet-by-outlet through 2023-2025 archives/sitemaps for a denser pass;
+the sources and search terms used are visible in this session's news
+entries (check each entry's `sourceUrl`) as a starting point.
 
 ## What's built vs. what's genuinely still open
 

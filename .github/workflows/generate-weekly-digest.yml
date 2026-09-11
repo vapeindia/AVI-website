@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   digest:
@@ -24,20 +23,19 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/generate-weekly-digest.mjs
 
-      - name: Open pull request with new weekly digest(s)
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "News: add weekly digest for elapsed week(s)"
-          title: "New weekly news digest"
-          body: |
-            Auto-generated weekly roundup, built only from news items
-            already marked `reviewed: true` (nothing unreviewed feeds
-            into this). Only ever covers a week that has fully elapsed —
-            never the current, in-progress week.
-
-            **Review checklist before approving:**
-            - [ ] Summary is accurate and neutral
-            - [ ] No product promotion
-          branch: auto/weekly-digest
-          add-paths: src/content/news-digests/**
-          delete-branch: true
+      # Fully automated as of 2026-09 (explicit site-owner instruction) — no
+      # PR, no human review gate. Built only from news items already
+      # written by fetch-news.mjs (which screens for commercial/vendor
+      # domains and industry press releases before anything lands), so
+      # nothing unscreened feeds into a weekly rollup either.
+      - name: Commit and push new weekly digest(s)
+        run: |
+          git config user.name "AVI news bot"
+          git config user.email "contact@vapeindia.org"
+          git add src/content/news-digests
+          if git diff --cached --quiet; then
+            echo "No new weekly digests."
+          else
+            git commit -m "News: add weekly digest for elapsed week(s)"
+            git push
+          fi

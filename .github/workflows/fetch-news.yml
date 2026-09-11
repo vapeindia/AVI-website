@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   fetch:
@@ -27,21 +26,21 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/fetch-news.mjs
 
-      - name: Open pull request with new drafts
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "News: add new draft entries for review"
-          title: "New news drafts — daily fetch"
-          body: |
-            Auto-gathered candidate news items, paraphrased and classified.
-            Commercial/vendor domains are pre-filtered via
-            scripts/config/blocklist.json. Each entry has `reviewed: false`
-            and will not appear on /news until that's flipped to `true`.
-
-            **Review checklist before approving:**
-            - [ ] No product promotion or purchase links
-            - [ ] Summary is accurate and neutral
-            - [ ] Source is credible
-          branch: auto/fetch-news
-          add-paths: src/content/news/**
-          delete-branch: true
+      # Fully automated as of 2026-09 (explicit site-owner instruction) — no
+      # PR, no human review gate. Commercial/vendor domains, industry press
+      # releases and off-topic items are screened by fetch-news.mjs itself
+      # (blocklist.json, press-wire-domains.json + title patterns,
+      # keywordFilter); the News index carries a standing disclaimer that
+      # these are auto-generated and don't reflect AVI's views. Scoped to
+      # `news` only — research and testimonials still go through a PR.
+      - name: Commit and push new entries
+        run: |
+          git config user.name "AVI news bot"
+          git config user.email "contact@vapeindia.org"
+          git add src/content/news
+          if git diff --cached --quiet; then
+            echo "No new entries."
+          else
+            git commit -m "News: add new auto-fetched entries"
+            git push
+          fi
