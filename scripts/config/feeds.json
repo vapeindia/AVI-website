@@ -6,6 +6,10 @@
   { "name": "Google Alert: vaping India", "url": "https://www.google.com/alerts/feeds/01495972312265356834/9174279637052810087" },
   { "name": "Google Alert: smokeless tobacco India", "url": "https://www.google.com/alerts/feeds/01495972312265356834/11134995585635544347" },
 
+  { "name": "Google Alert: e-cigarettes", "url": "https://www.google.com/alerts/feeds/16692427206705777430/661865223537396105" },
+  { "name": "Google Alert: Tobacco", "url": "https://www.google.com/alerts/feeds/16692427206705777430/2535797286399219783" },
+  { "name": "Google Alert: Vaping", "url": "https://www.google.com/alerts/feeds/16692427206705777430/8407556641720551631" },
+
   { "name": "Filter (GFN)", "url": "https://filtermag.org/feed/", "keywordFilter": ["tobacco", "nicotine", "vape", "vaping", "vaper", "e-cigarette", "cigarette", "smoking", "smokeless", "snus", "pouch", "PECA", "THR", "harm reduction"] },
   { "name": "Clive Bates", "url": "https://www.clivebates.com/feed/" }
 ]
