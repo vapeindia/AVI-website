@@ -5,6 +5,22 @@ import { getCollection } from 'astro:content';
 const items = (await getCollection('news', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+const digests = await getCollection('newsDigests');
+const digestByDate = new Map(digests.map((d) => [d.data.date.toISOString().slice(0, 10), d.data.summary]));
+
+// Group same-day items together so a day with a written digest shows it
+// once above its cluster of cards, rather than repeating context per card.
+const dayGroups: { dateKey: string; date: Date; items: typeof items }[] = [];
+for (const item of items) {
+  const dateKey = item.data.date.toISOString().slice(0, 10);
+  const group = dayGroups[dayGroups.length - 1];
+  if (group && group.dateKey === dateKey) {
+    group.items.push(item);
+  } else {
+    dayGroups.push({ dateKey, date: item.data.date, items: [item] });
+  }
+}
+
 const topicLabel: Record<string, string> = {
   policy: 'Policy',
   litigation: 'Litigation',
@@ -27,22 +43,30 @@ const topicLabel: Record<string, string> = {
   </section>
 
   <div class="news-body">
-    <div class="news-grid">
-      {items.map((item) => (
-        <article class={`news-card topic-${item.data.topic}`}>
-          <div class="card-top">
-            <span class="topic-badge">{topicLabel[item.data.topic]}</span>
-            <time datetime={item.data.date.toISOString()}>
-              {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
-            </time>
-          </div>
-          <h3><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h3>
-          <p class="source">{item.data.sourceName}</p>
-          <p class="gist">{item.data.summary}</p>
-          <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
-        </article>
-      ))}
-    </div>
+    {dayGroups.map((group) => (
+      <section class="day-group">
+        <div class="day-heading">
+          <h2>{group.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+          {group.items.length > 1 && <span class="day-count">{group.items.length} stories</span>}
+        </div>
+        {digestByDate.has(group.dateKey) && (
+          <p class="day-digest">{digestByDate.get(group.dateKey)}</p>
+        )}
+        <div class="news-grid">
+          {group.items.map((item) => (
+            <article class={`news-card topic-${item.data.topic}`}>
+              <div class="card-top">
+                <span class="topic-badge">{topicLabel[item.data.topic]}</span>
+              </div>
+              <h3><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h3>
+              <p class="source">{item.data.sourceName}</p>
+              <p class="gist">{item.data.summary}</p>
+              <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
   </div>
 
   <style>
@@ -66,6 +90,30 @@ const topicLabel: Record<string, string> = {
     .news-sub { color: #cfe0d8; max-width: 42rem; font-size: 1.05rem; margin: 0; }
 
     .news-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
+
+    .day-group { margin-bottom: 3rem; }
+    .day-group:last-child { margin-bottom: 0; }
+    .day-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .day-heading h2 { margin: 0; font-size: 1.15rem; color: var(--accent-dark); }
+    .day-count { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+    .day-digest {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
+      padding: 0.9rem 1.25rem;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 1.5rem;
+      border-radius: 0 6px 6px 0;
+    }
+
     .news-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));

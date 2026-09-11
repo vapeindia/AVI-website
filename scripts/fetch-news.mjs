@@ -52,6 +52,39 @@ function existingUrls() {
   return urls;
 }
 
+const HTML_ENTITIES = {
+  '&amp;': '&', '&#39;': "'", '&#8217;': '’', '&#8216;': '‘',
+  '&quot;': '"', '&#8220;': '“', '&#8221;': '”', '&#8211;': '–',
+  '&#8212;': '—', '&#8230;': '…', '&lt;': '<', '&gt;': '>', '&nbsp;': ' ',
+};
+
+// Google Alerts titles arrive as mixed HTML (matched keywords wrapped in <b>)
+// and items may be double-entity-encoded — strip tags and decode entities
+// (twice, to catch double-encoding) so what lands in frontmatter is plain text.
+function cleanText(s) {
+  let text = String(s ?? '').replace(/<[^>]+>/g, '');
+  for (let pass = 0; pass < 2; pass++) {
+    text = text.replace(/&#39;|&#8217;|&#8216;|&quot;|&#8220;|&#8221;|&#8211;|&#8212;|&#8230;|&nbsp;|&lt;|&gt;|&amp;/g, (m) => HTML_ENTITIES[m] ?? m);
+  }
+  return text.trim();
+}
+
+// Google Alerts links are wrapped in a google.com/url tracking redirect
+// (?...&url=<real link>&...) — unwrap to the real article URL so the site
+// links directly rather than through Google's redirector.
+function unwrapGoogleRedirect(url) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname === 'www.google.com' && parsed.pathname === '/url') {
+      const real = parsed.searchParams.get('url');
+      if (real) return real;
+    }
+  } catch {
+    // not a valid URL — fall through and return as-is
+  }
+  return url;
+}
+
 async function fetchFeed(feedUrl, sourceName) {
   const xml = await fetch(feedUrl).then((r) => r.text());
   const parser = new XMLParser({ ignoreAttributes: false });
@@ -59,10 +92,10 @@ async function fetchFeed(feedUrl, sourceName) {
   const items = parsed?.rss?.channel?.item ?? parsed?.feed?.entry ?? [];
   const arr = Array.isArray(items) ? items : [items];
   return arr.filter(Boolean).map((item) => ({
-    title: item.title?.['#text'] ?? item.title ?? '',
-    url: item.link?.['@_href'] ?? item.link ?? '',
+    title: cleanText(item.title?.['#text'] ?? item.title ?? ''),
+    url: unwrapGoogleRedirect(item.link?.['@_href'] ?? item.link ?? ''),
     date: item.pubDate ?? item.published ?? new Date().toISOString(),
-    snippet: (item.description ?? item.summary ?? '').replace(/<[^>]+>/g, '').slice(0, 1000),
+    snippet: cleanText(item.description ?? item.summary ?? '').slice(0, 1000),
     sourceName,
   }));
 }

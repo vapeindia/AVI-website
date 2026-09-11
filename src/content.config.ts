@@ -29,6 +29,21 @@ const news = defineCollection({
   }),
 });
 
+// Optional per-day digest paragraphs for the News index — a short "here's
+// the gist" summary shown above a day's cluster of cards, for days with
+// enough items that reading each card individually is tedious. Written by
+// a human (or Claude, on explicit instruction) when curating a batch of
+// news drafts — never auto-generated, same review-gate principle as the
+// `news` collection itself. A day with no matching entry here just shows
+// its cards with no digest paragraph. Filename is the date, YYYY-MM-DD.md.
+const newsDigests = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news-digests' }),
+  schema: z.object({
+    date: z.date(),
+    summary: z.string().max(600),
+  }),
+});
+
 // Auto-pulled research (PubMed / Europe PMC via GitHub Action) with AI brief.
 const research = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/research' }),
@@ -103,4 +118,4 @@ const testimonials = defineCollection({
   }),
 });
 
-export const collections = { blog, news, research, press, litigation, testimonials };
+export const collections = { blog, news, newsDigests, research, press, litigation, testimonials };
