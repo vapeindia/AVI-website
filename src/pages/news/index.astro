@@ -61,12 +61,18 @@ for (const day of dayGroups) {
   }
 }
 
-// Group weeks into calendar months (by the week's own Monday) — the
-// current, still-forming month never collapses to a monthly card.
+// Group weeks into calendar months. A week straddling a month boundary
+// (its Monday in one month, some later days in the next) is grouped under
+// the month of its most recent day, not its Monday — that's the month
+// most of a boundary week's real content usually belongs to, and it's
+// what scripts/generate-monthly-digest.mjs itself groups by (a news
+// item's own date, not its week's start). `week.days[0]` is the most
+// recent day since dayGroups was built from `items` in descending-date
+// order. The current, still-forming month never collapses to a card.
 type MonthBlock = { month: string; monthly: (typeof digests)[number]['data'] | null; weeks: WeekBlock[] };
 const monthBlocks: MonthBlock[] = [];
 for (const week of weekBlocks) {
-  const month = week.weekStart.slice(0, 7);
+  const month = monthKey(week.days[0].date);
   const monthly = month === currentMonth ? null : (monthlyDigestByMonth.get(month) ?? null);
   const block = monthBlocks[monthBlocks.length - 1];
   if (block && block.month === month) {
