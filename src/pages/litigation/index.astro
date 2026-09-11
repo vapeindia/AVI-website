@@ -3,7 +3,16 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { getCollection } from 'astro:content';
 
-const cases = await getCollection('litigation');
+// Ongoing (pending) cases first, then everything else newest-filed first —
+// so the case AVI is actively running today always leads the page.
+const cases = (await getCollection('litigation')).sort((a, b) => {
+  const aPending = a.data.status === 'pending' ? 1 : 0;
+  const bPending = b.data.status === 'pending' ? 1 : 0;
+  if (aPending !== bPending) return bPending - aPending;
+  const aDate = a.data.filedDate?.valueOf() ?? 0;
+  const bDate = b.data.filedDate?.valueOf() ?? 0;
+  return bDate - aDate;
+});
 const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superseded-by-peca' ? 'Superseded by PECA' : s === 'withdrawn' ? 'Withdrawn' : 'Disposed');
 ---
 <Base title="Litigation" description="A decade at the forefront of tobacco harm reduction litigation in India — the cases AVI has organised and fought, and the ones it has deliberately stayed out of." wide={true}>

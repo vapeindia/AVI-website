@@ -2,6 +2,7 @@
 title: "Delhi High Court — vendor challenge to the ENDS advisory (2019)"
 state: "Delhi"
 court: "Delhi High Court"
+filedDate: 2019-01-01
 status: "disposed"
 outcome: "An interim stay was granted and upheld on appeal; effectively concluded once the national ban under PECA, 2019 superseded the underlying advisory."
 summary: "Sellers of ENDS products, joined by an individual consumer, challenged a central government advisory instructing states to prohibit ENDS manufacture, sale and distribution under the Drugs & Cosmetics Act. The court granted an interim stay, finding ENDS did not meet the statutory definition of a \"drug\" the government could regulate that way — a ruling other sellers elsewhere in India later relied on."

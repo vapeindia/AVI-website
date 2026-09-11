@@ -2,6 +2,7 @@
 title: "Calcutta High Court — challenge to Customs withholding e-cigarette imports (2014)"
 state: "West Bengal"
 court: "Calcutta High Court"
+filedDate: 2014-01-01
 status: "disposed"
 outcome: "Decided in the importer's favour: the court found no legal provision restricting e-cigarette imports and ordered the withheld consignment released."
 summary: "A commercial importer challenged Customs' decision to withhold an e-cigarette consignment at Kolkata Airport, after the Drugs Controller gave an adverse opinion but no law was found to actually restrict the import. This is the oldest matter on this page, decided nearly five years before the national ban."

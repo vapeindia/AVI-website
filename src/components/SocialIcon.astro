@@ -1,0 +1,40 @@
+---
+// Recognisable outline glyphs for the platforms linked in the footer.
+// Kept in the same stroke-first style as Icon.astro, with small filled
+// details where a platform's mark needs them (X's crossbars, Instagram's
+// flash dot, YouTube's play triangle) to stay legible at footer size.
+interface Props {
+  name: 'x' | 'facebook' | 'instagram' | 'youtube' | 'linkedin';
+  class?: string;
+}
+const { name, class: className = '' } = Astro.props;
+---
+{name === 'x' && (
+  <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 4l16 16M20 4L4 20" />
+  </svg>
+)}
+{name === 'facebook' && (
+  <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M15.5 3h-2A4.5 4.5 0 0 0 9 7.5v2.5H7v4h2V21h4v-7h2.7l.8-4H13V7.8a1 1 0 0 1 1-1h1.5z" />
+  </svg>
+)}
+{name === 'instagram' && (
+  <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="2.5" y="2.5" width="19" height="19" rx="5" />
+    <circle cx="12" cy="12" r="4.2" />
+    <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none" />
+  </svg>
+)}
+{name === 'youtube' && (
+  <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="2" y="5.5" width="20" height="13" rx="4" />
+    <path d="M10.5 9.3l4.7 2.7-4.7 2.7z" fill="currentColor" stroke="none" />
+  </svg>
+)}
+{name === 'linkedin' && (
+  <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="2.5" y="2.5" width="19" height="19" rx="3" />
+    <path d="M7.3 10v7M7.3 7.3v.01M11.5 17v-4.3a2.2 2.2 0 0 1 4.4 0V17" stroke-linecap="round" />
+  </svg>
+)}
