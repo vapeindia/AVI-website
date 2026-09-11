@@ -1,0 +1,124 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { getCollection, render } from 'astro:content';
+
+const all = (await getCollection('submissions'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const withBody = await Promise.all(all.map(async (item) => ({ item, Content: (await render(item)).Content })));
+
+const typeLabel: Record<string, string> = {
+  letter: 'Letter',
+  rebuttal: 'Rebuttal',
+  'call-to-action': 'Call to action',
+};
+---
+<Base title="Submissions to policymakers" description="Formal letters, rebuttals and calls to action AVI has sent to India's government and legislators — full text, not just a mention." wide={true}>
+  <section class="breakout sub-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Direct advocacy</p>
+      <h1>What AVI has actually told India's policymakers</h1>
+      <p class="sub-sub">
+        Beyond litigation and public campaigning, AVI has repeatedly written
+        directly to the people making this policy — the health ministry,
+        every sitting MP, and in response to specific government advisories —
+        making the evidence-based case for regulation over prohibition. These
+        are reproduced here close to their original text, not summarised
+        away, so the actual arguments made are on the record.
+      </p>
+    </div>
+  </section>
+
+  <div class="sub-body">
+    <div class="sub-grid">
+      {withBody.map(({ item, Content }) => (
+        <article class={`sub-card type-${item.data.type}`}>
+          <div class="card-top">
+            <span class="type-badge">{typeLabel[item.data.type]}</span>
+            <time datetime={item.data.date.toISOString()}>
+              {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+          </div>
+          <h2>{item.data.title}</h2>
+          <p class="recipient">To: {item.data.recipient}</p>
+          <p class="summary">{item.data.summary}</p>
+          <details>
+            <summary>Read the full text</summary>
+            <div class="full-text"><Content /></div>
+          </details>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .sub-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .sub-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
+    .sub-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0; }
+
+    .sub-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr)); gap: 1.5rem; }
+    .sub-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1.6rem 1.6rem;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .card-top time { font-size: 0.78rem; color: var(--muted); }
+    .type-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+    }
+    .type-letter .type-badge { background: var(--accent); }
+    .type-rebuttal .type-badge { background: var(--rust); }
+    .type-call-to-action .type-badge { background: var(--gold-dark); }
+
+    .sub-card h2 { margin: 0 0 0.3rem; font-size: 1.12rem; line-height: 1.35; }
+    .recipient { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    .summary { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; }
+
+    details summary {
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      list-style: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::before { content: '+ '; }
+    details[open] summary::before { content: '– '; }
+    .full-text {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .full-text :global(p) { margin: 0 0 0.9rem; }
+    .full-text :global(p:last-child) { margin-bottom: 0; }
+    .full-text :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
+  </style>
+</Base>

@@ -35,7 +35,7 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
   </section>
 
   <section class="path-section">
-    <h2>Three ways into this section</h2>
+    <h2>Five ways into this section</h2>
     <div class="path-grid">
       <a class="path-card path-green" href="/india/law">
         <Icon name="scale" />
@@ -54,6 +54,18 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
         <h3>Evidence library</h3>
         <p>The published research behind AVI's position, including India-specific studies on smoking and SLT use.</p>
         <span class="path-cta">Browse the evidence →</span>
+      </a>
+      <a class="path-card path-green" href="/india/rti-replies">
+        <Icon name="document" />
+        <h3>RTI replies</h3>
+        <p>What government research bodies and customs authorities told AVI, on the record, before the ban — organised by department.</p>
+        <span class="path-cta">Read the replies →</span>
+      </a>
+      <a class="path-card path-rust" href="/india/submissions">
+        <Icon name="megaphone" />
+        <h3>Submissions to policymakers</h3>
+        <p>Letters, rebuttals and calls to action AVI has sent directly to India's health ministry and Parliament.</p>
+        <span class="path-cta">Read the submissions →</span>
       </a>
     </div>
   </section>
@@ -126,7 +138,7 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
 
     .path-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3.5rem 1.5rem 4rem; }
     .path-section h2 { text-align: center; margin: 0 0 2.25rem; font-size: 1.5rem; }
-    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15.5rem, 1fr)); gap: 1.75rem; }
     .path-card {
       display: block;
       background: #fff;

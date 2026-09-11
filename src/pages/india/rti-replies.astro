@@ -1,0 +1,142 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { rtiReplies } from '../../data/rti-replies';
+---
+<Base title="RTI replies" description="What government bodies told AVI, under the Right to Information Act, about the research behind India's e-cigarette ban — organised by department, not a raw document scroll." wide={true}>
+  <section class="breakout rti-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Right to Information, 2018–2019</p>
+      <h1>What government departments actually told us — on the record</h1>
+      <p class="rti-sub">
+        The Right to Information Act, 2005 lets any Indian citizen formally
+        request records from a public authority; the authority's Public
+        Information Officer (CPIO) is legally required to respond. Concerned
+        about the government's hard line on e-cigarettes, AVI and individual
+        vapers filed RTI requests with the research bodies, health ministry
+        and customs authorities most likely to have studied the issue —
+        asking a simple question: what evidence was this policy actually
+        based on?
+      </p>
+      <p class="rti-sub">
+        The replies below, grouped by department, show a consistent pattern:
+        no research had been conducted, no budget existed for it, and — from
+        India's own drug regulators and customs authorities — e-cigarettes
+        were, at the time, not covered by the law later cited to restrict
+        them. Each card shows what was asked, what was said, and a link to
+        the original reply.
+      </p>
+    </div>
+  </section>
+
+  <div class="rti-body">
+    <div class="rti-grid">
+      {rtiReplies.map((r) => (
+        <article class="rti-card">
+          <div class="card-top">
+            <Icon name="document" />
+          </div>
+          <h2>{r.authority}</h2>
+          <p class="jurisdiction">{r.jurisdiction}</p>
+
+          <div class="qa-block">
+            <h3>Asked</h3>
+            <ul class="questions">
+              {r.questions.map((q) => <li>{q}</li>)}
+            </ul>
+          </div>
+          <div class="qa-block">
+            <h3>Replied</h3>
+            <ul class="findings">
+              {r.findings.map((f) => <li>{f}</li>)}
+            </ul>
+          </div>
+
+          {r.localFile
+            ? <a class="read-link" href={r.localFile} target="_blank" rel="noopener">View the original reply →</a>
+            : <a class="read-link external" href={r.driveUrl} target="_blank" rel="noopener">View the original reply (opens in Google Drive) →</a>}
+        </article>
+      ))}
+    </div>
+
+    <p class="rti-footnote">
+      Several questions above were asked in near-identical, redundant
+      phrasing across the original set of RTI applications (e.g. "electronic
+      cigarettes" vs. "electronic vaping devices" vs. "ENDS") — they're
+      consolidated here to one entry per underlying question. Five of the
+      eleven original reply documents could not be re-hosted on this site
+      directly and link out to Google Drive instead; everything else is
+      archived locally so it won't disappear if that link ever does.
+    </p>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+    .rti-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .rti-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
+    .rti-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0 0 1rem; }
+    .rti-sub:last-child { margin-bottom: 0; }
+
+    .rti-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 1.5rem; }
+    .rti-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+      gap: 1.5rem;
+    }
+    .rti-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1.5rem 1.6rem;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      border-top: 4px solid var(--accent);
+    }
+    .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .rti-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
+    .jurisdiction { margin: 0 0 1.1rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
+    .qa-block { margin-bottom: 1rem; }
+    .qa-block h3 {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold-dark);
+      margin: 0 0 0.4rem;
+    }
+    .qa-block ul { margin: 0; padding-left: 1.1rem; font-size: 0.87rem; line-height: 1.5; }
+    .qa-block li { margin-bottom: 0.4rem; }
+    .qa-block li:last-child { margin-bottom: 0; }
+    .findings li { color: var(--ink); }
+    .questions li { color: var(--muted); }
+
+    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); margin-top: auto; padding-top: 0.5rem; }
+    .read-link.external { color: var(--gold-dark); }
+
+    .rti-footnote {
+      max-width: 44rem;
+      margin: 2.5rem 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+  </style>
+</Base>

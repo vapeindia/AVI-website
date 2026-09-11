@@ -149,4 +149,47 @@ const testimonials = defineCollection({
   }),
 });
 
-export const collections = { blog, news, newsDigests, research, press, litigation, testimonials };
+// AVI's own mobilisation efforts — protests, seminars, delegations, digital
+// campaigns — as distinct from `press` (coverage/statements about AVI) and
+// `litigation` (court matters). Built from the Google Drive "AVI Outreach"
+// archive (Campaigns/Projects folder) plus vapeindia.org's old campaign
+// microsites. Do not mention CAPHRA anywhere in this collection or imply
+// AVI is a current member (AVI left CAPHRA and INNCO, Oct 2023) — INNCO may
+// be mentioned only in passing, in a verified, historical/past-role framing
+// (e.g. Samrat Chowdhery served as INNCO's governing-board president from
+// July 2020) — see CLAUDE.md.
+const campaigns = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/campaigns' }),
+  schema: z.object({
+    title: z.string(),
+    dateStart: z.date(),
+    dateEnd: z.date().optional(),
+    type: z.enum(['protest', 'seminar', 'delegation', 'press-conference', 'digital-mobilisation', 'research-drive']),
+    cities: z.array(z.string()).default([]),
+    summary: z.string().max(400),
+    photos: z.array(z.object({
+      src: z.string(),
+      alt: z.string(),
+      caption: z.string().optional(),
+    })).default([]),
+  }),
+});
+
+// Formal submissions AVI has made to policymakers and regulators — letters,
+// rebuttals to government advisories, and organised calls-to-action aimed at
+// legislators — as distinct from `campaigns` (public mobilisation) and
+// `press` (media-facing statements). Built from the vapeindia.org archive;
+// same CAPHRA/INNCO handling note as `campaigns` above applies here too.
+const submissions = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/submissions' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    recipient: z.string(),  // e.g. "Union Minister of Health & Family Welfare"
+    type: z.enum(['letter', 'rebuttal', 'call-to-action']),
+    summary: z.string().max(400),
+    archivePdf: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, news, newsDigests, research, press, litigation, testimonials, campaigns, submissions };
