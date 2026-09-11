@@ -1,0 +1,43 @@
+name: Generate weekly news digest
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'  # Monday 04:00 UTC (~09:30 IST) — after the prior week has fully closed
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Roll up last week's news into a weekly digest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/generate-weekly-digest.mjs
+
+      - name: Open pull request with new weekly digest(s)
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "News: add weekly digest for elapsed week(s)"
+          title: "New weekly news digest"
+          body: |
+            Auto-generated weekly roundup, built only from news items
+            already marked `reviewed: true` (nothing unreviewed feeds
+            into this). Only ever covers a week that has fully elapsed —
+            never the current, in-progress week.
+
+            **Review checklist before approving:**
+            - [ ] Summary is accurate and neutral
+            - [ ] No product promotion
+          branch: auto/weekly-digest
+          add-paths: src/content/news-digests/**
+          delete-branch: true

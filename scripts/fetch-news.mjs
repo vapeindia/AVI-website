@@ -25,6 +25,7 @@ function loadJson(file, fallback) {
 
 const FEEDS = loadJson('feeds.json', []);
 const BLOCKLIST = loadJson('blocklist.json', []);
+const PRESS_WIRE_DOMAINS = loadJson('press-wire-domains.json', []);
 
 function isBlocked(url) {
   try {
@@ -33,6 +34,33 @@ function isBlocked(url) {
   } catch {
     return true; // malformed URL — exclude rather than guess
   }
+}
+
+// Industry product-launch press releases (new device/flavour announcements,
+// "proud to unveil" copy) carry PECA advertising risk and aren't the kind of
+// coverage this feed is for — distinct from genuine reporting ABOUT the
+// industry (a trade body's regulatory response, a lawsuit, a market-size
+// story), which stays in. Two signals: known PR-wire distribution domains,
+// or launch-announcement language in the title itself (works regardless of
+// which domain syndicates it).
+const PRESS_RELEASE_TITLE_PATTERNS = [
+  /\blaunch(es|ed|ing)?\b.{0,40}\b(vape|e-?cig|device|pod|disposable|flavou?r)/i,
+  /\bunveil(s|ed|ing)?\b.{0,40}\b(vape|e-?cig|device|pod|flavou?r)/i,
+  /\bannounces?( the)? launch\b/i,
+  /\bproud to (announce|unveil)\b/i,
+  /industry-first/i,
+  /\bnow available\b.{0,30}\b(vape|e-?cig|pods?)/i,
+  /\bnew flavou?r\b/i,
+];
+
+function isIndustryPressRelease(item) {
+  try {
+    const host = new URL(item.url).hostname.replace(/^www\./, '');
+    if (PRESS_WIRE_DOMAINS.some((d) => host === d || host.endsWith(`.${d}`))) return true;
+  } catch {
+    // malformed URL — let isBlocked() handle exclusion, not this check
+  }
+  return PRESS_RELEASE_TITLE_PATTERNS.some((re) => re.test(item.title));
 }
 
 function matchesKeywords(item, keywords) {
@@ -166,6 +194,10 @@ async function main() {
       if (!item.url || seen.has(item.url)) continue;
       if (isBlocked(item.url)) {
         console.log(`Blocked (commercial domain): ${item.url}`);
+        continue;
+      }
+      if (isIndustryPressRelease(item)) {
+        console.log(`Skipped (industry press release): ${item.title}`);
         continue;
       }
       if (!matchesKeywords(item, feed.keywordFilter)) {

@@ -6,11 +6,27 @@ const items = (await getCollection('news', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const digests = await getCollection('newsDigests');
-const digestByDate = new Map(digests.map((d) => [d.data.date.toISOString().slice(0, 10), d.data.summary]));
+const dailyDigestByDate = new Map(
+  digests.filter((d) => d.data.type !== 'weekly').map((d) => [d.data.date.toISOString().slice(0, 10), d.data.summary])
+);
+const weeklyDigestByWeekStart = new Map(
+  digests.filter((d) => d.data.type === 'weekly').map((d) => [d.data.date.toISOString().slice(0, 10), d.data])
+);
+
+// Monday of the ISO week containing `date` — matches
+// scripts/generate-weekly-digest.mjs's isoWeekStart() exactly, so a week
+// grouped here lines up with whichever weekly digest that script wrote.
+function isoWeekStartKey(date: Date): string {
+  const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const day = d.getUTCDay() || 7;
+  if (day !== 1) d.setUTCDate(d.getUTCDate() - (day - 1));
+  return d.toISOString().slice(0, 10);
+}
 
 // Group same-day items together so a day with a written digest shows it
 // once above its cluster of cards, rather than repeating context per card.
-const dayGroups: { dateKey: string; date: Date; items: typeof items }[] = [];
+type Item = (typeof items)[number];
+const dayGroups: { dateKey: string; date: Date; items: Item[] }[] = [];
 for (const item of items) {
   const dateKey = item.data.date.toISOString().slice(0, 10);
   const group = dayGroups[dayGroups.length - 1];
@@ -21,6 +37,25 @@ for (const item of items) {
   }
 }
 
+// The current, still-forming week is never collapsed to a weekly card even
+// if (unusually) a weekly digest exists for it — only a fully-elapsed week
+// gets the collapsed treatment. Everything else groups by ISO week; a week
+// with no written weekly digest yet (most commonly the current one) just
+// shows its day-groups directly, un-collapsed.
+const currentWeekStart = isoWeekStartKey(new Date());
+type WeekBlock = { weekStart: string; weekly: (typeof digests)[number]['data'] | null; days: typeof dayGroups };
+const weekBlocks: WeekBlock[] = [];
+for (const day of dayGroups) {
+  const weekStart = isoWeekStartKey(day.date);
+  const weekly = weekStart === currentWeekStart ? null : (weeklyDigestByWeekStart.get(weekStart) ?? null);
+  const block = weekBlocks[weekBlocks.length - 1];
+  if (block && block.weekStart === weekStart) {
+    block.days.push(day);
+  } else {
+    weekBlocks.push({ weekStart, weekly, days: [day] });
+  }
+}
+
 const topicLabel: Record<string, string> = {
   policy: 'Policy',
   litigation: 'Litigation',
@@ -28,6 +63,9 @@ const topicLabel: Record<string, string> = {
   industry: 'Industry',
   other: 'Commentary',
 };
+
+const dayFmt = (d: Date) => d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+const shortFmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
 ---
 <Base title="News" description="Current developments on tobacco harm reduction, vaping and nicotine pouch regulation relevant to India." wide={true}>
   <section class="breakout news-hero">
@@ -37,36 +75,70 @@ const topicLabel: Record<string, string> = {
       <p class="news-sub">
         Curated coverage of tobacco harm reduction, vaping and nicotine
         policy relevant to India — auto-gathered from policy commentary and
-        outlet feeds, human-reviewed before it appears here.
+        outlet feeds, human-reviewed before it appears here. Each day gets a
+        short summary; open it up for the individual stories. Once a week
+        has passed, its days fold into a single weekly roundup.
       </p>
     </div>
   </section>
 
   <div class="news-body">
-    {dayGroups.map((group) => (
-      <section class="day-group">
-        <div class="day-heading">
-          <h2>{group.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
-          {group.items.length > 1 && <span class="day-count">{group.items.length} stories</span>}
-        </div>
-        {digestByDate.has(group.dateKey) && (
-          <p class="day-digest">{digestByDate.get(group.dateKey)}</p>
-        )}
-        <div class="news-grid">
-          {group.items.map((item) => (
-            <article class={`news-card topic-${item.data.topic}`}>
-              <div class="card-top">
-                <span class="topic-badge">{topicLabel[item.data.topic]}</span>
+    {weekBlocks.map((block) => {
+      const dayCount = block.days.length;
+      const itemCount = block.days.reduce((n, d) => n + d.items.length, 0);
+      const weekly = block.weekly;
+      const DayList = (
+        <>
+          {block.days.map((day) => (
+            <div class="day-group">
+              <div class="day-heading">
+                <h3>{dayFmt(day.date)}</h3>
+                <span class="day-count">{day.items.length} {day.items.length === 1 ? 'story' : 'stories'}</span>
               </div>
-              <h3><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h3>
-              <p class="source">{item.data.sourceName}</p>
-              <p class="gist">{item.data.summary}</p>
-              <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
-            </article>
+              {dailyDigestByDate.has(day.dateKey) && (
+                <p class="digest-text">{dailyDigestByDate.get(day.dateKey)}</p>
+              )}
+              <details class="articles-toggle">
+                <summary>Show {day.items.length} {day.items.length === 1 ? 'article' : 'articles'}</summary>
+                <div class="news-grid">
+                  {day.items.map((item) => (
+                    <article class={`news-card topic-${item.data.topic}`}>
+                      <div class="card-top">
+                        <span class="topic-badge">{topicLabel[item.data.topic]}</span>
+                      </div>
+                      <h4><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h4>
+                      <p class="source">{item.data.sourceName}</p>
+                      <p class="gist">{item.data.summary}</p>
+                      <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
+                    </article>
+                  ))}
+                </div>
+              </details>
+            </div>
           ))}
-        </div>
-      </section>
-    ))}
+        </>
+      );
+
+      if (weekly) {
+        const weekStartDate = new Date(`${block.weekStart}T00:00:00Z`);
+        return (
+          <section class="week-block">
+            <details class="week-toggle">
+              <summary>
+                <div class="week-summary-head">
+                  <h2>Week of {shortFmt(weekStartDate)} – {shortFmt(weekly.weekEnd!)}</h2>
+                  <span class="week-count">{itemCount} {itemCount === 1 ? 'story' : 'stories'} · {dayCount} {dayCount === 1 ? 'day' : 'days'}</span>
+                </div>
+                <p class="digest-text weekly">{weekly.summary}</p>
+              </summary>
+              <div class="week-days">{DayList}</div>
+            </details>
+          </section>
+        );
+      }
+
+      return <section class="week-block week-block-open">{DayList}</section>;
+    })}
   </div>
 
   <style>
@@ -87,12 +159,47 @@ const topicLabel: Record<string, string> = {
     }
     .news-hero .eyebrow { color: var(--gold-light); }
     .news-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
-    .news-sub { color: #cfe0d8; max-width: 42rem; font-size: 1.05rem; margin: 0; }
+    .news-sub { color: #cfe0d8; max-width: 44rem; font-size: 1.05rem; margin: 0; }
 
     .news-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
 
-    .day-group { margin-bottom: 3rem; }
-    .day-group:last-child { margin-bottom: 0; }
+    .week-block { margin-bottom: 2rem; }
+    .week-block:last-child { margin-bottom: 0; }
+
+    /* Weekly (collapsed) card */
+    .week-toggle {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .week-toggle summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 1.25rem 1.5rem;
+      background: var(--paper-alt);
+    }
+    .week-toggle summary::-webkit-details-marker { display: none; }
+    .week-toggle summary::after {
+      content: "Show week's daily breakdown ▾";
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+    }
+    .week-toggle[open] summary::after { content: "Hide daily breakdown ▴"; }
+    .week-summary-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .week-summary-head h2 { margin: 0; font-size: 1.2rem; color: var(--accent-dark); }
+    .week-count { font-size: 0.78rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .digest-text.weekly { margin: 0.6rem 0 0; font-weight: 500; }
+    .week-days { padding: 0.25rem 1.5rem 1.5rem; border-top: 1px solid var(--border); }
+    .week-days .day-group:first-child { margin-top: 1.25rem; }
+
+    /* Un-collapsed (current-week) day groups sit directly on the page */
+    .week-block-open { display: flex; flex-direction: column; gap: 2rem; }
+
+    .day-group { margin-bottom: 0; }
     .day-heading {
       display: flex;
       align-items: baseline;
@@ -101,18 +208,32 @@ const topicLabel: Record<string, string> = {
       padding-bottom: 0.5rem;
       margin-bottom: 1rem;
     }
-    .day-heading h2 { margin: 0; font-size: 1.15rem; color: var(--accent-dark); }
+    .day-heading h3 { margin: 0; font-size: 1.1rem; color: var(--accent-dark); }
     .day-count { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
-    .day-digest {
+    .digest-text {
       background: var(--paper-alt);
       border-left: 3px solid var(--accent);
       padding: 0.9rem 1.25rem;
       font-size: 0.92rem;
       line-height: 1.6;
       color: var(--ink);
-      margin: 0 0 1.5rem;
+      margin: 0 0 1rem;
       border-radius: 0 6px 6px 0;
     }
+    .week-days .digest-text { background: #fff; }
+
+    .articles-toggle summary {
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      padding: 0.3rem 0;
+    }
+    .articles-toggle summary::-webkit-details-marker { display: none; }
+    .articles-toggle summary::before { content: "▸ "; }
+    .articles-toggle[open] summary::before { content: "▾ "; }
+    .articles-toggle .news-grid { margin-top: 1rem; }
 
     .news-grid {
       display: grid;
@@ -129,7 +250,6 @@ const topicLabel: Record<string, string> = {
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
     }
     .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-    .card-top time { font-size: 0.78rem; color: var(--muted); }
     .topic-badge {
       font-size: 0.7rem;
       font-weight: 700;
@@ -145,9 +265,9 @@ const topicLabel: Record<string, string> = {
     .topic-industry .topic-badge { background: var(--gold); }
     .topic-other .topic-badge { background: var(--muted); }
 
-    .news-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; line-height: 1.35; }
-    .news-card h3 a { color: var(--ink); text-decoration: none; }
-    .news-card h3 a:hover { color: var(--accent); }
+    .news-card h4 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
+    .news-card h4 a { color: var(--ink); text-decoration: none; }
+    .news-card h4 a:hover { color: var(--accent); }
     .source { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
