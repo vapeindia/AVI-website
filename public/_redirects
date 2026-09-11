@@ -8,7 +8,6 @@
 /research/             /science                        301
 /india/overview/       /india                          301
 /india/govt/           /india/law                      301
-/india/rti-replies/    /litigation                     301
 /india/legal/          /litigation                     301
 /india/litigation/*    /litigation/:splat              301
 /india/action/         /india/law                      301
@@ -45,16 +44,17 @@
 /nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press   301
 /nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press   301
 /nicotine-not-to-be-blamed-for-smoking/                                                                                          /press   301
-/centraladvisory/                                                                                                                /press   301
+/centraladvisory/                                                                                                                /india/submissions   301
 /all-coverages/                                                                                                                  /press   301
 /skarora/                                                                                                                        /press   301
-/letter-to-union-health-minister-india/                                                                                          /press   301
+/letter-to-union-health-minister-india/                                                                                          /india/submissions   301
 /you-ken-rebuttal/                                                                                                               /press   301
-/protest/                                                                                                                        /press   301
-/worldvapeday/                                                                                                                   /press   301
-/mpletter/                                                                                                                       /press   301
+/protest/                                                                                                                        /campaigns   301
+/worldvapeday/                                                                                                                   /campaigns   301
+/mpletter/                                                                                                                       /india/submissions   301
 /shadowreport/                                                                                                                   /press   301
-/warontar/                                                                                                                       /press   301
+/warontar/                                                                                                                       /campaigns   301
+/resist/                                                                                                                         /india/submissions   301
 # Four near-duplicate Hindi-slug press-conference posts (same rendered title):
 /%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press   301
 /%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press   301
@@ -68,7 +68,6 @@
 /dangers-of-smoking-tobacco/             /   301
 /quitting-tools/                         /   301
 /terms-conditions/                       /   301
-/resist/                                 /   301
 /scthankyou/                             /   301
 
 # --- WordPress account-system pages — no user-account system exists on
