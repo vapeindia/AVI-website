@@ -33,7 +33,8 @@ function fmtRange(start: Date, end?: Date) {
       <p class="eyebrow">A decade of organising</p>
       <h1>Beyond the courtroom — AVI's public campaigns</h1>
       <p class="camp-sub">
-        Litigation and policy letters are one half of AVI's work; the other
+        <a href="/litigation">Litigation</a> and <a href="/india/submissions">policy letters</a> are
+        one half of AVI's work; the other
         is getting in front of the public and the press directly — protests,
         seminars, delegations to government, and campaigns that turned
         vapers' own health data and lived experience into evidence. This is
@@ -109,6 +110,8 @@ function fmtRange(start: Date, end?: Date) {
     }
     .camp-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.8vw, 2.7rem); max-width: 44rem; position: relative; }
     .camp-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0; position: relative; }
+    .camp-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .camp-sub a:hover { color: #fff; }
 
     .camp-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .camp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1.75rem; }

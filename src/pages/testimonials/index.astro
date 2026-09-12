@@ -12,11 +12,11 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
   <h1>Real stories, not just research</h1>
   <p>
     Behind every court filing and research brief on this site is a simple
-    fact: switching to a lower-risk product has helped real people in India
-    walk away from combustible tobacco for good. If safer nicotine products
-    did this for you, telling that story in your own words is one of the
-    most persuasive things you can do for the millions of Indian smokers who
-    have not yet found their way off cigarettes and bidis.
+    fact: <a href="/quit">switching to a lower-risk product</a> has helped real
+    people in India walk away from combustible tobacco for good. If safer
+    nicotine products did this for you, telling that story in your own words
+    is one of the most persuasive things you can do for the millions of
+    Indian smokers who have not yet found their way off cigarettes and bidis.
   </p>
 
   <h2>Share your story</h2>
@@ -79,7 +79,12 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     </>
   )}
 
+  <p class="testimonial-cta">
+    Stories like these are what fund this work — <a href="/contribute">see how to support it →</a>
+  </p>
+
   <style>
+    .testimonial-cta { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border, #e4e1d8); font-size: 0.95rem; }
     .hp { position: absolute; left: -9999px; }
     label { font-weight: 600; }
     textarea, input[type="text"], input[type="email"] {

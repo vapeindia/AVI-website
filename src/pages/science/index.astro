@@ -141,6 +141,21 @@ const substanceLabel: Record<string, string> = {
       ))}
       </div>
     </section>
+
+    <section class="science-related">
+      <a href="/quit" class="related-card">
+        <h3>If you smoke →</h3>
+        <p>What this evidence means in practice — the case for switching, and what's actually available in India.</p>
+      </a>
+      <a href="/policy" class="related-card">
+        <h3>For policymakers →</h3>
+        <p>The regulatory case built on this evidence — what's worked elsewhere, and what hasn't.</p>
+      </a>
+      <a href="/india/law" class="related-card">
+        <h3>The law in India →</h3>
+        <p>Where e-cigarettes, nicotine pouches and NRT actually stand today, regardless of the evidence above.</p>
+      </a>
+    </section>
   </div>
 
   <style>
@@ -228,5 +243,26 @@ const substanceLabel: Record<string, string> = {
     }
     .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+
+    .science-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

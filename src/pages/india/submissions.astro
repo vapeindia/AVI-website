@@ -20,7 +20,7 @@ const typeLabel: Record<string, string> = {
       <p class="eyebrow">Direct advocacy</p>
       <h1>What AVI has actually told India's policymakers</h1>
       <p class="sub-sub">
-        Beyond litigation and public campaigning, AVI has repeatedly written
+        Beyond <a href="/litigation">litigation</a> and <a href="/campaigns">public campaigning</a>, AVI has repeatedly written
         directly to the people making this policy — the health ministry,
         every sitting MP, and in response to specific government advisories —
         making the evidence-based case for regulation over prohibition. These
@@ -73,6 +73,8 @@ const typeLabel: Record<string, string> = {
     }
     .sub-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
     .sub-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0; }
+    .sub-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .sub-sub a:hover { color: #fff; }
 
     .sub-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr)); gap: 1.5rem; }

@@ -17,7 +17,8 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
 // below for e.g. /india/rti-replies vs /india/rti-replies/.
 const rawPath = Astro.url.pathname;
 const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
-function activeGroup(p: string): 'evidence' | 'advocacy' | 'updates' | null {
+function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
+  if (p === '/quit' || p === '/policy') return 'start';
   if (p.startsWith('/litigation') || p.startsWith('/science') || p === '/india' || p === '/india/law' || p === '/india/rti-replies') return 'evidence';
   if (p.startsWith('/campaigns') || p === '/india/submissions' || p.startsWith('/press')) return 'advocacy';
   if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
@@ -222,6 +223,43 @@ const group = activeGroup(path);
       font-size: 0.88rem;
       text-align: center;
     }
+    .footer-top {
+      max-width: var(--max-w-wide, 72rem);
+      margin: 0 auto 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2.5rem;
+      text-align: left;
+    }
+    .footer-brand { max-width: 18rem; flex-shrink: 0; }
+    .footer-tagline { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(9rem, 1fr));
+      gap: 2rem;
+      flex: 1;
+      justify-content: flex-end;
+    }
+    .footer-col { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; }
+    .footer-col h3 {
+      margin: 0 0 0.15rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold-dark);
+    }
+    .footer-col a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+    }
+    .footer-col a:hover { color: var(--ink); text-decoration: underline; }
+    @media (max-width: 640px) {
+      .footer-top { flex-direction: column; gap: 2rem; }
+      .footer-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     footer.site img.mark { height: 56px; opacity: 0.85; margin-bottom: 1rem; }
     footer.site .social {
       display: flex;
@@ -256,6 +294,13 @@ const group = activeGroup(path);
     </a>
     <nav class="site">
       <a href="/about" class:list={{ active: path === '/about' }}>About</a>
+      <details class="nav-dropdown" class:list={{ active: group === 'start' }}>
+        <summary>Get Started</summary>
+        <div class="dropdown-menu">
+          <a href="/quit" class:list={{ active: path === '/quit' }}>If You Smoke</a>
+          <a href="/policy" class:list={{ active: path === '/policy' }}>For Policymakers</a>
+        </div>
+      </details>
       <details class="nav-dropdown" class:list={{ active: group === 'evidence' }}>
         <summary>The Evidence</summary>
         <div class="dropdown-menu">
@@ -308,7 +353,40 @@ const group = activeGroup(path);
     <slot />
   </main>
   <footer class="site">
-    <img class="mark" src="/images/avi-logo.png" alt="Association of Vapers India — Est. 2016" />
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="mark" src="/images/avi-logo.png" alt="Association of Vapers India — Est. 2016" />
+        <p class="footer-tagline">Tobacco harm reduction advocacy for India, since 2016.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <div class="footer-col">
+          <h3>Get Started</h3>
+          <a href="/quit">If You Smoke</a>
+          <a href="/policy">For Policymakers</a>
+        </div>
+        <div class="footer-col">
+          <h3>The Evidence</h3>
+          <a href="/science">Science</a>
+          <a href="/india">India</a>
+          <a href="/india/rti-replies">RTI Replies</a>
+          <a href="/litigation">Litigation</a>
+        </div>
+        <div class="footer-col">
+          <h3>Our Advocacy</h3>
+          <a href="/campaigns">Campaigns</a>
+          <a href="/india/submissions">Submissions to Policymakers</a>
+          <a href="/press">Press</a>
+        </div>
+        <div class="footer-col">
+          <h3>More</h3>
+          <a href="/news">News</a>
+          <a href="/media">Media</a>
+          <a href="/testimonials">Testimonials</a>
+          <a href="/about">About</a>
+          <a href="/contribute">Contribute</a>
+        </div>
+      </nav>
+    </div>
     <div class="social">
       <a href="https://x.com/vapeindia" target="_blank" rel="noopener" aria-label="AVI on X" title="X"><SocialIcon name="x" /></a>
       <a href="https://facebook.com/avindia" target="_blank" rel="noopener" aria-label="AVI on Facebook" title="Facebook"><SocialIcon name="facebook" /></a>
