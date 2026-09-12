@@ -1,7 +1,8 @@
 ---
 title: "Experts, ex-smokers flay Punjab's e-cigarette ban"
 date: 2018-10-24
-outlet: "AVI press release (via Brands2Life)"
+outlet: "NewzNew"
+url: "https://www.newznew.com/ex-smokers-flay-punjabs-e-cigarette-ban/"
 type: "press-release"
 ---
 

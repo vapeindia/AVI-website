@@ -1,7 +1,8 @@
 ---
 title: "Consumers demand Karnataka government lift ban on e-cigarettes"
-date: 2019-05-10
-outlet: "AVI press release (via Brands2Life)"
+date: 2019-05-11
+outlet: "Inc42"
+url: "https://inc42.com/buzz/vaping-consumer-body-karnataka-govt-lift-ban-e-cigarettes/"
 type: "press-release"
 ---
 

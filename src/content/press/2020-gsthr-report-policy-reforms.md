@@ -1,7 +1,8 @@
 ---
 title: "Policy reforms needed to combat India's tobacco crisis: Global report"
 date: 2020-11-05
-outlet: "AVI press release (via Brands2Life)"
+outlet: "The Week (PTI wire)"
+url: "https://www.theweek.in/wire-updates/business/2020/11/06/pwr16-association-of-vapers-india--avi.html"
 type: "press-release"
 ---
 
