@@ -179,9 +179,10 @@ Node/npm in every working environment — see the "Design pass and a chain
 of build failures" note below for why that verification step matters and
 how to do it without a local build): Home, About, Contribute, India
 (index + law), Litigation (index + detail, 8 entries), Press (index, card
-grid split into Media Coverage / Press Releases & Statements, 71 entries,
-19 with a working source link and 52 showing an "archive, not yet linked"
-note — see the note below), Testimonials (index + submission form +
+grid split into Media Coverage / Press Releases & Statements, 70 entries,
+61 with a working source link (updated 2026-09-12 — "the drive-zip dig")
+and 9 still showing an "archive, not yet linked" note — see the note
+below), Testimonials (index + submission form +
 Cloudflare Pages Function, 0 published entries pending real submissions),
 Science (index + 46 entries, card grid), News (index + 21 entries, card
 grid — no per-article pages, cards link out to the source), Blog (index,
@@ -445,14 +446,44 @@ Also found and fixed on the way:
   `archivePdf`** — 52 of 71 entries (pre-existing, not new) have neither.
   The old plain-list template rendered `href={undefined}` for these
   invisibly; the new card template now conditionally shows "Source: AVI
-  press archive (not yet linked online)" instead. **The underlying gap —
-  52 archive documents never migrated to a real URL or a PDF in
-  `public/archive/` — is still open**, tracked as a real backlog item
-  (see "Press coverage recheck" note above for the source: the Drive
-  "AVI Board/AVI Outreach/Press releases" folder). A future session with
-  time for it could work through the `AAA-Vaping-*.zip` Drive export at
-  the top level of the local working folder (outside this repo) to
-  extract and host these.
+  press archive (not yet linked online)" instead. **Mostly closed
+  2026-09-12** ("the drive-zip dig"): worked through the `AAA-Vaping-*.zip`
+  Drive export (8-part Google Takeout, part 003 missing, extracted to
+  sibling folders `AAA-Vaping-20260903T021013Z-1-00[1,2,4-9]` at the top
+  level of the local working folder, outside this repo) — specifically
+  `AAA-Vaping/AVI/AVI Board/AVI Outreach/Press releases/` and its nested
+  `Press Releases/AVI Press releases/` subfolder, spread inconsistently
+  across parts. Extracted plain text from each `.docx` candidate via a
+  zero-dependency zip+XML reader (`.docx` is a zip of XML; write one if
+  redoing this — read `word/document.xml`, iterate `<w:p>` joining
+  `<w:t>` children) and confirmed 37 genuine matches by content (title,
+  dateline, quotes, names — not filename similarity alone: one look-alike,
+  a Deccan Chronicle piece that matched by headline but was actually
+  about a different, earlier ban announcement, was correctly left
+  unlinked). Each match is now hosted as a raw `.docx` at
+  `public/archive/press/<slug>.docx` (no PDF-conversion tool was available
+  in this environment — no soffice/libreoffice/pandoc on PATH — so these
+  are linked as-is; the `archivePdf` field name is legacy and just holds
+  a URL string, format-agnostic) and linked via that entry's `archivePdf`
+  frontmatter field. This also resolved two entries previously written
+  off: `2018-delhi-hc-hear-traders` (the matching file in the archive is a
+  legacy `.doc` with no `.docx` twin — found a different, later `.docx`
+  covering the same court hearing) and `2020-pedicon-doctor-debunks-myths`
+  (no candidate had turned up in the original search pass — found under
+  an unrelated-looking filename, "Press Release-Dr Vikas Jain.docx").
+  **9 entries still have no confirmed source** (checked, no match found,
+  or no candidate file exists in the archive at all): `2016-toi-bangalore-
+  rti`, `2018-medical-policy-experts-conference`, `2019-haryana-ban-
+  warning`, `2019-maharashtra-ban-opposition`, `2019-vapers-oppose-ban-
+  bill` (this one should instead reuse the already-hosted "AVI Letter to
+  MPs_Ecig Ban" PDF from the Submissions collection, if that ever gets
+  hosted — see the Submissions note elsewhere in this file), `2020-
+  airport-harassment-legal-action`, `2020-hrpr-one-year-ordinance-quote`,
+  `2020-kasera-onlymyhealth-tobacco-pandemic`, `2020-slt-spitting-covid-
+  pinkvilla`. Don't re-search filenames already ruled out in this pass
+  (check git log on this file for the full candidate list checked) —
+  focus a future pass on reading full file contents for anything with an
+  ambiguous filename rather than re-grepping titles.
 - 13 press entries (mostly the 10 Filter/Tobacco Reporter bylines added
   2026-09-09) had internal research notes as their body ("Found via
   Filter's author index... full text not read") rather than a real
