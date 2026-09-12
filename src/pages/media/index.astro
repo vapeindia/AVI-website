@@ -1,9 +1,41 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SocialIcon from '../../components/SocialIcon.astro';
 import { getCollection } from 'astro:content';
 
 const videos = (await getCollection('videos'))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+
+const platforms = [
+  {
+    icon: 'x' as const,
+    name: 'X',
+    handle: '@vapeindia',
+    href: 'https://x.com/vapeindia',
+    blurb: 'Follow us on X for the latest news, updates, rebuttals and advocacy.',
+  },
+  {
+    icon: 'linkedin' as const,
+    name: 'LinkedIn',
+    handle: 'Association of Vapers India',
+    href: 'https://www.linkedin.com/showcase/vapeindia',
+    blurb: 'Follow us on LinkedIn for policy analysis and regulatory insights.',
+  },
+  {
+    icon: 'facebook' as const,
+    name: 'Facebook',
+    handle: 'AVI',
+    href: 'https://facebook.com/avindia',
+    blurb: 'Track our page for news and articles, share your views, and flag misleading content that needs our response.',
+  },
+  {
+    icon: 'instagram' as const,
+    name: 'Instagram',
+    handle: '@avi_vapeindia',
+    href: 'https://instagram.com/avi_vapeindia',
+    blurb: 'Track our page for news and articles, share your views, and flag misleading content that needs our response.',
+  },
+];
 
 // Plain data for the client-side rotator below — id/title/thumb/url only,
 // nothing that needs the full collection entry.
@@ -15,7 +47,7 @@ const videoData = videos.map((v) => ({
 }));
 const latest = videoData[0];
 ---
-<Base title="Media" description="Videos from AVI's YouTube channel — Funvocacy Q&As, #VapingThursday talks, and explainers on tobacco harm reduction." wide={true}>
+<Base title="Media" description="Videos from AVI's YouTube channel, plus where to find AVI across X, LinkedIn, Facebook and Instagram." wide={true}>
   <section class="breakout media-hero">
     <div class="breakout-inner">
       <p class="eyebrow">On YouTube</p>
@@ -48,6 +80,26 @@ const latest = videoData[0];
       </section>
     </div>
   )}
+
+  <div class="media-body">
+    <section class="platforms">
+      <div class="section-head">
+        <h2>Find AVI everywhere</h2>
+        <p>A decade of consumer advocacy, spread across every platform where India's tobacco harm reduction conversation happens.</p>
+      </div>
+      <div class="platform-grid">
+        {platforms.map((p) => (
+          <a class="platform-card" href={p.href} target="_blank" rel="noopener" aria-label={`AVI on ${p.name}`}>
+            <span class="platform-icon"><SocialIcon name={p.icon} /></span>
+            <span class="platform-copy">
+              <span class="platform-name">{p.name} <span class="platform-handle">{p.handle}</span></span>
+              <span class="platform-blurb">{p.blurb}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
 
   <div class="media-body">
     <div class="section-head">
@@ -189,6 +241,26 @@ const latest = videoData[0];
     .section-head { margin-bottom: 1.5rem; }
     .section-head h2 { margin: 0 0 0.3rem; font-size: 1.3rem; }
     .section-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .platforms { margin: 1rem 0 3rem; }
+    .platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.25rem; }
+    .platform-card {
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.15rem 1.25rem; text-decoration: none; color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .platform-card:hover { border-color: var(--gold-dark); transform: translateY(-2px); }
+    .platform-icon {
+      flex-shrink: 0; width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      background: var(--accent-dark); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .platform-icon svg { width: 1.3rem; height: 1.3rem; }
+    .platform-copy { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+    .platform-name { font-weight: 700; font-size: 0.98rem; color: var(--ink); }
+    .platform-handle { font-weight: 400; color: var(--muted); font-size: 0.85rem; margin-left: 0.35rem; }
+    .platform-blurb { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
     .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.75rem; padding-bottom: 4rem; }
     .video-card { display: block; text-decoration: none; color: inherit; }
