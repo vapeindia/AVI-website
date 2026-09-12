@@ -20,8 +20,8 @@ const rawPath = Astro.url.pathname;
 const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
 function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
   if (p === '/quit' || p === '/policy') return 'start';
-  if (p.startsWith('/litigation') || p.startsWith('/science') || p === '/india' || p === '/india/law' || p === '/india/rti-replies') return 'evidence';
-  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press')) return 'advocacy';
+  if (p.startsWith('/science') || p === '/india' || p === '/india/law') return 'evidence';
+  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation')) return 'advocacy';
   if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
   return null;
 }
@@ -158,8 +158,8 @@ const group = activeGroup(path);
     .nav-dropdown[open] summary { color: var(--ink); }
     /* The whole dropdown reads as "on" while you're anywhere among its
        sub-links, not just while it happens to be open — the tab is one
-       unit, so it should look like one whether you arrived via India,
-       Litigation or Science. */
+       unit, so it should look like one whether you arrived via Campaigns,
+       Litigation or Press. */
     .nav-dropdown.active summary {
       color: var(--ink);
       font-weight: 700;
@@ -314,8 +314,6 @@ const group = activeGroup(path);
         <div class="dropdown-menu">
           <a href="/science" class:list={{ active: path.startsWith('/science') }}>Science</a>
           <a href="/india" class:list={{ active: path === '/india' || path === '/india/law' }}>India</a>
-          <a href="/india/rti-replies" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
-          <a href="/litigation" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
         </div>
       </details>
       <details class="nav-dropdown" class:list={{ active: group === 'advocacy' }}>
@@ -324,6 +322,8 @@ const group = activeGroup(path);
           <a href="/campaigns" class:list={{ active: path.startsWith('/campaigns') }}>Campaigns</a>
           <a href="/submissions" class:list={{ active: path === '/submissions' }}>Submissions to Policymakers</a>
           <a href="/press" class:list={{ active: path.startsWith('/press') }}>Press</a>
+          <a href="/india/rti-replies" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
+          <a href="/litigation" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
         </div>
       </details>
       <details class="nav-dropdown" class:list={{ active: group === 'updates' }}>
@@ -377,14 +377,14 @@ const group = activeGroup(path);
           <h3>The Evidence</h3>
           <a href="/science">Science</a>
           <a href="/india">India</a>
-          <a href="/india/rti-replies">RTI Replies</a>
-          <a href="/litigation">Litigation</a>
         </div>
         <div class="footer-col">
           <h3>Our Advocacy</h3>
           <a href="/campaigns">Campaigns</a>
           <a href="/submissions">Submissions to Policymakers</a>
           <a href="/press">Press</a>
+          <a href="/india/rti-replies">RTI Replies</a>
+          <a href="/litigation">Litigation</a>
         </div>
         <div class="footer-col">
           <h3>More</h3>
