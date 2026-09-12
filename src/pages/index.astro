@@ -103,35 +103,64 @@ const yearsActive = new Date().getFullYear() - 2016;
   </section>
 
   <section class="feed-section">
-    <div class="feed-grid">
-      <div>
-        <div class="feed-head"><h2>Latest news</h2><a href="/news">All news →</a></div>
-        <ul class="feed-list feed-news">
-          {latestNews.map((item) => (
-            <li>
-              <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
-              <span>{item.data.sourceName}</span>
-            </li>
-          ))}
-        </ul>
+    <div class="feed-tabbar">
+      <div class="feed-tabs" role="tablist" aria-label="Latest updates">
+        <button type="button" class="feed-tab active" role="tab" aria-selected="true" aria-controls="feed-panel-news" id="feed-tab-news" data-target="news">Latest news</button>
+        <button type="button" class="feed-tab" role="tab" aria-selected="false" aria-controls="feed-panel-research" id="feed-tab-research" data-target="research">Evidence library</button>
       </div>
-      <div>
-        <div class="feed-head"><h2>Evidence library</h2><a href="/science">Full library →</a></div>
-        <ul class="feed-list feed-research">
-          {latestResearch.map((item) => (
-            <li>
-              <a href={`/science/${item.id}`}>{item.data.title}</a>
-              <span>{item.data.journal}, {item.data.year}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <a class="feed-all" id="feed-all-link" href="/news">All news →</a>
+    </div>
+    <div class="feed-panels">
+      <ul class="feed-list feed-news" id="feed-panel-news" role="tabpanel" aria-labelledby="feed-tab-news">
+        {latestNews.map((item) => (
+          <li>
+            <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
+            <span>{item.data.sourceName}</span>
+          </li>
+        ))}
+      </ul>
+      <ul class="feed-list feed-research" id="feed-panel-research" role="tabpanel" aria-labelledby="feed-tab-research" hidden>
+        {latestResearch.map((item) => (
+          <li>
+            <a href={`/science/${item.id}`}>{item.data.title}</a>
+            <span>{item.data.journal}, {item.data.year}</span>
+          </li>
+        ))}
+      </ul>
     </div>
     <p class="legal-note">
       Electronic cigarettes are banned in India under the Prohibition of
       Electronic Cigarettes Act, 2019 (PECA). <a href="/india/law">Read what this means for you →</a>
     </p>
   </section>
+
+  <script>
+    const feedTabs = document.querySelectorAll('.feed-tab');
+    const feedAllLink = document.getElementById('feed-all-link');
+    const feedTargets: Record<string, { panel: string; href: string; label: string }> = {
+      news: { panel: 'feed-panel-news', href: '/news', label: 'All news →' },
+      research: { panel: 'feed-panel-research', href: '/science', label: 'Full library →' },
+    };
+    feedTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = (tab as HTMLElement).dataset.target;
+        if (!target) return;
+        feedTabs.forEach((t) => {
+          const active = t === tab;
+          t.classList.toggle('active', active);
+          t.setAttribute('aria-selected', String(active));
+        });
+        Object.entries(feedTargets).forEach(([key, { panel }]) => {
+          document.getElementById(panel)?.toggleAttribute('hidden', key !== target);
+        });
+        const info = feedTargets[target];
+        if (info && feedAllLink) {
+          feedAllLink.setAttribute('href', info.href);
+          feedAllLink.textContent = info.label;
+        }
+      });
+    });
+  </script>
 
   {latestVideo && (
     <section class="watch-strip" id="watch-strip">
@@ -249,7 +278,7 @@ const yearsActive = new Date().getFullYear() - 2016;
       background-size: cover;
       background-position: center 30%;
       color: #f4f1e6;
-      padding: 4.5rem 0 4rem;
+      padding: 3.75rem 0 3.25rem;
       position: relative;
       overflow: hidden;
     }
@@ -277,16 +306,16 @@ const yearsActive = new Date().getFullYear() - 2016;
       font-size: 1.1rem;
       color: #cdd6cf;
       max-width: 38rem;
-      margin: 0 0 2rem;
+      margin: 0 0 1.5rem;
     }
-    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
     .hero .btn-outline { border-color: #46524a; color: #f4f1e6; }
     .hero .btn-outline:hover { border-color: #f4f1e6; color: #fff; }
     .hero-stats {
       display: flex;
       gap: 2.5rem;
       flex-wrap: wrap;
-      padding-top: 1.75rem;
+      padding-top: 1.4rem;
       border-top: 1px solid #333c34;
     }
     .hero-stats strong {
@@ -305,16 +334,16 @@ const yearsActive = new Date().getFullYear() - 2016;
     .hero-stats-source a { color: #9fada2; }
 
     /* Three paths */
-    .paths { background: var(--paper); padding: 4rem 0 3.5rem; }
-    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .paths { background: var(--paper); padding: 2.75rem 0 2.5rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .path-card {
       background: #fff;
       border-radius: 6px;
-      padding: 1.75rem 1.5rem;
+      padding: 1.4rem 1.3rem;
       border-top: 4px solid;
       box-shadow: 0 1px 3px rgba(20,25,20,0.06);
     }
-    .path-card :global(svg) { width: 2rem; height: 2rem; margin-bottom: 1rem; }
+    .path-card :global(svg) { width: 1.75rem; height: 1.75rem; margin-bottom: 0.75rem; }
     .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
     .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
     .path-card a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
@@ -337,55 +366,79 @@ const yearsActive = new Date().getFullYear() - 2016;
       background-size: cover;
       background-position: center;
       color: #fff;
-      padding: 3.5rem 0;
+      padding: 2.5rem 0;
     }
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
     .big-stat strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 3.25rem;
+      font-size: 2.6rem;
       color: var(--gold-light);
       line-height: 1;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
     }
     .big-stat span { font-size: 0.92rem; color: #cfe0d8; line-height: 1.5; }
     @media (max-width: 780px) {
       .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
     }
 
-    /* Feed section */
-    .feed-section { max-width: var(--max-w-wide); margin: 3.5rem auto 0; padding: 0 1.5rem; }
-    .feed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
-    .feed-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
-    .feed-head h2 { margin: 0; font-size: 1.3rem; }
-    .feed-head a { font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-    .feed-list { list-style: none; margin: 0; padding: 0; }
+    /* Feed section — tabbed so News and Evidence share one compact slot
+       instead of two full-height stacked/side-by-side lists. */
+    .feed-section { max-width: var(--max-w-wide); margin: 2.5rem auto 0; padding: 0 1.5rem; }
+    .feed-tabbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+    .feed-tabs { display: flex; gap: 0.5rem; }
+    .feed-tab {
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--paper-alt);
+      border: none;
+      border-radius: 99px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+    }
+    .feed-tab:hover { color: var(--ink); }
+    .feed-tab.active { background: var(--accent-dark); color: #fff; }
+    .feed-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .feed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+    .feed-list[hidden] { display: none; }
     .feed-list li {
-      padding: 0.85rem 0 0.85rem 1rem;
+      background: #fff;
+      border: 1px solid var(--border);
       border-left: 3px solid var(--border);
-      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      padding: 0.55rem 0.9rem;
     }
     .feed-news li { border-left-color: var(--gold); }
     .feed-research li { border-left-color: var(--accent); }
-    .feed-list a { display: block; font-weight: 600; text-decoration: none; color: var(--ink); margin-bottom: 0.2rem; }
-    .feed-list a:hover { color: var(--accent); }
-    .feed-list span { font-size: 0.82rem; color: var(--muted); }
-    .legal-note { font-size: 0.92rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1.5rem; }
-    @media (max-width: 780px) {
-      .feed-grid { grid-template-columns: 1fr; }
+    .feed-list a {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      color: var(--ink);
+      margin-bottom: 0.15rem;
     }
+    .feed-list a:hover { color: var(--accent); }
+    .feed-list span { font-size: 0.78rem; color: var(--muted); }
+    .legal-note { font-size: 0.88rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1.1rem; margin-top: 1.25rem; margin-bottom: 0; }
 
     /* Watch strip */
-    .watch-strip { max-width: var(--max-w-wide); margin: 3rem auto 0; padding: 0 1.5rem; }
+    .watch-strip { max-width: var(--max-w-wide); margin: 2rem auto 0; padding: 0 1.5rem; }
     .watch-inner {
       display: grid;
-      grid-template-columns: 16rem 1fr;
-      gap: 2rem;
+      grid-template-columns: 13rem 1fr;
+      gap: 1.5rem;
       align-items: center;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1.5rem;
+      padding: 1.15rem;
     }
     .watch-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; transition: opacity 0.25s ease; }
     .watch-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: opacity 0.25s ease; }
@@ -406,7 +459,7 @@ const yearsActive = new Date().getFullYear() - 2016;
     }
 
     /* Donate */
-    .donate-pitch { background: var(--rust); color: #fff; padding: 3.75rem 0; margin-top: 3.5rem; }
+    .donate-pitch { background: var(--rust); color: #fff; padding: 2.75rem 0; margin-top: 2.25rem; }
     .donate-inner { max-width: 40rem; }
     .donate-pitch h2 { color: #fff; margin: 0 0 1rem; font-size: 1.9rem; }
     .donate-pitch p { color: #fbe6db; }
