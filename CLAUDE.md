@@ -154,6 +154,31 @@ Quit Like Sweden — all real outlet RSS feeds, all tagged `advocacy: true`.
 `vaping360.com`'s `/feed/` was tried and rejected: Cloudflare bot
 protection blocks it even with `-L`, returning a 403 after redirecting to
 the homepage — don't re-add it without checking that's changed.
+
+**Non-article filter added (2026-09-13):** a broad "e-cigarettes" Google
+Alert surfaced an Altria stock-data "company hub" page
+(proactiveinvestors.co.uk/companies/altria-group-inc/) — no real article,
+just a ticker page — and it went live on the homepage with a summary that
+literally said no content was found to summarize. Found and fixed the same
+day: 3 more contentless entries already live (a LinkedIn post, a TikTok
+video, a Tobacco Reporter tag-archive page), all deleted, plus a fix in
+`fetch-news.mjs` so this class doesn't recur — `NON_ARTICLE_URL_PATTERNS`
+skips direct social-media post URLs before spending an AI call on them,
+`MARKET_DATA_TITLE_PATTERNS` catches "company news & analysis"-style
+titles, and `looksLikeNoContentSummary()` is a last-resort net that skips
+writing the entry whenever the AI's own summary admits the snippet had
+nothing to summarize. Deliberately did **not** block by domain
+(investing.com and MarketWatch also carry genuine on-topic reporting — an
+FDA marketing-denial order, a contraband-cigarette seizure, both already
+live and correctly kept) and deliberately dropped an initial attempt at
+generic `/tag/`/`/category/`/`/companies/` URL-path matching after it
+false-positived on two real articles (Free Malaysia Today's permalinks
+all contain "/category/nation/...", SMH's contain
+"/business/companies/..." — ordinary section taxonomy, not an index page).
+If this class of junk shows up again, check whether it's actually a new
+shape the content-based check should have caught rather than reaching for
+another domain/path rule.
+
 **2023-2025 historical backfill (2026-09):** a one-time manual research
 pass (WebSearch/WebFetch, not RSS — Google Alerts and most outlet feeds
 only return recent items, they don't backfill) added 16 real, dated,

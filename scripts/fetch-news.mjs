@@ -4,17 +4,21 @@
  * listed in feeds.json), filters out commercial/vendor domains (PECA
  * advertising-risk guard — see blocklist.json), industry press releases
  * (press-wire-domains.json + launch-language title patterns — see
- * isIndustryPressRelease() below) and, for any feed with a `keywordFilter`
- * array (e.g. Filter/GFN's feed covers all drug policy, not just
- * tobacco/nicotine), off-topic items whose title+snippet match none of
- * those keywords. Writes a paraphrased AI summary per item and creates
- * entries under src/content/news/ with `reviewed: true` — as of 2026-09
- * this pipeline is fully automated (explicit site-owner instruction) and
- * the GitHub Action commits straight to main, no PR/human gate. `reviewed`
- * here means "passed the automated filters above," not "a person checked
- * it" — see the standing disclaimer on the News index page. This is scoped
- * to `news` only; fetch-research.mjs and the testimonials pipeline are
- * unchanged and still require human review.
+ * isIndustryPressRelease() below), off-topic items whose title+snippet match
+ * none of a feed's `keywordFilter` array (e.g. Filter/GFN's feed covers all
+ * drug policy, not just tobacco/nicotine), and non-article pages a broad
+ * company-name/ticker alert can still surface — a social-media post, a
+ * tag/category index page, or a stock-data "company hub" page with no real
+ * story (see NON_ARTICLE_URL_PATTERNS / MARKET_DATA_TITLE_PATTERNS / the
+ * post-summary looksLikeNoContentSummary() check below). Writes a
+ * paraphrased AI summary per item and creates entries under
+ * src/content/news/ with `reviewed: true` — as of 2026-09 this pipeline is
+ * fully automated (explicit site-owner instruction) and the GitHub Action
+ * commits straight to main, no PR/human gate. `reviewed` here means "passed
+ * the automated filters above," not "a person checked it" — see the
+ * standing disclaimer on the News index page. This is scoped to `news`
+ * only; fetch-research.mjs and the testimonials pipeline are unchanged and
+ * still require human review.
  *
  * Requires ANTHROPIC_API_KEY env var. Run via GitHub Action on a schedule.
  */
@@ -97,6 +101,59 @@ const OFF_TOPIC_CRIME_PATTERNS = [
 ];
 
 const SEO_GUIDE_SPAM_PATTERN = /\b(ultimate|comprehensive|proven|complete|definitive|science-backed)\s+guide\b/i;
+
+// Added 2026-09-13 after an Altria stock-data "company hub" page (no real
+// article, matched by a broad "e-cigarettes" Google Alert on the ticker)
+// went live on the homepage. Google Alerts also surface individual
+// social-media posts (a caption, not a news item) the same way — those are
+// caught here by URL shape, unambiguously and regardless of domain, before
+// spending an AI call on them. Deliberately NOT extended to generic
+// tag/category/author/companies path segments: tried that, but real outlets
+// use those words as ordinary URL taxonomy for genuine articles (Free
+// Malaysia Today's permalinks all include "/category/nation/...", and SMH's
+// include "/business/companies/..." for a real story) — path-shape alone
+// can't distinguish a news-org's section URL from a stock-data ticker hub.
+// The looksLikeNoContentSummary() check below is what actually catches
+// those non-article index/hub pages instead, since a real article always
+// has content to summarize and a hub page never does.
+const NON_ARTICLE_URL_PATTERNS = [
+  /linkedin\.com\/posts\//i,
+  /tiktok\.com\/@[^/]+\/video\//i,
+  /(twitter|x)\.com\/[^/]+\/status\//i,
+  /instagram\.com\/(p|reel)\//i,
+];
+
+function isNonArticleUrl(url) {
+  return NON_ARTICLE_URL_PATTERNS.some((re) => re.test(url));
+}
+
+// Same 2026-09-13 fix: a company "news & analysis" listing page's own title
+// gives it away even when the URL shape above doesn't catch it.
+const MARKET_DATA_TITLE_PATTERNS = [
+  /\bnews\s*&\s*analysis\b/i,
+  /\|\s*the markets\b/i,
+  /^tag:/i,
+];
+
+// Last-resort net, independent of domain/URL/title shape: when the RSS
+// snippet is empty or too thin to summarize, the AI politely says so
+// rather than fabricating content — that admission is the most reliable
+// signal of all that this isn't a real article, and catches shapes the
+// checks above don't anticipate. Checked after the AI call, so this can't
+// prevent that one API call, but it does stop the item from being
+// published and the URL is still marked `seen` so it won't be retried.
+const NO_CONTENT_SUMMARY_PATTERNS = [
+  /no (specific )?(news )?content (was|is) provided/i,
+  /not provided in the snippet/i,
+  /please provide the actual/i,
+  /details? (are|is) not provided/i,
+  /no information available/i,
+  /unable to summarize/i,
+];
+
+function looksLikeNoContentSummary(summary) {
+  return NO_CONTENT_SUMMARY_PATTERNS.some((re) => re.test(summary));
+}
 
 // A genuine research "systematic review" / "literature review" / Cochrane
 // review must never be caught by the product-review check below.
@@ -260,12 +317,20 @@ async function main() {
         console.log(`Skipped (off-topic/low-quality title pattern): ${item.title}`);
         continue;
       }
+      if (isNonArticleUrl(item.url) || MARKET_DATA_TITLE_PATTERNS.some((re) => re.test(item.title))) {
+        console.log(`Skipped (not an article — social post, tag page or company market-data hub): ${item.title}`);
+        continue;
+      }
       if (!matchesKeywords(item, feed.keywordFilter)) {
         console.log(`Skipped (off-topic per keywordFilter): ${item.title}`);
         continue;
       }
       seen.add(item.url);
       const ai = await writeSummary(item);
+      if (looksLikeNoContentSummary(ai.summary)) {
+        console.log(`Skipped (AI reports no real content in snippet): ${item.title}`);
+        continue;
+      }
       const date = new Date(item.date);
       const filename = `${date.toISOString().slice(0, 10)}-${slugify(item.title)}.md`;
       fs.writeFileSync(path.join(CONTENT_DIR, filename), toFrontmatter(item, ai));
