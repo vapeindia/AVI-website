@@ -7,6 +7,19 @@ interface Props {
   wide?: boolean;
 }
 const { title, description = "Tobacco harm reduction advocacy and evidence for India.", wide = false } = Astro.props;
+
+// Which nav group (if any) the current page belongs to, so the whole
+// dropdown stays visibly "on" no matter which of its sub-links you're
+// actually reading — the tab reads as one unit, not a set of unrelated
+// destinations you've wandered away from.
+const path = Astro.url.pathname;
+function activeGroup(p: string): 'evidence' | 'advocacy' | 'updates' | null {
+  if (p.startsWith('/litigation') || p.startsWith('/science') || p === '/india' || p === '/india/law' || p === '/india/rti-replies') return 'evidence';
+  if (p.startsWith('/campaigns') || p === '/india/submissions' || p.startsWith('/press')) return 'advocacy';
+  if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
+  return null;
+}
+const group = activeGroup(path);
 ---
 <!doctype html>
 <html lang="en">
@@ -110,6 +123,11 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       font-weight: 500;
     }
     nav.site a:hover { color: var(--ink); }
+    nav.site > a.active {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 2px solid var(--gold);
+    }
 
     .nav-dropdown { position: relative; display: inline-block; }
     .nav-dropdown summary {
@@ -125,6 +143,22 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
     .nav-dropdown summary::after { content: ' ▾'; font-size: 0.7em; }
     .nav-dropdown summary:hover { color: var(--ink); }
     .nav-dropdown[open] summary { color: var(--ink); }
+    /* The whole dropdown reads as "on" while you're anywhere among its
+       sub-links, not just while it happens to be open — the tab is one
+       unit, so it should look like one whether you arrived via India,
+       Litigation or Science. */
+    .nav-dropdown.active summary {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 2px solid var(--gold);
+    }
+    .dropdown-menu a.active {
+      background: var(--paper-alt);
+      color: var(--ink);
+      font-weight: 600;
+      border-left: 3px solid var(--gold);
+      padding-left: calc(0.6rem - 3px);
+    }
     .dropdown-menu {
       position: absolute;
       top: calc(100% + 0.75rem);
@@ -217,33 +251,33 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       <span>Association of Vapers India</span>
     </a>
     <nav class="site">
-      <a href="/about">About</a>
-      <details class="nav-dropdown">
+      <a href="/about" class:list={{ active: path === '/about' }}>About</a>
+      <details class="nav-dropdown" class:list={{ active: group === 'evidence' }}>
         <summary>The Evidence</summary>
         <div class="dropdown-menu">
-          <a href="/science">Science</a>
-          <a href="/india">India</a>
-          <a href="/india/rti-replies">RTI Replies</a>
-          <a href="/litigation">Litigation</a>
+          <a href="/science" class:list={{ active: path.startsWith('/science') }}>Science</a>
+          <a href="/india" class:list={{ active: path === '/india' || path === '/india/law' }}>India</a>
+          <a href="/india/rti-replies" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
+          <a href="/litigation" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
         </div>
       </details>
-      <details class="nav-dropdown">
+      <details class="nav-dropdown" class:list={{ active: group === 'advocacy' }}>
         <summary>Our Advocacy</summary>
         <div class="dropdown-menu">
-          <a href="/campaigns">Campaigns</a>
-          <a href="/india/submissions">Submissions to Policymakers</a>
-          <a href="/press">Press</a>
+          <a href="/campaigns" class:list={{ active: path.startsWith('/campaigns') }}>Campaigns</a>
+          <a href="/india/submissions" class:list={{ active: path === '/india/submissions' }}>Submissions to Policymakers</a>
+          <a href="/press" class:list={{ active: path.startsWith('/press') }}>Press</a>
         </div>
       </details>
-      <details class="nav-dropdown">
+      <details class="nav-dropdown" class:list={{ active: group === 'updates' }}>
         <summary>Updates</summary>
         <div class="dropdown-menu">
-          <a href="/news">News</a>
-          <a href="/media">Media</a>
+          <a href="/news" class:list={{ active: path.startsWith('/news') }}>News</a>
+          <a href="/media" class:list={{ active: path.startsWith('/media') }}>Media</a>
         </div>
       </details>
-      <a href="/testimonials">Testimonials</a>
-      <a href="/contribute">Contribute</a>
+      <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
+      <a href="/contribute" class:list={{ active: path === '/contribute' }}>Contribute</a>
     </nav>
   </header>
   <script>
