@@ -152,15 +152,25 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
+      gap: 0.9rem;
+      margin-bottom: 1.25rem;
     }
     footer.site .social a {
-      color: var(--muted);
+      color: #fff;
+      background: var(--accent-dark);
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      transition: background-color 0.15s ease, transform 0.15s ease;
     }
-    footer.site .social a:hover { color: var(--accent); }
-    footer.site .social svg { width: 1.3rem; height: 1.3rem; }
+    footer.site .social a:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+    }
+    footer.site .social svg { width: 1.35rem; height: 1.35rem; }
   </style>
 </head>
 <body>
@@ -192,7 +202,7 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       <a href="https://x.com/vapeindia" aria-label="AVI on X" title="X"><SocialIcon name="x" /></a>
       <a href="https://facebook.com/avindia" aria-label="AVI on Facebook" title="Facebook"><SocialIcon name="facebook" /></a>
       <a href="https://instagram.com/avi_vapeindia" aria-label="AVI on Instagram" title="Instagram"><SocialIcon name="instagram" /></a>
-      <a href="https://youtube.com/vapeindia" aria-label="AVI on YouTube" title="YouTube"><SocialIcon name="youtube" /></a>
+      <a href="https://youtube.com/channel/UCEgd8dgEScqYKKUBHwD1DDQ" aria-label="AVI on YouTube" title="YouTube"><SocialIcon name="youtube" /></a>
       <a href="https://linkedin.com" aria-label="AVI on LinkedIn" title="LinkedIn"><SocialIcon name="linkedin" /></a>
     </div>
     <p>© {new Date().getFullYear()} Association of Vapers India · contact@vapeindia.org</p>
