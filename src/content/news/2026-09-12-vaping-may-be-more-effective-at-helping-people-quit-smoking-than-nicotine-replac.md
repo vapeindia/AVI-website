@@ -1,9 +1,9 @@
 ---
 title: "Vaping may be more effective at helping people quit smoking than nicotine replacement ..."
 date: 2026-09-12
-sourceName: "Google Alert: e-cigarettes"
-sourceUrl: "https://www.facebook.com/fox5atlanta/posts/vaping-may-be-more-effective-at-helping-people-quit-smoking-than-nicotine-replac/1645775370253466/"
-summary: "Recent research suggests that vaping could be a more effective smoking cessation tool compared to traditional nicotine replacement therapies for individuals attempting to quit smoking."
+sourceName: "Google Alert: Vaping"
+sourceUrl: "https://www.instagram.com/p/DdKc7fzGN8h/"
+summary: "Research suggests that vaping could be more successful than traditional nicotine replacement therapies in assisting smokers with smoking cessation efforts."
 topic: "science"
 reviewed: true
 ---
