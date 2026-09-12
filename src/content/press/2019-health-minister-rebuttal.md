@@ -3,6 +3,7 @@ title: "Consumer body questions health minister's claims on vape ban"
 date: 2019-10-10
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-health-minister-rebuttal.docx"
 ---
 
 AVI's point-by-point rebuttal of Union Health Minister Dr Harsh Vardhan's

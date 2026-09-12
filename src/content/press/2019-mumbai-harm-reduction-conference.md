@@ -3,6 +3,7 @@ title: "International experts gather in Mumbai for conference on reducing tobacc
 date: 2019-10-13
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-mumbai-harm-reduction-conference.docx"
 ---
 
 A tobacco harm reduction conference jointly hosted by AVI and Knowledge-Action-

@@ -3,6 +3,7 @@ title: "Quotes from Indian vapers and experts, one year into the e-cigarette ban
 date: 2020-09-18
 outlet: "AVI press release (via Brands2Life)"
 type: "quote"
+archivePdf: "/archive/press/2020-one-year-ban-quotes.docx"
 ---
 
 A quote sheet marking one year since the September 2019 ordinance, gathering

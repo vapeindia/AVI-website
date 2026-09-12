@@ -3,6 +3,7 @@ title: "E-cigarette users to observe World Vape Day on May 30"
 date: 2020-05-30
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-world-vape-day.docx"
 ---
 
 Annual World Vape Day release, coordinated with consumer advocacy groups from

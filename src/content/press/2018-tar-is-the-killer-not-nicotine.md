@@ -3,6 +3,7 @@ title: "Tar is the killer, not nicotine — AVI"
 date: 2018-03-21
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2018-tar-is-the-killer-not-nicotine.docx"
 ---
 
 Explainer release distinguishing nicotine (addictive but not the primary

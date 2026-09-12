@@ -3,6 +3,7 @@ title: "Proposal to ban online vape info under IT Act is anti-people, say consum
 date: 2019-01-04
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-it-act-amendment-opposition.docx"
 ---
 
 Opposed a proposed IT Act amendment that would have banned publishing any

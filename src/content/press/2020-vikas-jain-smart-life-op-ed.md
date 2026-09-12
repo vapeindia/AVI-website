@@ -3,6 +3,7 @@ title: "India should promote less harmful alternatives to tobacco and smoking"
 date: 2020-07-01
 outlet: "Authored op-ed by Dr Vikas Jain, for Smart Life"
 type: "op-ed"
+archivePdf: "/archive/press/2020-vikas-jain-smart-life-op-ed.docx"
 ---
 
 Layman's-terms explainer op-ed by paediatrician Dr Vikas Jain, a founding

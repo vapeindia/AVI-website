@@ -3,6 +3,7 @@ title: "Banning e-cigarettes could harm public health: HRPR"
 date: 2018-08-10
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2018-banning-ecigarettes-could-harm-public-health.docx"
 ---
 
 Joint press conference release from HRPR (Harm Reduction Policy & Research)

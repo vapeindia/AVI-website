@@ -3,6 +3,7 @@ title: "How to give up tobacco and look towards harm reduction or prevention"
 date: 2020-06-15
 outlet: "Authored op-ed by Dhaval Gogate, for Pinkvilla"
 type: "op-ed"
+archivePdf: "/archive/press/2020-gogate-pinkvilla-op-ed.docx"
 ---
 
 Practical, personal-advice-styled op-ed on quit pathways (abstinence, NRTs,

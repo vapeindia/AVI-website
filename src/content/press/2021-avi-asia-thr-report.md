@@ -3,6 +3,7 @@ title: "Indian vaping group co-hosts launch of report on Asia tobacco control me
 date: 2021-04-18
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2021-avi-asia-thr-report.docx"
 ---
 
 AVI co-hosted, with Knowledge Action Change, the launch of "Tobacco Harm

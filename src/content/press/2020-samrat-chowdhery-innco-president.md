@@ -3,6 +3,7 @@ title: "India's Samrat Chowdhery appointed as INNCO President"
 date: 2020-07-01
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-samrat-chowdhery-innco-president.docx"
 ---
 
 Announced Samrat Chowdhery's appointment as President of the International

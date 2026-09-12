@@ -3,6 +3,7 @@ title: "AVI condemns BCAS move to ban e-cigarettes in airports, aircrafts"
 date: 2020-01-15
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-bcas-airports-aircraft-condemnation.docx"
 ---
 
 AVI's first reaction to BCAS's 10 January 2020 circular confiscating

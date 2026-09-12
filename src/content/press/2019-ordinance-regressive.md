@@ -3,6 +3,7 @@ title: "E-cigarette ordinance regressive, will harm millions of smokers: Consume
 date: 2019-09-16
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-ordinance-regressive.docx"
 ---
 
 AVI's response to the ENDS Ordinance (PECA's immediate predecessor), calling

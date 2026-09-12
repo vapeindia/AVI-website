@@ -3,6 +3,7 @@ title: "Tobacco companies benefit from India's policy against e-cigarettes"
 date: 2020-06-11
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-gfn-speech-tobacco-monopolies.docx"
 ---
 
 Recap of Samrat Chowdhery's address to the (virtual) Global Forum on

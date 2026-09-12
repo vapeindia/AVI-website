@@ -3,6 +3,7 @@ title: "Why India needs e-cigarettes"
 date: 2018-10-15
 outlet: "Authored op-ed by Samrat Chowdhery"
 type: "op-ed"
+archivePdf: "/archive/press/2018-why-india-needs-ecigarettes.docx"
 ---
 
 Long-form op-ed making the harm-reduction case, drawing an analogy to

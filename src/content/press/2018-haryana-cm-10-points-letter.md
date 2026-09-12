@@ -3,6 +3,7 @@ title: "AVI's 10-point letter to the Haryana Chief Minister on ENDS policy"
 date: 2018-07-24
 outlet: "AVI letter to Haryana Chief Minister Manohar Lal Khattar"
 type: "press-release"
+archivePdf: "/archive/press/2018-haryana-cm-10-points-letter.docx"
 ---
 
 A formal letter, not a press release in the usual sense, asking Haryana's

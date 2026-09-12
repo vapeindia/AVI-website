@@ -3,6 +3,7 @@ title: "TN e-cigarette ban challenged in HC, govt directed to reply in 3 weeks"
 date: 2018-11-14
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2018-madras-hc-first-hearing.docx"
 ---
 
 Direct corroboration for this site's Chennai litigation entry: reports the

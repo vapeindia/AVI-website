@@ -3,6 +3,7 @@ title: "Indian experts oppose proposal to ban safer tobacco alternatives in deve
 date: 2020-08-11
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-union-lmic-proposal-opposition.docx"
 ---
 
 Opposed a position paper by Paris-based NGO "The Union" proposing developing

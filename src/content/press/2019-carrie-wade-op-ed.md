@@ -3,6 +3,7 @@ title: "India's new e-cigarette ban goes against its history of being a leader i
 date: 2019-10-15
 outlet: "Authored op-ed by Carrie Wade (R Street Institute)"
 type: "op-ed"
+archivePdf: "/archive/press/2019-carrie-wade-op-ed.docx"
 ---
 
 Op-ed by Carrie Wade, Director of Harm Reduction Policy at the US-based R

@@ -3,6 +3,7 @@ title: "Health Ministry calls for ban on e-cigarettes is not justified — AVI"
 date: 2018-04-13
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2018-health-ministry-ban-not-justified.docx"
 ---
 
 AVI's response to media reports that the central government had told the

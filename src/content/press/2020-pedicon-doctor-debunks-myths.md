@@ -3,6 +3,7 @@ title: "Indore doctor debunks myths on e-cigarettes"
 date: 2020-01-16
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-pedicon-doctor-debunks-myths.docx"
 ---
 
 Covered paediatrician Dr Vikas Jain's remarks at PEDICON2020 (Indore)

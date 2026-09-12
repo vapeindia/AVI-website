@@ -3,6 +3,7 @@ title: "HC asks govt to hear e-cigarette traders"
 date: 2018-08-21
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2018-delhi-hc-hear-traders.docx"
 ---
 
 AVI's contemporaneous report on the Delhi High Court's 21 August 2018 order

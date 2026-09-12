@@ -3,6 +3,7 @@ title: "AVI calls for nationwide protest against the e-cigarette ban ordinance"
 date: 2019-09-26
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-nationwide-protest-sept28.docx"
 ---
 
 Announces a nationwide call for vapers to protest the ban ordinance in

@@ -3,6 +3,7 @@ title: "International travellers in dismay over BCAS' e-cigarette ban"
 date: 2020-03-03
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-bcas-international-travellers.docx"
 ---
 
 AVI press release on the fallout from BCAS's January 2020 circular confiscating

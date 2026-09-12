@@ -3,6 +3,7 @@ title: "AVI appeals to e-cigarette users to urge government to repeal the vape b
 date: 2019-11-04
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-appeal-repeal-ordinance.docx"
 ---
 
 Call to action urging vapers to write to the health ministry opposing the

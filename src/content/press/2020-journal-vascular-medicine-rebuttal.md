@@ -3,6 +3,7 @@ title: "AVI response to Journal Vascular Medicine study coverage"
 date: 2020-07-10
 outlet: "AVI statement (via Brands2Life)"
 type: "op-ed"
+archivePdf: "/archive/press/2020-journal-vascular-medicine-rebuttal.docx"
 ---
 
 Samrat Chowdhery's by-lined rebuttal of Hindustan Times coverage of a study

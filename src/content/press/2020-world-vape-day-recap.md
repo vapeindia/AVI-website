@@ -3,6 +3,7 @@ title: "Vaping community celebrates World Vape Day; shows solidarity against vap
 date: 2020-06-01
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-world-vape-day-recap.docx"
 ---
 
 Follow-up recap of the 30 May 2020 World Vape Day campaign (see the separate

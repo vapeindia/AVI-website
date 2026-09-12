@@ -3,6 +3,7 @@ title: "AVI opposes Jharkhand government proposal to ban e-cigarettes"
 date: 2019-03-15
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-jharkhand-ban-opposition.docx"
 ---
 
 Response to Jharkhand health secretary Dr Nitin Madan Kulkarni's 7 March 2019

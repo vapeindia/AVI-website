@@ -3,6 +3,7 @@ title: "Ex-smokers say quitting is tough, call for robust cessation ecosystem"
 date: 2020-08-15
 outlet: "HRPR press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-cessation-ecosystem-webinar.docx"
 ---
 
 Reports on an HRPR-hosted webinar where panelists from Kolkata, Delhi,

@@ -3,6 +3,7 @@ title: "Consumers, industry to contest proposed national vape ban"
 date: 2018-04-05
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2018-delhi-hc-first-hearing.docx"
 ---
 
 AVI's release on a Delhi High Court hearing in the Seema Sehgal PIL (see this

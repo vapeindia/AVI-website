@@ -3,6 +3,7 @@ title: "Vape ban after-effect: Vapers' health deteriorating, experiencing behavi
 date: 2020-04-21
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2020-vape-ban-after-effect.docx"
 ---
 
 Six months after the ban, gathered accounts of vapers reporting a return to

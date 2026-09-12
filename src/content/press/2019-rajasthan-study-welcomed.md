@@ -3,6 +3,7 @@ title: "Consumers welcome Rajasthan government's decision to study health effect
 date: 2019-06-01
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-rajasthan-study-welcomed.docx"
 ---
 
 **Flagged, not fully verified**: the source document is in Hindi, saved in a
