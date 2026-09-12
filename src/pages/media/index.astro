@@ -4,6 +4,15 @@ import { getCollection } from 'astro:content';
 
 const videos = (await getCollection('videos'))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+
+// Plain data for the client-side rotator below — id/title/thumb/url only,
+// nothing that needs the full collection entry.
+const videoData = videos.map((v) => ({
+  title: v.data.title,
+  thumb: v.data.thumbnailUrl,
+  url: `https://www.youtube.com/watch?v=${v.data.videoId}`,
+}));
+const latest = videoData[0];
 ---
 <Base title="Media" description="Videos from AVI's YouTube channel — Funvocacy Q&As, #VapingThursday talks, and explainers on tobacco harm reduction." wide={true}>
   <section class="breakout media-hero">
@@ -14,13 +23,35 @@ const videos = (await getCollection('videos'))
         Board Q&amp;As under the Funvocacy series, #VapingThursday talks
         with international researchers and advocates, and explainers on
         tobacco harm reduction — pulled automatically from
-        AVI's YouTube channel, newest first.
+        AVI's YouTube channel.
       </p>
       <a class="btn btn-gold" href="https://youtube.com/channel/UCEgd8dgEScqYKKUBHwD1DDQ" target="_blank" rel="noopener">Subscribe on YouTube →</a>
     </div>
   </section>
 
+  {latest && (
+    <div class="media-body">
+      <section class="spotlight" id="spotlight">
+        <p class="spotlight-label">Featured — changes every few seconds</p>
+        <div class="spotlight-inner">
+          <a class="spotlight-thumb" id="spotlight-link" href={latest.url} target="_blank" rel="noopener">
+            <img id="spotlight-img" src={latest.thumb} alt={latest.title} />
+            <span class="play-badge" aria-hidden="true">▶</span>
+          </a>
+          <div class="spotlight-copy">
+            <h2 id="spotlight-title">{latest.title}</h2>
+            <button type="button" class="btn btn-outline" id="spotlight-shuffle">Shuffle 🔀</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  )}
+
   <div class="media-body">
+    <div class="section-head">
+      <h2>All videos</h2>
+      <p>Newest first — the full catalogue.</p>
+    </div>
     <div class="media-grid">
       {videos.map((v) => (
         <a class="video-card" href={`https://www.youtube.com/watch?v=${v.data.videoId}`} target="_blank" rel="noopener">
@@ -36,6 +67,74 @@ const videos = (await getCollection('videos'))
       ))}
     </div>
   </div>
+
+  <script type="application/json" id="video-data" set:html={JSON.stringify(videoData).replace(/</g, '\\u003c')} />
+  <script>
+    const videos = JSON.parse(document.getElementById('video-data')?.textContent || '[]');
+    const spotlight = document.getElementById('spotlight');
+    const img = document.getElementById('spotlight-img');
+    const titleEl = document.getElementById('spotlight-title');
+    const link = document.getElementById('spotlight-link');
+    const shuffleBtn = document.getElementById('spotlight-shuffle');
+
+    if (spotlight && videos.length > 1) {
+      const ROTATE_MS = 9000;
+      const FADE_MS = 250;
+      let currentIndex = 0; // index 0 (latest) matches what was server-rendered
+      let paused = false;
+      let timer;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function pickNext() {
+        if (videos.length < 2) return currentIndex;
+        let next;
+        do { next = Math.floor(Math.random() * videos.length); } while (next === currentIndex);
+        return next;
+      }
+
+      function render(index) {
+        const v = videos[index];
+        img.style.opacity = '0';
+        link.style.opacity = '0';
+        setTimeout(() => {
+          img.src = v.thumb;
+          img.alt = v.title;
+          titleEl.textContent = v.title;
+          link.href = v.url;
+          img.style.opacity = '1';
+          link.style.opacity = '1';
+        }, FADE_MS);
+      }
+
+      function rotate() {
+        if (paused) return;
+        currentIndex = pickNext();
+        render(currentIndex);
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(rotate, ROTATE_MS);
+      }
+
+      if (!reduceMotion) {
+        startTimer();
+        spotlight.addEventListener('mouseenter', () => { paused = true; });
+        spotlight.addEventListener('mouseleave', () => { paused = false; });
+        spotlight.addEventListener('focusin', () => { paused = true; });
+        spotlight.addEventListener('focusout', () => { paused = false; });
+      }
+
+      shuffleBtn?.addEventListener('click', () => {
+        currentIndex = pickNext();
+        render(currentIndex);
+        if (!reduceMotion) startTimer(); // reset the clock so it doesn't rotate right after a manual pick
+      });
+    } else if (shuffleBtn) {
+      shuffleBtn.style.display = 'none';
+    }
+  </script>
 
   <style>
     .eyebrow {
@@ -56,19 +155,40 @@ const videos = (await getCollection('videos'))
     .media-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .media-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0 0 1.75rem; }
 
-    .media-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.75rem; }
+    .media-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 0 1.5rem; }
+    .media-body:first-of-type { padding-top: 3rem; }
+
+    .spotlight { margin-bottom: 3rem; }
+    .spotlight-label {
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--gold-dark); margin: 0 0 0.9rem;
+    }
+    .spotlight-inner {
+      display: grid; grid-template-columns: 22rem 1fr; gap: 2rem; align-items: center;
+      background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem;
+    }
+    .spotlight-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; }
+    .spotlight-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: opacity 0.25s ease; }
+    .spotlight-copy h2 { margin: 0 0 1.25rem; font-size: 1.4rem; line-height: 1.35; }
+    .play-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 3rem; height: 3rem; border-radius: 50%;
+      background: rgba(18,19,15,0.75); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    @media (max-width: 640px) {
+      .spotlight-inner { grid-template-columns: 1fr; }
+    }
+
+    .section-head { margin-bottom: 1.5rem; }
+    .section-head h2 { margin: 0 0 0.3rem; font-size: 1.3rem; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.75rem; padding-bottom: 4rem; }
     .video-card { display: block; text-decoration: none; color: inherit; }
     .thumb { position: relative; border-radius: 8px; overflow: hidden; line-height: 0; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(20,25,20,0.08); }
     .thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: transform 0.2s ease; }
     .video-card:hover .thumb img { transform: scale(1.03); }
-    .thumb .play-badge {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 2.75rem; height: 2.75rem; border-radius: 50%;
-      background: rgba(18,19,15,0.75); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
     .video-card h2 { margin: 0 0 0.3rem; font-size: 1rem; line-height: 1.4; color: var(--ink); }
     .video-card time { font-size: 0.8rem; color: var(--muted); }
   </style>
