@@ -3,6 +3,7 @@ title: "Ban on public spitting and SLT to control Covid-19 may not be enough"
 date: 2020-05-20
 outlet: "Authored article, for Pinkvilla"
 type: "op-ed"
+archivePdf: "/archive/press/2020-slt-spitting-covid-pinkvilla.pdf"
 ---
 
 Written days after a Delhi HC petition sought a ban on smokeless tobacco

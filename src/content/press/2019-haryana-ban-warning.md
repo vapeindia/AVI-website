@@ -3,6 +3,7 @@ title: "Banning e-cigarettes could harm public health, AVI warns Haryana Governm
 date: 2019-01-15
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-haryana-ban-warning.doc"
 ---
 
 Response to an unnamed NGO's letter urging Haryana CM Manohar Lal Khattar to

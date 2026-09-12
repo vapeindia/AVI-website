@@ -3,6 +3,7 @@ title: "Samrat Chowdhery marks one year of the e-cigarette ordinance"
 date: 2020-09-18
 outlet: "AVI/HRPR statement (via Brands2Life)"
 type: "quote"
+archivePdf: "/archive/press/2020-hrpr-one-year-ordinance-quote.pdf"
 ---
 
 Extended statement by Samrat Chowdhery (HRPR director) on the ordinance's

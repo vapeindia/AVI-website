@@ -3,6 +3,7 @@ title: "Tobacco consumption is also a pandemic, and should be countered with rea
 date: 2020-06-01
 outlet: "Authored article by Maneesh Kasera, for Only My Health"
 type: "op-ed"
+archivePdf: "/archive/press/2020-kasera-onlymyhealth-tobacco-pandemic.docx"
 ---
 
 **Date is approximate** — the source document has no dateline, only the

@@ -3,6 +3,7 @@ title: "AVI opposes ban on e-cigarette in Maharashtra"
 date: 2019-05-31
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"
+archivePdf: "/archive/press/2019-maharashtra-ban-opposition.docx"
 ---
 
 Released on World No Tobacco Day, opposing the Maharashtra FDA's ban on ENDS
