@@ -47,6 +47,9 @@ const typeLabel: Record<string, string> = {
             <summary>Read the full text</summary>
             <div class="full-text"><Content /></div>
           </details>
+          {item.data.archivePdf && (
+            <a class="pdf-link" href={item.data.archivePdf} target="_blank" rel="noopener">View the original filing (PDF) →</a>
+          )}
         </article>
       ))}
     </div>
@@ -120,5 +123,6 @@ const typeLabel: Record<string, string> = {
     .full-text :global(p) { margin: 0 0 0.9rem; }
     .full-text :global(p:last-child) { margin-bottom: 0; }
     .full-text :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
+    .pdf-link { display: block; margin-top: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); }
   </style>
 </Base>
