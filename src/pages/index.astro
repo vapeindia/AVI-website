@@ -135,13 +135,13 @@ const yearsActive = new Date().getFullYear() - 2016;
 
   {latestVideo && (
     <section class="watch-strip" id="watch-strip">
+      <p class="eyebrow watch-eyebrow">From our YouTube channel</p>
       <div class="watch-inner">
         <a class="watch-thumb" id="watch-link" href={latestVideo.url} target="_blank" rel="noopener">
           <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" />
           <span class="play-badge" aria-hidden="true">▶</span>
         </a>
         <div class="watch-copy">
-          <p class="eyebrow">From our YouTube channel</p>
           <h2 id="watch-title">{latestVideo.title}</h2>
           <p id="watch-summary">{latestVideo.summary}</p>
           <div class="watch-links">
@@ -396,7 +396,7 @@ const yearsActive = new Date().getFullYear() - 2016;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem;
     }
-    .watch-copy .eyebrow { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold-dark); margin: 0 0 0.5rem; }
+    .watch-eyebrow { margin: 0 0 1rem; }
     .watch-copy h2 { margin: 0 0 0.5rem; font-size: 1.3rem; line-height: 1.35; }
     .watch-copy #watch-summary { margin: 0 0 1rem; color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
     .watch-links { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
