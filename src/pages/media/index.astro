@@ -9,6 +9,7 @@ const videos = (await getCollection('videos'))
 // nothing that needs the full collection entry.
 const videoData = videos.map((v) => ({
   title: v.data.title,
+  summary: v.data.summary,
   thumb: v.data.thumbnailUrl,
   url: `https://www.youtube.com/watch?v=${v.data.videoId}`,
 }));
@@ -32,7 +33,7 @@ const latest = videoData[0];
   {latest && (
     <div class="media-body">
       <section class="spotlight" id="spotlight">
-        <p class="spotlight-label">Featured — changes every few seconds</p>
+        <p class="spotlight-label">Featured</p>
         <div class="spotlight-inner">
           <a class="spotlight-thumb" id="spotlight-link" href={latest.url} target="_blank" rel="noopener">
             <img id="spotlight-img" src={latest.thumb} alt={latest.title} />
@@ -40,6 +41,7 @@ const latest = videoData[0];
           </a>
           <div class="spotlight-copy">
             <h2 id="spotlight-title">{latest.title}</h2>
+            <p id="spotlight-summary">{latest.summary}</p>
             <button type="button" class="btn btn-outline" id="spotlight-shuffle">Shuffle 🔀</button>
           </div>
         </div>
@@ -60,6 +62,7 @@ const latest = videoData[0];
             <span class="play-badge" aria-hidden="true">▶</span>
           </div>
           <h2>{v.data.title}</h2>
+          <p class="card-summary">{v.data.summary}</p>
           <time datetime={v.data.publishedDate.toISOString()}>
             {v.data.publishedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
           </time>
@@ -74,6 +77,7 @@ const latest = videoData[0];
     const spotlight = document.getElementById('spotlight');
     const img = document.getElementById('spotlight-img');
     const titleEl = document.getElementById('spotlight-title');
+    const summaryEl = document.getElementById('spotlight-summary');
     const link = document.getElementById('spotlight-link');
     const shuffleBtn = document.getElementById('spotlight-shuffle');
 
@@ -101,6 +105,7 @@ const latest = videoData[0];
           img.src = v.thumb;
           img.alt = v.title;
           titleEl.textContent = v.title;
+          summaryEl.textContent = v.summary;
           link.href = v.url;
           img.style.opacity = '1';
           link.style.opacity = '1';
@@ -167,9 +172,10 @@ const latest = videoData[0];
       display: grid; grid-template-columns: 22rem 1fr; gap: 2rem; align-items: center;
       background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem;
     }
-    .spotlight-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; }
+    .spotlight-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; transition: opacity 0.25s ease; }
     .spotlight-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: opacity 0.25s ease; }
-    .spotlight-copy h2 { margin: 0 0 1.25rem; font-size: 1.4rem; line-height: 1.35; }
+    .spotlight-copy h2 { margin: 0 0 0.6rem; font-size: 1.4rem; line-height: 1.35; }
+    .spotlight-copy #spotlight-summary { margin: 0 0 1.25rem; color: var(--muted); font-size: 0.95rem; line-height: 1.55; }
     .play-badge {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 3rem; height: 3rem; border-radius: 50%;
@@ -189,7 +195,8 @@ const latest = videoData[0];
     .thumb { position: relative; border-radius: 8px; overflow: hidden; line-height: 0; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(20,25,20,0.08); }
     .thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: transform 0.2s ease; }
     .video-card:hover .thumb img { transform: scale(1.03); }
-    .video-card h2 { margin: 0 0 0.3rem; font-size: 1rem; line-height: 1.4; color: var(--ink); }
+    .video-card h2 { margin: 0 0 0.35rem; font-size: 1rem; line-height: 1.4; color: var(--ink); }
+    .card-summary { margin: 0 0 0.5rem; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
     .video-card time { font-size: 0.8rem; color: var(--muted); }
   </style>
 </Base>

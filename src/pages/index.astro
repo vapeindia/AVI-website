@@ -13,8 +13,15 @@ const latestResearch = (await getCollection('research', ({ data }) => data.revie
   .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
-const latestVideo = (await getCollection('videos'))
-  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())[0];
+const videoData = (await getCollection('videos'))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
+  .map((v) => ({
+    title: v.data.title,
+    summary: v.data.summary,
+    thumb: v.data.thumbnailUrl,
+    url: `https://www.youtube.com/watch?v=${v.data.videoId}`,
+  }));
+const latestVideo = videoData[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
 const litigationCount = (await getCollection('litigation')).length;
@@ -127,23 +134,86 @@ const yearsActive = new Date().getFullYear() - 2016;
   </section>
 
   {latestVideo && (
-    <section class="watch-strip">
+    <section class="watch-strip" id="watch-strip">
       <div class="watch-inner">
-        <a class="watch-thumb" href={`https://www.youtube.com/watch?v=${latestVideo.data.videoId}`} target="_blank" rel="noopener">
-          <img src={latestVideo.data.thumbnailUrl} alt={latestVideo.data.title} loading="lazy" />
+        <a class="watch-thumb" id="watch-link" href={latestVideo.url} target="_blank" rel="noopener">
+          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" />
           <span class="play-badge" aria-hidden="true">▶</span>
         </a>
         <div class="watch-copy">
           <p class="eyebrow">From our YouTube channel</p>
-          <h2>{latestVideo.data.title}</h2>
+          <h2 id="watch-title">{latestVideo.title}</h2>
+          <p id="watch-summary">{latestVideo.summary}</p>
           <div class="watch-links">
-            <a class="btn btn-outline" href={`https://www.youtube.com/watch?v=${latestVideo.data.videoId}`} target="_blank" rel="noopener">Watch on YouTube →</a>
+            <a class="btn btn-outline" id="watch-cta" href={latestVideo.url} target="_blank" rel="noopener">Watch on YouTube →</a>
             <a href="/media">More videos →</a>
           </div>
         </div>
       </div>
     </section>
   )}
+
+  <script type="application/json" id="watch-video-data" set:html={JSON.stringify(videoData).replace(/</g, '\\u003c')} />
+  <script>
+    const videos = JSON.parse(document.getElementById('watch-video-data')?.textContent || '[]');
+    const strip = document.getElementById('watch-strip');
+    const img = document.getElementById('watch-img');
+    const titleEl = document.getElementById('watch-title');
+    const summaryEl = document.getElementById('watch-summary');
+    const link = document.getElementById('watch-link');
+    const cta = document.getElementById('watch-cta');
+
+    if (strip && videos.length > 1) {
+      const ROTATE_MS = 9000;
+      const FADE_MS = 250;
+      let currentIndex = 0; // matches the server-rendered latest video
+      let paused = false;
+      let timer;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function pickNext() {
+        let next;
+        do { next = Math.floor(Math.random() * videos.length); } while (next === currentIndex);
+        return next;
+      }
+
+      function render(index) {
+        const v = videos[index];
+        img.style.opacity = '0';
+        link.style.opacity = '0';
+        setTimeout(() => {
+          img.src = v.thumb;
+          img.alt = v.title;
+          titleEl.textContent = v.title;
+          summaryEl.textContent = v.summary;
+          link.href = v.url;
+          cta.href = v.url;
+          img.style.opacity = '1';
+          link.style.opacity = '1';
+        }, FADE_MS);
+      }
+
+      function rotate() {
+        if (paused) return;
+        currentIndex = pickNext();
+        render(currentIndex);
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(rotate, ROTATE_MS);
+      }
+
+      if (!reduceMotion) {
+        startTimer();
+        strip.addEventListener('mouseenter', () => { paused = true; });
+        strip.addEventListener('mouseleave', () => { paused = false; });
+        strip.addEventListener('focusin', () => { paused = true; });
+        strip.addEventListener('focusout', () => { paused = false; });
+      }
+    }
+  </script>
 
   <section class="breakout donate-pitch">
     <div class="breakout-inner donate-inner">
@@ -317,8 +387,8 @@ const yearsActive = new Date().getFullYear() - 2016;
       border-radius: 8px;
       padding: 1.5rem;
     }
-    .watch-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; }
-    .watch-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .watch-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; transition: opacity 0.25s ease; }
+    .watch-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: opacity 0.25s ease; }
     .watch-thumb .play-badge {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 3rem; height: 3rem; border-radius: 50%;
@@ -327,7 +397,8 @@ const yearsActive = new Date().getFullYear() - 2016;
       font-size: 1.1rem;
     }
     .watch-copy .eyebrow { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold-dark); margin: 0 0 0.5rem; }
-    .watch-copy h2 { margin: 0 0 1rem; font-size: 1.3rem; line-height: 1.35; }
+    .watch-copy h2 { margin: 0 0 0.5rem; font-size: 1.3rem; line-height: 1.35; }
+    .watch-copy #watch-summary { margin: 0 0 1rem; color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
     .watch-links { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
     .watch-links a:not(.btn) { font-weight: 600; font-size: 0.9rem; }
     @media (max-width: 640px) {

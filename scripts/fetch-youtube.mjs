@@ -35,12 +35,33 @@ function jq(s) {
   return JSON.stringify(s);
 }
 
+// AVI's video descriptions repeat the same channel boilerplate (social
+// links, donate pitch, PECA disclaimer) after a short video-specific
+// intro. Take the text before that boilerplate starts, if there's enough
+// of it to be useful; otherwise fall back to the schema default.
+const BOILERPLATE_MARKERS = [
+  'AVI is a non profit', 'AVI is a non-profit', '═╣', 'SOCIAL MEDIA',
+  'For Full video', 'DISCLAIMER',
+];
+function extractSummary(description) {
+  if (!description) return undefined;
+  let text = description;
+  for (const marker of BOILERPLATE_MARKERS) {
+    const idx = text.indexOf(marker);
+    if (idx !== -1) text = text.slice(0, idx);
+  }
+  text = text.replace(/\s+/g, ' ').trim();
+  if (text.length < 15) return undefined; // nothing usable before the boilerplate
+  return text.length > 200 ? `${text.slice(0, 197)}...` : text;
+}
+
 function toFrontmatter(video) {
   return `---
 videoId: ${jq(video.videoId)}
 title: ${jq(video.title)}
 publishedDate: ${video.publishedDate}
 thumbnailUrl: ${jq(video.thumbnailUrl)}
+${video.summary ? `summary: ${jq(video.summary)}` : ''}
 ---
 `;
 }
@@ -67,14 +88,16 @@ async function main() {
 
     const title = entry.title;
     const publishedDate = (entry.published ?? '').slice(0, 10); // YYYY-MM-DD
-    const thumbnailUrl = entry['media:group']?.['media:thumbnail']?.['@_url']
+    const mediaGroup = entry['media:group'] ?? {};
+    const thumbnailUrl = mediaGroup['media:thumbnail']?.['@_url']
       ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+    const summary = extractSummary(mediaGroup['media:description']);
 
     const filename = `${publishedDate}-${slugify(title)}.md`;
     const filepath = path.join(CONTENT_DIR, filename);
     if (fs.existsSync(filepath)) continue; // filename collision guard
 
-    fs.writeFileSync(filepath, toFrontmatter({ videoId, title, publishedDate, thumbnailUrl }));
+    fs.writeFileSync(filepath, toFrontmatter({ videoId, title, publishedDate, thumbnailUrl, summary }));
     written += 1;
     console.log(`Wrote: ${filename}`);
   }

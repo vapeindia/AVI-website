@@ -211,6 +211,12 @@ const videos = defineCollection({
     title: z.string(),
     publishedDate: z.date(),
     thumbnailUrl: z.string().url(),
+    // One-line, human-written (or lightly-edited-from-description) summary
+    // of what the video actually covers — YouTube's own video description
+    // is mostly repeated channel boilerplate, not something to surface
+    // verbatim. Falls back to a generic line when fetch-youtube.mjs can't
+    // extract anything past that boilerplate.
+    summary: z.string().max(200).default("Watch on AVI's YouTube channel."),
   }),
 });
 
