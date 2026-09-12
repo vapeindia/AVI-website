@@ -1,0 +1,41 @@
+name: Fetch YouTube videos
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # weekly, Monday 06:00 UTC (~11:30 IST) — the channel updates rarely
+  workflow_dispatch: {}    # allows manual trigger from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install fast-xml-parser
+
+      - name: Fetch new videos from the channel RSS feed
+        run: node scripts/fetch-youtube.mjs
+
+      # Direct commit, no PR/review gate — this is just metadata about
+      # AVI's own already-published videos (title, date, thumbnail), not
+      # third-party content needing a human check. Mirrors the `news`
+      # pipeline's pattern (see CLAUDE.md).
+      - name: Commit and push new entries
+        run: |
+          git config user.name "AVI news bot"
+          git config user.email "contact@vapeindia.org"
+          git add src/content/videos
+          if git diff --cached --quiet; then
+            echo "No new entries."
+          else
+            git commit -m "Videos: add new auto-fetched entries from YouTube"
+            git push
+          fi

@@ -197,4 +197,21 @@ const submissions = defineCollection({
   }),
 });
 
-export const collections = { blog, news, newsDigests, research, press, litigation, testimonials, campaigns, submissions };
+// AVI's YouTube uploads, auto-pulled from the channel's public RSS feed
+// (https://www.youtube.com/feeds/videos.xml?channel_id=...) by
+// scripts/fetch-youtube.mjs via a scheduled GitHub Action
+// (.github/workflows/fetch-youtube.yml). No AI/editorial step and no
+// review gate, unlike `research`/`testimonials` — this is just metadata
+// about AVI's own already-published videos, nothing to vet. Mirrors the
+// `news` pipeline's direct-commit pattern (see CLAUDE.md).
+const videos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/videos' }),
+  schema: z.object({
+    videoId: z.string(),
+    title: z.string(),
+    publishedDate: z.date(),
+    thumbnailUrl: z.string().url(),
+  }),
+});
+
+export const collections = { blog, news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos };

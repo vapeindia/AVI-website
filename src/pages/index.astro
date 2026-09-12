@@ -13,6 +13,9 @@ const latestResearch = (await getCollection('research', ({ data }) => data.revie
   .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
+const latestVideo = (await getCollection('videos'))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())[0];
+
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
 const litigationCount = (await getCollection('litigation')).length;
 const pressCount = (await getCollection('press')).length;
@@ -122,6 +125,25 @@ const yearsActive = new Date().getFullYear() - 2016;
       Electronic Cigarettes Act, 2019 (PECA). <a href="/india/law">Read what this means for you →</a>
     </p>
   </section>
+
+  {latestVideo && (
+    <section class="watch-strip">
+      <div class="watch-inner">
+        <a class="watch-thumb" href={`https://www.youtube.com/watch?v=${latestVideo.data.videoId}`} target="_blank" rel="noopener">
+          <img src={latestVideo.data.thumbnailUrl} alt={latestVideo.data.title} loading="lazy" />
+          <span class="play-badge" aria-hidden="true">▶</span>
+        </a>
+        <div class="watch-copy">
+          <p class="eyebrow">From our YouTube channel</p>
+          <h2>{latestVideo.data.title}</h2>
+          <div class="watch-links">
+            <a class="btn btn-outline" href={`https://www.youtube.com/watch?v=${latestVideo.data.videoId}`} target="_blank" rel="noopener">Watch on YouTube →</a>
+            <a href="/media">More videos →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="breakout donate-pitch">
     <div class="breakout-inner donate-inner">
@@ -281,6 +303,35 @@ const yearsActive = new Date().getFullYear() - 2016;
     .legal-note { font-size: 0.92rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1.5rem; }
     @media (max-width: 780px) {
       .feed-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Watch strip */
+    .watch-strip { max-width: var(--max-w-wide); margin: 3rem auto 0; padding: 0 1.5rem; }
+    .watch-inner {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      gap: 2rem;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .watch-thumb { position: relative; display: block; border-radius: 6px; overflow: hidden; line-height: 0; }
+    .watch-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .watch-thumb .play-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 3rem; height: 3rem; border-radius: 50%;
+      background: rgba(18,19,15,0.75); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .watch-copy .eyebrow { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold-dark); margin: 0 0 0.5rem; }
+    .watch-copy h2 { margin: 0 0 1rem; font-size: 1.3rem; line-height: 1.35; }
+    .watch-links { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .watch-links a:not(.btn) { font-weight: 600; font-size: 0.9rem; }
+    @media (max-width: 640px) {
+      .watch-inner { grid-template-columns: 1fr; }
     }
 
     /* Donate */

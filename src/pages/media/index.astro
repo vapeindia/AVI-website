@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const videos = (await getCollection('videos'))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+---
+<Base title="Media" description="Videos from AVI's YouTube channel — Funvocacy Q&As, #VapingThursday talks, and explainers on tobacco harm reduction." wide={true}>
+  <section class="breakout media-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">On YouTube</p>
+      <h1>Watch AVI's videos</h1>
+      <p class="media-sub">
+        Board Q&amp;As under the Funvocacy series, #VapingThursday talks
+        with international researchers and advocates, and explainers on
+        tobacco harm reduction — pulled automatically from
+        AVI's YouTube channel, newest first.
+      </p>
+      <a class="btn btn-gold" href="https://youtube.com/channel/UCEgd8dgEScqYKKUBHwD1DDQ" target="_blank" rel="noopener">Subscribe on YouTube →</a>
+    </div>
+  </section>
+
+  <div class="media-body">
+    <div class="media-grid">
+      {videos.map((v) => (
+        <a class="video-card" href={`https://www.youtube.com/watch?v=${v.data.videoId}`} target="_blank" rel="noopener">
+          <div class="thumb">
+            <img src={v.data.thumbnailUrl} alt={v.data.title} loading="lazy" />
+            <span class="play-badge" aria-hidden="true">▶</span>
+          </div>
+          <h2>{v.data.title}</h2>
+          <time datetime={v.data.publishedDate.toISOString()}>
+            {v.data.publishedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+          </time>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .media-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .media-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .media-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0 0 1.75rem; }
+
+    .media-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.75rem; }
+    .video-card { display: block; text-decoration: none; color: inherit; }
+    .thumb { position: relative; border-radius: 8px; overflow: hidden; line-height: 0; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(20,25,20,0.08); }
+    .thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: transform 0.2s ease; }
+    .video-card:hover .thumb img { transform: scale(1.03); }
+    .thumb .play-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 2.75rem; height: 2.75rem; border-radius: 50%;
+      background: rgba(18,19,15,0.75); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .video-card h2 { margin: 0 0 0.3rem; font-size: 1rem; line-height: 1.4; color: var(--ink); }
+    .video-card time { font-size: 0.8rem; color: var(--muted); }
+  </style>
+</Base>
