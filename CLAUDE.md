@@ -179,6 +179,37 @@ If this class of junk shows up again, check whether it's actually a new
 shape the content-based check should have caught rather than reaching for
 another domain/path rule.
 
+**Spam/open-redirect entries found and removed (2026-09-13) — more serious
+than the non-article case above, read this one:** while checking the
+Altria fix, found six *more* live news entries, all titled some variant of
+"[Quit vaping] guide" (`Best Way To Stop Vaping: A Science Backed Ultimate
+Guide...`, `Juul 0 Nicotine: The Ultimate Guide...`, etc.), whose
+`sourceUrl` was not a real article at all — each pointed at
+`pannellum.htm?config=...video.unkk.top/panvape2/<id>`, an open-redirect
+abuse of the pannellum panorama-viewer's `config` parameter on a
+**compromised third-party server** (one was a University of Tokyo
+research-institute subdomain, `itatani.issp.u-tokyo.ac.jp`; another a
+personal site, `masterov.us`) to launder search authority for what is very
+likely a scam/malware landing page at `unkk.top`. This is not just
+off-topic content — it's AVI's own site linking visitors to a probable
+malicious redirect. Root cause: these were written by the automated bot
+(commit `13cb2b0`) *before* `SEO_GUIDE_SPAM_PATTERN` existed in
+`fetch-news.mjs` (that title filter was added later the same day, in a
+separate fix, and only prevents new matching entries — it doesn't
+retroactively clean up ones already committed). All six deleted. Added a
+second, independent guard either way: `isSuspiciousRedirectUrl()` blocks
+by URL shape (`pannellum.htm?config=`, `unkk.top`) rather than relying on
+the title pattern alone, since a campaign varying its title wording
+("Science Backed", "Proven", "Complete") to dodge a keyword filter is
+exactly the kind of thing that will eventually produce a title the
+existing regex doesn't anticipate — the URL shape is the harder signal to
+fake. **If any live news entry ever looks like an SEO "guide" with a
+strange-looking source domain, treat it as a possible instance of this
+same campaign and check the sourceUrl closely before assuming it's just
+low-quality content** — verify what `fetch-news.mjs` currently guards
+against (`git log -p -- scripts/fetch-news.mjs` shows the history) before
+assuming an existing filter already covers it.
+
 **2023-2025 historical backfill (2026-09):** a one-time manual research
 pass (WebSearch/WebFetch, not RSS — Google Alerts and most outlet feeds
 only return recent items, they don't backfill) added 16 real, dated,

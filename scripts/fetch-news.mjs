@@ -2,7 +2,9 @@
 /**
  * Pulls candidate news items from RSS feeds (Google Alerts + outlet feeds
  * listed in feeds.json), filters out commercial/vendor domains (PECA
- * advertising-risk guard — see blocklist.json), industry press releases
+ * advertising-risk guard — see blocklist.json), spam/open-redirect URLs
+ * (see isSuspiciousRedirectUrl() below — a compromised third-party server
+ * abused to rank scam "quit vaping" pages), industry press releases
  * (press-wire-domains.json + launch-language title patterns — see
  * isIndustryPressRelease() below), off-topic items whose title+snippet match
  * none of a feed's `keywordFilter` array (e.g. Filter/GFN's feed covers all
@@ -45,6 +47,30 @@ function isBlocked(url) {
   } catch {
     return true; // malformed URL — exclude rather than guess
   }
+}
+
+// Added 2026-09-13: found six live "quit vaping guide" news entries whose
+// sourceUrl was actually a `pannellum.htm?config=...` open redirect on a
+// compromised third-party server (a University of Tokyo research-institute
+// subdomain, a personal site) pointing at video.unkk.top — an SEO-poisoning
+// technique that abuses a trusted domain's search authority to rank scam
+// pages. These predate the SEO_GUIDE_SPAM_PATTERN title filter below (added
+// later the same day) and slipped through before it existed, but title
+// matching alone is too fragile against a campaign that's clearly varying
+// its wording ("Science Backed Ultimate Guide", "Proven Guide", "Complete
+// Guide") — the URL shape itself is the unambiguous signature, checked
+// directly here rather than relying on any title pattern to catch it.
+// Not folded into BLOCKLIST/isBlocked(): that's a hostname allowlist check
+// against known vendor domains, and the abused hosts here are innocent,
+// unrelated domains each time — the fingerprint is the URL shape, not who
+// owns it.
+const SUSPICIOUS_REDIRECT_URL_PATTERNS = [
+  /pannellum\.htm\?config=/i,
+  /unkk\.top/i,
+];
+
+function isSuspiciousRedirectUrl(url) {
+  return SUSPICIOUS_REDIRECT_URL_PATTERNS.some((re) => re.test(url));
 }
 
 // Industry product-launch press releases (new device/flavour announcements,
@@ -307,6 +333,10 @@ async function main() {
       if (!item.url || seen.has(item.url)) continue;
       if (isBlocked(item.url)) {
         console.log(`Blocked (commercial domain): ${item.url}`);
+        continue;
+      }
+      if (isSuspiciousRedirectUrl(item.url)) {
+        console.log(`Blocked (spam/open-redirect URL shape): ${item.url}`);
         continue;
       }
       if (isIndustryPressRelease(item)) {
