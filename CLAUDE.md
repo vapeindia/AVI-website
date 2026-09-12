@@ -210,6 +210,35 @@ low-quality content** — verify what `fetch-news.mjs` currently guards
 against (`git log -p -- scripts/fetch-news.mjs` shows the history) before
 assuming an existing filter already covers it.
 
+**Same 2026-09-13 pass, one more sweep — a systematic pattern worth
+remembering:** while fixing the two issues above, ran every current
+`fetch-news.mjs` filter as a standalone Python simulation against the
+*entire* live `news` collection (not just the newly-reported items) to
+check for anything else already slipping through, and found 8 more: a
+vendor's own product page (`whitecloudelectroniccigarettes.com` — added to
+`blocklist.json`, plus a new `isVendorHostname()` hostname-substring
+backstop since that list will always lag new vendor sites), two ProBoards
+forum-thread posts and one XenForo-style forum post (not articles — added
+forum-URL patterns to `NON_ARTICLE_URL_PATTERNS`), two genuine device
+reviews from Vaping Post (`Review: Armour Octa`, `Review: Pixo Aura 2` —
+already covered by the existing product-review title filter, just
+predated it), one genuinely off-topic Filter/GFN article about prison
+re-entry (its own AI summary said so — caught once
+`NO_CONTENT_SUMMARY_PATTERNS` was broadened, see above), and three
+individual social-media posts (an X repost, two Instagram posts) that
+`NON_ARTICLE_URL_PATTERNS` already covered but had been overlooked when
+first found. **Also tried and reverted** a `facebook.com/<page>/posts/`
+URL pattern: unlike the other platforms, this feed's Facebook links are
+often a real news org's own distribution of a substantive story (a
+Houston TV station, a Philippine outlet), so blocking the URL shape would
+have silently dropped good content — the one actual bad Facebook post was
+already caught by the no-content-summary check on its own, no separate
+rule needed. **The lesson for next time:** when you fix a reported
+instance of a filter gap, re-simulate every filter function against the
+whole collection before considering the pass done — the reported instance
+is rarely the only one, and a new pattern is worth pressure-testing
+against known-good entries before wiring it in, not just known-bad ones.
+
 **2023-2025 historical backfill (2026-09):** a one-time manual research
 pass (WebSearch/WebFetch, not RSS — Google Alerts and most outlet feeds
 only return recent items, they don't backfill) added 16 real, dated,

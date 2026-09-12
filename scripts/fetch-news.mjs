@@ -2,25 +2,28 @@
 /**
  * Pulls candidate news items from RSS feeds (Google Alerts + outlet feeds
  * listed in feeds.json), filters out commercial/vendor domains (PECA
- * advertising-risk guard — see blocklist.json), spam/open-redirect URLs
- * (see isSuspiciousRedirectUrl() below — a compromised third-party server
- * abused to rank scam "quit vaping" pages), industry press releases
+ * advertising-risk guard — blocklist.json plus a hostname-substring
+ * backstop for vendor sites not yet enumerated there, see
+ * isVendorHostname() below), spam/open-redirect URLs (see
+ * isSuspiciousRedirectUrl() below — a compromised third-party server abused
+ * to rank scam "quit vaping" pages), industry press releases
  * (press-wire-domains.json + launch-language title patterns — see
- * isIndustryPressRelease() below), off-topic items whose title+snippet match
- * none of a feed's `keywordFilter` array (e.g. Filter/GFN's feed covers all
- * drug policy, not just tobacco/nicotine), and non-article pages a broad
- * company-name/ticker alert can still surface — a social-media post, a
- * tag/category index page, or a stock-data "company hub" page with no real
- * story (see NON_ARTICLE_URL_PATTERNS / MARKET_DATA_TITLE_PATTERNS / the
- * post-summary looksLikeNoContentSummary() check below). Writes a
- * paraphrased AI summary per item and creates entries under
- * src/content/news/ with `reviewed: true` — as of 2026-09 this pipeline is
- * fully automated (explicit site-owner instruction) and the GitHub Action
- * commits straight to main, no PR/human gate. `reviewed` here means "passed
- * the automated filters above," not "a person checked it" — see the
- * standing disclaimer on the News index page. This is scoped to `news`
- * only; fetch-research.mjs and the testimonials pipeline are unchanged and
- * still require human review.
+ * isIndustryPressRelease() below), off-topic items whose title+snippet
+ * match none of a feed's `keywordFilter` array (e.g. Filter/GFN's feed
+ * covers all drug policy, not just tobacco/nicotine), and non-article
+ * pages a broad company-name/ticker alert can still surface — a
+ * social-media post, a forum thread/post, a tag/category index page, or a
+ * stock-data "company hub" page with no real story (see
+ * NON_ARTICLE_URL_PATTERNS / MARKET_DATA_TITLE_PATTERNS / the post-summary
+ * looksLikeNoContentSummary() check below). Writes a paraphrased AI
+ * summary per item and creates entries under src/content/news/ with
+ * `reviewed: true` — as of 2026-09 this pipeline is fully automated
+ * (explicit site-owner instruction) and the GitHub Action commits straight
+ * to main, no PR/human gate. `reviewed` here means "passed the automated
+ * filters above," not "a person checked it" — see the standing disclaimer
+ * on the News index page. This is scoped to `news` only; fetch-research.mjs
+ * and the testimonials pipeline are unchanged and still require human
+ * review.
  *
  * Requires ANTHROPIC_API_KEY env var. Run via GitHub Action on a schedule.
  */
@@ -46,6 +49,39 @@ function isBlocked(url) {
     return BLOCKLIST.some((b) => host === b || host.endsWith(`.${b}`));
   } catch {
     return true; // malformed URL — exclude rather than guess
+  }
+}
+
+// Added 2026-09-13: a specific e-cig brand's own product page
+// (whitecloudelectroniccigarettes.com/cirrus-rechargeable-ecig) went live,
+// surfaced the same way any vendor page can be — a broad "e-cigarettes"
+// Google Alert doesn't care whose site uses the term. Added that one
+// domain to blocklist.json too, but an enumerated domain list will always
+// lag every new vendor site Google indexes. This is a narrow backstop for
+// hostnames that announce what they are: compound vendor-category words
+// checked against every current feeds.json/blocklist.json entry first to
+// avoid a false positive (deliberately NOT "vape" alone, which would wrongly
+// catch vapers.org.uk and vapingpost.com).
+const VENDOR_HOSTNAME_SUBSTRINGS = [
+  'electroniccigarette',
+  'ecigarettestore',
+  'vapeshop',
+  'vapestore',
+  'vapewholesale',
+  'ecigwholesale',
+  'buyvape',
+  'eliquid',
+  'ejuice',
+  'e-liquid',
+  'e-juice',
+];
+
+function isVendorHostname(url) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '');
+    return VENDOR_HOSTNAME_SUBSTRINGS.some((s) => host.includes(s));
+  } catch {
+    return false;
   }
 }
 
@@ -142,11 +178,28 @@ const SEO_GUIDE_SPAM_PATTERN = /\b(ultimate|comprehensive|proven|complete|defini
 // The looksLikeNoContentSummary() check below is what actually catches
 // those non-article index/hub pages instead, since a real article always
 // has content to summarize and a hub page never does.
+// Same day, same root cause: two ProBoards forum-thread posts and one
+// XenForo-style forum post (e-cigarette-forum.com) were also live — an
+// individual user's discussion-board post is exactly as non-editorial as a
+// social-media caption, just running on older forum software. Detected the
+// same way: by URL shape, not content, since a forum thread/post URL is an
+// unambiguous shape regardless of what community runs it.
+// Tried adding a facebook.com/<page>/posts/ pattern here too (a Delray
+// Beach PD community post slipped through the same day) but reverted it:
+// unlike the other platforms above, Facebook posts in this feed are often
+// a real news org's own distribution of a real, substantive story (a
+// Houston TV station, a Philippine outlet) — the URL shape alone doesn't
+// distinguish that from a random community page's post. The one bad case
+// was already caught by looksLikeNoContentSummary() below regardless
+// (its AI summary said "Unable to provide summary..."), so no separate
+// URL rule was actually needed for it.
 const NON_ARTICLE_URL_PATTERNS = [
   /linkedin\.com\/posts\//i,
   /tiktok\.com\/@[^/]+\/video\//i,
   /(twitter|x)\.com\/[^/]+\/status\//i,
   /instagram\.com\/(p|reel)\//i,
+  /proboards\.com/i,
+  /\/threads?\/[^/]+\.\d+\/(post-\d+)?/i, // XenForo/vBulletin-style forum thread+post URLs
 ];
 
 function isNonArticleUrl(url) {
@@ -168,11 +221,19 @@ const MARKET_DATA_TITLE_PATTERNS = [
 // checks above don't anticipate. Checked after the AI call, so this can't
 // prevent that one API call, but it does stop the item from being
 // published and the URL is still marked `seen` so it won't be retried.
+// Broadened same day: a fifth live entry's summary read "The snippet
+// provided does not contain sufficient content to create a meaningful
+// summary" — different phrasing from every pattern below, so it slipped
+// through. Added a more general pattern (any "no/does-not-X content-word"
+// construction near a summarizing word) rather than one more exact phrase,
+// since the AI clearly doesn't repeat itself verbatim across these and a
+// growing list of exact strings will always be one phrasing behind.
 const NO_CONTENT_SUMMARY_PATTERNS = [
-  /no (specific )?(news )?content (was|is) provided/i,
+  /\bno\b.{0,25}\bcontent\b.{0,60}\b(summar|snippet|provided|available)\b/i,
+  /does not (contain|provide|have)\b.{0,40}\b(content|information|details?|context)\b/i,
+  /details? (are|is) not provided/i,
   /not provided in the snippet/i,
   /please provide the actual/i,
-  /details? (are|is) not provided/i,
   /no information available/i,
   /unable to summarize/i,
 ];
@@ -333,6 +394,10 @@ async function main() {
       if (!item.url || seen.has(item.url)) continue;
       if (isBlocked(item.url)) {
         console.log(`Blocked (commercial domain): ${item.url}`);
+        continue;
+      }
+      if (isVendorHostname(item.url)) {
+        console.log(`Blocked (vendor-shaped hostname): ${item.url}`);
         continue;
       }
       if (isSuspiciousRedirectUrl(item.url)) {
