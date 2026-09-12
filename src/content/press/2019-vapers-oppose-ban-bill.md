@@ -1,5 +1,5 @@
 ---
-title: "Vapers write enmasse to oppose vape ban bill"
+title: "Vapers write en masse to oppose vape ban bill"
 date: 2019-10-11
 outlet: "AVI press release (via Brands2Life)"
 type: "press-release"

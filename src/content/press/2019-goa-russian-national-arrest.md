@@ -9,6 +9,7 @@ archivePdf: "/archive/press/2019-goa-russian-national-arrest.docx"
 AVI condemned Goa Police's arrest of a Russian tourist, Vasiliy Karavaev, for
 possessing e-cigarettes for personal use — which PECA does not prohibit, only
 production, sale and advertisement. Quotes board member Dhaval Gogate and
-advocate Pingal Khan, who called the arrest "out of enthusiasm than grounded
-in law." An early instance of the possession-vs-production distinction later
-central to the Delhi flight-ban litigation on this site's Litigation page.
+legal expert Pingal Khan, who argued the arrest reflected police enthusiasm
+rather than any actual basis in law. An early instance of the
+possession-vs-production distinction later central to the Delhi
+flight-ban litigation on this site's Litigation page.

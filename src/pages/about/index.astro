@@ -1,6 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import { getCollection } from 'astro:content';
+
+const litigationCount = (await getCollection('litigation')).length;
+const pressCount = (await getCollection('press')).length;
+const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="About" description="Who AVI is, how it works, and how it is funded.">
   <h1>About AVI</h1>
@@ -30,9 +35,9 @@ import Icon from '../../components/Icon.astro';
   </p>
 
   <div class="stat-row">
-    <div><Icon name="scale" /><strong>8</strong><span>court cases fought since 2017</span></div>
-    <div><Icon name="megaphone" /><strong>60+</strong><span>press features</span></div>
-    <div><Icon name="chart" /><strong>10+</strong><span>years of advocacy</span></div>
+    <div><Icon name="scale" /><strong>{litigationCount}</strong><span>court cases fought since 2017</span></div>
+    <div><Icon name="megaphone" /><strong>{pressCount}+</strong><span>press features</span></div>
+    <div><Icon name="chart" /><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
   </div>
 
   <p>

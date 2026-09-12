@@ -17,7 +17,7 @@
 /india/legal/          /litigation                     301
 /india/litigation/*    /litigation/:splat              301
 /india/action/         /india/law                      301
-/contact-us/           /contact                        301
+/contact-us/           /press                          301
 /join-us/              /contribute                     301
 /donate/               /contribute                     301
 /news-events/          /press                          301
@@ -31,7 +31,7 @@
 /join-avi/                               /contribute                                       301
 /subscribe-now/                          /contribute                                       301
 /thanks-for-payment/                     /contribute                                       301
-/enquiry-form/                           /contact                                          301
+/enquiry-form/                           /press                                            301
 
 # --- Old press/news posts — no per-article page exists on the new site
 # (the press collection renders as one index, not individual pages), so
