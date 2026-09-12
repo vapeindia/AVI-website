@@ -1,0 +1,196 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Search" description="Search across AVI's news, press coverage, science library, litigation record, campaigns and testimonials." wide={true}>
+  <section class="breakout search-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Search everything</p>
+      <h1>Find anything on this site</h1>
+      <p class="search-sub">
+        News, press coverage, the science library, litigation, campaigns,
+        submissions and testimonials — one search across all of it.
+      </p>
+      <div class="search-box">
+        <Icon name="search" />
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Try “Karnataka”, “nicotine pouches”, “FDA”…"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+  </section>
+
+  <div class="search-body">
+    <p id="search-status" role="status">Start typing to search.</p>
+    <div id="search-results" class="results-list"></div>
+  </div>
+
+  <script>
+    interface SearchItem {
+      title: string;
+      url: string;
+      type: string;
+      date: string;
+      snippet: string;
+    }
+
+    const input = document.getElementById('search-input') as HTMLInputElement;
+    const status = document.getElementById('search-status')!;
+    const results = document.getElementById('search-results')!;
+
+    let items: SearchItem[] = [];
+    let loaded = false;
+
+    async function loadIndex() {
+      try {
+        const res = await fetch('/search-index.json');
+        items = await res.json();
+      } catch {
+        items = [];
+      }
+      loaded = true;
+    }
+    loadIndex();
+
+    function escapeHtml(s: string) {
+      return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+    }
+
+    function render(query: string) {
+      if (!loaded) {
+        status.textContent = 'Loading search index…';
+        results.innerHTML = '';
+        return;
+      }
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        status.textContent = 'Start typing to search.';
+        results.innerHTML = '';
+        return;
+      }
+      const terms = q.split(/\s+/).filter(Boolean);
+      const matches = items.filter((item) => {
+        const haystack = `${item.title} ${item.snippet} ${item.type}`.toLowerCase();
+        return terms.every((t) => haystack.includes(t));
+      });
+      // Newest first among matches that have a date; undated items (e.g. a
+      // litigation matter with no filedDate) sort to the end, not the top.
+      matches.sort((a, b) => {
+        if (!a.date && !b.date) return 0;
+        if (!a.date) return 1;
+        if (!b.date) return -1;
+        return b.date.localeCompare(a.date);
+      });
+
+      if (matches.length === 0) {
+        status.textContent = `No results for “${query}”.`;
+        results.innerHTML = '';
+        return;
+      }
+      const shown = matches.slice(0, 60);
+      status.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'}${matches.length > shown.length ? ` (showing first ${shown.length})` : ''} for “${query}”.`;
+      results.innerHTML = shown.map((item) => {
+        const dateStr = item.date
+          ? new Date(item.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
+          : '';
+        const external = /^https?:\/\//.test(item.url);
+        return `<a class="result-card" href="${escapeHtml(item.url)}"${external ? ' target="_blank" rel="noopener"' : ''}>
+          <span class="result-top">
+            <span class="result-type">${escapeHtml(item.type)}</span>
+            ${dateStr ? `<span class="result-date">${escapeHtml(dateStr)}</span>` : ''}
+          </span>
+          <h2>${escapeHtml(item.title)}</h2>
+          <p>${escapeHtml(item.snippet)}</p>
+        </a>`;
+      }).join('');
+    }
+
+    let debounceTimer: ReturnType<typeof setTimeout>;
+    input?.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => render(input.value), 120);
+    });
+
+    // Support a shared/bookmarked link like /search?q=karnataka
+    const params = new URLSearchParams(location.search);
+    const initialQuery = params.get('q');
+    if (initialQuery) {
+      input.value = initialQuery;
+    }
+    loadIndex().then(() => render(input?.value ?? ''));
+    input?.focus();
+  </script>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .search-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .search-hero h1 { color: #fff; margin: 0 0 0.9rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .search-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.02rem; margin: 0 0 2rem; }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      max-width: 34rem;
+    }
+    .search-box :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--muted); flex-shrink: 0; }
+    .search-box input {
+      border: none;
+      outline: none;
+      font: inherit;
+      font-size: 1.02rem;
+      width: 100%;
+      color: var(--ink);
+      background: transparent;
+    }
+
+    .search-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    #search-status { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.5rem; }
+
+    .results-list { display: grid; gap: 1rem; }
+    .result-card {
+      display: block;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.4rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+    }
+    .result-card:hover { border-color: var(--gold-dark); }
+    .result-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; }
+    .result-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+    }
+    .result-date { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+    .result-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; color: var(--ink); }
+    .result-card p { margin: 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

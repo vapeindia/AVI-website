@@ -4,6 +4,12 @@
 # any inbound links don't 404 after DNS cutover.
 
 # --- Section-level (pre-existing) ---
+# Submissions moved from /india/submissions to /submissions 2026-09-12 —
+# it's an advocacy tactic (nav-grouped under Our Advocacy), not India-law
+# content, so it didn't belong nested under /india/. Redirect in case the
+# old path got indexed or bookmarked from the .pages.dev preview.
+/india/submissions/    /submissions                    301
+/india/submissions     /submissions                    301
 /about-us/            /about                          301
 /research/             /science                        301
 /india/overview/       /india                          301
@@ -44,17 +50,17 @@
 /nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press   301
 /nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press   301
 /nicotine-not-to-be-blamed-for-smoking/                                                                                          /press   301
-/centraladvisory/                                                                                                                /india/submissions   301
+/centraladvisory/                                                                                                                /submissions   301
 /all-coverages/                                                                                                                  /press   301
 /skarora/                                                                                                                        /press   301
-/letter-to-union-health-minister-india/                                                                                          /india/submissions   301
+/letter-to-union-health-minister-india/                                                                                          /submissions   301
 /you-ken-rebuttal/                                                                                                               /press   301
 /protest/                                                                                                                        /campaigns   301
 /worldvapeday/                                                                                                                   /campaigns   301
-/mpletter/                                                                                                                       /india/submissions   301
+/mpletter/                                                                                                                       /submissions   301
 /shadowreport/                                                                                                                   /press   301
 /warontar/                                                                                                                       /campaigns   301
-/resist/                                                                                                                         /india/submissions   301
+/resist/                                                                                                                         /submissions   301
 # Four near-duplicate Hindi-slug press-conference posts (same rendered title):
 /%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press   301
 /%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press   301

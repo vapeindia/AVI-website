@@ -17,7 +17,18 @@ import Icon from '../components/Icon.astro';
   </section>
 
   <div class="policy-body">
-    <section class="p-section">
+    <nav class="page-toc" aria-label="On this page">
+      <span class="toc-label">On this page:</span>
+      <a href="#status-quo">The status quo</a>
+      <a href="#regulation-works">Where regulation has worked</a>
+      <a href="#prohibition-fails">Where prohibition hasn't</a>
+      <a href="#middle-path">A middle path</a>
+      <a href="#financial-case">The financial case</a>
+      <a href="#international-backing">International backing</a>
+      <a href="#avis-record">AVI's own record</a>
+    </nav>
+
+    <section class="p-section" id="status-quo">
       <div class="section-head">
         <Icon name="chart" />
         <h2>The status quo isn't working</h2>
@@ -49,7 +60,7 @@ import Icon from '../components/Icon.astro';
       </p>
     </section>
 
-    <section class="p-section">
+    <section class="p-section" id="regulation-works">
       <div class="section-head">
         <Icon name="chart" />
         <h2>Where regulation has coincided with accelerated declines</h2>
@@ -88,7 +99,7 @@ import Icon from '../components/Icon.astro';
       </div>
     </section>
 
-    <section class="p-section">
+    <section class="p-section" id="prohibition-fails">
       <div class="section-head">
         <Icon name="shield" />
         <h2>Where prohibition hasn't worked</h2>
@@ -115,7 +126,7 @@ import Icon from '../components/Icon.astro';
       </p>
     </section>
 
-    <section class="p-section">
+    <section class="p-section" id="middle-path">
       <div class="section-head">
         <Icon name="scale" />
         <h2>A middle path: regulate, don't prohibit</h2>
@@ -133,7 +144,7 @@ import Icon from '../components/Icon.astro';
       <a class="see-more" href="https://natlawreview.com/article/china-drafting-first-e-cigarette-standard" target="_blank" rel="noopener">See coverage of China's regulatory standard →</a>
     </section>
 
-    <section class="p-section">
+    <section class="p-section" id="financial-case">
       <div class="section-head">
         <Icon name="megaphone" />
         <h2>The financial and livelihoods case</h2>
@@ -171,7 +182,7 @@ import Icon from '../components/Icon.astro';
       </p>
     </section>
 
-    <section class="p-section">
+    <section class="p-section" id="international-backing">
       <div class="section-head">
         <Icon name="document" />
         <h2>International backing for this position</h2>
@@ -225,7 +236,7 @@ import Icon from '../components/Icon.astro';
       </ul>
     </section>
 
-    <section class="p-section">
+    <section class="p-section" id="avis-record">
       <div class="section-head">
         <Icon name="heart" />
         <h2>AVI's own record</h2>
@@ -286,7 +297,28 @@ import Icon from '../components/Icon.astro';
     .hero-sub { color: #cdd6cf; font-size: 1.05rem; margin: 0; max-width: 42rem; }
 
     .policy-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
-    .p-section { margin-bottom: 3.75rem; }
+    .page-toc {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.75rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .toc-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-right: 0.25rem; }
+    .page-toc a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      padding: 0.4rem 0.85rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
+    .p-section { margin-bottom: 3.75rem; scroll-margin-top: 1.5rem; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
     .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }

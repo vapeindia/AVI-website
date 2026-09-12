@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 import { getCollection } from 'astro:content';
 
 const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
@@ -8,121 +9,212 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
 <Base
   title="Testimonials"
   description="Real accounts from Indians who moved off combustible tobacco using vaping or nicotine pouches."
+  wide={true}
 >
-  <h1>Real stories, not just research</h1>
-  <p>
-    Behind every court filing and research brief on this site is a simple
-    fact: <a href="/quit">switching to a lower-risk product</a> has helped real
-    people in India walk away from combustible tobacco for good. If safer
-    nicotine products did this for you, telling that story in your own words
-    is one of the most persuasive things you can do for the millions of
-    Indian smokers who have not yet found their way off cigarettes and bidis.
-  </p>
+  <section class="breakout test-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">From the people it's helped</p>
+      <h1>Real stories, not just research</h1>
+      <p class="test-sub">
+        Behind every court filing and research brief on this site is a
+        simple fact: <a href="/quit">switching to a lower-risk product</a> has
+        helped real people in India walk away from combustible tobacco for
+        good. If safer nicotine products did this for you, telling that
+        story in your own words is one of the most persuasive things you
+        can do for the millions of Indian smokers who haven't yet found
+        their way off cigarettes and bidis.
+      </p>
+    </div>
+  </section>
 
-  <h2>Share your story</h2>
-  <p>
-    Your name and location (city or state) are published with your
-    testimonial so readers know these are real people, not anonymous
-    quotes. <strong>Your email address is never published or shared</strong> —
-    it is used only so we can send you a short thank-you note, and to
-    contact you if we have a question about your submission before it goes
-    live. Every testimonial is read by a person before it appears on this
-    page; nothing is published automatically.
-  </p>
+  <div class="test-body">
+    <section class="form-section">
+      <div class="section-head">
+        <Icon name="quote" />
+        <h2>Share your story</h2>
+      </div>
+      <p class="form-note">
+        Your name and location (city or state) are published with your
+        testimonial so readers know these are real people, not anonymous
+        quotes. <strong>Your email address is never published or shared</strong> —
+        it is used only so we can send you a short thank-you note, and to
+        contact you if we have a question about your submission before it
+        goes live. Every testimonial is read by a person before it appears
+        on this page; nothing is published automatically.
+      </p>
 
-  <form id="testimonial-form">
-    <p>
-      <label for="testimonial">Your testimonial</label><br />
-      <textarea
-        id="testimonial"
-        name="testimonial"
-        rows="6"
-        maxlength="2000"
-        required
-        placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco?"
-      ></textarea>
-    </p>
-    <p>
-      <label for="name">Name</label><br />
-      <input id="name" name="name" type="text" required maxlength="100" />
-    </p>
-    <p>
-      <label for="location">Location (city or state)</label><br />
-      <input id="location" name="location" type="text" required maxlength="100" />
-    </p>
-    <p>
-      <label for="email">Email <small>(kept private — never published)</small></label><br />
-      <input id="email" name="email" type="email" required maxlength="200" />
-    </p>
-    <!-- Honeypot: real visitors never see or fill this in. Bots that fill every
-         field on a form typically will. Any submission with this non-empty is
-         silently dropped by the function. -->
-    <p class="hp" aria-hidden="true">
-      <label for="website">Leave this field blank</label>
-      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
-    </p>
-    <p>
-      <button type="submit">Submit testimonial</button>
-    </p>
-    <p id="testimonial-status" role="status"></p>
-  </form>
+      <form id="testimonial-form" class="test-form">
+        <div class="field">
+          <label for="testimonial">Your testimonial</label>
+          <textarea
+            id="testimonial"
+            name="testimonial"
+            rows="6"
+            maxlength="2000"
+            required
+            placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco?"
+          ></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required maxlength="100" />
+          </div>
+          <div class="field">
+            <label for="location">Location (city or state)</label>
+            <input id="location" name="location" type="text" required maxlength="100" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email <small>(kept private — never published)</small></label>
+          <input id="email" name="email" type="email" required maxlength="200" />
+        </div>
+        <!-- Honeypot: real visitors never see or fill this in. Bots that fill every
+             field on a form typically will. Any submission with this non-empty is
+             silently dropped by the function. -->
+        <p class="hp" aria-hidden="true">
+          <label for="website">Leave this field blank</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </p>
+        <button type="submit" class="btn btn-primary">Submit testimonial</button>
+        <p id="testimonial-status" role="status"></p>
+      </form>
+    </section>
 
-  {items.length > 0 && (
-    <>
-      <h2>What people are telling us</h2>
-      {items.map((item) => (
-        <blockquote>
-          <p>&ldquo;{item.data.testimonial}&rdquo;</p>
-          <footer>— {item.data.name}, {item.data.location}</footer>
-        </blockquote>
-      ))}
-    </>
-  )}
+    {items.length > 0 && (
+      <section class="quotes-section">
+        <div class="section-head">
+          <Icon name="megaphone" />
+          <h2>What people are telling us</h2>
+        </div>
+        <div class="quotes-grid">
+          {items.map((item) => (
+            <blockquote class="quote-card">
+              <p>&ldquo;{item.data.testimonial}&rdquo;</p>
+              <footer>— {item.data.name}, {item.data.location}</footer>
+            </blockquote>
+          ))}
+        </div>
+      </section>
+    )}
 
-  <p class="testimonial-cta">
-    Stories like these are what fund this work — <a href="/contribute">see how to support it →</a>
-  </p>
+    <section class="test-related">
+      <a href="/contribute" class="related-card">
+        <h3>What funds this →</h3>
+        <p>Stories like these are what this work is for. See how to support AVI's litigation, campaigns and advocacy.</p>
+      </a>
+      <a href="/quit" class="related-card">
+        <h3>Thinking about switching? →</h3>
+        <p>The evidence on whether switching works, and what to keep in mind if you do.</p>
+      </a>
+    </section>
+  </div>
 
   <style>
-    .testimonial-cta { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border, #e4e1d8); font-size: 0.95rem; }
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .test-hero {
+      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .test-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .test-sub { color: #cdd6cf; max-width: 44rem; font-size: 1.03rem; margin: 0; }
+    .test-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .test-sub a:hover { color: #fff; }
+
+    .test-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head h2 { margin: 0; font-size: 1.4rem; }
+
+    .form-section { margin-bottom: 3.5rem; }
+    .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
+
+    .test-form {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem 2rem;
+      max-width: 40rem;
+    }
+    .field { margin-bottom: 1.1rem; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+    .field label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; }
+    .field label small { font-weight: 400; color: var(--muted); }
     .hp { position: absolute; left: -9999px; }
-    label { font-weight: 600; }
     textarea, input[type="text"], input[type="email"] {
       width: 100%;
       max-width: 100%;
       font: inherit;
-      padding: 0.5rem;
-      border: 1px solid var(--border, #e4e1d8);
+      font-size: 0.95rem;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid var(--border);
       border-radius: 4px;
-      background: #fff;
+      background: var(--paper);
     }
-    button[type="submit"] {
-      font: inherit;
-      background: var(--accent, #1f6f5c);
-      color: #fff;
-      border: none;
-      padding: 0.6rem 1.25rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
-    blockquote {
-      border-left: 3px solid var(--border, #e4e1d8);
-      margin: 0 0 1.5rem;
-      padding: 0.25rem 0 0.25rem 1rem;
-    }
-    blockquote footer { color: var(--muted, #5b6266); font-size: 0.9rem; margin-top: 0.25rem; }
-    #testimonial-status[data-state="ok"] { color: var(--accent, #1f6f5c); }
+    textarea:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .test-form button[type="submit"] { margin-top: 0.25rem; border: none; cursor: pointer; }
+    .test-form button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
+    #testimonial-status { margin: 0.85rem 0 0; font-size: 0.88rem; }
+    #testimonial-status[data-state="ok"] { color: var(--accent-dark); }
     #testimonial-status[data-state="err"] { color: #a3342a; }
+
+    .quotes-section { margin-bottom: 3.5rem; }
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      gap: 1.5rem;
+    }
+    .quote-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.4rem 1.5rem;
+      margin: 0;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+    }
+    .quote-card p { margin: 0 0 0.75rem; font-size: 0.95rem; line-height: 1.6; color: var(--ink); font-family: var(--font-serif); }
+    .quote-card footer { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+
+    .test-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 1.25rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 
   <script>
-    const form = document.getElementById('testimonial-form');
+    const form = document.getElementById('testimonial-form') as HTMLFormElement | null;
     const status = document.getElementById('testimonial-status');
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!status) return;
+      if (!status || !form) return;
       const data = new FormData(form);
 
       // Honeypot: if a bot filled this in, pretend to succeed and stop.
@@ -133,7 +225,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
         return;
       }
 
-      const submitButton = form.querySelector('button[type="submit"]');
+      const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
       if (submitButton) submitButton.disabled = true;
       status.textContent = 'Submitting…';
       status.dataset.state = '';

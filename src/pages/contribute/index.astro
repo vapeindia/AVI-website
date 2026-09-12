@@ -1,72 +1,172 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 ---
-<Base title="Contribute" description="How to support AVI's advocacy work.">
-  <h1>Contribute</h1>
+<Base title="Contribute" description="How to support AVI's advocacy work." wide={true}>
+  <section class="breakout contrib-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Fund independent advocacy</p>
+      <h1>Contribute</h1>
+      <p class="contrib-sub">
+        AVI's advocacy — litigation, evidence review, and public correction
+        of misinformation — is funded by individual contributions, not by
+        industry. Contributions are received and accounted for through
+        <strong>Harm Reduction Policy &amp; Research Pvt. Ltd. (HRPR)</strong>,
+        an MCA-registered company, recorded as company income, audited
+        annually and taxed accordingly.
+      </p>
+      <p class="contrib-note">
+        <strong>Contributions are not tax-deductible.</strong> HRPR does not
+        hold 80G status, so no tax receipt can be issued against your
+        contribution.
+      </p>
+    </div>
+  </section>
 
-  <p>
-    AVI's advocacy — litigation, evidence review, and public correction of
-    misinformation — is funded by individual contributions, not by industry.
-    Contributions are received and accounted for through
-    <strong>Harm Reduction Policy &amp; Research Pvt. Ltd. (HRPR)</strong>,
-    an MCA-registered company, recorded as company income, audited annually
-    and taxed accordingly.
-  </p>
+  <div class="contrib-body">
+    <section class="c-section">
+      <div class="section-head">
+        <Icon name="shield" />
+        <h2>Who can contribute</h2>
+      </div>
+      <p class="lead">
+        We can currently accept contributions only from <strong>Indian
+        residents, and Indian citizens living abroad remitting from their
+        own funds</strong>. Foreign nationals and foreign-registered entities
+        cannot contribute directly to this fund — Indian law (FCRA, 2010)
+        restricts unregistered organisations from accepting contributions of
+        foreign origin, and HRPR does not hold FCRA registration.
+      </p>
+      <p class="lead">
+        If you represent an institution abroad interested in supporting
+        specific research or policy work, please write to
+        <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a> —
+        this can be structured as commissioned project work, which is
+        handled separately.
+      </p>
+    </section>
 
-  <p>
-    <strong>Contributions are not tax-deductible.</strong> HRPR does not
-    hold 80G status, so no tax receipt can be issued against your
-    contribution.
-  </p>
+    <section class="c-section">
+      <div class="section-head">
+        <Icon name="heart" />
+        <h2>How to contribute</h2>
+      </div>
+      <div class="how-grid">
+        <div class="how-card">
+          <h3>UPI</h3>
+          <img
+            src="/contribute-qr.jpg"
+            alt="UPI QR code for Harm Reduction Policy And Research Private Limited, payable via yespay.bizsbiz129416@yesbankltd"
+            width="220"
+            height="239"
+          />
+          <p class="upi-id">UPI ID: <strong>yespay.bizsbiz129416@yesbankltd</strong></p>
+        </div>
+        <div class="how-card">
+          <h3>Bank transfer</h3>
+          <table class="bank-table">
+            <tbody>
+              <tr><th scope="row">Account name</th><td>Harm Reduction Policy And Research Pvt Ltd</td></tr>
+              <tr><th scope="row">Account number</th><td>034661900003311</td></tr>
+              <tr><th scope="row">IFSC</th><td>YESB0000346</td></tr>
+              <tr><th scope="row">Bank</th><td>Yes Bank</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-  <h2>Who can contribute</h2>
-  <p>
-    We can currently accept contributions only from <strong>Indian
-    residents, and Indian citizens living abroad remitting from their own
-    funds</strong>. Foreign nationals and foreign-registered entities cannot
-    contribute directly to this fund — Indian law (FCRA, 2010) restricts
-    unregistered organisations from accepting contributions of foreign
-    origin, and HRPR does not hold FCRA registration.
-  </p>
-  <p>
-    If you represent an institution abroad interested in supporting
-    specific research or policy work, please write to <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a> — this
-    can be structured as commissioned project work, which is handled separately.
-  </p>
+    <section class="c-section">
+      <div class="section-head">
+        <Icon name="chart" />
+        <h2>Where the money goes</h2>
+      </div>
+      <p class="lead">
+        A brief annual statement of contributions received and how they were
+        spent will be published here. <em>[Link to first annual statement
+        once available.]</em> In the meantime, this is the work it funds
+        directly:
+      </p>
+      <div class="funds-related">
+        <a href="/litigation" class="related-card">
+          <h3>Litigation →</h3>
+          <p>Court cases AVI has organised and directed since 2017.</p>
+        </a>
+        <a href="/campaigns" class="related-card">
+          <h3>Campaigns →</h3>
+          <p>Public campaigns and protests that put this issue in front of the press.</p>
+        </a>
+        <a href="/submissions" class="related-card">
+          <h3>Submissions to policymakers →</h3>
+          <p>Direct, evidence-based cases for regulation over prohibition.</p>
+        </a>
+      </div>
+      <p class="testimonials-link">
+        <a href="/testimonials">Read stories from people this work has already helped →</a>
+      </p>
+    </section>
+  </div>
 
-  <h2>How to contribute</h2>
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .contrib-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .contrib-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .contrib-sub { color: #cdd6cf; max-width: 46rem; font-size: 1.03rem; margin: 0 0 1rem; }
+    .contrib-note { color: #f4e0c8; max-width: 46rem; font-size: 0.92rem; margin: 0; }
 
-  <h3>UPI</h3>
-  <img
-    src="/contribute-qr.jpg"
-    alt="UPI QR code for Harm Reduction Policy And Research Private Limited, payable via yespay.bizsbiz129416@yesbankltd"
-    width="300"
-    height="326"
-  />
-  <p>UPI ID: <strong>yespay.bizsbiz129416@yesbankltd</strong></p>
+    .contrib-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .c-section { margin-bottom: 3.5rem; }
+    .c-section:last-child { margin-bottom: 0; }
+    .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head h2 { margin: 0; font-size: 1.4rem; }
+    .lead { font-size: 0.95rem; max-width: 46rem; color: var(--ink); line-height: 1.65; margin: 0 0 1rem; }
 
-  <h3>Bank transfer</h3>
-  <table>
-    <tbody>
-      <tr><th scope="row">Account name</th><td>Harm Reduction Policy And Research Pvt Ltd</td></tr>
-      <tr><th scope="row">Account number</th><td>034661900003311</td></tr>
-      <tr><th scope="row">IFSC</th><td>YESB0000346</td></tr>
-      <tr><th scope="row">Bank</th><td>Yes Bank</td></tr>
-    </tbody>
-  </table>
+    .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.5rem; max-width: 42rem; }
+    .how-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .how-card h3 { margin: 0 0 1rem; font-size: 1.05rem; }
+    .how-card img { display: block; border-radius: 4px; margin-bottom: 0.85rem; max-width: 100%; height: auto; }
+    .upi-id { font-size: 0.88rem; margin: 0; word-break: break-all; }
+    .bank-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .bank-table th, .bank-table td { text-align: left; padding: 0.5rem 0.25rem; border-bottom: 1px solid var(--border); }
+    .bank-table th { font-weight: 600; color: var(--muted); white-space: nowrap; padding-right: 1rem; }
 
-  <h2>Where the money goes</h2>
-  <p>
-    A brief annual statement of contributions received and how they were
-    spent will be published here. <em>[Link to first annual statement once
-    available.]</em> In the meantime, this is the work it funds directly:
-    the <a href="/litigation">court cases</a> AVI has organised and directed
-    since 2017, the <a href="/campaigns">public campaigns</a> and protests
-    that put this issue in front of the press, and the direct
-    <a href="/india/submissions">submissions to policymakers</a> making the
-    evidence-based case for regulation over prohibition.
-  </p>
-  <p>
-    <a href="/testimonials">Read stories from people this work has already helped →</a>
-  </p>
+    .funds-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0 1.25rem;
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .testimonials-link { font-weight: 600; font-size: 0.95rem; margin: 0; }
+  </style>
 </Base>

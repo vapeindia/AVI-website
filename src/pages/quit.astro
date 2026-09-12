@@ -19,7 +19,15 @@ import Icon from '../components/Icon.astro';
   </section>
 
   <div class="quit-body">
-    <section class="q-section">
+    <nav class="page-toc" aria-label="On this page">
+      <span class="toc-label">On this page:</span>
+      <a href="#does-it-work">Does it work?</a>
+      <a href="#what-matters">What matters, if you switch</a>
+      <a href="#resources">Further reading</a>
+      <a href="#legal-reality">The legal reality</a>
+    </nav>
+
+    <section class="q-section" id="does-it-work">
       <div class="section-head">
         <Icon name="chart" />
         <h2>Does switching actually work?</h2>
@@ -59,7 +67,7 @@ import Icon from '../components/Icon.astro';
       <p class="see-more"><a href="/science">See the full evidence library →</a></p>
     </section>
 
-    <section class="q-section principles-section">
+    <section class="q-section principles-section" id="what-matters">
       <div class="section-head">
         <Icon name="shield" />
         <h2>What the evidence says matters, if you switch</h2>
@@ -72,7 +80,7 @@ import Icon from '../components/Icon.astro';
       </ul>
     </section>
 
-    <section class="q-section resources-section">
+    <section class="q-section resources-section" id="resources">
       <div class="section-head">
         <Icon name="document" />
         <h2>Independent resources, for further reading</h2>
@@ -94,7 +102,7 @@ import Icon from '../components/Icon.astro';
       </ul>
     </section>
 
-    <section class="q-section legal-section">
+    <section class="q-section legal-section" id="legal-reality">
       <div class="section-head">
         <Icon name="scale" />
         <h2>The legal reality in India, today</h2>
@@ -137,7 +145,28 @@ import Icon from '../components/Icon.astro';
     .hero-sub a { color: var(--gold-light); }
 
     .quit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .q-section { margin-bottom: 3.5rem; }
+    .page-toc {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.75rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .toc-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-right: 0.25rem; }
+    .page-toc a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      padding: 0.4rem 0.85rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
+    .q-section { margin-bottom: 3.5rem; scroll-margin-top: 1.5rem; }
     .q-section:last-child { margin-bottom: 0; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
     .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }

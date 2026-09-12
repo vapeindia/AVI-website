@@ -1,19 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Human-written analysis and updates from AVI.
-const blog = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    author: z.string().default('Association of Vapers India'),
-    summary: z.string().max(280),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
-});
-
 // Auto-pulled news items (from Google Alerts / outlet RSS via GitHub Action,
 // scripts/fetch-news.mjs). As of 2026-09, this pipeline is fully automated —
 // no human review gate. `reviewed` now means "passed the automated filters"
@@ -220,4 +207,4 @@ const videos = defineCollection({
   }),
 });
 
-export const collections = { blog, news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos };
+export const collections = { news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos };

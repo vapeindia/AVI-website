@@ -1,5 +1,6 @@
 ---
 import SocialIcon from '../components/SocialIcon.astro';
+import Icon from '../components/Icon.astro';
 
 interface Props {
   title: string;
@@ -20,7 +21,7 @@ const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
 function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
   if (p === '/quit' || p === '/policy') return 'start';
   if (p.startsWith('/litigation') || p.startsWith('/science') || p === '/india' || p === '/india/law' || p === '/india/rti-replies') return 'evidence';
-  if (p.startsWith('/campaigns') || p === '/india/submissions' || p.startsWith('/press')) return 'advocacy';
+  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press')) return 'advocacy';
   if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
   return null;
 }
@@ -60,6 +61,9 @@ const group = activeGroup(path);
     }
     * { box-sizing: border-box; }
     html { overflow-x: hidden; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
     body {
       margin: 0;
       overflow-x: hidden;
@@ -133,6 +137,13 @@ const group = activeGroup(path);
       font-weight: 700;
       border-bottom: 2px solid var(--gold);
     }
+    nav.site a.nav-search {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 1.1rem;
+    }
+    nav.site a.nav-search :global(svg) { width: 1.15rem; height: 1.15rem; }
+    nav.site a.nav-search.active { border-bottom-color: transparent; color: var(--gold-dark); }
 
     .nav-dropdown { position: relative; display: inline-block; }
     .nav-dropdown summary {
@@ -314,7 +325,7 @@ const group = activeGroup(path);
         <summary>Our Advocacy</summary>
         <div class="dropdown-menu">
           <a href="/campaigns" class:list={{ active: path.startsWith('/campaigns') }}>Campaigns</a>
-          <a href="/india/submissions" class:list={{ active: path === '/india/submissions' }}>Submissions to Policymakers</a>
+          <a href="/submissions" class:list={{ active: path === '/submissions' }}>Submissions to Policymakers</a>
           <a href="/press" class:list={{ active: path.startsWith('/press') }}>Press</a>
         </div>
       </details>
@@ -327,6 +338,7 @@ const group = activeGroup(path);
       </details>
       <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
       <a href="/contribute" class:list={{ active: path === '/contribute' }}>Contribute</a>
+      <a href="/search" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /></a>
     </nav>
   </header>
   <script>
@@ -374,7 +386,7 @@ const group = activeGroup(path);
         <div class="footer-col">
           <h3>Our Advocacy</h3>
           <a href="/campaigns">Campaigns</a>
-          <a href="/india/submissions">Submissions to Policymakers</a>
+          <a href="/submissions">Submissions to Policymakers</a>
           <a href="/press">Press</a>
         </div>
         <div class="footer-col">
@@ -384,6 +396,7 @@ const group = activeGroup(path);
           <a href="/testimonials">Testimonials</a>
           <a href="/about">About</a>
           <a href="/contribute">Contribute</a>
+          <a href="/search">Search</a>
         </div>
       </nav>
     </div>
