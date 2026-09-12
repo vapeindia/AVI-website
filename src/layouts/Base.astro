@@ -110,6 +110,43 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
       font-weight: 500;
     }
     nav.site a:hover { color: var(--ink); }
+
+    .nav-dropdown { position: relative; display: inline-block; }
+    .nav-dropdown summary {
+      color: var(--muted);
+      margin-left: 1.25rem;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+    .nav-dropdown summary::-webkit-details-marker { display: none; }
+    .nav-dropdown summary::after { content: ' ▾'; font-size: 0.7em; }
+    .nav-dropdown summary:hover { color: var(--ink); }
+    .nav-dropdown[open] summary { color: var(--ink); }
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 6px 16px rgba(20,25,20,0.12);
+      padding: 0.5rem;
+      min-width: 13rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 30;
+    }
+    .dropdown-menu a {
+      margin-left: 0;
+      padding: 0.5rem 0.6rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .dropdown-menu a:hover { background: var(--paper-alt); color: var(--ink); }
+
     main {
       max-width: var(--max-w);
       margin: 0 auto;
@@ -181,18 +218,54 @@ const { title, description = "Tobacco harm reduction advocacy and evidence for I
     </a>
     <nav class="site">
       <a href="/about">About</a>
-      <a href="/science">Science</a>
-      <a href="/india">India</a>
-      <a href="/litigation">Litigation</a>
-      <a href="/campaigns">Campaigns</a>
-      <a href="/news">News</a>
-      <a href="/media">Media</a>
-      <a href="/blog">Blog</a>
-      <a href="/press">Press</a>
+      <details class="nav-dropdown">
+        <summary>The Evidence</summary>
+        <div class="dropdown-menu">
+          <a href="/science">Science</a>
+          <a href="/india">India</a>
+          <a href="/india/rti-replies">RTI Replies</a>
+          <a href="/litigation">Litigation</a>
+        </div>
+      </details>
+      <details class="nav-dropdown">
+        <summary>Our Advocacy</summary>
+        <div class="dropdown-menu">
+          <a href="/campaigns">Campaigns</a>
+          <a href="/india/submissions">Submissions to Policymakers</a>
+          <a href="/press">Press</a>
+        </div>
+      </details>
+      <details class="nav-dropdown">
+        <summary>Updates</summary>
+        <div class="dropdown-menu">
+          <a href="/news">News</a>
+          <a href="/media">Media</a>
+        </div>
+      </details>
       <a href="/testimonials">Testimonials</a>
       <a href="/contribute">Contribute</a>
     </nav>
   </header>
+  <script>
+    // Native <details> doesn't close on outside click or when a sibling
+    // opens — both expected behaviours for a nav dropdown menu.
+    const navDropdowns = document.querySelectorAll('nav.site .nav-dropdown');
+    navDropdowns.forEach((d) => {
+      d.addEventListener('toggle', () => {
+        if (d.open) {
+          navDropdowns.forEach((other) => { if (other !== d) other.open = false; });
+        }
+      });
+    });
+    document.addEventListener('click', (e) => {
+      navDropdowns.forEach((d) => {
+        if (d.open && !d.contains(e.target)) d.open = false;
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') navDropdowns.forEach((d) => { d.open = false; });
+    });
+  </script>
   <main class={wide ? 'wide' : ''}>
     <slot />
   </main>
