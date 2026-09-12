@@ -588,8 +588,11 @@ that happened, since a live token sitting unused is a needless risk.
 
 ## Social handles (linked in footer, not actively pulled from)
 
-YouTube: youtube.com/vapeindia · X: @vapeindia · Instagram:
-@avi_vapeindia · Facebook: facebook.com/avindia · LinkedIn (handle TBD).
+YouTube: youtube.com/@vapeindia (channel ID UCEgd8dgEScqYKKUBHwD1DDQ,
+titled "Association of Vapers India" — verified 2026-09, and now the
+source for the automated /media page pipeline, see below) · X: @vapeindia
+· Instagram: @avi_vapeindia · Facebook: facebook.com/avindia · LinkedIn:
+linkedin.com/showcase/vapeindia.
 X's embedded timeline is effectively broken for logged-out visitors
 (platform-wide issue, not this site's problem) — do not attempt to embed
 an X timeline. YouTube's RSS/oEmbed is reliable if a "latest video" embed
