@@ -45,7 +45,7 @@ function fmtRange(start: Date, end?: Date) {
   <div class="camp-body">
     <div class="camp-grid">
       {withBody.map(({ item, Content }) => (
-        <article class={`camp-card type-${item.data.type}`}>
+        <article id={item.id} class={`camp-card type-${item.data.type}`}>
           <div class="card-top">
             <Icon name="megaphone" />
             <span class="type-badge">{typeLabel[item.data.type]}</span>
@@ -119,6 +119,11 @@ function fmtRange(start: Date, end?: Date) {
       padding: 1.6rem 1.7rem 1.75rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
       border-top: 4px solid var(--rust);
+      scroll-margin-top: 1.5rem;
+    }
+    .camp-card:target {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
     }
     .type-protest { border-top-color: var(--rust); }
     .type-seminar { border-top-color: var(--accent); }
