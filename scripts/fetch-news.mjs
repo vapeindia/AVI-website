@@ -76,6 +76,55 @@ function matchesKeywords(item, keywords) {
   return keywords.some((kw) => haystack.includes(kw.toLowerCase()));
 }
 
+// Added 2026-09-12 after reviewing a batch of live auto-committed entries
+// and a stale PR that surfaced the same patterns: violent/general crime
+// stories where a vape shop or the word "tobacco" is only incidental (an
+// armed robbery AT a vape shop, a firearm-possession sentencing that
+// happened to match a Tobacco Google Alert), SEO/content-farm "ultimate
+// guide" articles (thin, and a real risk of disguised product promotion —
+// the same PECA advertising-risk concern isIndustryPressRelease() already
+// guards against), device/brand product reviews, and garbled/truncated
+// scrapes ("print this page", a bare tag name). Deliberately narrow and
+// pattern-specific rather than blanket keyword bans on words like
+// "arrested" or "smuggling" — a cigarette-smuggling or counterfeit-vape
+// bust is a genuine tobacco-black-market/policy story and must stay in.
+const OFF_TOPIC_CRIME_PATTERNS = [
+  /\barmed robbery\b/i,
+  /\b(first|second)[- ]degree murder\b/i,
+  /\bpossessing (a |an )?firearms?\b/i,
+  /\bon scene of a shooting\b/i,
+  /\bshooting\b.{0,20}\b(scene|investigation)\b/i,
+];
+
+const SEO_GUIDE_SPAM_PATTERN = /\b(ultimate|comprehensive|proven|complete|definitive|science-backed)\s+guide\b/i;
+
+// A genuine research "systematic review" / "literature review" / Cochrane
+// review must never be caught by the product-review check below.
+const RESEARCH_REVIEW_ALLOW_PATTERN = /\b(systematic|literature|scoping|narrative)\s+review\b|\bcochrane\b|\bmeta-analysis\b/i;
+
+function isProductReviewTitle(title) {
+  if (RESEARCH_REVIEW_ALLOW_PATTERN.test(title)) return false;
+  if (!/\breview\b/i.test(title)) return false;
+  if (/^review[:\-]/i.test(title)) return true;
+  return /\b(disposable|vaporesso|aspire|geekbar|elf ?bar|lost mary|voopoo|uwell|smok|puff bar|pod|mod|kit|device)\b/i.test(title);
+}
+
+function isGarbledTitle(title) {
+  const t = title.trim();
+  if (!t) return true;
+  if (/^print this page$/i.test(t)) return true;
+  if (/^tag\b/i.test(t)) return true;
+  return t.split(/\s+/).length < 3;
+}
+
+function isOffTopicJunk(item) {
+  const title = item.title;
+  if (isGarbledTitle(title)) return true;
+  if (isProductReviewTitle(title)) return true;
+  if (SEO_GUIDE_SPAM_PATTERN.test(title)) return true;
+  return OFF_TOPIC_CRIME_PATTERNS.some((re) => re.test(title));
+}
+
 function existingUrls() {
   const urls = new Set();
   if (!fs.existsSync(CONTENT_DIR)) return urls;
@@ -205,6 +254,10 @@ async function main() {
       }
       if (isIndustryPressRelease(item)) {
         console.log(`Skipped (industry press release): ${item.title}`);
+        continue;
+      }
+      if (isOffTopicJunk(item)) {
+        console.log(`Skipped (off-topic/low-quality title pattern): ${item.title}`);
         continue;
       }
       if (!matchesKeywords(item, feed.keywordFilter)) {
