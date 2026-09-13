@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import DecorativeRings from '../components/DecorativeRings.astro';
 import PullQuote from '../components/PullQuote.astro';
 import { getCollection } from 'astro:content';
 
@@ -29,29 +28,68 @@ const pressCount = (await getCollection('press')).length;
 const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="Home" wide={true}>
-  <section class="breakout hero">
-    <DecorativeRings class="hero-rings" />
-    <div class="breakout-inner hero-inner">
-      <p class="eyebrow">Tobacco harm reduction for India</p>
-      <h1>Still smoking? There's a<br class="br-desktop" /> safer path forward.</h1>
-      <p class="hero-sub">
-        If nicotine gums and patches haven't worked for you, or you're not
-        ready to quit nicotine entirely, there are lower-risk ways to keep
-        using it. We've spent a decade reviewing the evidence and fighting
-        in court for your right to know about them.
-      </p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold" href="/science">See the evidence →</a>
-        <a class="btn btn-outline" href="/india/law">What the law says →</a>
+  <section class="breakout hero-v2">
+    <div class="breakout-inner hero-v2-inner">
+      <div class="hero-copy">
+        <span class="hero-badge"><span class="dot"></span>Tobacco harm reduction for India</span>
+        <h1>Still smoking? There's a <em>safer path forward.</em></h1>
+        <p class="hero-sub">
+          If nicotine gums and patches haven't worked for you, or you're not
+          ready to quit nicotine entirely, there are lower-risk ways to keep
+          using it. We've spent a decade reviewing the evidence and fighting
+          in court for your right to know about them.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="/science">See the evidence →</a>
+          <a class="btn btn-outline" href="/india/law">What the law says →</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
+          <div><strong>7M+</strong><span>tobacco deaths every year</span></div>
+          <div><strong>200M+</strong><span>have switched to safer nicotine products</span></div>
+        </div>
+        <p class="hero-stats-source">
+          Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
+        </p>
       </div>
-      <div class="hero-stats">
-        <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
-        <div><strong>7M+</strong><span>tobacco deaths every year</span></div>
-        <div><strong>200M+</strong><span>have switched to safer nicotine products</span></div>
+      <div class="hero-photo-wrap">
+        <figure>
+          <img src="/images/campaigns/delhi-jantar-mantar-protest.jpg" alt="Vapers protesting the e-cigarette ban at Jantar Mantar, Delhi, 28 September 2019" />
+          <figcaption class="photo-tag">India Vape Ban Protest — six cities, 28 September 2019</figcaption>
+        </figure>
+        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up.</p>
       </div>
-      <p class="hero-stats-source">
-        Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
+    </div>
+  </section>
+
+  <section class="breakout city-strip">
+    <div class="breakout-inner">
+      <p class="eyebrow">28 September 2019</p>
+      <h2>Six cities took to the streets against the ban</h2>
+      <p class="city-strip-sub">
+        Delhi, Mumbai, Kolkata, Hyderabad, Chennai and Bengaluru — vapers and
+        harm reduction advocates protested the same day, over the same law:
+        masks, placards, and years of quitting cigarettes now at risk of
+        being pushed back to them.
       </p>
+      <div class="city-grid">
+        <figure>
+          <img src="/images/campaigns/mumbai-protest.jpg" alt="Vapers protesting the e-cigarette ban in Mumbai, 28 September 2019" loading="lazy" />
+          <figcaption>Mumbai</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/campaigns/kolkata-protest.jpg" alt="Vapers protesting the e-cigarette ban in Kolkata, 28 September 2019" loading="lazy" />
+          <figcaption>Kolkata</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/campaigns/hyderabad-protest.jpg" alt="Vapers protesting the e-cigarette ban in Hyderabad, 28 September 2019" loading="lazy" />
+          <figcaption>Hyderabad</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/campaigns/bangalore-protest.jpg" alt="Vapers protesting the e-cigarette ban in Bengaluru, 28 September 2019" loading="lazy" />
+          <figcaption>Bengaluru</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -273,65 +311,104 @@ const yearsActive = new Date().getFullYear() - 2016;
     .eyebrow-light { color: var(--gold-light); }
 
     /* Hero */
-    .hero {
-      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
-      background-size: cover;
-      background-position: center 30%;
-      color: #f4f1e6;
-      padding: 3.75rem 0 3.25rem;
-      position: relative;
-      overflow: hidden;
+    .hero-v2 { background: var(--paper); padding: 3.25rem 0 2.75rem; }
+    .hero-v2-inner {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 3rem;
+      align-items: start;
     }
-    .hero :global(.hero-rings) {
-      position: absolute;
-      top: 50%;
-      right: -8%;
-      transform: translateY(-50%);
-      width: 34rem;
-      height: 34rem;
-      max-width: 60vw;
-      max-height: 60vw;
-      color: var(--accent-light);
-      opacity: 0.35;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-dark);
+      margin-bottom: 1.5rem;
     }
-    .hero :global(.hero-rings circle:nth-child(2)) { color: var(--gold-light); opacity: 0.8; }
-    .hero-inner { max-width: 46rem; position: relative; }
-    .hero .eyebrow { color: var(--gold-light); }
-    .hero h1 {
-      color: #fff;
-      font-size: clamp(2rem, 4.2vw, 3rem);
+    .hero-badge .dot { width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--accent); }
+    .hero-v2 h1 {
+      color: var(--ink-black);
+      font-size: clamp(2.1rem, 3.8vw, 3rem);
       margin: 0 0 1.25rem;
     }
-    .hero-sub {
-      font-size: 1.1rem;
-      color: #cdd6cf;
-      max-width: 38rem;
-      margin: 0 0 1.5rem;
+    .hero-v2 h1 em { font-style: italic; color: var(--rust); }
+    .hero-v2 .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 34rem;
+      margin: 0 0 1.65rem;
     }
-    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
-    .hero .btn-outline { border-color: #46524a; color: #f4f1e6; }
-    .hero .btn-outline:hover { border-color: #f4f1e6; color: #fff; }
-    .hero-stats {
+    .hero-v2 .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .hero-v2 .hero-stats {
       display: flex;
-      gap: 2.5rem;
+      gap: 2.25rem;
       flex-wrap: wrap;
       padding-top: 1.4rem;
-      border-top: 1px solid #333c34;
+      border-top: 1px solid var(--border);
     }
-    .hero-stats strong {
+    .hero-v2 .hero-stats strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 1.8rem;
-      color: var(--gold-light);
+      font-size: 1.7rem;
+      color: var(--gold-dark);
       line-height: 1;
     }
-    .hero-stats span { font-size: 0.82rem; color: #9fada2; }
-    .hero-stats-source {
-      margin: 0.85rem 0 0;
-      font-size: 0.75rem;
-      color: #79867e;
+    .hero-v2 .hero-stats span { font-size: 0.8rem; color: var(--muted); }
+    .hero-v2 .hero-stats-source { margin: 0.85rem 0 0; font-size: 0.75rem; color: var(--muted); }
+    .hero-photo-wrap figure {
+      margin: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 12px 30px rgba(20,25,20,0.14);
     }
-    .hero-stats-source a { color: #9fada2; }
+    .hero-photo-wrap img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; }
+    .hero-photo-wrap .photo-tag {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      background: rgba(18,19,15,0.72);
+      color: #fff;
+      font-size: 0.8rem;
+      padding: 0.55rem 0.9rem;
+      margin: 0;
+    }
+    .hero-photo-caption { margin: 0.85rem 0 0; font-size: 0.88rem; color: var(--muted); font-style: italic; }
+    @media (max-width: 900px) {
+      .hero-v2-inner { grid-template-columns: 1fr; }
+    }
+
+    /* Six-city photo strip */
+    .city-strip { background: var(--paper-alt); padding: 3rem 0; }
+    .city-strip h2 { margin: 0 0 0.6rem; font-size: 1.65rem; }
+    .city-strip-sub { color: var(--muted); max-width: 42rem; margin: 0 0 2rem; }
+    .city-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .city-grid figure { margin: 0; }
+    .city-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(20,25,20,0.08);
+    }
+    .city-grid figcaption {
+      margin-top: 0.6rem;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    @media (max-width: 640px) {
+      .city-grid { grid-template-columns: repeat(2, 1fr); }
+    }
 
     /* Three paths */
     .paths { background: var(--paper); padding: 2.75rem 0 2.5rem; }
@@ -459,7 +536,14 @@ const yearsActive = new Date().getFullYear() - 2016;
     }
 
     /* Donate */
-    .donate-pitch { background: var(--rust); color: #fff; padding: 2.75rem 0; margin-top: 2.25rem; }
+    .donate-pitch {
+      background: linear-gradient(rgba(125,58,31,0.88), rgba(179,85,46,0.92)), url('/images/campaigns/chennai-protest.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 2.75rem 0;
+      margin-top: 2.25rem;
+    }
     .donate-inner { max-width: 40rem; }
     .donate-pitch h2 { color: #fff; margin: 0 0 1rem; font-size: 1.9rem; }
     .donate-pitch p { color: #fbe6db; }
