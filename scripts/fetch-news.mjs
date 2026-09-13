@@ -228,6 +228,22 @@ const MARKET_DATA_TITLE_PATTERNS = [
 // construction near a summarizing word) rather than one more exact phrase,
 // since the AI clearly doesn't repeat itself verbatim across these and a
 // growing list of exact strings will always be one phrasing behind.
+// Broadened again 2026-09-13: a Filter/GFN item about prison re-entry
+// support was deleted as off-topic earlier the same day, then reappeared
+// on the very next scheduled run — deleting a published entry doesn't
+// blocklist its URL, so an item whose RSS snippet happens to mention a
+// stray keyword (enough to pass the feed's own keywordFilter) will keep
+// coming back. Its own AI summary said so plainly both times ("This
+// article is not relevant to tobacco harm reduction advocacy"), just in
+// off-topic language rather than no-content language — added a second
+// pattern group for that self-admission specifically.
+const OFF_TOPIC_SELF_ADMISSION_PATTERNS = [
+  /not relevant to (tobacco harm reduction|this (site|page|topic))/i,
+  /falls? outside (the )?scope/i,
+  /outside the scope of/i,
+  /does not (pertain|relate) to/i,
+];
+
 const NO_CONTENT_SUMMARY_PATTERNS = [
   /\bno\b.{0,25}\bcontent\b.{0,60}\b(summar|snippet|provided|available)\b/i,
   /does not (contain|provide|have)\b.{0,40}\b(content|information|details?|context)\b/i,
@@ -235,6 +251,7 @@ const NO_CONTENT_SUMMARY_PATTERNS = [
   /not provided in the snippet/i,
   /please provide the actual/i,
   /no information available/i,
+  ...OFF_TOPIC_SELF_ADMISSION_PATTERNS,
   /unable to summarize/i,
 ];
 

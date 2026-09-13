@@ -170,6 +170,28 @@ already published from these feeds were left as-is (each was already
 vetted during that same cleanup pass); only the feed source itself was
 removed, so no new items from it will be fetched going forward.
 
+**Deleting a bad entry doesn't blocklist its URL (2026-09-13):** the
+Filter/GFN prison re-entry article deleted earlier the same day (see the
+full-corpus-sweep note above) reappeared verbatim on the very next
+scheduled `fetch-news.yml` run — `existingUrls()` only checks files
+currently in `src/content/news/`, so deleting a file makes its URL
+fetchable again next time, and this one still passed the Filter feed's
+`keywordFilter` (its RSS snippet apparently contains a stray tobacco-
+adjacent word) even though the article itself is about criminal justice,
+not THR. Its own AI summary said so plainly both times ("not relevant to
+tobacco harm reduction advocacy") — broadened
+`NO_CONTENT_SUMMARY_PATTERNS` with a second pattern group,
+`OFF_TOPIC_SELF_ADMISSION_PATTERNS`, for this "AI says it's off-topic"
+phrasing family, distinct from the "AI says there's no content" family
+already there. Also caught and deleted one more instance of the same
+underlying gap that a full corpus re-sweep turned up: a Blackburn Rovers
+football "what's on guide" that a broad "e-cigarettes" Google Alert
+surfaced (its own AI summary: "not relevant to tobacco harm reduction
+advocacy"). **If a deleted entry ever comes back, this is why** — the fix
+is always to broaden what the content-based check catches, not to
+special-case one URL, since the pipeline has no per-URL exclusion list
+and re-fetches anything not currently on disk.
+
 **Non-article filter added (2026-09-13):** a broad "e-cigarettes" Google
 Alert surfaced an Altria stock-data "company hub" page
 (proactiveinvestors.co.uk/companies/altria-group-inc/) — no real article,
