@@ -155,6 +155,21 @@ Quit Like Sweden — all real outlet RSS feeds, all tagged `advocacy: true`.
 protection blocks it even with `-L`, returning a 403 after redirecting to
 the homepage — don't re-add it without checking that's changed.
 
+**Three Google Alerts removed (2026-09-13):** `feeds.json` had a second,
+separate Google Alerts account (a different account ID from the 6 above,
+never itself documented in this file) supplying three broad alerts —
+"e-cigarettes", "Tobacco", "Vaping" — with no India/THR-specific scoping
+at all. Site owner reported this was surfacing a lot of irrelevant news on
+the homepage and asked for it to be dropped; removed all three from
+`feeds.json`. These were also the exact feeds behind most of the junk
+found and cleaned up earlier the same day (the Altria stock page, the
+pannellum/unkk.top spam links, the vendor product page, the forum posts —
+see the notes below) — broad, unscoped alert terms on a second account
+were the real problem, not a filtering gap alone. Existing news entries
+already published from these feeds were left as-is (each was already
+vetted during that same cleanup pass); only the feed source itself was
+removed, so no new items from it will be fetched going forward.
+
 **Non-article filter added (2026-09-13):** a broad "e-cigarettes" Google
 Alert surfaced an Altria stock-data "company hub" page
 (proactiveinvestors.co.uk/companies/altria-group-inc/) — no real article,
