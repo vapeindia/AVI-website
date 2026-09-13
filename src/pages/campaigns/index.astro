@@ -43,56 +43,7 @@ function fmtRange(start: Date, end?: Date) {
     </div>
   </section>
 
-  <section class="camp-showcase">
-    <div class="camp-showcase-inner">
-      <div class="section-head">
-        <Icon name="megaphone" />
-        <h2>On the ground</h2>
-        <p>Protests, press conferences and delegations, city by city — the public-facing half of this record.</p>
-      </div>
-      <div class="showcase-grid">
-        <figure class="showcase-lead">
-          <img src="/images/campaigns/six-city-protest.jpg" alt="Vapers holding placards reading 'Vaping is 95% safer than smoking' and listing Delhi, Kolkata, Mumbai, Hyderabad, Bengaluru and Chennai, at a coordinated multi-city protest against the ENDS ban" loading="lazy" />
-          <figcaption>The coordinated six-city protest against the ENDS ban — Delhi, Kolkata, Mumbai, Hyderabad, Bengaluru and Chennai, one day, one voice</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/chandigarh-presser.jpg" alt="AVI press conference on tobacco harm reduction, Chandigarh" loading="lazy" />
-          <figcaption>Press conference on tobacco harm reduction, Chandigarh</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/chandigarh-presser-2.jpg" alt="AVI representatives fielding questions from reporters at the Chandigarh press conference" loading="lazy" />
-          <figcaption>Fielding questions from reporters, Chandigarh</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/press-club-bangalore.jpg" alt="AVI presenting research and case studies on e-cigarettes/ENDS at a press conference, Press Club of Bangalore" loading="lazy" />
-          <figcaption>Presenting research at the Press Club of Bangalore</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/press-briefing-avi-banner.jpg" alt="AVI representatives briefing reporters at a press conference under an Association of Vapers India banner" loading="lazy" />
-          <figcaption>Briefing reporters under the AVI banner</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/delhi-policy-dialogue.jpg" alt="Samrat Chowdhery being interviewed by a television crew at an AVI Policy Dialogue on E-Cigarettes, New Delhi" loading="lazy" style="object-position: 30% 15%" />
-          <figcaption>Media interview at AVI's Policy Dialogue on E-Cigarettes, New Delhi</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/policy-roundtable.jpg" alt="AVI representatives at a policy roundtable discussion" loading="lazy" />
-          <figcaption>At a policy roundtable discussion, New Delhi</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting with the Union Minister of State for Health" loading="lazy" />
-          <figcaption>An AVI delegation meeting the Union Minister of State for Health, Anupriya Patel</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
   <div class="camp-body">
-    <div class="section-head grid-head">
-      <Icon name="document" />
-      <h2>The full record</h2>
-      <p>Every campaign AVI has organised, newest first — protests, seminars, delegations and data drives.</p>
-    </div>
     <div class="camp-grid">
       {withBody.map(({ item, Content }) => (
         <article id={item.id} class={`camp-card type-${item.data.type}`}>
@@ -230,42 +181,5 @@ function fmtRange(start: Date, end?: Date) {
     }
     .full-text :global(p) { margin: 0 0 0.9rem; }
     .full-text :global(p:last-child) { margin-bottom: 0; }
-
-    /* On-the-ground photo showcase */
-    .camp-showcase { background: var(--paper-alt); padding: 3.5rem 0; }
-    .camp-showcase-inner { max-width: var(--max-w-wide); margin: 0 auto; padding: 0 1.5rem; }
-    .section-head { margin-bottom: 1.75rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--rust); margin-bottom: 0.5rem; }
-    .section-head h2 { margin: 0 0 0.35rem; font-size: 1.5rem; }
-    .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; max-width: 40rem; }
-    .grid-head { margin-bottom: 1.75rem; }
-
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 11rem;
-      gap: 1rem;
-    }
-    .showcase-grid figure { margin: 0; position: relative; border-radius: 8px; overflow: hidden; }
-    .showcase-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .showcase-grid figcaption {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 1.5rem 0.85rem 0.6rem;
-      background: linear-gradient(transparent, rgba(18,19,15,0.82));
-      color: #f4f1e6;
-      font-size: 0.76rem;
-      line-height: 1.4;
-    }
-    .showcase-lead { grid-column: span 2; grid-row: span 2; }
-    .showcase-lead figcaption { font-size: 0.85rem; padding: 2rem 1.1rem 0.85rem; }
-    @media (max-width: 900px) {
-      .showcase-grid { grid-template-columns: repeat(2, 1fr); }
-      .showcase-lead { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; height: auto; }
-    }
-    @media (max-width: 560px) {
-      .showcase-grid { grid-template-columns: 1fr; }
-      .showcase-lead { grid-column: span 1; }
-    }
   </style>
 </Base>

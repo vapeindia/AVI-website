@@ -105,28 +105,6 @@ const typeLabel: Record<string, string> = {
         ))}
       </div>
     </section>
-
-    <section class="campaigns-section">
-      <div class="section-head">
-        <h2>AVI campaigns, on the ground</h2>
-        <p>Press coverage and statements are one record of this work — the protests, press conferences and delegations behind them are another.</p>
-      </div>
-      <div class="photo-strip photo-strip-compact">
-        <figure>
-          <img src="/images/campaigns/six-city-protest.jpg" alt="Vapers holding placards reading 'Vaping is 95% safer than smoking' and listing Delhi, Kolkata, Mumbai, Hyderabad, Bengaluru and Chennai, at a coordinated multi-city protest against the ENDS ban" loading="lazy" />
-          <figcaption>The six-city protest against the ENDS ban</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/chandigarh-presser.jpg" alt="AVI press conference on tobacco harm reduction, Chandigarh" loading="lazy" />
-          <figcaption>Press conference on tobacco harm reduction, Chandigarh</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/delegation-mos-health.jpg" alt="AVI delegation meeting with the Union Minister of State for Health" loading="lazy" />
-          <figcaption>An AVI delegation meeting the Union Minister of State for Health</figcaption>
-        </figure>
-      </div>
-      <a class="btn btn-outline campaigns-cta" href="/campaigns">See the full campaigns gallery →</a>
-    </section>
   </div>
 
   <style>
@@ -214,16 +192,5 @@ const typeLabel: Record<string, string> = {
     .gist :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
     .pending-link { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: auto; }
-
-    .campaigns-section { margin: 3.75rem 0 0; }
-    .photo-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-      gap: 1.5rem;
-    }
-    .photo-strip figure { margin: 0; }
-    .photo-strip img { width: 100%; height: 14rem; object-fit: cover; border-radius: 8px; display: block; }
-    .photo-strip figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); }
-    .campaigns-cta { display: inline-block; margin-top: 1.75rem; }
   </style>
 </Base>
