@@ -24,6 +24,20 @@ import path from 'node:path';
 const NEWS_DIR = path.join(process.cwd(), 'src/content/news');
 const DIGEST_DIR = path.join(process.cwd(), 'src/content/news-digests');
 
+// Schema-enforced ceiling (see `newsDigests` in src/content.config.ts,
+// shared by daily/weekly/monthly). The prompt below already asks the model
+// to stay under a character limit, but that's an instruction, not a
+// guarantee — a bad build from an oversized digest takes the whole site
+// down (see CLAUDE.md, "Design pass and a chain of build failures"), so
+// this is a hard safety net, not just belt-and-suspenders.
+function clampSummary(str, max = 600) {
+  if (!str || str.length <= max) return str;
+  const truncated = str.slice(0, max - 1);
+  const lastSpace = truncated.lastIndexOf(' ');
+  const safe = lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated;
+  return `${safe}…`;
+}
+
 function parseFrontmatter(text) {
   const m = text.match(/^---\n([\s\S]*?)\n---/);
   if (!m) return {};
@@ -105,9 +119,9 @@ Respond ONLY as JSON: {"summary": "..."}`;
 
   const text = res.content?.[0]?.text ?? '{}';
   try {
-    return JSON.parse(text.replace(/```json|```/g, '').trim()).summary;
+    return clampSummary(JSON.parse(text.replace(/```json|```/g, '').trim()).summary);
   } catch {
-    return `This month in tobacco harm reduction: ${items.length} stories covered, spanning ${[...new Set(items.map((i) => i.topic ?? 'other'))].join(', ')}. See the weekly breakdown below for details.`;
+    return clampSummary(`This month in tobacco harm reduction: ${items.length} stories covered, spanning ${[...new Set(items.map((i) => i.topic ?? 'other'))].join(', ')}. See the weekly breakdown below for details.`);
   }
 }
 
