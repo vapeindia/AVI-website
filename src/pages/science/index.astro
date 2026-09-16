@@ -133,7 +133,14 @@ const substanceLabel: Record<string, string> = {
     <section class="live-section">
       <div class="section-head">
         <h2>Ongoing research</h2>
-        <p>Individual studies, added automatically from PubMed and Europe PMC, summarised in plain language and reviewed before publishing. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}.</p>
+        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}.</p>
+      </div>
+      <div class="disclaimer">
+        <strong>About these briefs:</strong> summaries are AI-generated
+        paraphrases, not verbatim quotes, and aren't individually
+        fact-checked by AVI staff before publishing — each entry links to
+        its source (DOI or PubMed) so you can verify anything you plan to
+        rely on against the paper itself.
       </div>
       <div class="science-grid">
       {featuredItems.map((item) => (
@@ -215,6 +222,19 @@ const substanceLabel: Record<string, string> = {
     .section-head { margin-bottom: 1.75rem; }
     .section-head h2 { margin: 0 0 0.35rem; font-size: 1.5rem; }
     .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .disclaimer {
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+    .disclaimer strong { color: var(--ink); }
 
     .topline-section { margin-bottom: 3.5rem; }
     .topline-grid {

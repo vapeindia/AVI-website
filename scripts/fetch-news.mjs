@@ -356,6 +356,34 @@ async function fetchFeed(feedUrl, sourceName) {
   }));
 }
 
+// Must match the `topic` enum in src/content.config.ts exactly, and
+// `SUMMARY_MAX` the news `summary` field's z.string().max(400) — this is
+// the guardrail that stops a malformed AI response from reaching disk and
+// breaking the whole site build (Astro's getCollection() fails the ENTIRE
+// build on one bad entry — this happened for real once already, via an
+// unvalidated enum value in the `research` collection's generator; see
+// that script for the fuller account). Don't remove this to "simplify".
+const VALID_TOPICS = new Set(['policy', 'litigation', 'science', 'industry', 'other']);
+const SUMMARY_MAX = 400;
+
+function clampSummary(str, max) {
+  const s = String(str ?? '').trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut}…`;
+}
+
+// Deliberately does NOT clamp `summary` here — looksLikeNoContentSummary()
+// downstream needs to see the AI's full, unclamped text to catch a
+// self-admitted off-topic/no-content response reliably. Length is only
+// clamped right before writing to disk, in toFrontmatter().
+function sanitizeSummary(ai, fallbackSnippet) {
+  const topic = VALID_TOPICS.has(ai.topic) ? ai.topic : 'other';
+  const summary = String(ai.summary || fallbackSnippet).trim();
+  return { summary, topic };
+}
+
 async function writeSummary(item) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   const prompt = `Write a neutral, paraphrased 1-2 sentence summary (max 400 characters, your own words, no verbatim quoting) of this news item for a tobacco-harm-reduction advocacy news page in India. Also classify its topic as one of: policy, litigation, science, industry, other.
@@ -380,11 +408,13 @@ Respond ONLY as JSON: {"summary": "...", "topic": "..."}`;
   }).then((r) => r.json());
 
   const text = res.content?.[0]?.text ?? '{}';
+  let ai;
   try {
-    return JSON.parse(text.replace(/```json|```/g, '').trim());
+    ai = JSON.parse(text.replace(/```json|```/g, '').trim());
   } catch {
-    return { summary: item.snippet.slice(0, 300), topic: 'other' };
+    ai = { summary: item.snippet, topic: 'other' };
   }
+  return sanitizeSummary(ai, item.snippet.slice(0, 300));
 }
 
 function slugify(title) {
@@ -398,7 +428,7 @@ title: ${JSON.stringify(item.title)}
 date: ${date.toISOString().slice(0, 10)}
 sourceName: ${JSON.stringify(item.sourceName)}
 sourceUrl: ${JSON.stringify(item.url)}
-summary: ${JSON.stringify(ai.summary)}
+summary: ${JSON.stringify(clampSummary(ai.summary, SUMMARY_MAX))}
 topic: ${JSON.stringify(ai.topic)}
 reviewed: true
 ---

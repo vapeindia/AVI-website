@@ -77,8 +77,15 @@ access control, keep them apart.
   opens a PR. **Never** flip `reviewed: true` on anything touching a
   commercial/vendor domain — check `blocklist.json` is doing its job.
 - `research` — auto-pulled via `scripts/fetch-research.mjs` (PubMed +
-  Europe PMC), AI brief, same review gate. GitHub Action
-  `fetch-research.yml` runs weekly.
+  Europe PMC), AI brief. GitHub Action `fetch-research.yml` runs weekly.
+  **Fully automated as of 2026-09-16** (explicit site-owner instruction,
+  matching `news`) — commits straight to `main`, `reviewed: true`, no PR,
+  no human gate. Safe only because the script validates/clamps every
+  AI-classified field (`studyType`, `substance`, `brief` length) against
+  the exact `content.config.ts` schema before writing — see that script's
+  header comment. This collection is what caused the real full-site build
+  outage documented below ("Design pass and a chain of build failures"),
+  via an unvalidated AI enum value; don't remove the validation step.
 - `press` — coverage OF AVI specifically (distinct from `news`, which is
   coverage of the topic generally). Migrating from the Google Drive
   archive's "AVI Board/AVI Outreach/Press releases" folder (~130 files
@@ -139,16 +146,16 @@ access control, keep them apart.
   the "no PR gate" design only holds as long as nothing identifying is
   ever added to the schema.
 
-`research` and `testimonials` write `reviewed: false` drafts only; a human
-(or Claude, on explicit instruction) must flip that flag before anything
-appears on a live index page. Never auto-approve these two. The same rule
-applies to `testimonials` PRs — read every one before flipping the flag;
-this is public-facing user content, and PECA's advertising-risk guard
-applies to it too (no product brand names, purchase links, or vendor
-mentions).
+`testimonials` writes `reviewed: false` drafts only; a human (or Claude, on
+explicit instruction) must flip that flag before anything appears on a
+live index page. Never auto-approve this one — read every PR before
+flipping the flag; this is public-facing user content (a name, a location,
+free text), and PECA's advertising-risk guard applies to it too (no
+product brand names, purchase links, or vendor mentions). `research` used
+to follow the same rule but no longer does — see below.
 
-**`news` is the one exception, as of 2026-09 (explicit site-owner
-instruction): it is fully automated, no human review gate.**
+**`news` and `research` are both fully automated, as of 2026-09 (explicit
+site-owner instruction): no human review gate.**
 `scripts/fetch-news.mjs` writes `reviewed: true` directly and the GitHub
 Action (`fetch-news.yml`) commits straight to `main` — no PR. `reviewed`
 on a `news` entry now means "passed the automated filters" (commercial/
@@ -168,6 +175,23 @@ pipeline again: don't reflexively add a review gate back — that would
 contradict the explicit instruction — but do flag it if you spot the
 automated filters letting something through they shouldn't (a product
 promotion, a mis-tagged item), since nothing else is checking anymore.
+
+**`research` went the same way on 2026-09-16** — `scripts/fetch-research.mjs`
+now writes `reviewed: true` and `fetch-research.yml` commits straight to
+`main`, no PR (previously opened a weekly PR of `reviewed: false` drafts).
+Unlike `news`, this collection has AI-classified *enum* fields
+(`studyType`, `substance`) as well as free text, and this is the exact
+collection that caused a real full-site build outage once already (see
+"Design pass and a chain of build failures" below) when those enums came
+back malformed — `getCollection()` fails the whole site's build on one bad
+entry, not just that page. So going hands-off here required an actual
+guardrail, not just the instruction: the script now validates `studyType`
+against the schema's 7 allowed values and filters `substance` down to the
+5 allowed tags (falling back to `other`/`[general]` if the AI's response
+doesn't match), and clamps `brief` to the schema's 500-char max, all
+*before* the file is written — see `sanitizeBrief()` in that script. If
+asked to touch this pipeline, keep that validation step; it's the only
+thing standing between a bad AI response and a broken production site.
 
 **News sources (2026-09):** beyond the 6 original Google Alerts
 (`contact@vapeindia.org`) and Filter/Clive Bates, `feeds.json` now also

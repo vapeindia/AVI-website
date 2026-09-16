@@ -63,6 +63,14 @@ const newsDigests = defineCollection({
 });
 
 // Auto-pulled research (PubMed / Europe PMC via GitHub Action) with AI brief.
+// Fully automated as of 2026-09 (explicit site-owner instruction, matching
+// `news`) — scripts/fetch-research.mjs commits straight to main, no PR, no
+// human review gate. `reviewed` now means "passed the script's own
+// validation" (studyType/substance checked against these exact enums,
+// brief clamped to the schema's max length — see that script's header
+// comment for why this matters: an unvalidated AI enum value broke the
+// entire site build here once already, since getCollection() fails the
+// whole build on one bad entry), not "a person signed off on it".
 const research = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/research' }),
   schema: z.object({
@@ -79,7 +87,7 @@ const research = defineCollection({
     substance: z.array(z.enum(['e-cigarette', 'nicotine-pouch', 'snus', 'combustible', 'general'])).default(['general']),
     brief: z.string().max(500),   // plain-language AI summary, paraphrased not quoted
     relevanceToIndia: z.string().optional(),
-    reviewed: z.boolean().default(false),
+    reviewed: z.boolean().default(true), // passed the script's own validation — see comment above
   }),
 });
 

@@ -2,10 +2,19 @@
 /**
  * Fetches recent publications on THR/vaping/nicotine-pouch topics from
  * PubMed (E-utilities) and Europe PMC, writes plain-language AI briefs
- * via the Anthropic API, and creates draft entries under
- * src/content/research/. Entries are written with `reviewed: false` —
- * a human (or Claude, on request) must flip that flag before an entry
- * shows up on the live /science page.
+ * via the Anthropic API, and creates entries under src/content/research/.
+ *
+ * Fully automated as of 2026-09 (explicit site-owner instruction, mirroring
+ * the same change made to fetch-news.mjs) — entries are written with
+ * `reviewed: true` and committed straight to main, no PR, no human gate.
+ * That's only safe because every AI-classified field is validated/clamped
+ * against the exact Zod schema in src/content.config.ts before it's ever
+ * written to disk (see sanitizeBrief() below) — this project had a real,
+ * full-site build outage once already from an unvalidated AI enum value
+ * (`studyType: "systematic-review, meta-analysis"`, an invalid `substance`
+ * tag) reaching this same collection, since Astro's getCollection() fails
+ * the ENTIRE build on one bad entry. Don't remove the validation step to
+ * "simplify" this script — it's the thing that makes auto-publish safe.
  *
  * Run via GitHub Action on a schedule. Requires ANTHROPIC_API_KEY env var.
  * Idempotent: skips any PMID/DOI already present in src/content/research/.
@@ -15,6 +24,40 @@ import path from 'node:path';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content/research');
 const LOOKBACK_DAYS = 8; // slight overlap with weekly schedule to avoid gaps
+
+// Must match the `studyType` / `substance` enums in src/content.config.ts
+// exactly — this is the guardrail that keeps a malformed AI response from
+// breaking the whole site build (see file header comment).
+const VALID_STUDY_TYPES = new Set([
+  'systematic-review', 'meta-analysis', 'rct', 'cohort',
+  'cross-sectional', 'policy-report', 'other',
+]);
+const VALID_SUBSTANCES = new Set(['e-cigarette', 'nicotine-pouch', 'snus', 'combustible', 'general']);
+const BRIEF_MAX = 500; // matches brief: z.string().max(500) in content.config.ts
+
+function clamp(str, max) {
+  const s = String(str ?? '').trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut}…`;
+}
+
+// Sanitizes the AI's JSON response into something guaranteed to pass the
+// Zod schema, regardless of what the model actually returned — an invalid
+// studyType/substance falls back to a safe default rather than reaching
+// disk, since there's no human reviewing this before it's live.
+function sanitizeBrief(brief) {
+  const studyType = VALID_STUDY_TYPES.has(brief.studyType) ? brief.studyType : 'other';
+  const rawSubstance = Array.isArray(brief.substance) ? brief.substance : [brief.substance];
+  const substance = rawSubstance.filter((s) => VALID_SUBSTANCES.has(s));
+  return {
+    studyType,
+    substance: substance.length > 0 ? substance : ['general'],
+    brief: clamp(brief.brief || 'Auto-summary unavailable; see the source directly.', BRIEF_MAX),
+    relevanceToIndia: brief.relevanceToIndia ? String(brief.relevanceToIndia).trim() : 'None stated.',
+  };
+}
 
 const QUERIES = [
   '(electronic cigarette OR e-cigarette OR vaping OR ENDS) AND (smoking cessation OR harm reduction)',
@@ -106,7 +149,7 @@ Respond ONLY as JSON: {"brief": "...", "relevanceToIndia": "...", "studyType": "
   try {
     return JSON.parse(cleaned);
   } catch {
-    return { brief: 'Auto-summary failed; needs manual review.', relevanceToIndia: 'None stated.', studyType: 'other', substance: ['general'] };
+    return { brief: 'Auto-summary unavailable; see the source directly.', relevanceToIndia: 'None stated.', studyType: 'other', substance: ['general'] };
   }
 }
 
@@ -126,10 +169,8 @@ studyType: ${JSON.stringify(brief.studyType)}
 substance: ${JSON.stringify(brief.substance)}
 brief: ${JSON.stringify(brief.brief)}
 relevanceToIndia: ${JSON.stringify(brief.relevanceToIndia)}
-reviewed: false
+reviewed: true
 ---
-
-Auto-generated draft. Review the brief above against the source, set \`reviewed: true\` to publish.
 `;
 }
 
@@ -147,14 +188,15 @@ async function main() {
       if (seen.has(paper.pubmedId)) continue;
       seen.add(paper.pubmedId);
 
-      const brief = await writeBrief(paper);
+      const rawBrief = await writeBrief(paper);
+      const brief = sanitizeBrief(rawBrief);
       const filename = `${paper.year}-${slugify(paper.title)}.md`;
       fs.writeFileSync(path.join(CONTENT_DIR, filename), toFrontmatter(paper, brief));
       written += 1;
-      console.log(`Wrote draft: ${filename}`);
+      console.log(`Wrote: ${filename}`);
     }
   }
-  console.log(`Done. ${written} new draft entries written (reviewed: false).`);
+  console.log(`Done. ${written} new entries written and published (reviewed: true).`);
 }
 
 main().catch((err) => {
