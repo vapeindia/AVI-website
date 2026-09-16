@@ -116,6 +116,28 @@ access control, keep them apart.
   the Cloudflare Pages Function `functions/api/testimonial.js`, which opens
   a review PR (no email address in it — see `functions/README.md`).
   `reviewed: false` by default, same gate as `news`/`research`.
+- `harassmentReports` — added 2026-09-16, visitor-submitted via the form at
+  `/report-harassment` and `functions/api/harassment-report.js`. Deliberate
+  exception to the review-gate pattern above: this function commits
+  straight to `main`, no PR, because the schema only holds categorical/
+  numeric fields (city, date, what happened, amount, deviceReturned,
+  officerIdentified, suspectedFakeCop, willingToHelp) — nothing
+  identifying or free-text ever reaches the repo. Any email address or
+  free-text "anything else" the submitter adds goes only to an internal
+  notification email (same Resend setup as testimonials), never committed.
+  `src/lib/harassment-stats.ts` aggregates the collection at build time;
+  both `/report-harassment` and the "Know your rights" section of
+  `/india/law` read from it, so they can't drift out of sync. Built after
+  the site owner asked to turn the harassment-reporting idea (people
+  losing devices/paying bribes over a possession ban that doesn't exist)
+  into the same kind of crowdsourced evidence base as the 2020 airport
+  confiscation-report form — see `2020-2023-airport-confiscation-reports`
+  in `campaigns` for that precedent, which directly produced the
+  petitioners in the ongoing flight-ban litigation. If a future session is
+  asked to extend this (e.g. a real map instead of the ranked city list,
+  or surfacing individual moderated reports), re-read this note first —
+  the "no PR gate" design only holds as long as nothing identifying is
+  ever added to the schema.
 
 `research` and `testimonials` write `reviewed: false` drafts only; a human
 (or Claude, on explicit instruction) must flip that flag before anything

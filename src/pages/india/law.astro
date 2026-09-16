@@ -1,6 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import { getHarassmentStats } from '../../lib/harassment-stats';
+
+const hStats = await getHarassmentStats();
 ---
 <Base title="Current law in India" description="What Indian law actually says about e-cigarettes and smokeless nicotine products, as of today." wide={true}>
   <section class="breakout law-hero">
@@ -140,6 +143,13 @@ import Icon from '../../components/Icon.astro';
           extortion is a documented pattern. Two Bangalore constables were <a href="https://timesofindia.indiatimes.com/city/bengaluru/2-constables-dismissed-over-extortion/articleshow/98846356.cms" target="_blank" rel="noopener">dismissed for extorting a vaper</a>, and in Mumbai a <a href="https://www.freepressjournal.in/amp/mumbai/mumbai-police-arrest-fake-cop-for-demanding-50000-from-woman-smoking-e-cigarette-in-auto-2-others-held" target="_blank" rel="noopener">fake police officer was arrested</a> for demanding ₹50,000 from a woman vaping in an auto — a con that only works because "it's banned" sounds plausible.
         </p>
 
+        <div class="report-counter">
+          <Icon name="chart" />
+          <p>
+            <strong>{hStats.total}</strong> harassment report{hStats.total === 1 ? '' : 's'} logged so far{hStats.totalAmount > 0 ? ` — ₹${hStats.totalAmount.toLocaleString('en-IN')} demanded or paid in total` : ''}. <a href="/report-harassment">{hStats.total > 0 ? 'See the full breakdown, or report your own' : 'Be the first to report an incident'} →</a>
+          </p>
+        </div>
+
         <h3>If you're stopped by police over vaping</h3>
         <ol class="tips-list">
           <li>Stay calm and polite — make your case with information, not an argument on the street.</li>
@@ -151,7 +161,7 @@ import Icon from '../../components/Icon.astro';
           <li>Record audio or video if you can safely do so. Just asking "do you mind if I record this?" often de-escalates it on its own.</li>
           <li>Note the time, location, vehicle number and any badge numbers you can see.</li>
           <li>Afterwards, report it — to your state's police complaints authority or DGP portal, and the Anti-Corruption Bureau if money changed hands.</li>
-          <li><a href="/testimonials">Tell AVI what happened</a> — we track harassment patterns and use them in our advocacy and litigation.</li>
+          <li><a href="/report-harassment">Report what happened</a> — two minutes, anonymous by default, and it feeds the count above and AVI's advocacy and litigation.</li>
         </ol>
 
         <p class="rights-note">
@@ -507,6 +517,25 @@ import Icon from '../../components/Icon.astro';
     .ev-sub { font-size: 0.8rem; color: #e3d3c8; line-height: 1.4; text-shadow: none; }
     @media (max-width: 640px) {
       .evidence-grid { grid-template-columns: 1fr; }
+    }
+
+    .report-counter {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      margin: 0 0 2rem;
+    }
+    .report-counter :global(svg) { width: 1.6rem; height: 1.6rem; color: #f6b48a; flex-shrink: 0; }
+    .report-counter p { margin: 0; font-size: 0.92rem; text-shadow: none; }
+    .report-counter strong { color: #fff; }
+    .report-counter a { color: #ffd3b0; text-decoration: underline; font-weight: 600; }
+    .report-counter a:hover { color: #fff; }
+    @media (max-width: 560px) {
+      .report-counter { flex-direction: column; align-items: flex-start; }
     }
 
     .tips-list {

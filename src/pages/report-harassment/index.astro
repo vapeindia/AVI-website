@@ -1,0 +1,365 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { getHarassmentStats } from '../../lib/harassment-stats';
+
+const stats = await getHarassmentStats();
+
+const CITIES = [
+  'Delhi', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune',
+  'Ahmedabad', 'Jaipur', 'Chandigarh', 'Goa', 'Kochi', 'Lucknow', 'Indore',
+  'Surat', 'Bhopal', 'Nagpur',
+];
+---
+<Base
+  title="Report police harassment"
+  description="Had your vape confiscated or a bribe demanded over e-cigarette possession? Report it — anonymously if you like — and help AVI build the evidence base against it."
+  wide={true}
+>
+  <section class="breakout rh-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow"><Icon name="scale" /> Report it</p>
+      <h1>Stopped, threatened, or shaken down over a vape?</h1>
+      <p class="rh-sub">
+        AVI has done this before: a 2020 crowdsourced <a href="/campaigns#2020-2023-airport-confiscation-reports">confiscation-report form</a> logged 60 incidents and directly produced the petitioners in AVI's ongoing flight-ban case. This is the same idea, for street-level police harassment — the more reports, the stronger the evidence for the next legal or policy fight.
+      </p>
+    </div>
+  </section>
+
+  <div class="rh-body">
+    <section class="stats-section">
+      <div class="section-head">
+        <Icon name="chart" />
+        <h2>What's been reported so far</h2>
+      </div>
+      {stats.total === 0 ? (
+        <p class="stats-empty">No reports yet — be the first. Every field below except the incident details is used only as an anonymous number in this count.</p>
+      ) : (
+        <>
+          <div class="stats-grid">
+            <div class="stat-card"><strong>{stats.total}</strong><span>reports logged</span></div>
+            <div class="stat-card"><strong>₹{stats.totalAmount.toLocaleString('en-IN')}</strong><span>total demanded or paid</span></div>
+            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>devices never returned</span></div>
+            <div class="stat-card"><strong>{stats.fakeCopCount}</strong><span>suspected fake police</span></div>
+          </div>
+          {stats.topCities.length > 0 && (
+            <div class="city-breakdown">
+              <p class="city-breakdown-label">Reports by city</p>
+              <ul class="city-list">
+                {stats.topCities.map(({ city, count }) => (
+                  <li>
+                    <span class="city-name">{city}</span>
+                    <span class="city-bar"><span class="city-bar-fill" style={`width:${Math.max(8, Math.round((count / stats.topCities[0].count) * 100))}%`}></span></span>
+                    <span class="city-count">{count}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </>
+      )}
+      <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it.</p>
+    </section>
+
+    <section class="form-section">
+      <div class="section-head">
+        <Icon name="document" />
+        <h2>Report an incident</h2>
+      </div>
+      <p class="form-note">
+        City, date and what happened are published only as anonymous numbers above — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note.
+      </p>
+
+      <form id="rh-form" class="rh-form">
+        <div class="field">
+          <label for="date">Date of incident</label>
+          <input id="date" name="date" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="city">City</label>
+          <select id="city" name="city" required>
+            <option value="" disabled selected>Choose a city…</option>
+            {CITIES.map((c) => <option value={c}>{c}</option>)}
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field" id="other-city-field" hidden>
+          <label for="otherCity">Which city?</label>
+          <input id="otherCity" name="otherCity" type="text" maxlength="60" />
+        </div>
+
+        <fieldset class="field">
+          <legend>What happened? (select all that apply)</legend>
+          <label class="check-row"><input type="checkbox" name="whatHappened" value="device_confiscated" /> Device confiscated</label>
+          <label class="check-row"><input type="checkbox" name="whatHappened" value="cash_demanded" /> Cash demanded</label>
+          <label class="check-row"><input type="checkbox" name="whatHappened" value="detained" /> Detained or taken to the station</label>
+          <label class="check-row"><input type="checkbox" name="whatHappened" value="threatened_only" /> Threatened, nothing taken</label>
+          <label class="check-row"><input type="checkbox" name="whatHappened" value="other" /> Something else</label>
+        </fieldset>
+
+        <div class="field">
+          <label for="amount">Amount demanded or paid <small>(₹, leave as 0 if none)</small></label>
+          <input id="amount" name="amount" type="number" min="0" max="1000000" step="1" value="0" />
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="deviceReturned">Was the device returned?</label>
+            <select id="deviceReturned" name="deviceReturned" required>
+              <option value="" disabled selected>Choose…</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="partial">Partially / later</option>
+              <option value="na">No device was taken</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="officerIdentified">Did they identify themselves?</label>
+            <select id="officerIdentified" name="officerIdentified" required>
+              <option value="" disabled selected>Choose…</option>
+              <option value="yes">Yes — name/badge given</option>
+              <option value="no">No, didn't ask</option>
+              <option value="refused">Asked, they refused</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="suspectedFakeCop">Do you think they were a real police officer?</label>
+          <select id="suspectedFakeCop" name="suspectedFakeCop" required>
+            <option value="" disabled selected>Choose…</option>
+            <option value="no">Yes, clearly genuine</option>
+            <option value="unsure">Not sure</option>
+            <option value="yes">I suspect they weren't real police</option>
+          </select>
+        </div>
+
+        <hr class="form-divider" />
+
+        <label class="check-row willing-row">
+          <input type="checkbox" id="willingToHelp" name="willingToHelp" />
+          I'm willing to be contacted about legal support, or to be a witness/petitioner in a future case
+        </label>
+
+        <div class="field">
+          <label for="email">Email <small>(optional — only used if you ticked the box above, or want a reply)</small></label>
+          <input id="email" name="email" type="email" maxlength="200" />
+        </div>
+
+        <div class="field">
+          <label for="details">Anything else you want to tell us? <small>(optional, kept private)</small></label>
+          <textarea id="details" name="details" rows="4" maxlength="1000"></textarea>
+        </div>
+
+        <!-- Honeypot: real visitors never see or fill this in. -->
+        <p class="hp" aria-hidden="true">
+          <label for="website">Leave this field blank</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </p>
+
+        <button type="submit" class="btn btn-primary">Submit report</button>
+        <p id="rh-status" role="status"></p>
+      </form>
+    </section>
+
+    <section class="rh-related">
+      <a href="/india/law#know-your-rights" class="related-card">
+        <h3>Know your rights →</h3>
+        <p>The law, in one place — what to say and do if you're stopped, right now.</p>
+      </a>
+      <a href="/litigation" class="related-card">
+        <h3>How reports become cases →</h3>
+        <p>See the flight-ban case this same crowdsourcing approach already built.</p>
+      </a>
+    </section>
+  </div>
+
+  <style>
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .eyebrow :global(svg) { width: 1.05rem; height: 1.05rem; }
+    .rh-hero {
+      background: linear-gradient(rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.5rem 0 3rem;
+    }
+    .rh-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .rh-sub { color: #f0e3da; max-width: 46rem; font-size: 1.03rem; line-height: 1.6; margin: 0; }
+    .rh-sub a { color: var(--gold-light); text-decoration: underline; }
+    .rh-sub a:hover { color: #fff; }
+
+    .rh-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head h2 { margin: 0; font-size: 1.4rem; }
+
+    .stats-section { margin-bottom: 3.5rem; }
+    .stats-empty { color: var(--muted); font-size: 0.95rem; max-width: 40rem; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      text-align: center;
+    }
+    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 1.9rem; color: var(--rust-dark); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-card span { font-size: 0.82rem; color: var(--muted); }
+    @media (max-width: 780px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .city-breakdown { max-width: 32rem; margin-bottom: 1.5rem; }
+    .city-breakdown-label { font-weight: 600; font-size: 0.88rem; margin: 0 0 0.6rem; }
+    .city-list { list-style: none; margin: 0; padding: 0; }
+    .city-list li { display: grid; grid-template-columns: 6rem 1fr 2rem; align-items: center; gap: 0.6rem; margin-bottom: 0.45rem; font-size: 0.85rem; }
+    .city-name { color: var(--ink); }
+    .city-bar { display: block; height: 0.55rem; background: var(--paper-alt); border-radius: 999px; overflow: hidden; }
+    .city-bar-fill { display: block; height: 100%; background: var(--rust); border-radius: 999px; }
+    .city-count { text-align: right; color: var(--muted); font-weight: 600; }
+
+    .stats-note { max-width: 40rem; color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }
+
+    .form-section { margin-bottom: 3.5rem; }
+    .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
+
+    .rh-form {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem 2rem;
+      max-width: 40rem;
+    }
+    .field { margin-bottom: 1.1rem; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+    .field label, fieldset.field legend { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; }
+    .field label small { font-weight: 400; color: var(--muted); }
+    fieldset.field { border: none; padding: 0; margin: 0 0 1.1rem; }
+    .check-row { display: flex; align-items: flex-start; gap: 0.5rem; font-weight: 400 !important; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .check-row input { margin-top: 0.2rem; }
+    .willing-row { background: var(--paper-alt); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.1rem; }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .hp { position: absolute; left: -9999px; }
+    textarea, input[type="text"], input[type="email"], input[type="number"], input[type="date"], select {
+      width: 100%;
+      max-width: 100%;
+      font: inherit;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--paper);
+    }
+    textarea:focus, input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .rh-form button[type="submit"] { margin-top: 0.25rem; border: none; cursor: pointer; }
+    .rh-form button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
+    #rh-status { margin: 0.85rem 0 0; font-size: 0.88rem; }
+    #rh-status[data-state="ok"] { color: var(--accent-dark); }
+    #rh-status[data-state="err"] { color: #a3342a; }
+
+    .rh-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 1.25rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+
+  <script>
+    const form = document.getElementById('rh-form') as HTMLFormElement | null;
+    const status = document.getElementById('rh-status');
+    const citySelect = document.getElementById('city') as HTMLSelectElement | null;
+    const otherCityField = document.getElementById('other-city-field');
+    const otherCityInput = document.getElementById('otherCity') as HTMLInputElement | null;
+
+    citySelect?.addEventListener('change', () => {
+      const isOther = citySelect.value === 'Other';
+      if (otherCityField) otherCityField.hidden = !isOther;
+      if (otherCityInput) otherCityInput.required = isOther;
+    });
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!status || !form) return;
+      const data = new FormData(form);
+
+      // Honeypot: if a bot filled this in, pretend to succeed and stop.
+      if (String(data.get('website') || '').trim() !== '') {
+        status.textContent = 'Thank you — your report has been logged.';
+        status.dataset.state = 'ok';
+        form.reset();
+        return;
+      }
+
+      const city = data.get('city') === 'Other' ? String(data.get('otherCity') || '').trim() : String(data.get('city') || '');
+      const whatHappened = data.getAll('whatHappened').map(String);
+
+      const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitButton) submitButton.disabled = true;
+      status.textContent = 'Submitting…';
+      status.dataset.state = '';
+
+      try {
+        const res = await fetch('/api/harassment-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            date: data.get('date'),
+            city,
+            whatHappened,
+            amount: Number(data.get('amount') || 0),
+            deviceReturned: data.get('deviceReturned'),
+            officerIdentified: data.get('officerIdentified'),
+            suspectedFakeCop: data.get('suspectedFakeCop'),
+            willingToHelp: data.get('willingToHelp') === 'on',
+            email: data.get('email'),
+            details: data.get('details'),
+            website: data.get('website'),
+          }),
+        });
+        if (!res.ok) throw new Error('request failed');
+        status.textContent = 'Thank you — your report has been logged and added to the count above.';
+        status.dataset.state = 'ok';
+        form.reset();
+        if (otherCityField) otherCityField.hidden = true;
+      } catch {
+        status.textContent =
+          "Something went wrong submitting this. Please try again, or email details directly to contact@vapeindia.org.";
+        status.dataset.state = 'err';
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  </script>
+</Base>

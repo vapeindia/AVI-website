@@ -1,9 +1,15 @@
 # Cloudflare Pages Functions
 
 `api/testimonial.js` handles POST submissions from the form at
-`/testimonials`. It is picked up automatically by Cloudflare Pages — no
-build config needed — as long as this `functions/` directory sits at the
-repo root, next to `src/`.
+`/testimonials`. `api/harassment-report.js` handles the form at
+`/report-harassment`. Both are picked up automatically by Cloudflare
+Pages — no build config needed — as long as this `functions/` directory
+sits at the repo root, next to `src/`. They share the same environment
+variables (below) — no separate setup needed for the second one, though
+`harassment-report.js` only needs `GITHUB_TOKEN`'s **Contents:
+read and write** permission, not Pull requests, since it commits directly
+to `main` rather than opening a PR (see that file's own header comment for
+why that's safe here).
 
 ## Required setup before this works live
 
@@ -34,10 +40,18 @@ Cloudflare dashboard) when skipped, so you can tell which secret is missing.
   touches this one function, in memory, for exactly as long as it takes to
   call Resend. It is never written into the GitHub PR, the git history, or
   any file this site's build reads. The `testimonials` content collection
-  schema (`src/content.config.ts`) has no email field at all.
-- **Nothing publishes unmoderated**: this mirrors the existing pattern for
-  `news` and `research` — a human reviews every draft PR and flips
-  `reviewed: true` before it can appear on `/testimonials`.
+  schema (`src/content.config.ts`) has no email field at all. Same
+  principle for `harassment-report.js` — email and free-text details are
+  emailed, never committed.
+- **Testimonials publish only after a human reviews them**: a person reads
+  every draft PR and flips `reviewed: true` before it appears on
+  `/testimonials`, same as `news` and `research`. **Harassment reports are
+  the deliberate exception**: since only categorical/numeric fields ever
+  reach the repo (no name, no story, nothing to moderate for tone or
+  accuracy), `harassment-report.js` commits straight to `main` so the
+  public counters on `/report-harassment` and `/india/law` update on every
+  genuine submission — see that function's header comment for the full
+  reasoning.
 - **No new hosting dependency**: Cloudflare Pages Functions run on the same
   Cloudflare account already hosting the site; Resend is the one new
   account this needs, and it's free at this volume.

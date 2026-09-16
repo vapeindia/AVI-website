@@ -207,4 +207,32 @@ const videos = defineCollection({
   }),
 });
 
-export const collections = { news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos };
+// Structured, non-identifying reports of police harassment/extortion over
+// e-cigarette possession — submitted through /report-harassment and
+// committed straight to main by functions/api/harassment-report.js, no
+// review gate. Safe to auto-publish because only categorical/numeric
+// fields ever land here: no name, no email, no free text. Mirrors the
+// `news`/`videos` direct-commit pattern (see CLAUDE.md). Powers the
+// counters on /report-harassment and in the "Know your rights" section
+// of /india/law (src/lib/harassment-stats.ts computes the aggregates).
+// Anything the submitter typed as free text, plus their email if given,
+// goes only into an internal notification email — see
+// functions/api/harassment-report.js — never into this repo.
+const harassmentReports = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/harassment-reports' }),
+  schema: z.object({
+    date: z.coerce.date(),   // date of the incident, as reported
+    city: z.string(),
+    whatHappened: z.array(z.enum([
+      'device_confiscated', 'cash_demanded', 'detained', 'threatened_only', 'other',
+    ])).min(1),
+    amount: z.number().min(0).max(1000000).default(0), // ₹ demanded or paid, 0 if none
+    deviceReturned: z.enum(['yes', 'no', 'partial', 'na']),
+    officerIdentified: z.enum(['yes', 'no', 'refused']),
+    suspectedFakeCop: z.enum(['yes', 'no', 'unsure']),
+    willingToHelp: z.boolean().default(false), // willing to be contacted re: legal support
+    submittedAt: z.coerce.date(),
+  }),
+});
+
+export const collections = { news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos, harassmentReports };
