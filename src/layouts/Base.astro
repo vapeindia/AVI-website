@@ -96,6 +96,7 @@ const group = activeGroup(path);
     }
 
     header.site {
+      position: relative;
       border-bottom: 1px solid var(--border);
       padding: 0.9rem 1.5rem;
       display: flex;
@@ -134,6 +135,28 @@ const group = activeGroup(path);
       header.site .brand { max-width: none; }
       header.site .brand .brand-name { font-size: 1.2rem; }
     }
+
+    /* Hamburger toggle — hidden on desktop, shown below the nav breakpoint. */
+    .nav-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .nav-toggle svg { width: 1.3rem; height: 1.3rem; }
+    .nav-toggle .icon-close { display: none; }
+    .nav-toggle.open .icon-menu { display: none; }
+    .nav-toggle.open .icon-close { display: block; }
+    .nav-search-label { display: none; }
+
     .nav-contribute {
       display: inline-block;
       margin-left: 1.5rem;
@@ -165,7 +188,7 @@ const group = activeGroup(path);
       align-items: center;
       margin-left: 1.1rem;
     }
-    nav.site a.nav-search :global(svg) { width: 1.15rem; height: 1.15rem; }
+    nav.site a.nav-search svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
     nav.site a.nav-search.active { border-bottom-color: transparent; color: var(--gold-dark); }
 
     .nav-dropdown { position: relative; display: inline-block; }
@@ -219,6 +242,56 @@ const group = activeGroup(path);
       white-space: nowrap;
     }
     .dropdown-menu a:hover { background: var(--paper-alt); color: var(--ink); }
+
+    /* Below this width the nav can't fit the header in one row without
+       wrapping into a multi-line mess (confirmed on a real device) — so
+       instead of wrapping, collapse the whole nav (Search and Contribute
+       included) behind a hamburger toggle, and let the brand drop its
+       tagline so the logo + name stay on one line. Placed after the base
+       nav/dropdown rules above so these overrides actually win the
+       cascade at matching specificity — a media query earlier in the
+       file loses to a later plain rule of the same specificity. */
+    @media (max-width: 860px) {
+      header.site { flex-wrap: nowrap; }
+      header.site .brand { max-width: none; }
+      header.site .brand .brand-tagline { display: none; }
+      .nav-toggle { display: inline-flex; }
+      nav.site {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 10px 24px rgba(20,25,20,0.12);
+        padding: 0.25rem 1.5rem 1.25rem;
+        z-index: 40;
+        max-height: calc(100vh - 4.5rem);
+        overflow-y: auto;
+      }
+      nav.site.open { display: flex; }
+      nav.site a { margin-left: 0; padding: 0.85rem 0; border-bottom: 1px solid var(--paper-alt); }
+      nav.site a.nav-search { margin-left: 0; }
+      .nav-search-label { display: inline; margin-left: 0.6rem; }
+      .nav-dropdown { position: static; width: 100%; }
+      .nav-dropdown summary { margin-left: 0; padding: 0.85rem 0; border-bottom: 1px solid var(--paper-alt); }
+      .dropdown-menu {
+        position: static;
+        border: none;
+        box-shadow: none;
+        padding: 0 0 0.25rem 1rem;
+        min-width: 0;
+      }
+      .dropdown-menu a { border-bottom: none; padding: 0.6rem 0; }
+      .nav-contribute {
+        margin-left: 0;
+        margin-top: 1rem;
+        text-align: center;
+      }
+    }
 
     main {
       max-width: var(--max-w);
@@ -329,7 +402,11 @@ const group = activeGroup(path);
         <span class="brand-tagline">Tobacco harm reduction · Since 2016</span>
       </span>
     </a>
-    <nav class="site">
+    <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
+      <Icon name="menu" class="icon-menu" />
+      <Icon name="close" class="icon-close" />
+    </button>
+    <nav class="site" id="site-nav">
       <a href="/about" class:list={{ active: path === '/about' }}>About</a>
       <details class="nav-dropdown" class:list={{ active: group === 'start' }}>
         <summary>Get Started</summary>
@@ -363,7 +440,7 @@ const group = activeGroup(path);
         </div>
       </details>
       <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
-      <a href="/search" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /></a>
+      <a href="/search" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /><span class="nav-search-label">Search</span></a>
       <a href="/contribute" class="nav-contribute">Contribute</a>
     </nav>
   </header>
@@ -378,13 +455,46 @@ const group = activeGroup(path);
         }
       });
     });
+
+    // Below the nav breakpoint, the whole nav collapses behind a hamburger
+    // toggle instead of wrapping into a multi-line mess.
+    const navToggle = document.querySelector('.nav-toggle');
+    const siteNav = document.getElementById('site-nav');
+    function closeMobileNav() {
+      siteNav?.classList.remove('open');
+      navToggle?.classList.remove('open');
+      navToggle?.setAttribute('aria-expanded', 'false');
+    }
+    if (navToggle && siteNav) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = siteNav.classList.toggle('open');
+        navToggle.classList.toggle('open', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      // A plain link (not a dropdown summary) navigates away — close the
+      // panel so it isn't still open when the next page loads from cache.
+      siteNav.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', closeMobileNav);
+      });
+    }
+
     document.addEventListener('click', (e) => {
       navDropdowns.forEach((d) => {
         if (d.open && !d.contains(e.target)) d.open = false;
       });
+      if (
+        siteNav?.classList.contains('open') &&
+        !siteNav.contains(e.target) &&
+        !navToggle?.contains(e.target)
+      ) {
+        closeMobileNav();
+      }
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') navDropdowns.forEach((d) => { d.open = false; });
+      if (e.key === 'Escape') {
+        navDropdowns.forEach((d) => { d.open = false; });
+        closeMobileNav();
+      }
     });
   </script>
   <main class={wide ? 'wide' : ''}>
