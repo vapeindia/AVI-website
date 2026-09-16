@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import PullQuote from '../../components/PullQuote.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
 
 const hStats = await getHarassmentStats();
@@ -218,11 +219,15 @@ const hStats = await getHarassmentStats();
         Drugs and Cosmetics Act is unsettled. <a href="https://vajiramandravi.com/current-affairs/nicotine-pouches-in-india-legal-status-regulation-and-health-concerns/" target="_blank" rel="noopener">Some commentators argue</a> a direct customs notification could close this gap — nothing has yet.
       </p>
 
+      <PullQuote
+        quote="Using ZYN instead of cigarettes puts you at a lower risk of mouth cancer, heart disease, lung cancer, stroke, emphysema, and chronic bronchitis."
+        attribution="US FDA, modified-risk marketing order, June 2026"
+      />
+
       <div class="pouch-compare">
         <div class="pouch-col pouch-fda">
           <p class="split-label">FDA-reviewed, June 2026</p>
-          <blockquote>"Using ZYN instead of cigarettes puts you at a lower risk of mouth cancer, heart disease, lung cancer, stroke, emphysema, and chronic bronchitis."</blockquote>
-          <p>The first reduced-risk claim FDA has ever authorised for a nicotine pouch, after its own scientific review. <a href="https://www.fda.gov/tobacco-products/ctp-newsroom/fda-authorizes-20-zyn-nicotine-pouches-be-marketed-specific-modified-risk-claim" target="_blank" rel="noopener">Read the FDA order →</a></p>
+          <p>The claim above is the first reduced-risk marketing claim FDA has ever authorised for a nicotine pouch, after its own scientific review. <a href="https://www.fda.gov/tobacco-products/ctp-newsroom/fda-authorizes-20-zyn-nicotine-pouches-be-marketed-specific-modified-risk-claim" target="_blank" rel="noopener">Read the FDA order →</a></p>
         </div>
         <div class="pouch-col pouch-slt">
           <p class="split-label">Meanwhile in India</p>
@@ -394,15 +399,6 @@ const hStats = await getHarassmentStats();
     .pouch-col .split-label { margin-bottom: 0.6rem; }
     .pouch-fda { background: #eef6f1; border-color: #cfe4d7; }
     .pouch-fda .split-label { color: var(--accent-dark); }
-    .pouch-fda blockquote {
-      margin: 0 0 0.75rem;
-      padding-left: 0.85rem;
-      border-left: 3px solid var(--accent);
-      font-style: italic;
-      font-size: 0.88rem;
-      line-height: 1.55;
-      color: var(--ink);
-    }
     .pouch-slt { background: #fbf1ec; border-color: #ecd3c4; }
     .pouch-slt .split-label { color: var(--rust-dark); }
     .pouch-slt strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--rust-dark); }
