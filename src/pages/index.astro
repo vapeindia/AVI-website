@@ -24,7 +24,6 @@ const latestVideo = videoData[0];
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
 const litigationCount = (await getCollection('litigation')).length;
 const pressCount = (await getCollection('press')).length;
-const researchCount = (await getCollection('research', ({ data }) => data.reviewed)).length;
 const submissionsCount = (await getCollection('submissions')).length;
 const yearsActive = new Date().getFullYear() - 2016;
 ---
@@ -102,7 +101,6 @@ const yearsActive = new Date().getFullYear() - 2016;
       <div class="wwd-stats">
         <div><strong>{litigationCount}</strong><span>court cases fought since 2017</span></div>
         <div><strong>{pressCount}+</strong><span>press features</span></div>
-        <div><strong>{researchCount}</strong><span>studies in our evidence library</span></div>
         <div><strong>{submissionsCount}</strong><span>submissions to policymakers</span></div>
         <div><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
       </div>
@@ -410,7 +408,7 @@ const yearsActive = new Date().getFullYear() - 2016;
     .wwd-summary { color: #cfe0d8; max-width: 42rem; font-size: 1rem; line-height: 1.6; margin: 0 0 1.75rem; }
     .wwd-stats {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1.5rem;
       padding-bottom: 1.5rem;
       margin-bottom: 1.5rem;
