@@ -4,6 +4,8 @@ import { getCollection } from 'astro:content';
 
 const items = (await getCollection('research', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.year - a.data.year);
+const featuredItems = items.slice(0, 3);
+const restItems = items.slice(3);
 
 // Curated topline evidence — a fixed, hand-picked set of major bodies and
 // headline findings, for people who want the gist without reading a
@@ -131,10 +133,10 @@ const substanceLabel: Record<string, string> = {
     <section class="live-section">
       <div class="section-head">
         <h2>Ongoing research</h2>
-        <p>Individual studies, added automatically from PubMed and Europe PMC, summarised in plain language and reviewed before publishing.</p>
+        <p>Individual studies, added automatically from PubMed and Europe PMC, summarised in plain language and reviewed before publishing. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}.</p>
       </div>
       <div class="science-grid">
-      {items.map((item) => (
+      {featuredItems.map((item) => (
         <article class="science-card">
           <div class="card-top">
             <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
@@ -150,6 +152,28 @@ const substanceLabel: Record<string, string> = {
         </article>
       ))}
       </div>
+      {restItems.length > 0 && (
+        <details class="science-archive">
+          <summary>Show {restItems.length} more studies</summary>
+          <div class="science-grid archive-grid">
+          {restItems.map((item) => (
+            <article class="science-card">
+              <div class="card-top">
+                <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
+                <span class="year">{item.data.year}</span>
+              </div>
+              <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
+              <p class="byline">{item.data.authors} · {item.data.journal}</p>
+              <div class="tags">
+                {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
+              </div>
+              <p class="gist">{item.data.brief}</p>
+              <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
+            </article>
+          ))}
+          </div>
+        </details>
+      )}
     </section>
 
     <section class="science-related">
@@ -258,6 +282,27 @@ const substanceLabel: Record<string, string> = {
     }
     .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+
+    .science-archive { margin-top: 1.75rem; }
+    .science-archive summary {
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.6rem 1.25rem;
+    }
+    .science-archive summary::-webkit-details-marker { display: none; }
+    .science-archive summary::after { content: '▾'; font-size: 0.75em; display: inline-block; transition: transform 0.15s ease; }
+    .science-archive[open] summary::after { transform: rotate(180deg); }
+    .science-archive summary:hover { border-color: var(--accent); }
+    .archive-grid { margin-top: 1.5rem; }
 
     .science-related {
       display: grid;
