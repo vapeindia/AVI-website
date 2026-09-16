@@ -8,8 +8,11 @@ export async function getStaticPaths() {
 }
 const { item } = Astro.props;
 const { Content } = await render(item);
+const description = item.data.brief.length > 155
+  ? item.data.brief.slice(0, 155).replace(/\s+\S*$/, '') + '…'
+  : item.data.brief;
 ---
-<Base title={item.data.title}>
+<Base title={item.data.title} description={description}>
   <p><a href="/science">← Back to research library</a></p>
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>

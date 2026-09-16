@@ -6,8 +6,18 @@ interface Props {
   title: string;
   description?: string;
   wide?: boolean;
+  image?: string;
 }
-const { title, description = "Tobacco harm reduction advocacy and evidence for India.", wide = false } = Astro.props;
+const {
+  title,
+  description = "Tobacco harm reduction advocacy and evidence for India.",
+  wide = false,
+  image = '/images/campaigns/bengaluru-protest-toi.jpg',
+} = Astro.props;
+
+const pageTitle = `${title} · AVI — Association of Vapers India`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
 
 // Which nav group (if any) the current page belongs to, so the whole
 // dropdown stays visibly "on" no matter which of its sub-links you're
@@ -21,7 +31,7 @@ const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
 function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
   if (p === '/quit' || p === '/policy') return 'start';
   if (p.startsWith('/science') || p === '/india' || p === '/india/law') return 'evidence';
-  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation')) return 'advocacy';
+  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation') || p === '/report-harassment') return 'advocacy';
   if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
   return null;
 }
@@ -33,11 +43,42 @@ const group = activeGroup(path);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
-  <title>{title} · AVI — Association of Vapers India</title>
+  <title>{pageTitle}</title>
+  <link rel="canonical" href={canonicalURL} />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Association of Vapers India" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@vapeindia" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Association of Vapers India',
+    alternateName: 'AVI',
+    url: 'https://vapeindia.org',
+    logo: new URL('/images/avi-logo.png', Astro.site).toString(),
+    foundingDate: '2016',
+    description: "A tobacco harm reduction consumer advocacy group in India, working for the right of Indian tobacco users to access lower-risk alternatives to combustible tobacco.",
+    sameAs: [
+      'https://x.com/vapeindia',
+      'https://www.instagram.com/avi_vapeindia',
+      'https://facebook.com/avindia',
+      'https://www.linkedin.com/showcase/vapeindia',
+      'https://www.youtube.com/@vapeindia',
+    ],
+  })} />
   <style is:global>
     :root {
       --ink: #1a211d;
@@ -442,6 +483,7 @@ const group = activeGroup(path);
           <a href="/press" class:list={{ active: path.startsWith('/press') }}>Press</a>
           <a href="/india/rti-replies" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
           <a href="/litigation" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
+          <a href="/report-harassment" class:list={{ active: path === '/report-harassment' }}>Report Harassment</a>
         </div>
       </details>
       <details class="nav-dropdown" class:list={{ active: group === 'updates' }}>
@@ -532,6 +574,7 @@ const group = activeGroup(path);
         <a href="/press">Press</a>
         <a href="/india/rti-replies">RTI Replies</a>
         <a href="/litigation">Litigation</a>
+        <a href="/report-harassment">Report Harassment</a>
         <a href="/news">Daily News</a>
         <a href="/media">Our Media</a>
         <a href="/testimonials">Testimonials</a>

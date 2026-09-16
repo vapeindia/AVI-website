@@ -9,8 +9,11 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const { Content } = await render(item);
 const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superseded-by-peca' ? 'Superseded by PECA' : s === 'withdrawn' ? 'Withdrawn' : 'Disposed');
+const description = item.data.summary.length > 155
+  ? item.data.summary.slice(0, 155).replace(/\s+\S*$/, '') + '…'
+  : item.data.summary;
 ---
-<Base title={item.data.title}>
+<Base title={item.data.title} description={description}>
   <p><a href="/litigation">← Back to litigation</a></p>
   <span class={`status-pill status-${item.data.status}`}>{statusLabel(item.data.status)}</span>
   <h1>{item.data.title}</h1>
