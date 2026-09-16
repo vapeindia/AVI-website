@@ -238,7 +238,18 @@ const MARKET_DATA_TITLE_PATTERNS = [
 // off-topic language rather than no-content language — added a second
 // pattern group for that self-admission specifically.
 const OFF_TOPIC_SELF_ADMISSION_PATTERNS = [
-  /not relevant to (tobacco harm reduction|this (site|page|topic))/i,
+  // 2026-09-16: the exact same prison re-entry article this block was
+  // originally written for (see the 2026-09-13 note above) came back a
+  // THIRD time — its AI summary said "is not related to tobacco harm
+  // reduction" this run, which the original relevant-only pattern missed
+  // entirely. Broadened to catch "related"/"relevant" as a pair, and
+  // dropped the requirement that the topic phrase immediately follow —
+  // AI phrasing varies ("not relevant to X", "not related to X",
+  // "X... is not relevant", etc.) more than a fixed-order regex can
+  // chase. If this recurs again, the lesson from last time still holds:
+  // broaden the content-based check, don't special-case the URL.
+  /not (relevant|related) to (tobacco harm reduction|this (site|page|topic))/i,
+  /(is|was|be) not (relevant|related) to/i,
   /falls? outside (the )?scope/i,
   /outside the scope of/i,
   /does not (pertain|relate) to/i,

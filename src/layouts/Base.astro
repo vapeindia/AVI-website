@@ -114,7 +114,7 @@ const group = activeGroup(path);
       max-width: 12rem;
       min-width: 0;
     }
-    header.site .brand img { height: 44px; width: auto; flex-shrink: 0; }
+    header.site .brand img { height: 56px; width: auto; flex-shrink: 0; }
     /* This wrapper — not .brand itself — is what actually shrinks and
        truncates. .brand also contains the logo <img>, which must never
        be allowed to shrink or get an ellipsis; only the text column can. */
@@ -135,7 +135,7 @@ const group = activeGroup(path);
       font-size: 0.82rem;
       font-weight: 600;
       color: var(--muted);
-      margin-top: 0.15rem;
+      margin-top: 0;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -264,7 +264,7 @@ const group = activeGroup(path);
     @media (max-width: 860px) {
       header.site { flex-wrap: nowrap; padding-left: 0.85rem; padding-right: 0.85rem; gap: 0.5rem; }
       header.site .brand { max-width: none; gap: 0.5rem; }
-      header.site .brand img { height: 36px; }
+      header.site .brand img { height: 44px; }
       header.site .brand .brand-tagline { font-size: 0.78rem; }
       .nav-toggle { display: inline-flex; width: 2.25rem; height: 2.25rem; }
       .nav-toggle svg { width: 1.15rem; height: 1.15rem; }
