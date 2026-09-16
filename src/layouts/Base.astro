@@ -46,9 +46,19 @@ const group = activeGroup(path);
       --accent: #1f6f5c;
       --accent-dark: #123c31;
       --accent-light: #2f8a72;
-      --gold: #a97327;
-      --gold-dark: #7d5419;
-      --gold-light: #d8a94a;
+      /* Was a warm gold/brown family; retargeted to green (2026-09-16) to
+         match the dark green AVI logo (#056561) and make green the site's
+         dominant accent rather than one color among several — --gold is
+         used far more pervasively than --accent across the individual
+         page files (every eyebrow label, most badges, the "gold" button
+         variant), so retargeting it here cascades that shift site-wide
+         without touching each page. Kept as its own shade distinct from
+         --accent/--accent-dark rather than reusing them outright, so
+         elements that pair the two (e.g. a gold-bordered badge next to
+         accent-colored body text) don't go flat/monochrome. */
+      --gold: #3a8a6c;
+      --gold-dark: #2d5f48;
+      --gold-light: #7fc4a8;
       --rust: #b3552e;
       --rust-dark: #7d3a1f;
       --ink-black: #12130f;
