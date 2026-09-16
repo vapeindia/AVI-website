@@ -24,6 +24,8 @@ const latestVideo = videoData[0];
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
 const litigationCount = (await getCollection('litigation')).length;
 const pressCount = (await getCollection('press')).length;
+const researchCount = (await getCollection('research', ({ data }) => data.reviewed)).length;
+const submissionsCount = (await getCollection('submissions')).length;
 const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="Home" wide={true}>
@@ -62,37 +64,6 @@ const yearsActive = new Date().getFullYear() - 2016;
     </div>
   </section>
 
-  <section class="breakout city-strip">
-    <div class="breakout-inner">
-      <p class="eyebrow">28 September 2019</p>
-      <h2>Six cities took to the streets against the ban</h2>
-      <p class="city-strip-sub">
-        Delhi, Mumbai, Kolkata, Hyderabad, Chennai and Bengaluru — vapers and
-        harm reduction advocates protested the same day, over the same law:
-        masks, placards, and years of quitting cigarettes now at risk of
-        being pushed back to them.
-      </p>
-      <div class="city-grid">
-        <figure>
-          <img src="/images/campaigns/mumbai-protest.jpg" alt="Vapers protesting the e-cigarette ban in Mumbai, 28 September 2019" loading="lazy" />
-          <figcaption>Mumbai</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/kolkata-protest.jpg" alt="Vapers protesting the e-cigarette ban in Kolkata, 28 September 2019" loading="lazy" />
-          <figcaption>Kolkata</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/hyderabad-protest.jpg" alt="Vapers protesting the e-cigarette ban in Hyderabad, 28 September 2019" loading="lazy" />
-          <figcaption>Hyderabad</figcaption>
-        </figure>
-        <figure>
-          <img src="/images/campaigns/delhi-jantar-mantar-protest.jpg" alt="Vapers protesting the e-cigarette ban at Jantar Mantar, Delhi, 28 September 2019" loading="lazy" />
-          <figcaption>Delhi</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
   <section class="breakout paths">
     <div class="breakout-inner">
       <div class="path-grid">
@@ -118,20 +89,30 @@ const yearsActive = new Date().getFullYear() - 2016;
     </div>
   </section>
 
-  <section class="breakout stats-band">
-    <div class="breakout-inner stats-grid">
-      <div class="big-stat">
-        <strong>{litigationCount}</strong>
-        <span>Court cases fought since 2017 — Karnataka, Delhi, J&amp;K, Tamil Nadu, and an active case against the airport flight ban.</span>
+  <section class="breakout what-we-do">
+    <div class="breakout-inner">
+      <p class="eyebrow eyebrow-light">What AVI does</p>
+      <h2>A decade of evidence, litigation and advocacy</h2>
+      <p class="wwd-summary">
+        AVI reviews the international evidence on safer nicotine products,
+        fights bans and restrictions in court, petitions policymakers
+        directly, and puts the case for harm reduction in front of the
+        press — all funded by individual contributions, not industry.
+      </p>
+      <div class="wwd-stats">
+        <div><strong>{litigationCount}</strong><span>court cases fought since 2017</span></div>
+        <div><strong>{pressCount}+</strong><span>press features</span></div>
+        <div><strong>{researchCount}</strong><span>studies in our evidence library</span></div>
+        <div><strong>{submissionsCount}</strong><span>submissions to policymakers</span></div>
+        <div><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
       </div>
-      <div class="big-stat">
-        <strong>{pressCount}+</strong>
-        <span>Press features — quoted, interviewed and bylined from Deccan Chronicle to international outlets.</span>
-      </div>
-      <div class="big-stat">
-        <strong>{yearsActive}+</strong>
-        <span>Years of advocacy — founded 2016 by former smokers who quit through vaping.</span>
-      </div>
+      <nav class="wwd-tabs" aria-label="AVI's work">
+        <a href="/science">Evidence →</a>
+        <a href="/litigation">Litigation →</a>
+        <a href="/press">Press →</a>
+        <a href="/submissions">Submissions →</a>
+        <a href="/campaigns">Campaigns →</a>
+      </nav>
     </div>
   </section>
 
@@ -390,31 +371,6 @@ const yearsActive = new Date().getFullYear() - 2016;
       .hero-v2-inner { grid-template-columns: 1fr; }
     }
 
-    /* Six-city photo strip */
-    .city-strip { background: var(--paper-alt); padding: 2.25rem 0; }
-    .city-strip h2 { margin: 0 0 0.6rem; font-size: 1.65rem; }
-    .city-strip-sub { color: var(--muted); max-width: 42rem; margin: 0 0 1.5rem; }
-    .city-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-    .city-grid figure { margin: 0; }
-    .city-grid img {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      display: block;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(20,25,20,0.08);
-    }
-    .city-grid figcaption {
-      margin-top: 0.6rem;
-      text-align: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--muted);
-    }
-    @media (max-width: 640px) {
-      .city-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
     /* Three paths */
     .paths { background: var(--paper); padding: 2rem 0 1.75rem; }
     .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
@@ -442,26 +398,47 @@ const yearsActive = new Date().getFullYear() - 2016;
       .path-grid { grid-template-columns: 1fr; }
     }
 
-    /* Stats band */
-    .stats-band {
+    /* What does AVI do */
+    .what-we-do {
       background: linear-gradient(rgba(18,60,49,0.92), rgba(18,60,49,0.92)), url('/images/backgrounds/mountain-sunrise.jpg');
       background-size: cover;
       background-position: center;
       color: #fff;
-      padding: 1.75rem 0;
+      padding: 2.25rem 0;
     }
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-    .big-stat strong {
+    .what-we-do h2 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
+    .wwd-summary { color: #cfe0d8; max-width: 42rem; font-size: 1rem; line-height: 1.6; margin: 0 0 1.75rem; }
+    .wwd-stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1.5rem;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .wwd-stats strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 2.6rem;
+      font-size: 2rem;
       color: var(--gold-light);
       line-height: 1;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
     }
-    .big-stat span { font-size: 0.92rem; color: #cfe0d8; line-height: 1.5; }
+    .wwd-stats span { font-size: 0.82rem; color: #cfe0d8; line-height: 1.4; }
+    .wwd-tabs { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .wwd-tabs a {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 0.5rem 1.05rem;
+      border-radius: 999px;
+    }
+    .wwd-tabs a:hover { background: rgba(255,255,255,0.22); color: #fff; }
     @media (max-width: 780px) {
-      .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .wwd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
     }
 
     /* Feed section — tabbed so News and Evidence share one compact slot

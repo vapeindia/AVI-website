@@ -5,9 +5,24 @@ type: "protest"
 cities: ["Delhi", "Mumbai", "Hyderabad", "Bengaluru", "Chennai", "Kolkata"]
 summary: "AVI organised a coordinated, same-day protest against the newly promulgated ENDS ban ordinance across six Indian cities, arguing the decision was anti-science and taken without evidence or public consultation."
 photos:
-  - src: "/images/campaigns/six-city-protest.jpg"
-    alt: "Vapers holding placards reading 'Vaping is 95% safer than smoking' and listing Delhi, Kolkata, Mumbai, Hyderabad, Bengaluru and Chennai, at a coordinated multi-city protest against the ENDS ban"
-    caption: "Placards from the coordinated six-city protest against the ENDS ban ordinance"
+  - src: "/images/campaigns/delhi-jantar-mantar-protest.jpg"
+    alt: "Vapers protesting the e-cigarette ban at Jantar Mantar, Delhi, 28 September 2019"
+    caption: "Delhi"
+  - src: "/images/campaigns/mumbai-protest.jpg"
+    alt: "Vapers protesting the e-cigarette ban in Mumbai, 28 September 2019"
+    caption: "Mumbai"
+  - src: "/images/campaigns/kolkata-protest.jpg"
+    alt: "Vapers protesting the e-cigarette ban in Kolkata, 28 September 2019"
+    caption: "Kolkata"
+  - src: "/images/campaigns/hyderabad-protest.jpg"
+    alt: "Vapers protesting the e-cigarette ban in Hyderabad, 28 September 2019"
+    caption: "Hyderabad"
+  - src: "/images/campaigns/chennai-protest.jpg"
+    alt: "Vapers protesting the e-cigarette ban in Chennai, 28 September 2019"
+    caption: "Chennai"
+  - src: "/images/campaigns/bangalore-protest.jpg"
+    alt: "Vapers protesting the e-cigarette ban in Bengaluru, 28 September 2019"
+    caption: "Bengaluru"
 ---
 
 Days after the central government promulgated the Prohibition of Electronic

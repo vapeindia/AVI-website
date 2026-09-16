@@ -9,6 +9,15 @@ const all = (await getCollection('campaigns'))
 
 const withBody = await Promise.all(all.map(async (item) => ({ item, Content: (await render(item)).Content })));
 
+// The six-city protest is AVI's flagship campaign — pulled out of the
+// date-sorted grid to feature at the top with its full set of per-city
+// photos, rather than competing for attention as one card among seven.
+const FEATURED_ID = '2019-09-28-six-city-vape-ban-protest';
+const featuredEntry = withBody.find(({ item }) => item.id === FEATURED_ID);
+const featuredItem = featuredEntry?.item;
+const FeaturedContent = featuredEntry?.Content;
+const rest = withBody.filter(({ item }) => item.id !== FEATURED_ID);
+
 const typeLabel: Record<string, string> = {
   protest: 'Protest',
   seminar: 'Seminar',
@@ -43,9 +52,31 @@ function fmtRange(start: Date, end?: Date) {
     </div>
   </section>
 
+  {featuredItem && FeaturedContent && (
+    <section class="breakout camp-featured">
+      <div class="breakout-inner">
+        <p class="eyebrow">28 September 2019</p>
+        <h2>{featuredItem.data.title}</h2>
+        <p class="feat-summary">{featuredItem.data.summary}</p>
+        <div class="feat-photo-grid">
+          {featuredItem.data.photos.map((p) => (
+            <figure>
+              <img src={p.src} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
+              <figcaption>{p.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <details class="feat-details">
+          <summary>Read the full story</summary>
+          <div class="full-text"><FeaturedContent /></div>
+        </details>
+      </div>
+    </section>
+  )}
+
   <div class="camp-body">
     <div class="camp-grid">
-      {withBody.map(({ item, Content }) => (
+      {rest.map(({ item, Content }) => (
         <article id={item.id} class={`camp-card type-${item.data.type}`}>
           <div class="card-top">
             <Icon name="megaphone" />
@@ -112,6 +143,36 @@ function fmtRange(start: Date, end?: Date) {
     .camp-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0; position: relative; }
     .camp-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .camp-sub a:hover { color: #fff; }
+
+    /* Featured: the six-city protest, pulled out of the grid */
+    .camp-featured { background: var(--paper-alt); padding: 2.5rem 0; }
+    .camp-featured .eyebrow { color: var(--gold-dark); }
+    .camp-featured h2 { margin: 0 0 0.6rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
+    .feat-summary { color: var(--muted); max-width: 46rem; margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.55; }
+    .feat-photo-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+    .feat-photo-grid figure { margin: 0; }
+    .feat-photo-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(20,25,20,0.08);
+    }
+    .feat-photo-grid figcaption {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .feat-details .full-text { max-width: 46rem; }
+    @media (max-width: 900px) {
+      .feat-photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 480px) {
+      .feat-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
     .camp-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .camp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1.75rem; }
