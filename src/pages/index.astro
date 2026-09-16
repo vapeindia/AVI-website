@@ -2,6 +2,9 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
+import { getHarassmentStats } from '../lib/harassment-stats';
+
+const hStats = await getHarassmentStats();
 
 const latestNews = (await getCollection('news', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -85,6 +88,24 @@ const yearsActive = new Date().getFullYear() - 2016;
           <a href="/press">Press coverage &amp; contact →</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="breakout rights-cta">
+    <div class="breakout-inner rights-cta-inner">
+      <div class="rights-cta-copy">
+        <p class="eyebrow eyebrow-light"><Icon name="scale" /> Know your rights</p>
+        <h2>Stopped by police over your vape? Use and possession are not banned.</h2>
+        <p>PECA bans the sale of e-cigarettes, not carrying or using one. If an officer tells you otherwise, this page has the receipts — and a place to report what happened.</p>
+        <div class="rights-cta-links">
+          <a class="btn btn-primary" href="/india/law#know-your-rights">Know your rights →</a>
+          <a class="btn btn-outline" href="/report-harassment">Report an incident →</a>
+        </div>
+      </div>
+      <a class="rights-cta-stat" href="/report-harassment">
+        <strong>{hStats.total}</strong>
+        <span>{hStats.total > 0 ? `harassment report${hStats.total === 1 ? '' : 's'} logged` : 'reports logged — be the first'}</span>
+      </a>
     </div>
   </section>
 
@@ -393,6 +414,49 @@ const yearsActive = new Date().getFullYear() - 2016;
     .path-rust a { color: var(--rust-dark); }
     @media (max-width: 780px) {
       .path-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Know your rights CTA */
+    .rights-cta {
+      background: linear-gradient(160deg, rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f7ede6;
+      padding: 2rem 0;
+    }
+    .rights-cta-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    .rights-cta-copy .eyebrow { display: flex; align-items: center; gap: 0.5rem; }
+    .rights-cta-copy .eyebrow :global(svg) { width: 1.05rem; height: 1.05rem; flex-shrink: 0; }
+    .rights-cta-copy h2 { color: #fff; margin: 0 0 0.65rem; font-size: clamp(1.3rem, 2.8vw, 1.7rem); line-height: 1.3; }
+    .rights-cta-copy p { color: #f0e3da; font-size: 0.95rem; line-height: 1.55; max-width: 34rem; margin: 0 0 1.25rem; }
+    .rights-cta-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .rights-cta .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+    .rights-cta .btn-outline:hover { border-color: #fff; color: #fff; }
+    .rights-cta-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 10px;
+      padding: 1.25rem 1.75rem;
+      text-decoration: none;
+      min-width: 11rem;
+      transition: background 0.15s ease;
+    }
+    .rights-cta-stat:hover { background: rgba(255,255,255,0.18); }
+    .rights-cta-stat strong { font-family: var(--font-serif); font-size: 2.4rem; color: #fff; line-height: 1; margin-bottom: 0.4rem; }
+    .rights-cta-stat span { font-size: 0.8rem; color: #f0e3da; line-height: 1.3; }
+    @media (max-width: 780px) {
+      .rights-cta-inner { grid-template-columns: 1fr; }
+      .rights-cta-stat { align-self: flex-start; }
     }
 
     /* What does AVI do */
