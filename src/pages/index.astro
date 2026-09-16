@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import PullQuote from '../components/PullQuote.astro';
 import { getCollection } from 'astro:content';
 
 const latestNews = (await getCollection('news', ({ data }) => data.reviewed))
@@ -118,11 +117,6 @@ const yearsActive = new Date().getFullYear() - 2016;
       </div>
     </div>
   </section>
-
-  <PullQuote
-    quote="People smoke for nicotine, but they die from the tar."
-    attribution="Professor Michael Russell, 1976"
-  />
 
   <section class="breakout stats-band">
     <div class="breakout-inner stats-grid">
