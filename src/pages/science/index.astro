@@ -219,7 +219,7 @@ const substanceLabel: Record<string, string> = {
     .topline-section { margin-bottom: 3.5rem; }
     .topline-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
       gap: 1.25rem;
       margin-bottom: 1.25rem;
     }
@@ -243,7 +243,7 @@ const substanceLabel: Record<string, string> = {
 
     .science-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
       gap: 1.5rem;
     }
     .science-card {
@@ -306,7 +306,7 @@ const substanceLabel: Record<string, string> = {
 
     .science-related {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       margin-top: 3rem;
       padding-top: 2.5rem;

@@ -92,7 +92,7 @@ const typeLabel: Record<string, string> = {
     .sub-sub a:hover { color: #fff; }
 
     .sub-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr)); gap: 1.5rem; }
+    .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(24rem, 100%), 1fr)); gap: 1.5rem; }
     .sub-card {
       background: #fff;
       border: 1px solid var(--border);
@@ -144,7 +144,7 @@ const typeLabel: Record<string, string> = {
 
     .sub-related {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;

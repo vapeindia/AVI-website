@@ -175,7 +175,7 @@ function fmtRange(start: Date, end?: Date) {
     }
 
     .camp-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .camp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1.75rem; }
+    .camp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr)); gap: 1.75rem; }
     .camp-card {
       background: #fff;
       border: 1px solid var(--border);
@@ -214,7 +214,7 @@ function fmtRange(start: Date, end?: Date) {
 
     .photo-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
       gap: 0.75rem;
       margin-bottom: 1rem;
     }

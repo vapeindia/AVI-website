@@ -172,7 +172,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     .quotes-section { margin-bottom: 3.5rem; }
     .quotes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
       gap: 1.5rem;
     }
     .quote-card {
@@ -189,7 +189,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
 
     .test-related {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       padding-top: 2.5rem;
       border-top: 1px solid var(--border);

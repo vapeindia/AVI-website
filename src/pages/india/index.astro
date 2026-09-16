@@ -138,7 +138,7 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
 
     .path-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3.5rem 1.5rem 4rem; }
     .path-section h2 { text-align: center; margin: 0 0 2.25rem; font-size: 1.5rem; }
-    .path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15.5rem, 1fr)); gap: 1.75rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15.5rem, 100%), 1fr)); gap: 1.75rem; }
     .path-card {
       display: block;
       background: #fff;

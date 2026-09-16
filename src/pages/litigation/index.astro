@@ -100,7 +100,7 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
     .lit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .lit-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
       gap: 1.5rem;
     }
     .lit-card {
@@ -140,7 +140,7 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
 
     .lit-related {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;

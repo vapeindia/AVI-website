@@ -96,7 +96,7 @@ import { rtiReplies } from '../../data/rti-replies';
     .rti-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 1.5rem; }
     .rti-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(21rem, 100%), 1fr));
       gap: 1.5rem;
     }
     .rti-card {
