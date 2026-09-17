@@ -6,6 +6,18 @@ import { getCollection } from 'astro:content';
 const videos = (await getCollection('videos'))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
 
+// Ranked by live YouTube view count (see scripts/fetch-youtube.mjs); any
+// video without a viewCount yet (API key not configured, or not refreshed
+// since it was added) sorts to the back, tie-broken by recency so the
+// section still reads sensibly before the first refresh populates counts.
+const mostWatched = [...videos].sort((a, b) => {
+  const av = a.data.viewCount ?? -1;
+  const bv = b.data.viewCount ?? -1;
+  if (bv !== av) return bv - av;
+  return b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf();
+});
+const viewsFormatter = new Intl.NumberFormat('en-IN', { notation: 'compact', maximumFractionDigits: 1 });
+
 const platforms = [
   {
     icon: 'x' as const,
@@ -47,16 +59,16 @@ const videoData = videos.map((v) => ({
 }));
 const latest = videoData[0];
 ---
-<Base title="Our Media" description="Videos from AVI's YouTube channel, plus where to find AVI across X, LinkedIn, Facebook and Instagram." wide={true}>
+<Base title="Our Media" description="Where to find AVI's advocacy across YouTube, X, LinkedIn, Facebook and Instagram, plus our video library." wide={true}>
   <section class="breakout media-hero">
     <div class="breakout-inner">
-      <p class="eyebrow">On YouTube</p>
-      <h1>Watch AVI's videos</h1>
+      <p class="eyebrow">Everywhere AVI shows up</p>
+      <h1>Follow AVI across every platform</h1>
       <p class="media-sub">
-        Board Q&amp;As under the Funvocacy series, #VapingThursday talks
-        with international researchers and advocates, and explainers on
-        tobacco harm reduction — pulled automatically from
-        AVI's YouTube channel.
+        A decade of tobacco harm reduction advocacy doesn't live in one
+        place — Board Q&amp;As, #VapingThursday talks with international
+        researchers, and explainers on YouTube; news, rebuttals and the
+        day-to-day conversation on X, LinkedIn, Facebook and Instagram.
       </p>
       <a class="btn btn-gold" href="https://youtube.com/channel/UCEgd8dgEScqYKKUBHwD1DDQ" target="_blank" rel="noopener">Subscribe on YouTube →</a>
     </div>
@@ -85,7 +97,7 @@ const latest = videoData[0];
     <section class="platforms">
       <div class="section-head">
         <h2>Find AVI everywhere</h2>
-        <p>A decade of consumer advocacy, spread across every platform where India's tobacco harm reduction conversation happens — and in <a href="/press">third-party press coverage</a> too.</p>
+        <p>Every platform where India's tobacco harm reduction conversation happens — and in <a href="/press">third-party press coverage</a> too.</p>
       </div>
       <div class="platform-grid">
         {platforms.map((p) => (
@@ -103,24 +115,32 @@ const latest = videoData[0];
 
   <div class="media-body">
     <div class="section-head">
-      <h2>All videos</h2>
-      <p>Newest first — the full catalogue.</p>
+      <h2>Most watched videos</h2>
+      <p>Ranked by views on YouTube.</p>
     </div>
-    <div class="media-grid">
-      {videos.map((v) => (
-        <a class="video-card" href={`https://www.youtube.com/watch?v=${v.data.videoId}`} target="_blank" rel="noopener">
+    <div class="media-grid" id="most-watched-grid">
+      {mostWatched.map((v, i) => (
+        <a class="video-card" href={`https://www.youtube.com/watch?v=${v.data.videoId}`} target="_blank" rel="noopener" hidden={i >= 4}>
           <div class="thumb">
             <img src={v.data.thumbnailUrl} alt={v.data.title} loading="lazy" />
             <span class="play-badge" aria-hidden="true">▶</span>
           </div>
           <h2>{v.data.title}</h2>
           <p class="card-summary">{v.data.summary}</p>
-          <time datetime={v.data.publishedDate.toISOString()}>
-            {v.data.publishedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
-          </time>
+          <div class="card-meta">
+            <time datetime={v.data.publishedDate.toISOString()}>
+              {v.data.publishedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+            {v.data.viewCount != null && <span class="view-count">{viewsFormatter.format(v.data.viewCount)} views</span>}
+          </div>
         </a>
       ))}
     </div>
+    {mostWatched.length > 4 && (
+      <button type="button" class="btn btn-outline show-more-btn" id="show-more-videos">
+        Show {mostWatched.length - 4} more videos
+      </button>
+    )}
   </div>
 
   <script type="application/json" id="video-data" set:html={JSON.stringify(videoData).replace(/</g, '\\u003c')} />
@@ -191,6 +211,12 @@ const latest = videoData[0];
     } else if (shuffleBtn) {
       shuffleBtn.style.display = 'none';
     }
+
+    const showMoreBtn = document.getElementById('show-more-videos');
+    showMoreBtn?.addEventListener('click', () => {
+      document.querySelectorAll('#most-watched-grid [hidden]').forEach((el) => { el.hidden = false; });
+      showMoreBtn.hidden = true;
+    });
   </script>
 
   <style>
@@ -262,13 +288,20 @@ const latest = videoData[0];
     .platform-handle { font-weight: 400; color: var(--muted); font-size: 0.85rem; margin-left: 0.35rem; }
     .platform-blurb { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
-    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr)); gap: 1.75rem; padding-bottom: 4rem; }
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr)); gap: 1.75rem; }
     .video-card { display: block; text-decoration: none; color: inherit; }
+    .video-card[hidden] { display: none; }
     .thumb { position: relative; border-radius: 8px; overflow: hidden; line-height: 0; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(20,25,20,0.08); }
     .thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: transform 0.2s ease; }
     .video-card:hover .thumb img { transform: scale(1.03); }
     .video-card h2 { margin: 0 0 0.35rem; font-size: 1rem; line-height: 1.4; color: var(--ink); }
     .card-summary { margin: 0 0 0.5rem; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .card-meta { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
     .video-card time { font-size: 0.8rem; color: var(--muted); }
+    .view-count {
+      font-size: 0.75rem; font-weight: 600; color: var(--gold-dark);
+      background: var(--paper-alt); border-radius: 999px; padding: 0.15rem 0.6rem;
+    }
+    .show-more-btn { display: block; margin: 2rem auto 4rem; }
   </style>
 </Base>

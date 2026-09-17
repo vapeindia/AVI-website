@@ -119,6 +119,18 @@ access control, keep them apart.
   (see below) — this collection is no longer "drafted from file names,
   unverified."
 
+- `videos` — AVI's YouTube uploads, auto-pulled weekly from the channel's
+  public RSS feed by `scripts/fetch-youtube.mjs` (`.github/workflows/fetch-youtube.yml`),
+  direct commit, no PR/review gate — same reasoning as `news`, this is just
+  metadata about AVI's own already-published videos. As of 2026-09-17 the
+  script also refreshes `viewCount` on every known video (not just the 15
+  the RSS feed returns) via the YouTube Data API v3, so `/media`'s "Most
+  watched" ranking stays live rather than a one-time snapshot. Requires the
+  GitHub Actions secret `YOUTUBE_API_KEY` (a free key from
+  console.cloud.google.com — enable the "YouTube Data API v3", no billing
+  needed at this volume); without it the script still fetches new videos as
+  before, it just skips the view-count refresh and logs why. `viewCount` is
+  optional in the schema for exactly that degrade case.
 - `testimonials` — visitor-submitted, via the form at `/testimonials` and
   the Cloudflare Pages Function `functions/api/testimonial.js`, which opens
   a review PR (no email address in it — see `functions/README.md`).

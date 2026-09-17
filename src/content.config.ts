@@ -206,6 +206,12 @@ const videos = defineCollection({
     title: z.string(),
     publishedDate: z.date(),
     thumbnailUrl: z.string().url(),
+    // Refreshed on every fetch-youtube.mjs run via the YouTube Data API
+    // (videos.list?part=statistics) — a live count, not a fetch-time
+    // snapshot. Absent when YOUTUBE_API_KEY isn't configured; the /media
+    // page's "Most watched" ranking falls back to recency for any entry
+    // missing this.
+    viewCount: z.number().int().min(0).optional(),
     // One-line, human-written (or lightly-edited-from-description) summary
     // of what the video actually covers — YouTube's own video description
     // is mostly repeated channel boilerplate, not something to surface

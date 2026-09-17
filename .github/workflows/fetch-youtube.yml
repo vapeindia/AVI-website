@@ -21,21 +21,24 @@ jobs:
       - name: Install dependencies
         run: npm install fast-xml-parser
 
-      - name: Fetch new videos from the channel RSS feed
+      - name: Fetch new videos and refresh view counts
         run: node scripts/fetch-youtube.mjs
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
 
       # Direct commit, no PR/review gate — this is just metadata about
-      # AVI's own already-published videos (title, date, thumbnail), not
-      # third-party content needing a human check. Mirrors the `news`
-      # pipeline's pattern (see CLAUDE.md).
-      - name: Commit and push new entries
+      # AVI's own already-published videos (title, date, thumbnail, view
+      # count), not third-party content needing a human check. Mirrors the
+      # `news` pipeline's pattern (see CLAUDE.md). Also picks up viewCount
+      # refreshes on existing entries, not just new videos.
+      - name: Commit and push changes
         run: |
           git config user.name "AVI news bot"
           git config user.email "contact@vapeindia.org"
           git add src/content/videos
           if git diff --cached --quiet; then
-            echo "No new entries."
+            echo "No changes."
           else
-            git commit -m "Videos: add new auto-fetched entries from YouTube"
+            git commit -m "Videos: refresh from YouTube (new entries and/or view counts)"
             git push
           fi
