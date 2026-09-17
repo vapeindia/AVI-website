@@ -736,6 +736,61 @@ profile page the original research memo pointed at (innco.org was
 unreachable when this was checked; using their own domain also avoids the
 same INNCO-adjacency issue as above).
 
+## Campaigns page: shareable materials + "get involved" (2026-09-17)
+
+`/campaigns` now has two new sections beyond the campaign record itself:
+
+- **Campaign materials** (right after the hero): 5 downloadable posters
+  (`public/images/campaigns/materials/`, sourced from `AVI Board/AVI
+  Outreach/Melwood/Posters/For Insta/` in the Drive archive — Melwood was
+  AVI's design agency, so this is AVI's own commissioned creative, not
+  third-party content). Curated deliberately, not just "the first N found":
+  the same archive folder (`World Vape Day/2021/...`) also contains (a)
+  posters photographing actual vape hardware — skipped, since that reads
+  closer to product depiction than advocacy under PECA's advertising ban;
+  (b) third-party-branded infographics (Public Health England, a site
+  called "VAEPworld.com") — skipped, no redistribution rights confirmed;
+  (c) posters rebutting/attacking named politicians by name and photo
+  ("PICS OF POLITICIANS", "Rebuttal [Name]") — skipped as unsuited to a
+  generic public "grab and share" feature. The 5 published are text/stat-
+  only, AVI-branded, and were already AVI's own public social content
+  historically. Resized from 3240x3240 (up to 12MB) source PNGs to
+  1080x1080 JPEGs (~100-180KB, Instagram-ready) via the same PowerShell
+  System.Drawing resize pattern used elsewhere in this repo. Each card is
+  an `<a download>` link straight to the image.
+- **Get involved, beyond funds or a testimonial** (`#get-involved`, end of
+  page): the site already had `/contribute` (funds) and `/testimonials`
+  (stories) as asks, but nothing for expertise/time/ideas — the site owner
+  had a form for this, `bit.ly/ConnectAVI` (a Google Form titled "Connect
+  with AVI", asking for legal/medical/media/PR/admin skills, city/state,
+  social handles, willingness to donate). Rather than just linking out,
+  it's **embedded inline** via `<iframe src="...viewform?embedded=true">`
+  — Google's own supported embed pattern — so visitors don't leave the
+  site. Fixed iframe height (2500px) was tuned by actually loading the
+  form and checking for the double-scrollbar problem (Google Forms doesn't
+  post a resize message, so there's no way to auto-fit); if the form's
+  question set changes significantly, re-check this height. A plain
+  `bit.ly/ConnectAVI` link remains as a fallback ("Form not loading?") for
+  anyone whose browser/ad-blocker blocks the iframe. Cross-linked from
+  `/contribute` and `/testimonials`'s related-links so all three asks
+  (funds, stories, other help) surface from wherever a visitor lands.
+
+Also added a `download` icon to `src/components/Icon.astro`'s shared set
+(a plain arrow-into-tray glyph, consistent with that component's existing
+"symbolic, never a product depiction" rule).
+
+**Bug caught and fixed while building this**: `.material-card img` had
+`width="1080" height="1080"` HTML attributes (for CLS prevention) *and*
+`aspect-ratio: 1` in CSS intending a responsive square thumbnail. The
+`height` attribute becomes a low-priority presentational hint that still
+sets a definite `height`, and CSS `aspect-ratio` only computes an *auto*
+dimension — so with height already definite via the attribute, the
+posters rendered as tall 1080px-high strips instead of squares. Fixed
+with an explicit `height: auto` in the CSS rule, which overrides the
+attribute and lets `aspect-ratio` do its job. Worth remembering any time
+width/height attributes are combined with a CSS `aspect-ratio` on the same
+element.
+
 ## Old-site archive (2026-09-09)
 
 Before any DNS/hosting changes, the live `vapeindia.org` (still on WordPress
