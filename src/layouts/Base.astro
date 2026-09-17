@@ -165,7 +165,10 @@ const group = activeGroup(path);
       max-width: 12rem;
       min-width: 0;
     }
-    header.site .brand img { height: 56px; width: auto; flex-shrink: 0; }
+    /* The logo (56px) is taller than the two-line name+tagline text block
+       at any font size, so flex-start alone still lets it hang below the
+       tagline — pull it up to balance that overhang. */
+    header.site .brand img { height: 56px; width: auto; flex-shrink: 0; margin-top: -8px; }
     /* This wrapper — not .brand itself — is what actually shrinks and
        truncates. .brand also contains the logo <img>, which must never
        be allowed to shrink or get an ellipsis; only the text column can. */
