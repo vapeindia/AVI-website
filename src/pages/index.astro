@@ -373,7 +373,16 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       margin: 0;
     }
     .hero-photo-caption { margin: 0.85rem 0 0; font-size: 0.88rem; color: var(--muted); font-style: italic; }
-    .hero-photo-caption a { font-style: normal; font-size: 0.82rem; }
+    .hero-photo-caption a { display: block; margin-top: 0.3rem; font-style: normal; font-size: 0.82rem; }
+    /* At the two-column width, the photo column tops out around 515px —
+       too narrow for the caption sentence at its default size, so it wraps
+       to 2 lines. Shrink it (same ratio between caption/link) just for that
+       range so it reliably fits on one line, with the link a clean second
+       line below it. */
+    @media (min-width: 900px) {
+      .hero-photo-caption { font-size: 0.78rem; }
+      .hero-photo-caption a { font-size: 0.73rem; }
+    }
     @media (max-width: 900px) {
       .hero-v2-inner { grid-template-columns: 1fr; }
     }
