@@ -25,15 +25,13 @@ const videoData = (await getCollection('videos'))
 const latestVideo = videoData[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
-const litigationCount = (await getCollection('litigation')).length;
-const pressCount = (await getCollection('press')).length;
-const submissionsCount = (await getCollection('submissions')).length;
 const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="Tobacco Harm Reduction Advocacy" description="AVI is India's leading consumer advocacy group for tobacco harm reduction — evidence, litigation and policy work for the right to safer nicotine alternatives to smoking and toxic smokeless tobacco." wide={true}>
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
+        <p class="eyebrow"><Icon name="chart" /> {yearsActive}+ years of tobacco harm reduction advocacy</p>
         <h1>Still smoking? There's a <em>safer path forward.</em></h1>
         <p class="hero-sub">
           If nicotine gums and patches haven't worked for you, or you're not
@@ -119,12 +117,6 @@ const yearsActive = new Date().getFullYear() - 2016;
         directly, and puts the case for harm reduction in front of the
         press — all funded by individual contributions, not industry.
       </p>
-      <div class="wwd-stats">
-        <div><strong>{litigationCount}</strong><span>court cases fought since 2017</span></div>
-        <div><strong>{pressCount}+</strong><span>press features</span></div>
-        <div><strong>{submissionsCount}</strong><span>submissions to policymakers</span></div>
-        <div><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
-      </div>
       <nav class="wwd-tabs" aria-label="AVI's work">
         <a href="/science">Evidence →</a>
         <a href="/litigation">Litigation →</a>
@@ -303,6 +295,8 @@ const yearsActive = new Date().getFullYear() - 2016;
 
     /* Hero */
     .hero-v2 { background: var(--paper); padding: 2.25rem 0 1.75rem; }
+    .hero-copy .eyebrow { display: flex; align-items: center; gap: 0.5rem; }
+    .hero-copy .eyebrow :global(svg) { width: 1.05rem; height: 1.05rem; flex-shrink: 0; }
     .hero-v2-inner {
       display: grid;
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
@@ -466,23 +460,6 @@ const yearsActive = new Date().getFullYear() - 2016;
     }
     .what-we-do h2 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
     .wwd-summary { color: #cfe0d8; max-width: 42rem; font-size: 1rem; line-height: 1.6; margin: 0 0 1.75rem; }
-    .wwd-stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1.5rem;
-      padding-bottom: 1.5rem;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-    .wwd-stats strong {
-      display: block;
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      color: var(--gold-light);
-      line-height: 1;
-      margin-bottom: 0.35rem;
-    }
-    .wwd-stats span { font-size: 0.82rem; color: #cfe0d8; line-height: 1.4; }
     .wwd-tabs { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .wwd-tabs a {
       color: #fff;
@@ -495,9 +472,6 @@ const yearsActive = new Date().getFullYear() - 2016;
       border-radius: 999px;
     }
     .wwd-tabs a:hover { background: rgba(255,255,255,0.22); color: #fff; }
-    @media (max-width: 780px) {
-      .wwd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
-    }
 
     /* Feed section — tabbed so News and Evidence share one compact slot
        instead of two full-height stacked/side-by-side lists. */
