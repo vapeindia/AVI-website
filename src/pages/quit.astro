@@ -116,6 +116,17 @@ import Icon from '../components/Icon.astro';
       </p>
       <a class="btn btn-outline" href="/india/law">Read the full legal position →</a>
     </section>
+
+    <div class="quit-related">
+      <a href="/testimonials" class="related-card">
+        <h3>Real stories →</h3>
+        <p>Accounts from Indians who've already made this switch, in their own words.</p>
+      </a>
+      <a href="/report-harassment" class="related-card">
+        <h3>Report harassment →</h3>
+        <p>Stopped or shaken down over vaping, even though it's not banned? Log it.</p>
+      </a>
+    </div>
   </div>
 
   <style>
@@ -199,5 +210,26 @@ import Icon from '../components/Icon.astro';
     .resources-list li { margin-bottom: 0.6rem; line-height: 1.55; }
 
     .legal-section p { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.25rem; }
+
+    .quit-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

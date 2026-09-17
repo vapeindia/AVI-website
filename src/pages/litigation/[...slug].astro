@@ -30,6 +30,25 @@ const description = item.data.summary.length > 155
     </>
   )}
 
+  <div class="case-related">
+    <a href="/litigation" class="related-card">
+      <h3>All litigation →</h3>
+      <p>Every court case AVI has organised and directed against India's ENDS bans since 2017.</p>
+    </a>
+    <a href="/press" class="related-card">
+      <h3>Press coverage →</h3>
+      <p>How this and AVI's other litigation has been reported.</p>
+    </a>
+    <a href="/report-harassment" class="related-card">
+      <h3>Report harassment →</h3>
+      <p>See how crowdsourced reports have already become evidence in cases like this one.</p>
+    </a>
+    <a href="/contribute" class="related-card">
+      <h3>Contribute →</h3>
+      <p>This litigation is funded entirely by individual contributions, not industry.</p>
+    </a>
+  </div>
+
   <style>
     .status-pill {
       display: inline-block;
@@ -53,5 +72,26 @@ const description = item.data.summary.length > 155
       border-left: 3px solid var(--gold);
       padding: 1rem 1.25rem;
     }
+
+    .case-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

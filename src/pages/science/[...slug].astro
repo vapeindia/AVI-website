@@ -30,6 +30,21 @@ const description = item.data.brief.length > 155
     {item.data.pubmedId && <a href={`https://pubmed.ncbi.nlm.nih.gov/${item.data.pubmedId}`} target="_blank" rel="noopener"> · PubMed</a>}
   </p>
 
+  <div class="study-related">
+    <a href="/science" class="related-card">
+      <h3>Evidence library →</h3>
+      <p>The full published research behind AVI's position, browsable by topic.</p>
+    </a>
+    <a href="/quit" class="related-card">
+      <h3>If you smoke →</h3>
+      <p>What this evidence means in practice — the case for switching.</p>
+    </a>
+    <a href="/india/law" class="related-card">
+      <h3>The law in India →</h3>
+      <p>Where e-cigarettes, nicotine pouches and NRT actually stand today.</p>
+    </a>
+  </div>
+
   <style>
     .study-pill {
       display: inline-block;
@@ -61,5 +76,26 @@ const description = item.data.brief.length > 155
       padding: 1rem 1.25rem;
     }
     .links { margin-top: 2rem; font-weight: 600; }
+
+    .study-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

@@ -736,6 +736,30 @@ profile page the original research memo pointed at (innco.org was
 unreachable when this was checked; using their own domain also avoids the
 same INNCO-adjacency issue as above).
 
+## Sitewide audit: end-of-page connectors (2026-09-17)
+
+Site-owner ask: every page should end with links taking the reader further
+into the site, not just stop. Four pages already had this (`.related-card`
+grid pattern — `litigation/index.astro`, `science/index.astro`,
+`submissions/index.astro`, `report-harassment/index.astro`); audited every
+other page template and added the same pattern where the page actually
+ended cold: `about`, `india/law`, `india/rti-replies`,
+`litigation/[...slug]` (every case page), `science/[...slug]` (every study
+page), `media`, `news`, `press`, `quit`, `policy`. Left unchanged:
+`india/index` (the page's whole body already is a connector grid),
+`index.astro`/homepage (already link-dense throughout, closes on a real
+CTA), `search.astro` (a tool, not a content page).
+
+The `.related-card` CSS is copy-pasted per-page (Astro styles are scoped,
+not shared) — same declarations every time: `display:block;
+text-decoration:none; color:inherit; background:var(--paper-alt);
+border-radius:8px; padding:1.25rem 1.4rem; transition:transform 0.15s
+ease` plus a `:hover{transform:translateY(-2px)}` and h3/p rules. If this
+needs to change site-wide, it's currently N separate edits, not one — a
+shared `<RelatedLinks>` component would be the fix if that becomes a
+maintenance burden, not attempted here since scope was "add what's
+missing," not "refactor what's duplicated."
+
 ## Campaigns page: shareable materials + "get involved" (2026-09-17)
 
 `/campaigns` now has two new sections beyond the campaign record itself:

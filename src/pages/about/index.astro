@@ -92,6 +92,25 @@ const yearsActive = new Date().getFullYear() - 2016;
     support is considered only as contracted, invoiced project work. See <a href="/contribute">Contribute</a> for the full funding mechanism and disclosures.
   </p>
 
+  <div class="about-related">
+    <a href="/litigation" class="related-card">
+      <h3>Litigation →</h3>
+      <p>Court cases AVI has organised and directed against India's ENDS bans since 2017.</p>
+    </a>
+    <a href="/campaigns" class="related-card">
+      <h3>Campaigns →</h3>
+      <p>Protests, seminars and delegations — AVI's public-facing advocacy.</p>
+    </a>
+    <a href="/press" class="related-card">
+      <h3>Press coverage →</h3>
+      <p>How AVI's work has been reported, and its own statements on the record.</p>
+    </a>
+    <a href="/contribute" class="related-card">
+      <h3>Contribute →</h3>
+      <p>How this work is funded, and how to support it.</p>
+    </a>
+  </div>
+
   <style>
     .board-list {
       list-style: none;
@@ -134,5 +153,26 @@ const yearsActive = new Date().getFullYear() - 2016;
     @media (max-width: 640px) {
       .what-we-do-grid { grid-template-columns: 1fr; }
     }
+
+    .about-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

@@ -69,6 +69,21 @@ import { rtiReplies } from '../../data/rti-replies';
       directly and link out to Google Drive instead; everything else is
       archived locally so it won't disappear if that link ever does.
     </p>
+
+    <div class="rti-related">
+      <a href="/litigation" class="related-card">
+        <h3>Litigation →</h3>
+        <p>How these replies became evidence in AVI's court challenges to state ENDS bans.</p>
+      </a>
+      <a href="/india/law" class="related-card">
+        <h3>The law today →</h3>
+        <p>What's actually banned under PECA, and what isn't — regardless of this history.</p>
+      </a>
+      <a href="/science" class="related-card">
+        <h3>Evidence library →</h3>
+        <p>The published research these government bodies didn't have when the ban was written.</p>
+      </a>
+    </div>
   </div>
 
   <style>
@@ -141,5 +156,24 @@ import { rtiReplies } from '../../data/rti-replies';
       border-top: 1px solid var(--border);
       padding-top: 1.5rem;
     }
+
+    .rti-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

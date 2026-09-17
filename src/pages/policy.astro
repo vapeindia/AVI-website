@@ -260,6 +260,21 @@ import Icon from '../components/Icon.astro';
         <a class="btn btn-gold" href="/press">Contact us →</a>
       </div>
     </section>
+
+    <div class="policy-related">
+      <a href="/science" class="related-card">
+        <h3>Evidence library →</h3>
+        <p>The published research this policy case is built on, browsable by topic.</p>
+      </a>
+      <a href="/india/law" class="related-card">
+        <h3>The law in India →</h3>
+        <p>What's actually banned today, and what isn't — the regulatory starting point.</p>
+      </a>
+      <a href="/submissions" class="related-card">
+        <h3>Submissions to policymakers →</h3>
+        <p>AVI's own formal letters and rebuttals sent directly to government.</p>
+      </a>
+    </div>
   </div>
 
   <style>
@@ -385,5 +400,24 @@ import Icon from '../components/Icon.astro';
     }
     .invite-band h2 { color: #fff; margin: 0 0 1rem; font-size: 1.8rem; max-width: 40rem; }
     .invite-band p { color: #fbe6db; max-width: 40rem; margin: 0 0 1.5rem; }
+
+    .policy-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      padding: 2.5rem 0 4rem;
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

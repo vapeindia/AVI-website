@@ -201,6 +201,21 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     })}
   </div>
 
+  <div class="news-related-wrap">
+    <a href="/science" class="related-card">
+      <h3>Evidence library →</h3>
+      <p>The published research behind AVI's position, beyond the day's news.</p>
+    </a>
+    <a href="/press" class="related-card">
+      <h3>Press coverage →</h3>
+      <p>AVI's own statements and the coverage of its work specifically.</p>
+    </a>
+    <a href="/media" class="related-card">
+      <h3>Our media →</h3>
+      <p>Videos from AVI's YouTube channel, and where to follow AVI elsewhere.</p>
+    </a>
+  </div>
+
   <style>
     .eyebrow {
       font-size: 0.82rem;
@@ -355,5 +370,28 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     .source { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+
+    .news-related-wrap {
+      max-width: var(--max-w-wide);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      padding: 2.5rem 1.5rem 4rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

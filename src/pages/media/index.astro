@@ -141,6 +141,21 @@ const latest = videoData[0];
         Show {mostWatched.length - 4} more videos
       </button>
     )}
+
+    <div class="media-related">
+      <a href="/news" class="related-card">
+        <h3>Daily news →</h3>
+        <p>Coverage of vaping and tobacco harm reduction from across the web, updated daily.</p>
+      </a>
+      <a href="/press" class="related-card">
+        <h3>Press coverage →</h3>
+        <p>How AVI's own work has been reported, and its statements on the record.</p>
+      </a>
+      <a href="/campaigns" class="related-card">
+        <h3>Campaigns →</h3>
+        <p>The protests, seminars and delegations behind some of these videos.</p>
+      </a>
+    </div>
   </div>
 
   <script type="application/json" id="video-data" set:html={JSON.stringify(videoData).replace(/</g, '\\u003c')} />
@@ -302,6 +317,27 @@ const latest = videoData[0];
       font-size: 0.75rem; font-weight: 600; color: var(--gold-dark);
       background: var(--paper-alt); border-radius: 999px; padding: 0.15rem 0.6rem;
     }
-    .show-more-btn { display: block; margin: 2rem auto 4rem; }
+    .show-more-btn { display: block; margin: 2rem auto; }
+
+    .media-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+      padding: 2.5rem 0 4rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

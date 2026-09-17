@@ -265,6 +265,25 @@ const hStats = await getHarassmentStats();
         doesn't touch.
       </p>
     </div>
+
+    <div class="law-related">
+      <a href="/report-harassment" class="related-card">
+        <h3>Report harassment →</h3>
+        <p>Stopped or shaken down over vaping? Log it — it feeds the count above and AVI's advocacy.</p>
+      </a>
+      <a href="/litigation" class="related-card">
+        <h3>Litigation →</h3>
+        <p>The court cases AVI has fought against state-level bans and the flight ban.</p>
+      </a>
+      <a href="/quit" class="related-card">
+        <h3>If you smoke →</h3>
+        <p>The evidence on switching, and what's actually available in India.</p>
+      </a>
+      <a href="/science" class="related-card">
+        <h3>Evidence library →</h3>
+        <p>The published research behind AVI's position on e-cigarettes and smokeless nicotine.</p>
+      </a>
+    </div>
   </div>
 
   <style>
@@ -568,5 +587,26 @@ const hStats = await getHarassmentStats();
       margin-top: 1.5rem;
       text-shadow: none;
     }
+
+    .law-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>
