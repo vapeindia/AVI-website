@@ -714,6 +714,28 @@ content work — it has citations, caveats, and a couple of leads flagged
 as unverified (a September 2025 NTCP nicotine-pouch licensing detail in
 particular) rather than treated as confirmed fact.
 
+## Peer THR org links on /about (2026-09-17)
+
+Acted on the memo's "live link target" suggestion above: `/about`'s
+existing "AVI is one of ~50 orgs worldwide" paragraph now links three
+regional peers — **ETHRA** (Europe), **ARDT Iberoamérica** (Latin
+America), **CASA** (Africa). **CAPHRA deliberately excluded** — explicit
+site-owner instruction, consistent with the existing CAPHRA/INNCO
+membership-departure policy elsewhere in this file (don't imply a current
+relationship with either). INNCO itself also stays out of this link list
+for the same reason; it's mentioned in the next sentence only in the
+already-established historical/past-role framing (Samrat Chowdhery's INNCO
+presidency), not as a live "we work with them" link.
+
+Two link-target notes if this is ever revisited: CASA's site
+(safer-alternatives.org) only resolves over **http**, not https — TLS
+connection fails outright (verified, not transient); the http link is
+intentional, not an oversight. ARDT Iberoamérica now has its own domain,
+ardtiberoamerica.org — use that, not the innco.org/ardt-iberoamerica/
+profile page the original research memo pointed at (innco.org was
+unreachable when this was checked; using their own domain also avoids the
+same INNCO-adjacency issue as above).
+
 ## Old-site archive (2026-09-09)
 
 Before any DNS/hosting changes, the live `vapeindia.org` (still on WordPress
