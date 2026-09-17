@@ -128,7 +128,7 @@ access control, keep them apart.
   exception to the review-gate pattern above: this function commits
   straight to `main`, no PR, because the schema only holds categorical/
   numeric fields (city, date, what happened, amount, deviceReturned,
-  officerIdentified, suspectedFakeCop, willingToHelp) — nothing
+  officerIdentified, willingToHelp) — nothing
   identifying or free-text ever reaches the repo. Any email address or
   free-text "anything else" the submitter adds goes only to an internal
   notification email (same Resend setup as testimonials), never committed.

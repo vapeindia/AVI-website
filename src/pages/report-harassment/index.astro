@@ -40,7 +40,6 @@ const CITIES = [
             <div class="stat-card"><strong>{stats.total}</strong><span>reports logged</span></div>
             <div class="stat-card"><strong>₹{stats.totalAmount.toLocaleString('en-IN')}</strong><span>total demanded or paid</span></div>
             <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>devices never returned</span></div>
-            <div class="stat-card"><strong>{stats.fakeCopCount}</strong><span>suspected fake police</span></div>
           </div>
           {stats.topCities.length > 0 && (
             <div class="city-breakdown">
@@ -123,16 +122,6 @@ const CITIES = [
               <option value="refused">Asked, they refused</option>
             </select>
           </div>
-        </div>
-
-        <div class="field">
-          <label for="suspectedFakeCop">Do you think they were a real police officer?</label>
-          <select id="suspectedFakeCop" name="suspectedFakeCop" required>
-            <option value="" disabled selected>Choose…</option>
-            <option value="no">Yes, clearly genuine</option>
-            <option value="unsure">Not sure</option>
-            <option value="yes">I suspect they weren't real police</option>
-          </select>
         </div>
 
         <hr class="form-divider" />
@@ -341,7 +330,6 @@ const CITIES = [
             amount: Number(data.get('amount') || 0),
             deviceReturned: data.get('deviceReturned'),
             officerIdentified: data.get('officerIdentified'),
-            suspectedFakeCop: data.get('suspectedFakeCop'),
             willingToHelp: data.get('willingToHelp') === 'on',
             email: data.get('email'),
             details: data.get('details'),

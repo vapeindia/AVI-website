@@ -237,7 +237,6 @@ const harassmentReports = defineCollection({
     amount: z.number().min(0).max(1000000).default(0), // ₹ demanded or paid, 0 if none
     deviceReturned: z.enum(['yes', 'no', 'partial', 'na']),
     officerIdentified: z.enum(['yes', 'no', 'refused']),
-    suspectedFakeCop: z.enum(['yes', 'no', 'unsure']),
     willingToHelp: z.boolean().default(false), // willing to be contacted re: legal support
     submittedAt: z.coerce.date(),
   }),

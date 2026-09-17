@@ -5,7 +5,6 @@ export interface HarassmentStats {
   totalAmount: number;
   cashDemandedCount: number;
   notReturnedCount: number;
-  fakeCopCount: number;
   topCities: { city: string; count: number }[];
 }
 
@@ -21,7 +20,6 @@ export async function getHarassmentStats(): Promise<HarassmentStats> {
   const totalAmount = reports.reduce((sum, r) => sum + (r.data.amount || 0), 0);
   const cashDemandedCount = reports.filter((r) => r.data.whatHappened.includes('cash_demanded')).length;
   const notReturnedCount = reports.filter((r) => r.data.deviceReturned === 'no').length;
-  const fakeCopCount = reports.filter((r) => r.data.suspectedFakeCop === 'yes').length;
 
   const cityCounts = new Map<string, number>();
   for (const r of reports) {
@@ -33,5 +31,5 @@ export async function getHarassmentStats(): Promise<HarassmentStats> {
     .slice(0, 8)
     .map(([city, count]) => ({ city, count }));
 
-  return { total, totalAmount, cashDemandedCount, notReturnedCount, fakeCopCount, topCities };
+  return { total, totalAmount, cashDemandedCount, notReturnedCount, topCities };
 }

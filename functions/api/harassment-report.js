@@ -3,7 +3,7 @@
  *
  * Handles submissions from the form at /report-harassment. Structured,
  * non-identifying fields (city, date, what happened, amount, deviceReturned,
- * officerIdentified, suspectedFakeCop, willingToHelp) are committed directly
+ * officerIdentified, willingToHelp) are committed directly
  * to a new file under src/content/harassment-reports/ on the main branch —
  * no PR, no review gate. That's safe here because nothing personally
  * identifying is ever written to the repo; it mirrors the `news`/`videos`
@@ -33,7 +33,6 @@
 const WHAT_HAPPENED = new Set(['device_confiscated', 'cash_demanded', 'detained', 'threatened_only', 'other']);
 const DEVICE_RETURNED = new Set(['yes', 'no', 'partial', 'na']);
 const OFFICER_IDENTIFIED = new Set(['yes', 'no', 'refused']);
-const FAKE_COP = new Set(['yes', 'no', 'unsure']);
 const MAX_LEN = { city: 60, details: 1000, email: 200 };
 const MAX_AMOUNT = 1000000; // ₹10 lakh sanity ceiling
 const EARLIEST_DATE = new Date('2016-01-01T00:00:00.000Z'); // predates every state-level ENDS ban
@@ -73,7 +72,6 @@ whatHappened: ${JSON.stringify(fields.whatHappened)}
 amount: ${fields.amount}
 deviceReturned: ${JSON.stringify(fields.deviceReturned)}
 officerIdentified: ${JSON.stringify(fields.officerIdentified)}
-suspectedFakeCop: ${JSON.stringify(fields.suspectedFakeCop)}
 willingToHelp: ${fields.willingToHelp}
 submittedAt: ${JSON.stringify(submittedAt)}
 ---
@@ -145,7 +143,6 @@ What happened: ${fields.whatHappened.join(', ')}
 Amount demanded/paid: ${fields.amount ? `₹${fields.amount}` : 'none reported'}
 Device returned: ${fields.deviceReturned}
 Officer identified themselves: ${fields.officerIdentified}
-Suspected fake cop: ${fields.suspectedFakeCop}
 Willing to be contacted re: legal support: ${fields.willingToHelp ? 'YES' : 'no'}
 
 Email (private — reply here to reach them, not published anywhere): ${email || '(not given)'}
@@ -200,9 +197,6 @@ export async function onRequestPost({ request, env }) {
   const officerIdentified = String(body.officerIdentified || '');
   if (!OFFICER_IDENTIFIED.has(officerIdentified)) return jsonResponse({ error: 'Invalid officerIdentified value' }, 400);
 
-  const suspectedFakeCop = String(body.suspectedFakeCop || '');
-  if (!FAKE_COP.has(suspectedFakeCop)) return jsonResponse({ error: 'Invalid suspectedFakeCop value' }, 400);
-
   const willingToHelp = Boolean(body.willingToHelp);
 
   const email = String(body.email || '').trim().slice(0, MAX_LEN.email);
@@ -210,7 +204,7 @@ export async function onRequestPost({ request, env }) {
 
   const details = String(body.details || '').trim().slice(0, MAX_LEN.details);
 
-  const fields = { date, city, whatHappened, amount, deviceReturned, officerIdentified, suspectedFakeCop, willingToHelp };
+  const fields = { date, city, whatHappened, amount, deviceReturned, officerIdentified, willingToHelp };
 
   let commitError = null;
   let notifyError = null;
