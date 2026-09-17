@@ -25,13 +25,11 @@ const videoData = (await getCollection('videos'))
 const latestVideo = videoData[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
-const yearsActive = new Date().getFullYear() - 2016;
 ---
 <Base title="Tobacco Harm Reduction Advocacy" description="AVI is India's leading consumer advocacy group for tobacco harm reduction — evidence, litigation and policy work for the right to safer nicotine alternatives to smoking and toxic smokeless tobacco." wide={true}>
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
-        <p class="eyebrow"><Icon name="chart" /> {yearsActive}+ years of tobacco harm reduction advocacy</p>
         <h1>Still smoking? There's a <em>safer path forward.</em></h1>
         <p class="hero-sub">
           If nicotine gums and patches haven't worked for you, or you're not
