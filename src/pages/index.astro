@@ -31,7 +31,6 @@ const yearsActive = new Date().getFullYear() - 2016;
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
-        <p class="eyebrow"><Icon name="chart" /> {yearsActive}+ years of tobacco harm reduction advocacy</p>
         <h1>Still smoking? There's a <em>safer path forward.</em></h1>
         <p class="hero-sub">
           If nicotine gums and patches haven't worked for you, or you're not
@@ -45,6 +44,7 @@ const yearsActive = new Date().getFullYear() - 2016;
         </div>
         <div class="hero-bottom">
           <div class="hero-stats">
+            <div><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
             <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
             <div><strong>7M+</strong><span>deaths/year</span></div>
             <div><strong>200M+</strong><span>switched to safer alternatives</span></div>
@@ -295,8 +295,6 @@ const yearsActive = new Date().getFullYear() - 2016;
 
     /* Hero */
     .hero-v2 { background: var(--paper); padding: 2.25rem 0 1.75rem; }
-    .hero-copy .eyebrow { display: flex; align-items: center; gap: 0.5rem; }
-    .hero-copy .eyebrow :global(svg) { width: 1.05rem; height: 1.05rem; flex-shrink: 0; }
     .hero-v2-inner {
       display: grid;
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
@@ -321,7 +319,7 @@ const yearsActive = new Date().getFullYear() - 2016;
     .hero-v2 .hero-ctas .btn { flex: 1 1 auto; text-align: center; white-space: nowrap; }
     .hero-v2 .hero-stats {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.75rem;
       padding-top: 1.4rem;
       border-top: 1px solid var(--border);
@@ -335,10 +333,13 @@ const yearsActive = new Date().getFullYear() - 2016;
       white-space: nowrap;
     }
     .hero-v2 .hero-stats span { display: block; font-size: 0.8rem; line-height: 1.25; color: var(--muted); margin-top: 0.15rem; }
+    @media (max-width: 560px) {
+      .hero-v2 .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem 0.75rem; }
+    }
     @media (max-width: 480px) {
       .hero-v2 .hero-ctas { margin-bottom: 1.25rem; }
       .hero-v2 .hero-ctas .btn { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
-      .hero-v2 .hero-stats { gap: 0.4rem; padding-top: 1rem; }
+      .hero-v2 .hero-stats { padding-top: 1rem; }
       .hero-v2 .hero-stats strong { font-size: 1.3rem; }
       .hero-v2 .hero-stats span { font-size: 0.7rem; line-height: 1.15; margin-top: 0.1rem; }
       .hero-v2 .hero-stats-source { margin-top: 0.5rem; }
