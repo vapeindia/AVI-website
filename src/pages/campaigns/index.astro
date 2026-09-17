@@ -64,27 +64,6 @@ function fmtRange(start: Date, end?: Date) {
     </div>
   </section>
 
-  <div class="camp-body">
-    <section class="c-section materials-section">
-      <div class="section-head">
-        <Icon name="megaphone" />
-        <h2>Campaign materials</h2>
-      </div>
-      <p class="lead">
-        Ready-to-post graphics from AVI's campaigns — save any of these and
-        share them on your own social media. No permission needed.
-      </p>
-      <div class="materials-grid">
-        {materials.map((m) => (
-          <a class="material-card" href={m.src} download title={`Download: ${m.title}`}>
-            <img src={m.src} alt={m.title} loading="lazy" width="1080" height="1080" />
-            <span class="material-download"><Icon name="download" /> Download</span>
-          </a>
-        ))}
-      </div>
-    </section>
-  </div>
-
   {featuredItem && FeaturedContent && (
     <section class="breakout camp-featured">
       <div class="breakout-inner">
@@ -140,6 +119,39 @@ function fmtRange(start: Date, end?: Date) {
         </article>
       ))}
     </div>
+
+    <section class="c-section materials-section">
+      <div class="section-head">
+        <Icon name="megaphone" />
+        <h2>Campaign materials</h2>
+      </div>
+      <p class="lead">
+        Ready-to-post graphics from AVI's campaigns — save any of these and
+        share them on your own social media. No permission needed.
+      </p>
+      <div class="materials-grid">
+        {materials.map((m) => (
+          <a class="material-card" href={m.src} download title={`Download: ${m.title}`}>
+            <img src={m.src} alt={m.title} loading="lazy" width="1080" height="1080" />
+            <span class="material-download"><Icon name="download" /> Download</span>
+          </a>
+        ))}
+      </div>
+      <div class="materials-submit">
+        <h3>Made your own poster?</h3>
+        <p>
+          Send it to <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a> and
+          we may add it here for others to use too. A few guidelines:
+        </p>
+        <ul>
+          <li>Square (1:1), at least 1080×1080px, PNG or JPG</li>
+          <li>Claims should be evidence-based — link a source if it's a statistic</li>
+          <li>No photos of vapes, pouches or other products — text/graphics only, to stay clear of PECA's advertising restrictions</li>
+          <li>No targeting individuals by name or photo</li>
+          <li>Credit AVI (logo or "vapeindia.org") somewhere on the design</li>
+        </ul>
+      </div>
+    </section>
 
     <section class="c-section involve-section" id="get-involved">
       <div class="section-head">
@@ -308,7 +320,7 @@ function fmtRange(start: Date, end?: Date) {
     .section-head h2 { margin: 0; font-size: 1.35rem; }
     .lead { font-size: 0.95rem; max-width: 46rem; color: var(--ink); line-height: 1.65; margin: 0 0 1.5rem; }
 
-    .materials-section { padding-top: 0.5rem; }
+    .materials-section { padding-top: 2.5rem; border-top: 1px solid var(--border); }
     .materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); gap: 1.25rem; }
     .material-card {
       position: relative;
@@ -328,6 +340,21 @@ function fmtRange(start: Date, end?: Date) {
       line-height: 1.2;
     }
     .material-download :global(svg) { width: 0.95rem; height: 0.95rem; }
+
+    .materials-submit {
+      margin-top: 1.75rem;
+      max-width: 46rem;
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 6px;
+      padding: 1.1rem 1.4rem;
+    }
+    .materials-submit h3 { margin: 0 0 0.5rem; font-size: 0.98rem; }
+    .materials-submit p { margin: 0 0 0.75rem; font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
+    .materials-submit ul { margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .materials-submit li { margin-bottom: 0.35rem; }
+    .materials-submit li:last-child { margin-bottom: 0; }
 
     .involve-section { padding-top: 1rem; border-top: 1px solid var(--border); }
     .involve-form-wrap {
