@@ -34,6 +34,66 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
     </p>
   </section>
 
+  <section class="ground-section">
+    <div class="ground-intro">
+      <p class="eyebrow">The bigger picture</p>
+      <h2>A crisis being managed backwards</h2>
+    </div>
+    <div class="ground-grid">
+      <div class="ground-block">
+        <h3>The scale of it</h3>
+        <p>
+          India has more tobacco users than any country outside China —
+          roughly 100 million smokers and 200 million smokeless tobacco
+          (SLT) users. SLT alone kills <a href="https://pubmed.ncbi.nlm.nih.gov/25526253/" target="_blank" rel="noopener">350,000+ Indians a year</a>,
+          sold openly at every paan shop, and India accounted for nearly
+          70% of the world's oral cancer cases linked to smokeless tobacco
+          and areca nut in 2022 — <a href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(24)00458-3/abstract" target="_blank" rel="noopener">the single largest share of any country</a>. This isn't a shrinking
+          problem, and both products remain legal and freely available.
+        </p>
+      </div>
+      <div class="ground-block">
+        <h3>Bans that close the off-ramp</h3>
+        <p>
+          PECA, 2019 bans e-cigarettes outright — production, sale, import,
+          advertisement. Nicotine pouches and snus have no lawful sale
+          pathway either. Removing the lower-risk alternative doesn't make
+          nicotine use disappear; it removes the off-ramp, holding existing
+          users on smoking and SLT or pushing them toward an unregulated
+          illicit market with none of the quality control a legal product
+          would carry. <a href="/india/law">The law, in full →</a>
+        </p>
+      </div>
+      <div class="ground-block">
+        <h3>A government invested in the status quo</h3>
+        <p>
+          The state regulating this market isn't a neutral referee — it's
+          a shareholder in it. LIC, SUUTI and other public-sector insurers
+          together hold roughly 28% of ITC, India's largest cigarette
+          maker (<a href="https://theprint.in/india/governance/govt-has-banned-vapes-but-owns-28-of-itc-indias-biggest-cigarette-maker/293547/" target="_blank" rel="noopener">The Print, 2023</a>). A government that
+          profits directly from cigarette sales at this scale has little
+          incentive to let a genuinely lower-risk competitor into the
+          market — and PECA's outright ban on that competitor is hard to
+          separate from that conflict.
+        </p>
+      </div>
+      <div class="ground-block">
+        <h3>Research and even discussion, restricted</h3>
+        <p>
+          In December 2023, the National Medical Commission directed
+          doctors to secure Health Ministry approval before researching
+          e-cigarettes or heated tobacco at all — a direct barrier to the
+          clinical evidence India would need to evaluate harm reduction
+          properly (<a href="https://www.tribuneindia.com/news/india/refrain-from-doing-research-on-e-cigarettes-obtain-prior-permission-from-ministry-nmc-to-doctors-572837" target="_blank" rel="noopener">The Tribune</a>). Enforcement of PECA's
+          advertising ban hasn't stayed narrowly about products, either: a
+          2023 policy panel on harm reduction that named no products and
+          included views critical of the ban was branded "promotion" by
+          the Health Ministry anyway.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <section class="path-section">
     <h2>Five ways into this section</h2>
     <div class="path-grid">
@@ -134,6 +194,17 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
     .stat-source a { color: var(--gold-light); }
     @media (max-width: 780px) {
       .stat-band-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .ground-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3.5rem 1.5rem 0; }
+    .ground-intro { max-width: 40rem; margin: 0 auto 2.25rem; text-align: center; }
+    .ground-intro h2 { margin: 0; font-size: 1.6rem; }
+    .ground-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 2.5rem; }
+    .ground-block h3 { margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--accent-dark); }
+    .ground-block p { margin: 0; font-size: 0.92rem; line-height: 1.65; color: var(--ink); }
+    .ground-block p a { color: var(--accent-dark); text-decoration: underline; text-decoration-color: var(--border); }
+    @media (max-width: 780px) {
+      .ground-grid { grid-template-columns: 1fr; gap: 1.75rem; }
     }
 
     .path-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3.5rem 1.5rem 4rem; }

@@ -736,6 +736,49 @@ profile page the original research memo pointed at (innco.org was
 unreachable when this was checked; using their own domain also avoids the
 same INNCO-adjacency issue as above).
 
+## /india hub: grounding-text section (2026-09-18)
+
+Added a 4-block "A crisis being managed backwards" section to `/india`
+(between the stat band and the "five ways in" nav grid) — scale of the
+problem, bans removing the off-ramp, government's ITC stake as a conflict
+of interest, and research/speech restrictions. Site-owner brief asked for
+five things; two got merged into one block each since they're the same
+underlying mechanism or read better together (landscape + "worsening"
+framing → one "scale of it" block; ENDS research ban + physician-specific
+restriction → one block, since both trace to the same Dec 2023 NMC
+directive).
+
+**One deliberate correction from the brief, worth knowing if this gets
+revisited**: the brief described "the MeitY ban on promotion... loosely
+applied to include even non-product discussions." Research found MeitY's
+actual confirmed role is narrower — e-commerce takedown notices against
+sites selling ENDS, a straightforward PECA Section 4 enforcement action,
+not the non-product-discussion overreach. The incident that actually
+matches "loosely applied to non-product discussion" is different: in May
+2023 a Niti Aayog-linked THR policy panel (named no products, included
+voices critical of the ban) was branded "promotion" by the **Health
+Ministry**, not MeitY — found via two independent web searches, both
+pointing to the same Filter Magazine piece ("India Doubles Down on Vape
+Ban With Research and Media Censorship," filtermag.org). That article
+404s on direct fetch (bot-blocked, not dead — confirmed via WebFetch),
+so it's corroborated only by search-engine synopsis, not a page read
+directly; treat as solid-but-not-primary-verified if it's ever cited more
+prominently than the current one-clause mention. The site copy attributes
+the incident to "the Health Ministry," not MeitY, accordingly — don't
+"fix" this back to MeitY without re-verifying.
+
+Other sourcing for that section: ITC government stake (~28% via LIC +
+SUUTI + other public insurers) — The Print, "Govt has banned vapes, but
+owns 28% of ITC," 2023, headline alone is directly citable. NMC physician
+research directive — The Tribune, Dec 2023, corroborated independently by
+a Careers360 report found via a separate search. SLT oral-cancer burden
+stat (India ~70% of global 2022 cases) — Lancet Oncology, 2024, DOI-linked.
+Did NOT cite GATS-3 for a "worsening trend" claim — it isn't published yet
+despite fieldwork being underway; the "scale of it" block relies on
+already-published GATS-2 figures plus the newer Lancet stat instead, and
+avoids any explicit before/after prevalence comparison the data can't
+support.
+
 ## Sitewide audit: end-of-page connectors (2026-09-17)
 
 Site-owner ask: every page should end with links taking the reader further
