@@ -8,7 +8,7 @@ summary: "AVI's most recent submission: a request that 5-10% of the new Health S
 
 Filed ahead of the Union Budget, this is AVI's newest submission to
 government on record: a response to the new "Health Security Cess" on
-tobacco products, introduced to replace lost revenue once the GST
+tobacco, introduced to replace lost revenue once the GST
 Compensation Cess expired. AVI welcomed the restructuring in principle —
 but flagged what it called a critical gap: a cess levied explicitly in the
 name of public health, with no statutory provision actually earmarking any

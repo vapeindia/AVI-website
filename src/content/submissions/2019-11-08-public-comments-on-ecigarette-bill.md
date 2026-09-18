@@ -40,7 +40,7 @@ smoking correlate through *shared risk factors* rather than one causing
 the other. In a market where loose cigarettes are cheap and freely sold
 while e-cigarette devices cost roughly ten times more, AVI argued a ban
 would if anything push risk-prone teens toward the more accessible,
-deadlier product.
+deadlier cigarette.
 
 **The research gag, not a lack of evidence, was the actual problem.** AVI
 pointed to two 2019 health ministry circulars barring ENDS research and

@@ -13,7 +13,7 @@ photos:
 
 Roughly a year into the national ENDS ban, AVI convened a public policy
 dialogue in New Delhi to bring together the range of expertise the original
-ban decision had left out: Samrat Chowdhery (AVI director, who
+ban decision had left out: AVI's director (who
 had become president of the International Network of Nicotine Consumer
 Organisations' (INNCO) governing board two months earlier) on policy and
 consumer advocacy; Dr Rohan Sequeira, a cardio-metabolic

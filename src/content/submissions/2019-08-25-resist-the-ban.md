@@ -17,13 +17,13 @@ AVI published this page to explain, in plain terms, what was happening and
 why it mattered: the draft **Prohibition of Electronic Cigarettes
 (production, manufacture, import, export, sale, distribution and
 advertisement) Ordinance, 2019** would ban ENDS sale and advertising
-outright — including vaping devices, heat-not-burn products like IQOS, and
+outright — including vaping devices, heat-not-burn devices like IQOS, and
 e-hookah — with penalties up to ₹1 lakh and a year in jail for a first
 offence, rising to five years for repeat offences, and even barred giving
 out free samples. Personal use and possession were not banned, but every
 vape shop and online store would have to close immediately, and AVI warned
 plainly that an unregulated black market — with no control over pricing or
-product quality — was the likely result.
+quality — was the likely result.
 
 The page organised two forms of response: a legal one, coordinating vape
 sellers toward a common Supreme Court challenge and AVI's own effort to

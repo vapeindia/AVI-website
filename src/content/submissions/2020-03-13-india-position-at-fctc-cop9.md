@@ -10,7 +10,7 @@ India has the second-largest smoking population in the world, with over a
 million tobacco-related deaths annually. AVI argued that this alone should
 have put the country at the forefront of promoting cessation therapies and
 safer nicotine delivery systems — e-cigarettes, snus and other harm
-reduction products — rather than banning their sale and distribution while
+reduction alternatives — rather than banning their sale and distribution while
 still permitting personal use, a policy AVI called "the grave mistake" at
 the heart of India's current approach.
 

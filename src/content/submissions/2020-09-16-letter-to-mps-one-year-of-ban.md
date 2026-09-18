@@ -32,7 +32,7 @@ AVI wrote to every MP with ten specific objections.
    whose prohibition wasn't working.
 
 3. **Regulation would have served the stated goals better.** Almost 100
-   nations chose to regulate rather than ban, keeping products out of
+   nations chose to regulate rather than ban, keeping vapes out of
    minors' hands while preserving smokers' access to a lower-risk
    alternative — and saw sharp declines in smoking prevalence (UK, US,
    Canada, France, New Zealand) as a result.
@@ -64,7 +64,7 @@ AVI wrote to every MP with ten specific objections.
 
 8. **The science had only strengthened since the ban.** A January 2020
    *Journal of Hazardous Materials* study compared toxicity on bronchial
-   epithelial cells across cigarettes, heat-not-burn products and
+   epithelial cells across cigarettes, heat-not-burn devices and
    e-cigarettes, and found e-cigarettes the least toxic of the three; a September 2020 UK COT report reaffirmed
    Public Health England's 95%-safer finding; and an April 2020 study found
    e-cigarettes producing dramatically less carbon monoxide, acetaldehyde
@@ -72,7 +72,7 @@ AVI wrote to every MP with ten specific objections.
 
 9. **The ban followed a pattern of pressure on low- and middle-income
    countries.** A Bloomberg Philanthropies–funded NGO had published a
-   position paper that year arguing THR products should be banned
+   position paper that year arguing THR alternatives should be banned
    specifically in LMICs like India, citing weak regulatory capacity — a
    position AVI called discriminatory, and urged India to resist in favour
    of independent, evidence-led policy.

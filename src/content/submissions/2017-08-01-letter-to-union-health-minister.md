@@ -46,7 +46,7 @@ laws and public health objectives, rather than prescribing prohibition.
 not eliminate demand — it would push it into illegal trade, with no
 assurance of source, quality or compliance, and a direct loss of government
 revenue. The WHO's own COP6 report had already acknowledged illicit trade
-and cross-border online sales of these products as a live concern.
+and cross-border online sales of these as a live concern.
 
 **Our request.** We asked the Ministry to reconsider any prohibition on
 these grounds: that it would subvert the harm-reduction potential of the
