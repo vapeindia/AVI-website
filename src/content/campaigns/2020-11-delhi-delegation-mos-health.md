@@ -5,7 +5,7 @@ type: "delegation"
 cities: ["New Delhi"]
 summary: "An AVI delegation met then Union Minister of State for Health Anupriya Patel to press the case for evidence-based regulation of e-cigarettes rather than prohibition, alongside a wider push published as an India-focused policy report."
 photos:
-  - src: "/images/delegation-mos-health.png"
+  - src: "/images/delegation-mos-health.jpg"
     alt: "AVI delegation meeting with the Union Minister of State for Health"
     caption: "An AVI delegation meeting with the Union Minister of State for Health, Anupriya Patel"
 ---

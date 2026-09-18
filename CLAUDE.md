@@ -809,41 +809,34 @@ line (a wall corner + ceiling molding + the wall clock all sit right
 above the group), which would show as a visible stitch seam — worse than
 a blur, not better.
 
-**What actually worked**: an irregular, organic-looking cutout baked
-into the image's alpha channel (PNG, not JPEG) — a gently wavy top edge
-across the whole photo (so it reads as a deliberate "torn/deckle-edge"
-photo treatment, not a targeted edit) with one deeper V-shaped dip
-positioned exactly over the unwanted person's head, reaching down past
-his chin/collar before the reaching-arm/flower-handover content starts
-lower in frame. Since his head sits *higher* in the frame than the
-handover gesture (which happens at desk height, lower and to the side),
-a boundary that isn't a straight line can duck below his head while
-staying clear of everything else — a straight vertical crop genuinely
-can't do this (the arm and his torso overlap in x-position, just not in
-y), which is why the earlier crop attempt failed.
+**First attempt** (superseded, kept here since the reasoning still
+matters): an irregular organic cutout baked into the image's alpha
+channel (PNG) — a gently wavy top edge across the whole photo with one
+deeper V-shaped dip positioned exactly over the unwanted person's head,
+reaching down past his chin/collar before the reaching-arm/flower-
+handover content starts lower in frame. Since his head sits *higher* in
+the frame than the handover gesture, a non-straight boundary could duck
+below his head while staying clear of everything else — a straight
+vertical crop genuinely can't do this (the arm and his torso overlap in
+x-position, just not in y). Technically this worked and was even shipped
+briefly, but the site owner still felt it read as targeted — a single
+person-shaped notch, however organic the edge, is still legible as "one
+specific person was cut out" once you look for it.
 
-Built with Python/PIL (`pip install pillow`): a sine-wave base for the
-gentle overall waviness, a Gaussian-shaped dip added on top at the
-target x-position for the deeper cut, `Image.putalpha()` with that mask,
-saved as PNG. Deliberately **not** a CSS `clip-path` applied at render
-time — this photo renders inside a `.photo-strip img` with
-`object-fit: cover` at a fixed height and variable (grid-driven) width,
-so the visible crop window shifts with viewport/container size; a
-live clip-path risks the wrong region being visible at some width. Baking
-the cutout into the file's actual pixels means the removed person's data
-simply doesn't exist in the file at any crop/zoom/viewport — verified
-this is safe across realistic container aspect ratios for this specific
-usage (the math: the box would need to be something like 1400px wide at
-only 128px tall — never happens in this layout — before object-fit:cover
-could crop far enough into the top to re-expose the area under the notch).
-
-The `<img>` sits directly on the campaign card's white background with no
-other layer behind it, so the transparent notch reads as "the photo has
-a white gap here" — matches the card seamlessly. If this card's
-background color ever changes, this specific PNG's transparency will need
-no adjustment (it's genuinely transparent, not a hand-matched fill
-color) — but do re-check it still looks intentional against whatever the
-new background is.
+**What actually shipped**: the site owner made their own edit (Canva) —
+instead of a notch sized to just the one person, a much larger, loosely
+organic white cutout removing *all four* bystanders (both people to
+Samrat's left and both to his right), leaving only Samrat and the
+minister — plus the flowers, desk and room. Because nobody is singled
+out — the whole supporting cast is gone, not just one person — it reads
+as an editorial choice to focus on the two principals in the exchange,
+not as "someone was removed." This is the better fix and the reason: a
+cutout stops looking targeted once it treats every bystander the same
+way, not just the one you actually needed gone. Delivered as a flat RGB
+PNG (no transparency — the site owner filled it white directly, matching
+the card background), resized to 800px wide and converted to JPEG
+(`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
+channel was needed once the fill was already baked in.
 
 ## Sitewide audit: end-of-page connectors (2026-09-17)
 
