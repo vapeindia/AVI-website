@@ -779,6 +779,21 @@ already-published GATS-2 figures plus the newer Lancet stat instead, and
 avoids any explicit before/after prevalence comparison the data can't
 support.
 
+**Later revisions (still 2026-09-18):** the stat band was removed and its
+numbers folded into the "scale of it" block's prose instead, which now
+leads the section right after the hero (site owner wanted text-first, not
+a big standalone number band). "ITC" was also dropped from the government-
+stake block — it now says "India's largest cigarette maker," with the
+name left to the cited Print article rather than stated in body copy. The
+Lancet oral-cancer stat and the 350,000+ SLT-deaths stat were cut from
+"scale of it" per a follow-up request and not relocated elsewhere; if
+that data is wanted back on the page, it isn't preserved in a draft
+anywhere, it was simply removed. All four blocks were then trimmed to a
+tight, deliberate length band (roughly 300-330 plain-text characters
+each) so they render as visually equal boxes in the 2x2 grid — if any
+block's copy changes going forward, rebalance the others to keep that
+parity rather than letting one drift long.
+
 ## Sitewide audit: end-of-page connectors (2026-09-17)
 
 Site-owner ask: every page should end with links taking the reader further
