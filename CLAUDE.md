@@ -838,6 +838,63 @@ the card background), resized to 800px wide and converted to JPEG
 (`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
 channel was needed once the fill was already baked in.
 
+## Removing the delegation photo, de-emphasizing the director's name further,
+## and a sitewide "product" → PECA-safer language sweep (2026-09-18)
+
+Three explicit, related site-owner instructions in one request:
+
+**1. The delegation photo (superseding everything in the "Removing someone
+from a group photo" note above) was dropped entirely**, not further
+edited — real-device rendering of the site owner's own cleaned-up cutout
+still read as "deliberate and unpolished." `photos:` frontmatter removed
+from `2020-11-delhi-delegation-mos-health.md`; both image files deleted
+from `public/images/`. The campaign entry itself (title, summary, body
+text) stays — only the photo is gone. Confirmed post-deploy: the image
+URL now falls through to the site's catch-all fallback (no image bytes
+served), and the `delegation-mos-health` string still in the built HTML
+is just the campaign card's anchor `id` (from the markdown filename), not
+a leftover image reference.
+
+**2. "Samrat Chowdhery" removed from AVI's own editorial voice everywhere
+except the About page's Governing Board list**, replaced with "AVI" or
+"AVI's director." Left deliberately unchanged, and why: press-coverage
+archive entries (`src/content/press/*.md`) and photo alt-text are factual
+records of who was actually bylined or actually pictured, not AVI's own
+descriptive choice — rewriting those would misrepresent the historical
+record. The `2019-11-08-public-comments-on-ecigarette-bill.md` submission
+also keeps its "signed by Samrat Chowdhery, Director" closing line for the
+same reason — it's a record of an actual signed document. If a future
+session is asked to touch any of these again, that's the line: AVI's own
+prose (page templates, campaign/litigation/submission summaries) is in
+scope; archival/factual records of who did what are not.
+
+**3. The word "product(s)" removed from AVI's own voice sitewide, replaced
+with PECA-safer phrasing** — "alternative(s)," "devices," or a
+restructured sentence — starting from the About page's "Already using our
+products and want to share your experience?" (now "Already switched to a
+safer alternative..."). Touched ~20 files: `index.astro`, `about`,
+`campaigns`, `litigation`, `policy`, `press`, `quit`, `science`,
+`testimonials`, `india/index.astro`, `india/law.astro`, and 8 submissions
+entries. Deliberately left unchanged: `research`/`news` collections
+(auto-pulled, get overwritten by fetch scripts anyway, and pull real
+paper/article titles verbatim), official document/URL names where
+"product" is part of a real proper noun (e.g. "EU's Tobacco Products
+Directive," FDA URL paths), and "production"/"byproducts" (different words,
+mere substring overlap — not touched). One context-sensitive catch: in
+`2019-11-08-public-comments-on-ecigarette-bill.md`, "the more accessible,
+deadlier product" referred to **cigarettes**, not a safer alternative —
+reworded to "deadlier cigarette" rather than "deadlier alternative," which
+would have inverted the meaning. Also did a targeted (not exhaustive)
+sweep for other PECA-risk phrasing (purchase/shop/recommend/try-vaping
+language) — none found beyond what was already fixed.
+
+All three changes verified live post-deploy via curl against
+`avi-website-9f9.pages.dev` before reporting back: no "our products" text
+anywhere, "Samrat Chowdhery" appears only on `/about` (Governing Board)
+plus the expected archival hits on `/campaigns` (alt-text), `/press`
+(bylines) and `/submissions` (signed-by record), and the delegation photo
+URL no longer serves an image.
+
 ## Sitewide audit: end-of-page connectors (2026-09-17)
 
 Site-owner ask: every page should end with links taking the reader further
