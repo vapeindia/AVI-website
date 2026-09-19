@@ -917,13 +917,22 @@ nearly every page template:
   `science/index.astro` already used for its research archive — since the
   full un-collapsed page was rendering 70+ full-text press cards inline.
   The **Daily News** page's "feature a week, then weekly, then 2 months,
-  then an expandable link to the rest" request was already substantially
-  built (see the 2026-09-17 digest-tiers note above) — every month already
-  collapses into its own `<details>` (current month always open), and
-  every week within a month does the same — so no restructuring was done
-  there beyond the 4th connector card; each historical month toggling
-  individually is arguably better UX than one single "show everything
-  older" link, since a visitor can jump straight to a specific month.
+  then an expandable link to the rest" request was initially (wrongly)
+  treated as already satisfied by the existing digest-tiering (see the
+  2026-09-17 note above) — but a `<details>` element's `<summary>` content
+  (the month heading + full digest paragraph) is NOT hidden when the
+  details is closed, only its *nested* content is. With 38+ months of
+  digests, that meant every month back to January 2023 was printing a
+  full summary paragraph on page load regardless of collapsed state —
+  the page just kept scrolling, never actually condensing. Fixed
+  2026-09-19 by slicing `monthBlocks` into the 3 most recent months
+  (rendered individually, exactly as before) and wrapping everything
+  older in one outer `<details class="older-archive">` — nothing about
+  those 37+ older months prints to the page until that single toggle is
+  opened. If this page is ever asked to show more/fewer recent months,
+  change `RECENT_MONTH_COUNT` in `news/index.astro`, not the per-month
+  render logic itself (`renderMonth`), which is unchanged and shared by
+  both the recent and archived paths.
 
 **Not changed, and why**: `quit.astro` and `report-harassment/index.astro`
 have 2-card bottom grids, deliberately left alone — 2 cards fill a

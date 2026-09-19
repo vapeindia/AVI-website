@@ -119,86 +119,118 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
       analysis and statements, see our <a href="/press">press</a> and <a href="/policy">policy</a> pages.
     </div>
 
-    {monthBlocks.map((mblock) => {
-      const WeekList = (
-        <>
-          {mblock.weeks.map((wblock) => {
-            const dayCount = wblock.days.length;
-            const itemCount = wblock.days.reduce((n, d) => n + d.items.length, 0);
-            const weekly = wblock.weekly;
-            const DayList = (
-              <>
-                {wblock.days.map((day) => (
-                  <div class="day-group">
-                    <div class="day-heading">
-                      <h4>{dayFmt(day.date)}</h4>
-                      <span class="count-tag">{day.items.length} {day.items.length === 1 ? 'story' : 'stories'}</span>
-                    </div>
-                    {dailyDigestByDate.has(day.dateKey) && (
-                      <p class="digest-text">{dailyDigestByDate.get(day.dateKey)}</p>
-                    )}
-                    <details class="articles-toggle">
-                      <summary>Show {day.items.length} {day.items.length === 1 ? 'article' : 'articles'}</summary>
-                      <div class="news-grid">
-                        {day.items.map((item) => (
-                          <article class={`news-card topic-${item.data.topic}`}>
-                            <div class="card-top">
-                              <span class="topic-badge">{topicLabel[item.data.topic]}</span>
-                            </div>
-                            <h5><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h5>
-                            <p class="source">{item.data.sourceName}</p>
-                            <p class="gist">{item.data.summary}</p>
-                            <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
-                          </article>
-                        ))}
-                      </div>
-                    </details>
-                  </div>
-                ))}
-              </>
-            );
+    {(() => {
+      // Only the most recent 3 months (this month + the 2 before it) render
+      // as individually-visible sections on page load — everything older
+      // renders inside one collapsed archive so the page doesn't print 30+
+      // month summaries by default. A month's own <details> being "closed"
+      // doesn't hide its <summary> (heading + digest paragraph still print),
+      // which is why a long history needs this outer wrapper too, not just
+      // per-month collapsing.
+      const RECENT_MONTH_COUNT = 3;
+      const recentMonths = monthBlocks.slice(0, RECENT_MONTH_COUNT);
+      const olderMonths = monthBlocks.slice(RECENT_MONTH_COUNT);
 
-            if (weekly) {
-              const weekStartDate = new Date(`${wblock.weekStart}T00:00:00Z`);
-              return (
-                <details class="week-toggle">
-                  <summary>
-                    <div class="summary-head">
-                      <h3>Week of {shortFmt(weekStartDate)} – {shortFmt(weekly.weekEnd!)}</h3>
-                      <span class="count-tag">{itemCount} {itemCount === 1 ? 'story' : 'stories'} · {dayCount} {dayCount === 1 ? 'day' : 'days'}</span>
+      const renderMonth = (mblock: MonthBlock) => {
+        const WeekList = (
+          <>
+            {mblock.weeks.map((wblock) => {
+              const dayCount = wblock.days.length;
+              const itemCount = wblock.days.reduce((n, d) => n + d.items.length, 0);
+              const weekly = wblock.weekly;
+              const DayList = (
+                <>
+                  {wblock.days.map((day) => (
+                    <div class="day-group">
+                      <div class="day-heading">
+                        <h4>{dayFmt(day.date)}</h4>
+                        <span class="count-tag">{day.items.length} {day.items.length === 1 ? 'story' : 'stories'}</span>
+                      </div>
+                      {dailyDigestByDate.has(day.dateKey) && (
+                        <p class="digest-text">{dailyDigestByDate.get(day.dateKey)}</p>
+                      )}
+                      <details class="articles-toggle">
+                        <summary>Show {day.items.length} {day.items.length === 1 ? 'article' : 'articles'}</summary>
+                        <div class="news-grid">
+                          {day.items.map((item) => (
+                            <article class={`news-card topic-${item.data.topic}`}>
+                              <div class="card-top">
+                                <span class="topic-badge">{topicLabel[item.data.topic]}</span>
+                              </div>
+                              <h5><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h5>
+                              <p class="source">{item.data.sourceName}</p>
+                              <p class="gist">{item.data.summary}</p>
+                              <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
+                            </article>
+                          ))}
+                        </div>
+                      </details>
                     </div>
-                    <p class="digest-text weekly">{weekly.summary}</p>
-                  </summary>
-                  <div class="nested-block">{DayList}</div>
-                </details>
+                  ))}
+                </>
               );
-            }
-            return <div class="week-open">{DayList}</div>;
-          })}
-        </>
+
+              if (weekly) {
+                const weekStartDate = new Date(`${wblock.weekStart}T00:00:00Z`);
+                return (
+                  <details class="week-toggle">
+                    <summary>
+                      <div class="summary-head">
+                        <h3>Week of {shortFmt(weekStartDate)} – {shortFmt(weekly.weekEnd!)}</h3>
+                        <span class="count-tag">{itemCount} {itemCount === 1 ? 'story' : 'stories'} · {dayCount} {dayCount === 1 ? 'day' : 'days'}</span>
+                      </div>
+                      <p class="digest-text weekly">{weekly.summary}</p>
+                    </summary>
+                    <div class="nested-block">{DayList}</div>
+                  </details>
+                );
+              }
+              return <div class="week-open">{DayList}</div>;
+            })}
+          </>
+        );
+
+        const monthly = mblock.monthly;
+        if (monthly) {
+          const monthItemCount = mblock.weeks.reduce((n, w) => n + w.days.reduce((m, d) => m + d.items.length, 0), 0);
+          return (
+            <section class="top-block">
+              <details class="month-toggle">
+                <summary>
+                  <div class="summary-head">
+                    <h2>{monthFmt(mblock.month)}</h2>
+                    <span class="count-tag">{monthItemCount} {monthItemCount === 1 ? 'story' : 'stories'} this month</span>
+                  </div>
+                  <p class="digest-text monthly">{monthly.summary}</p>
+                </summary>
+                <div class="nested-block">{WeekList}</div>
+              </details>
+            </section>
+          );
+        }
+
+        return <section class="top-block top-block-open">{WeekList}</section>;
+      };
+
+      const olderItemCount = olderMonths.reduce(
+        (n, m) => n + m.weeks.reduce((wn, w) => wn + w.days.reduce((dn, d) => dn + d.items.length, 0), 0),
+        0
       );
 
-      const monthly = mblock.monthly;
-      if (monthly) {
-        const monthItemCount = mblock.weeks.reduce((n, w) => n + w.days.reduce((m, d) => m + d.items.length, 0), 0);
-        return (
-          <section class="top-block">
-            <details class="month-toggle">
+      return (
+        <>
+          {recentMonths.map(renderMonth)}
+          {olderMonths.length > 0 && (
+            <details class="older-archive">
               <summary>
-                <div class="summary-head">
-                  <h2>{monthFmt(mblock.month)}</h2>
-                  <span class="count-tag">{monthItemCount} {monthItemCount === 1 ? 'story' : 'stories'} this month</span>
-                </div>
-                <p class="digest-text monthly">{monthly.summary}</p>
+                Show earlier coverage — {olderMonths.length} more months, {olderItemCount} stories
               </summary>
-              <div class="nested-block">{WeekList}</div>
+              <div class="nested-block">{olderMonths.map(renderMonth)}</div>
             </details>
-          </section>
-        );
-      }
-
-      return <section class="top-block top-block-open">{WeekList}</section>;
-    })}
+          )}
+        </>
+      );
+    })()}
   </div>
 
   <div class="news-related-wrap">
@@ -286,6 +318,29 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     }
     .month-toggle[open] summary::after,
     .week-toggle[open] summary::after { content: "Hide breakdown ▴"; }
+
+    .older-archive {
+      margin-top: 0.5rem;
+    }
+    .older-archive > summary {
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.7rem 1.4rem;
+    }
+    .older-archive > summary::-webkit-details-marker { display: none; }
+    .older-archive > summary::after { content: '▾'; font-size: 0.8em; display: inline-block; transition: transform 0.15s ease; }
+    .older-archive[open] > summary::after { transform: rotate(180deg); }
+    .older-archive > summary:hover { border-color: var(--accent); }
+    .older-archive > .nested-block { border-top: none; padding: 1.5rem 0 0; display: flex; flex-direction: column; gap: 2rem; }
 
     .summary-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
     .summary-head h2 { margin: 0; font-size: 1.35rem; color: var(--accent-dark); }
