@@ -838,6 +838,57 @@ the card background), resized to 800px wide and converted to JPEG
 (`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
 channel was needed once the fill was already baked in.
 
+## Connector-grid reversal: 4 cards back down to 2, sitewide (2026-09-19)
+
+Immediately after the previous section's 3→4 balancing pass, the site
+owner reversed course: every bottom-of-page `-related` connector grid
+sitewide — including the ones that were already 4 before that pass
+(About, Contribute, Litigation index, Litigation detail, India/law), not
+just the ones padded to 4 — was cut down to the **2 most relevant** cards,
+picked for "furthering the information flow" from that specific page's
+content rather than generic sitewide navigation. Concretely: About
+(Litigation, Contribute), Contribute (Litigation, Submissions), Policy
+(Evidence library, Submissions), RTI Replies (Litigation, The law today),
+Science index (If you smoke, For policymakers), Science article template
+(Evidence library, If you smoke — dropped the 4th-card addition from the
+same day), Submissions (Litigation, Press), Press (Litigation,
+Submissions), Daily News (Evidence library, Press), Our Media (Daily
+news, Press), Testimonials (What funds this, Thinking about switching),
+Litigation index (Submissions, Press), Litigation detail (All litigation,
+Press), India/law (Report harassment, Litigation).
+
+`quit.astro` and `report-harassment/index.astro` were already at 2 and
+untouched, as were the pages the original 3→4 pass didn't touch.
+
+## Testimonials pipeline: trimming, and the missing thank-you email
+## (2026-09-19)
+
+The site owner's own test submission (Anand M, Pune — see the previous
+section) went through several rounds the same day: published in full,
+then asked to be removed, then asked to be **republished with only the
+first 4 paragraphs** (cutting the "Harm reduction saved my life..." and
+"I found AVI through a Google search..." closing paragraphs) — done by
+directly editing the `testimonial` field in
+`src/content/testimonials/2026-09-19-anand-m.md`, not by touching the
+publish pipeline.
+
+**The thank-you email never arrived**, and this is not a bug to fix in
+`functions/api/testimonial.js` — it's the same known, already-documented
+gap from the 2026-09-09 session: `RESEND_API_KEY` is configured, but
+Resend's sending domain (`vapeindia.org`) can't finish verification until
+Cloudflare is the zone's **authoritative** nameserver, which hasn't
+happened yet (see the Hosting/DNS section — step 5, "change nameservers",
+is still not done). The **internal** team-notification email to
+`contact@vapeindia.org` *did* arrive, which is consistent with this
+theory rather than contradicting it: that address is very likely the
+Resend account's own verified/registered address, and most ESPs allow
+sending to an account's own address even before the sending domain is
+fully verified, while blocking sends to arbitrary third-party addresses
+(exactly what a submitter's thank-you email is). No code changes were
+made here — the fix is the DNS cutover itself, a bigger decision already
+tracked in the Hosting/DNS section, not something to route around in the
+function.
+
 ## Sitewide symmetry/balance pass, photo optimization, and tracker notes
 ## (2026-09-19)
 
