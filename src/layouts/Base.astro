@@ -64,13 +64,28 @@ const group = activeGroup(path);
 
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': ['NGO', 'Organization'],
     name: 'Association of Vapers India',
-    alternateName: 'AVI',
+    alternateName: ['AVI', 'VapeIndia', 'Vape India'],
     url: 'https://vapeindia.org',
     logo: new URL('/images/avi-logo.png', Astro.site).toString(),
     foundingDate: '2016',
     description: "A tobacco harm reduction consumer advocacy group in India, working for the right of Indian tobacco users to access lower-risk alternatives to combustible tobacco.",
+    slogan: 'Reducing risk, saving lives since 2016',
+    knowsAbout: [
+      'Tobacco harm reduction',
+      'Vaping advocacy',
+      'E-cigarette policy',
+      'Nicotine pouches',
+      'Smokeless tobacco',
+      'Consumer advocacy',
+      'Tobacco control policy in India',
+    ],
+    areaServed: [
+      { '@type': 'Country', name: 'India' },
+      'Asia',
+      'Global South',
+    ],
     sameAs: [
       'https://x.com/vapeindia',
       'https://www.instagram.com/avi_vapeindia',
@@ -79,6 +94,37 @@ const group = activeGroup(path);
       'https://www.youtube.com/@vapeindia',
     ],
   })} />
+
+  {(() => {
+    // Dynamic breadcrumb trail from the URL path — every page gets Home
+    // plus one crumb per path segment, titled from that segment's slug
+    // (good enough for section-index pages; detail pages under a
+    // dynamic route still read sensibly since the final crumb is the
+    // page's own <title>, not the slug).
+    const segments = path.split('/').filter(Boolean);
+    const items = [
+      { name: 'Home', item: new URL('/', Astro.site).toString() },
+      ...segments.map((seg, i) => {
+        const href = '/' + segments.slice(0, i + 1).join('/');
+        const isLast = i === segments.length - 1;
+        const label = isLast
+          ? title
+          : seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+        return { name: label, item: new URL(href, Astro.site).toString() };
+      }),
+    ];
+    const breadcrumbLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((it, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: it.name,
+        item: it.item,
+      })),
+    };
+    return <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />;
+  })()}
   <style is:global>
     :root {
       --ink: #1a211d;

@@ -5,8 +5,48 @@ import PullQuote from '../../components/PullQuote.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
 
 const hStats = await getHarassmentStats();
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is vaping legal in India?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Yes. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes, but does not ban personal use. Vaping itself is not a criminal offence under PECA.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is it illegal to carry or possess an e-cigarette in India?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "No. PECA's bans apply only to commercial acts — production, sale, import, distribution and advertisement. Personal possession and carrying a device for your own use are not banned, and no provision in PECA makes either an offence.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are nicotine pouches or snus legal in India?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Nicotine pouches and snus are not named in any specific ban, but have no lawful sale pathway in India for a different reason: FSSAI has not approved nicotine as a food additive, and imports are treated as case-by-case discretionary refusals.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can police fine someone for vaping or carrying a vape in India?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "There is no legal basis for a fine over personal vaping or possession. PECA's penalties — up to one year imprisonment and a ₹1 lakh fine — attach only to commercial acts like sale, production or import, not personal use.",
+      },
+    },
+  ],
+};
 ---
-<Base title="Current law in India" description="What Indian law actually says about e-cigarettes and smokeless nicotine alternatives, as of today." wide={true}>
+<Base title="Current law in India" description="Is vaping legal in India? What PECA actually bans (sale, production, import, advertisement) and doesn't ban (personal use and possession) — the law on e-cigarettes and nicotine pouches, as of today." wide={true}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   <section class="breakout law-hero">
     <div class="breakout-inner">
       <p class="eyebrow">As of today</p>

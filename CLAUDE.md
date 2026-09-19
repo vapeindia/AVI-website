@@ -838,6 +838,75 @@ the card background), resized to 800px wide and converted to JPEG
 (`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
 channel was needed once the fill was already baked in.
 
+## SEO / GEO pass (2026-09-19)
+
+Site-owner ask: be findable for "tobacco harm reduction advocacy", "vaping
+advocacy", "consumer advocacy", "the vaping situation in India", "vaping
+advocates", the bare term "vapeindia", "nonprofits"/"THR advocacy",
+"Global South NGOs" — India/Asia/Global South generally — and explicitly
+"optimise for GEO" (generative-engine/AI-answer-engine optimization, not
+just classic search).
+
+What shipped:
+- **`public/robots.txt`**: added explicit named `Allow: /` rules for the
+  major AI/LLM crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended,
+  anthropic-ai, CCBot, Amazonbot, Applebot-Extended, Bytespider,
+  Meta-ExternalAgent, etc.) — all already covered by the existing
+  `User-agent: *` wildcard, but named explicitly since some crawlers only
+  honor a rule matching their own name.
+- **`public/llms.txt`** (new): a markdown summary for LLMs/AI answer
+  engines, per the emerging llmstxt.org convention — who AVI is, key
+  facts (founded 2016, PECA's actual scope, funding model, legal-entity
+  status via HRPR), and a curated list of every major page with a
+  one-line description. Also states explicitly that AVI sells nothing and
+  that the auto-aggregated News/parts of Science are third-party
+  summaries, not AVI's own reporting — both facts an AI answer engine
+  should get right if it cites this site.
+- **`src/layouts/Base.astro`**: the existing Organization JSON-LD
+  (already present pre-2026-09) extended — `@type` is now
+  `["NGO","Organization"]`, `alternateName` is now an array including
+  "VapeIndia" and "Vape India" (previously just "AVI"), plus new
+  `knowsAbout` (topical-authority signal: tobacco harm reduction, vaping
+  advocacy, e-cigarette policy, nicotine pouches, consumer advocacy,
+  smokeless tobacco, tobacco control policy in India) and `areaServed`
+  (India, Asia, Global South). Also added a **site-wide dynamic
+  BreadcrumbList** JSON-LD, generated from the URL path on every page
+  (including dynamic routes like `/litigation/[slug]` — the final crumb
+  uses that page's own title, not its slug).
+- **`src/pages/india/law.astro`**: added a `FAQPage` schema with 4 Q&As
+  drawn directly from the page's existing content (is vaping legal, is
+  carrying/possession illegal, are nicotine pouches legal, can police
+  fine you) — this page already had exactly this content in prose form,
+  just not marked up as Q&A. Description tightened to lead with "Is
+  vaping legal in India?" since that's the highest-intent query this page
+  should rank/get cited for.
+- **Meta descriptions strengthened** on the weakest pages: `/about` (was
+  generic "Who AVI is, how it works" with zero keywords — now names THR,
+  vaping advocacy, India/Asia/Global South), `/contribute` (was one
+  generic sentence), `/india` (now explicitly says "the vaping situation
+  in India", matching the site owner's own phrasing).
+- **`/about`'s opening paragraph** now explicitly states "also known
+  online as VapeIndia" and "a volunteer-run group of vaping advocates" —
+  before this pass, the bare term "VapeIndia" appeared nowhere in visible
+  page text sitewide, only in the domain, email addresses and social
+  handles (invisible to a reader, and lower-weighted for topical
+  relevance than actual body copy).
+
+**Deliberately not done**: didn't add "CAPHRA" or any Asia-Pacific THR
+network by name when strengthening the Asia angle, per the existing,
+explicit site-owner instruction elsewhere in this file to keep AVI's
+membership-departure history with CAPHRA out of any "who we work with"
+framing — Asia is covered by geography/context (India's regional weight,
+`areaServed`) rather than a named peer org, unlike Europe/Latin
+America/Africa which do get a named peer in the About page. Didn't touch
+`astro.config.mjs`'s `site` setting (already correctly targets
+`vapeindia.org`, not the pages.dev staging URL, so canonical/OG/sitemap
+URLs are already future-correct — see that file's own comment). Didn't
+attempt keyword-stuffing the already-strong pages (Policy, Science,
+Litigation, Press) — their titles/descriptions already carry "tobacco
+harm reduction" prominently; the gap was specifically the thin pages
+(About, Contribute, India hub) and the missing structured-data layer.
+
 ## Connector-grid reversal: 4 cards back down to 2, sitewide (2026-09-19)
 
 Immediately after the previous section's 3→4 balancing pass, the site

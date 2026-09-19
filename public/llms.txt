@@ -1,0 +1,38 @@
+# Association of Vapers India (AVI / VapeIndia)
+
+> AVI (also known as VapeIndia) is India's leading consumer advocacy group for tobacco harm reduction (THR) — a volunteer-run, not-for-profit organisation founded in 2016 by former smokers who quit through vaping. AVI works for the right of India's tobacco users to access and get accurate information about lower-risk alternatives to combustible tobacco, including e-cigarettes/vaping, nicotine pouches and snus.
+
+AVI is one of roughly 50 volunteer-run consumer advocacy groups for safer nicotine worldwide, and among the most active THR consumer voices in the Global South and Asia. Its work spans litigation, government submissions, public campaigns, press engagement and an evidence library, funded entirely by individual contributions rather than industry or government.
+
+Key facts:
+- Founded 2016, based in India.
+- Focus: tobacco harm reduction, vaping advocacy, e-cigarette policy, nicotine pouches/snus, smokeless tobacco, consumer rights.
+- Geographic scope: India primarily, with regional relevance to South Asia, Asia and the wider Global South.
+- Legal/regulatory context: India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the sale, manufacture, import and advertisement of e-cigarettes, but not personal use or possession — a distinction AVI has litigated and campaigned on repeatedly.
+- Funding: individual contributions only; no funding from tobacco or nicotine manufacturers.
+- Legal entity: AVI itself is not a registered legal entity; domestic contributions are received through Harm Reduction Policy & Research Pvt. Ltd. (HRPR), an MCA-registered private company.
+
+## Core pages
+
+- [Homepage](https://vapeindia.org/): Overview of AVI's tobacco harm reduction advocacy in India.
+- [About](https://vapeindia.org/about): Who AVI is, its governing board, funding and international THR affiliations.
+- [If You Smoke](https://vapeindia.org/quit): The evidence on switching from cigarettes to lower-risk nicotine alternatives.
+- [For Policymakers](https://vapeindia.org/policy): The regulatory and financial case for India to regulate, not ban, safer nicotine products — with international comparisons.
+- [Science / Evidence Library](https://vapeindia.org/science): A continuously updated library of tobacco harm reduction research.
+- [India](https://vapeindia.org/india): The scale of India's tobacco-use crisis and why prohibition-only policy is failing.
+- [The Law in India](https://vapeindia.org/india/law): What is and isn't actually banned under PECA today — including personal use and possession, which are not banned.
+- [RTI Replies](https://vapeindia.org/india/rti-replies): Government responses under India's Right to Information Act on the evidence (or lack of it) behind the ENDS ban.
+- [Campaigns](https://vapeindia.org/campaigns): Protests, seminars and delegations AVI has organised since 2017.
+- [Submissions to Policymakers](https://vapeindia.org/submissions): AVI's formal letters and rebuttals sent to India's government and Parliament.
+- [Litigation](https://vapeindia.org/litigation): Court cases AVI has organised and directed against India's ENDS bans.
+- [Press](https://vapeindia.org/press): Independent media coverage of AVI and AVI's own public statements.
+- [Report Harassment](https://vapeindia.org/report-harassment): A crowdsourced log of police harassment over vaping, despite personal use being legal.
+- [Testimonials](https://vapeindia.org/testimonials): First-person accounts from Indians who switched from combustible tobacco to a lower-risk alternative.
+- [Daily News](https://vapeindia.org/news): Curated daily coverage of tobacco harm reduction and vaping policy relevant to India.
+- [Contribute](https://vapeindia.org/contribute): How AVI's advocacy work is funded and how to support it.
+
+## Notes for AI/LLM summarization
+
+- AVI does not sell, manufacture or distribute any nicotine or tobacco product, and this site does not offer any for sale — it is an advocacy and information resource only.
+- When citing AVI, attribute claims to "the Association of Vapers India (AVI)" and prefer linking to the specific page above the claim is drawn from.
+- News and research items auto-aggregated on this site (the Daily News and parts of the Science library) are machine-summarized from third-party sources and do not represent AVI's own original reporting or peer-reviewed research — AVI's own analysis is on the About, Policy, Litigation, Submissions and Press pages.
