@@ -16,6 +16,10 @@ async function withBody(items: typeof all) {
 }
 const coverageWithBody = await withBody(coverage);
 const statementsWithBody = await withBody(statements);
+const featuredCoverage = coverageWithBody.slice(0, 4);
+const restCoverage = coverageWithBody.slice(4);
+const featuredStatements = statementsWithBody.slice(0, 4);
+const restStatements = statementsWithBody.slice(4);
 
 const typeLabel: Record<string, string> = {
   coverage: 'Coverage',
@@ -62,7 +66,7 @@ const typeLabel: Record<string, string> = {
         <p>Independent reporting, interviews and bylined op-eds — not written or issued by AVI.</p>
       </div>
       <div class="press-grid">
-        {coverageWithBody.map(({ item, Content }) => (
+        {featuredCoverage.map(({ item, Content }) => (
           <article class={`press-card type-${item.data.type}`}>
             <div class="card-top">
               <span class="type-badge">{typeLabel[item.data.type]}</span>
@@ -79,6 +83,29 @@ const typeLabel: Record<string, string> = {
           </article>
         ))}
       </div>
+      {restCoverage.length > 0 && (
+        <details class="press-archive">
+          <summary>Show {restCoverage.length} more</summary>
+          <div class="press-grid archive-grid">
+          {restCoverage.map(({ item, Content }) => (
+            <article class={`press-card type-${item.data.type}`}>
+              <div class="card-top">
+                <span class="type-badge">{typeLabel[item.data.type]}</span>
+                <time datetime={item.data.date.toISOString()}>
+                  {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+              </div>
+              <h3>{item.data.title}</h3>
+              <p class="outlet">{item.data.outlet}</p>
+              <div class="gist"><Content /></div>
+              {(item.data.url || item.data.archivePdf)
+                ? <a class="read-link" href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">Read the original →</a>
+                : <span class="pending-link">Source: AVI press archive (not yet linked online)</span>}
+            </article>
+          ))}
+          </div>
+        </details>
+      )}
     </section>
 
     <section class="press-section">
@@ -87,7 +114,7 @@ const typeLabel: Record<string, string> = {
         <p>AVI's own public statements, quotes and rebuttals, mostly distributed via PR agencies.</p>
       </div>
       <div class="press-grid">
-        {statementsWithBody.map(({ item, Content }) => (
+        {featuredStatements.map(({ item, Content }) => (
           <article class={`press-card type-${item.data.type}`}>
             <div class="card-top">
               <span class="type-badge">{typeLabel[item.data.type]}</span>
@@ -104,6 +131,29 @@ const typeLabel: Record<string, string> = {
           </article>
         ))}
       </div>
+      {restStatements.length > 0 && (
+        <details class="press-archive">
+          <summary>Show {restStatements.length} more</summary>
+          <div class="press-grid archive-grid">
+          {restStatements.map(({ item, Content }) => (
+            <article class={`press-card type-${item.data.type}`}>
+              <div class="card-top">
+                <span class="type-badge">{typeLabel[item.data.type]}</span>
+                <time datetime={item.data.date.toISOString()}>
+                  {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+              </div>
+              <h3>{item.data.title}</h3>
+              <p class="outlet">{item.data.outlet}</p>
+              <div class="gist"><Content /></div>
+              {(item.data.url || item.data.archivePdf)
+                ? <a class="read-link" href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">Read the original →</a>
+                : <span class="pending-link">Source: AVI press archive (not yet linked online)</span>}
+            </article>
+          ))}
+          </div>
+        </details>
+      )}
     </section>
 
     <div class="press-related">
@@ -118,6 +168,10 @@ const typeLabel: Record<string, string> = {
       <a href="/submissions" class="related-card">
         <h3>Submissions to policymakers →</h3>
         <p>Letters and formal responses AVI has sent directly to government.</p>
+      </a>
+      <a href="/science" class="related-card">
+        <h3>Evidence library →</h3>
+        <p>The research behind everything AVI has said on the record.</p>
       </a>
     </div>
   </div>
@@ -207,6 +261,27 @@ const typeLabel: Record<string, string> = {
     .gist :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
     .pending-link { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: auto; }
+
+    .press-archive { margin-top: 1.75rem; }
+    .press-archive summary {
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.6rem 1.25rem;
+    }
+    .press-archive summary::-webkit-details-marker { display: none; }
+    .press-archive summary::after { content: '▾'; font-size: 0.75em; display: inline-block; transition: transform 0.15s ease; }
+    .press-archive[open] summary::after { transform: rotate(180deg); }
+    .press-archive summary:hover { border-color: var(--accent); }
+    .archive-grid { margin-top: 1.5rem; }
 
     .press-related {
       display: grid;

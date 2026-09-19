@@ -101,6 +101,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       <a class="rights-cta-stat" href="/report-harassment">
         <strong>{hStats.total}</strong>
         <span>{hStats.total > 0 ? `harassment report${hStats.total === 1 ? '' : 's'} logged` : 'reports logged — be the first'}</span>
+        <em>Tracker live since October 2026</em>
       </a>
     </div>
   </section>
@@ -452,6 +453,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     .rights-cta-stat:hover { background: rgba(255,255,255,0.18); }
     .rights-cta-stat strong { font-family: var(--font-serif); font-size: 2.4rem; color: #fff; line-height: 1; margin-bottom: 0.4rem; }
     .rights-cta-stat span { font-size: 0.8rem; color: #f0e3da; line-height: 1.3; }
+    .rights-cta-stat em { display: block; margin-top: 0.5rem; font-style: normal; font-size: 0.68rem; color: rgba(255,255,255,0.55); }
     @media (max-width: 780px) {
       .rights-cta-inner { grid-template-columns: 1fr; }
       .rights-cta-stat { align-self: flex-start; }

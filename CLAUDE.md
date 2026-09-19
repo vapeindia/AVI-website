@@ -838,6 +838,101 @@ the card background), resized to 800px wide and converted to JPEG
 (`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
 channel was needed once the fill was already baked in.
 
+## Sitewide symmetry/balance pass, photo optimization, and tracker notes
+## (2026-09-19)
+
+A large batch of small design/UX fixes from real-device screenshots, across
+nearly every page template:
+
+- **Tracker notes**: "Tracker live since October 2026" added under the
+  homepage's harassment-counter stat box, the harassment-report page's own
+  stats section, and (new) the testimonials page, which previously showed
+  nothing at all when zero testimonials were published — it now always
+  shows the "What people are telling us" header with either the count or
+  an explicit "No stories published yet" message, so a low/zero count
+  reads as expected rather than looking broken.
+- **About page**: `.stat-row` converted from `flex-wrap` to an explicit
+  2-column CSS grid (1 column under 480px) and a 4th stat added — "50+
+  peer THR advocacy groups worldwide" (pulled from the existing "AVI is
+  one of roughly 50..." paragraph, not a new claim) — so the row reads as
+  a clean 2×2 instead of 2-then-1. The "What we do" grid's "Public
+  correction" box renamed to "Public awareness" per site-owner request,
+  body rewritten to keep "correcting misinformation" while leading with
+  awareness, tuned to 14 words to match the Litigation box's length.
+- **Policy page**: the status-quo stat-cards trimmed from 3 to 2 (68.6%,
+  45.6%) — the "~6×" gutka-rise stat was folded into the lead paragraph's
+  "risen sharply" sentence instead, which also fixed the 2-then-1 wrapping
+  problem without adding a card. "Where prohibition hasn't worked" gained
+  a 4th country, **Australia**: its 2024 prescription-only vaping model
+  (paired with steep cigarette taxes) has pushed both markets underground,
+  cited to a France24 report quoting a Deakin University criminologist's
+  count of **220+ arson attacks** on black-market tobacco/vape retailers
+  since 2023 — chosen over Hong Kong/Singapore (the site-owner's other
+  suggestions) because it had a concrete, well-sourced figure rather than
+  a general "use continues to rise" claim. The bottom connector grid
+  gained a 4th card (Litigation).
+- **Science page**: the "About these briefs" disclaimer had a widowed
+  "itself." on its own last line — fixed with a non-breaking space
+  (`original&nbsp;paper`) rather than a full reword, which is the durable
+  fix since it holds at any container width, not just the one screenshot
+  was taken at. Bottom connector grid gained a 4th card (Testimonials),
+  and the same 4th-card treatment was applied to the individual science
+  article template (`science/[...slug].astro`) for consistency, even
+  though the site owner's screenshot was of the index page only.
+- **India hub**: "Five ways into this section" dropped its RTI Replies
+  card and is now "Four ways into this section" — 2×2 instead of 2×2+1.
+  RTI Replies remains a real, linked page (footer nav, and now linked
+  from Litigation/RTI-replies/Submissions' own connector grids); it's
+  just no longer one of the hub's five entry cards.
+- **Campaigns page**: the embedded Google Form iframe (2500px tall, the
+  single biggest contributor to page length) replaced with a plain "Fill
+  out the form →" button pointing at the same `bit.ly/ConnectAVI` link
+  that was already there as a fallback — the embed's original purpose
+  (avoid sending visitors off-site) wasn't worth the page-length cost.
+  Materials grid gained a 6th poster for a clean 3×2 grid — "Decrease
+  smoking, increase harm reduction," sourced from the same Melwood/Drive
+  archive as the original 5 (`Vape Ban Month - September/Posters and
+  Signages/For Instagram/Creative-2.png`), picked over other untried
+  candidates in that folder specifically because it's illustrated/
+  typographic like the existing 5, not a real photo of a person or of
+  crushed cigarettes (two other candidates in the same folder were
+  skipped for exactly that reason — a real face reads differently than a
+  graphic-design pictogram, even though neither shows vape hardware).
+  **Photo optimization**: `kolkata-protest.jpg` (9.3MB, 6000×4000),
+  `bangalore-protest.jpg` (6.4MB, 4032×3024) and
+  `delhi-jantar-mantar-protest.jpg` (2.6MB, 4608×2128) were untouched
+  camera originals despite rendering at roughly 1/6-page-width in the
+  six-city feature grid — resized to ≤1400px long edge and re-compressed
+  (now 138–244KB each, in line with the other three city photos in the
+  same grid, which were already web-sized). This is almost certainly why
+  the site owner specifically noticed Kolkata loading slowly — it was the
+  largest file on the page by a wide margin.
+- **Submissions, Press, RTI Replies, Daily News, Our Media, Testimonials**
+  pages: each had a 3-card bottom connector grid, now 4 (see each file's
+  `-related`/`-related-wrap` grid for the added card and reasoning — kept
+  to a consistent one-sentence style matching the existing 3). The **Press
+  page** additionally now shows only the top 4 items in "Media coverage"
+  and the top 4 in "Press releases & statements" (of 30 and 40 total),
+  each behind a "Show N more" `<details>` toggle — mirroring the pattern
+  `science/index.astro` already used for its research archive — since the
+  full un-collapsed page was rendering 70+ full-text press cards inline.
+  The **Daily News** page's "feature a week, then weekly, then 2 months,
+  then an expandable link to the rest" request was already substantially
+  built (see the 2026-09-17 digest-tiers note above) — every month already
+  collapses into its own `<details>` (current month always open), and
+  every week within a month does the same — so no restructuring was done
+  there beyond the 4th connector card; each historical month toggling
+  individually is arguably better UX than one single "show everything
+  older" link, since a visitor can jump straight to a specific month.
+
+**Not changed, and why**: `quit.astro` and `report-harassment/index.astro`
+have 2-card bottom grids, deliberately left alone — 2 cards fill a
+2-column row exactly, so there's no orphan row to fix the way a 3-card
+grid has (2 on top, 1 alone below). `litigation/index.astro`,
+`litigation/[...slug].astro`, `india/law.astro`, `about/index.astro`'s own
+connector grid, and `contribute/index.astro` already had 4 and needed no
+change.
+
 ## Removing the delegation photo, de-emphasizing the director's name further,
 ## and a sitewide "product" → PECA-safer language sweep (2026-09-18)
 

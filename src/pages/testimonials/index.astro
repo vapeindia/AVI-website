@@ -81,12 +81,13 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       </form>
     </section>
 
-    {items.length > 0 && (
-      <section class="quotes-section">
-        <div class="section-head">
-          <Icon name="megaphone" />
-          <h2>What people are telling us</h2>
-        </div>
+    <section class="quotes-section">
+      <div class="section-head">
+        <Icon name="megaphone" />
+        <h2>What people are telling us</h2>
+        <p>Tracker live since October 2026 — the count here will keep growing as more stories are reviewed and published.</p>
+      </div>
+      {items.length > 0 ? (
         <div class="quotes-grid">
           {items.map((item) => (
             <blockquote class="quote-card">
@@ -95,8 +96,10 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
             </blockquote>
           ))}
         </div>
-      </section>
-    )}
+      ) : (
+        <p class="quotes-empty">No stories published yet — every submission is read by a person before it goes live, so be the first to see yours appear here.</p>
+      )}
+    </section>
 
     <section class="test-related">
       <a href="/contribute" class="related-card">
@@ -110,6 +113,10 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       <a href="/campaigns#get-involved" class="related-card">
         <h3>Other ways to help →</h3>
         <p>Beyond a story or funds — legal, medical, media/PR or admin expertise, or just an idea.</p>
+      </a>
+      <a href="/science" class="related-card">
+        <h3>See the evidence →</h3>
+        <p>The research behind why switching worked for the people quoted here.</p>
       </a>
     </section>
   </div>
@@ -136,9 +143,10 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     .test-sub a:hover { color: #fff; }
 
     .test-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
+    .section-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.65rem; margin-bottom: 1.25rem; }
     .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
+    .section-head p { margin: 0.15rem 0 0; flex-basis: 100%; font-size: 0.8rem; color: var(--muted); }
 
     .form-section { margin-bottom: 3.5rem; }
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
@@ -190,6 +198,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     }
     .quote-card p { margin: 0 0 0.75rem; font-size: 0.95rem; line-height: 1.6; color: var(--ink); font-family: var(--font-serif); }
     .quote-card footer { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+    .quotes-empty { color: var(--muted); font-size: 0.95rem; max-width: 40rem; margin: 0; }
 
     .test-related {
       display: grid;

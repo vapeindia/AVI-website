@@ -36,6 +36,7 @@ const yearsActive = new Date().getFullYear() - 2016;
     <div><Icon name="scale" /><strong>{litigationCount}</strong><span>court cases fought since 2017</span></div>
     <div><Icon name="megaphone" /><strong>{pressCount}+</strong><span>press features</span></div>
     <div><Icon name="chart" /><strong>{yearsActive}+</strong><span>years of advocacy</span></div>
+    <div><Icon name="leaf" /><strong>50+</strong><span>peer THR advocacy groups worldwide</span></div>
   </div>
 
   <p>
@@ -64,8 +65,8 @@ const yearsActive = new Date().getFullYear() - 2016;
     </div>
     <div>
       <Icon name="megaphone" />
-      <h3>Public correction</h3>
-      <p>Correcting misinformation in media coverage of vaping and tobacco harm reduction.</p>
+      <h3>Public awareness</h3>
+      <p>Raising public awareness and correcting misinformation in media coverage of vaping and harm reduction.</p>
     </div>
     <div>
       <Icon name="document" />
@@ -127,9 +128,9 @@ const yearsActive = new Date().getFullYear() - 2016;
     .board-list strong { color: var(--ink); }
 
     .stat-row {
-      display: flex;
-      gap: 2.5rem;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem 2.5rem;
       margin: 2rem 0;
       padding: 1.5rem 0;
       border-top: 1px solid var(--border);
@@ -139,6 +140,9 @@ const yearsActive = new Date().getFullYear() - 2016;
     .stat-row :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); flex-shrink: 0; }
     .stat-row strong { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); }
     .stat-row span { font-size: 0.85rem; color: var(--muted); }
+    @media (max-width: 480px) {
+      .stat-row { grid-template-columns: 1fr; gap: 1.1rem; }
+    }
 
     .what-we-do-grid {
       display: grid;
