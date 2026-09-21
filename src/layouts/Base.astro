@@ -12,7 +12,7 @@ const {
   title,
   description = "Tobacco harm reduction advocacy and evidence for India.",
   wide = false,
-  image = '/images/campaigns/bengaluru-protest-toi.jpg',
+  image = '/images/og-default.jpg',
 } = Astro.props;
 
 const pageTitle = `${title} · AVI — Association of Vapers India`;
@@ -59,6 +59,12 @@ const group = activeGroup(path);
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:image" content={ogImageURL} />
+  {/* Assumes 1200x630 — true for the default image prop and every page
+      today, since none currently override it. If a page ever passes a
+      differently-sized `image`, these two need to become props too. */}
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={pageTitle} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@vapeindia" />
   <meta name="twitter:title" content={pageTitle} />
