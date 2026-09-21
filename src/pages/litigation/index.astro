@@ -15,7 +15,7 @@ const cases = (await getCollection('litigation')).sort((a, b) => {
 });
 const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superseded-by-peca' ? 'Superseded by PECA' : s === 'withdrawn' ? 'Withdrawn' : 'Disposed');
 ---
-<Base title="Litigation" description="A decade at the forefront of tobacco harm reduction litigation in India — the cases AVI has organised and fought, and the ones it has deliberately stayed out of." wide={true}>
+<Base title="Litigation" description="A decade at the forefront of tobacco harm reduction litigation in India — the cases AVI has organised and fought since 2017." wide={true}>
   <section class="breakout lit-hero">
     <div class="breakout-inner">
       <p class="eyebrow">A decade in court</p>
