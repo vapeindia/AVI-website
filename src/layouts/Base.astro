@@ -15,7 +15,15 @@ const {
   image = '/images/og-default.jpg',
 } = Astro.props;
 
-const pageTitle = `${title} · AVI — Association of Vapers India`;
+// Kept short deliberately — the full "Association of Vapers India" name
+// used to be spelled out here too, but that pushed titles past what
+// WhatsApp/Facebook/LinkedIn link-preview cards render before wrapping
+// or truncating awkwardly (e.g. "...Association of Vapers I…"). The full
+// name still appears via og:site_name, the JSON-LD Organization name,
+// the visible header/logo, and most pages' own descriptions — this is
+// just the <title>/og:title/twitter:title suffix, which every platform
+// pairs with the vapeindia.org domain shown alongside it anyway.
+const pageTitle = `${title} · AVI`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
 
