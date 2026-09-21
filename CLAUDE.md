@@ -1247,14 +1247,70 @@ assuming later steps are done too):
    with zero conflicts. Won't actually verify in Resend until nameservers
    switch (Hostinger is still authoritative), but nothing left to do here
    until then.
-4. Add `vapeindia.org` as a custom domain on the Cloudflare Pages project
-   (`avi-website`, currently at `avi-website-9f9.pages.dev`) — **not done
-   yet.**
-5. Only once 1-4 are verified working: change nameservers at GoDaddy from
-   Hostinger's to Cloudflare's. This is the actual go-live moment — do it
-   deliberately, with a buffer day, per the original deadline-context
-   guidance below. Confirm email still works and the new site loads
-   correctly afterward. **Not done yet.**
+4. ~~Add `vapeindia.org` as a custom domain on the Cloudflare Pages
+   project~~ — **done 2026-09-21.**
+5. ~~Change nameservers at GoDaddy from Hostinger's to Cloudflare's~~ —
+   **done 2026-09-21. `vapeindia.org` is now live on Cloudflare Pages,
+   serving this site — the migration described throughout this file is
+   complete.** Old nameservers were `ns1.dns-parking.com` /
+   `ns2.dns-parking.com` (GoDaddy's default parking nameservers — not
+   actually Hostinger's own, despite this file's earlier assumption);
+   new ones are `grannbo.ns.cloudflare.com` / `nitin.ns.cloudflare.com`.
+   Propagated fast — under 30 minutes, not the "up to 24 hours" Cloudflare
+   warns about.
+
+   **One real snag during cutover, worth knowing if this ever needs
+   redoing (e.g. a domain move, a new environment):** after the
+   nameserver switch, `vapeindia.org` kept resolving to the *old*
+   Hostinger site (fingerprinted via response headers — `platform:
+   hostinger`, `x-powered-by: PHP`, WordPress's `wp-json` links) even
+   though DNS had fully moved to Cloudflare. Cause: the zone import from
+   step 1 had carried over the original Hostinger-pointing `A`/`AAAA`
+   records for the bare domain (and a `www` CNAME aliasing to it), and
+   Cloudflare Pages' custom-domain feature does **not** auto-remove or
+   override an existing conflicting record — it just proxies through to
+   whatever's already there. The Pages dashboard showed the domain as
+   "Active" throughout this, which was misleading — "Active" apparently
+   just means the custom domain is registered/claimed, not that DNS is
+   actually configured to route to it.
+
+   Fix: manually delete the stale `vapeindia.org` A, `vapeindia.org`
+   AAAA, and `www.vapeindia.org` CNAME records. Cloudflare Pages then
+   still did **not** auto-create replacement records (another gap from
+   what's commonly assumed) — had to manually add a `CNAME` for
+   `vapeindia.org` (root, via Cloudflare's CNAME-flattening support) and
+   another for `www`, both pointed at `avi-website-9f9.pages.dev` and
+   both set to **Proxied**. Verified working via `curl --resolve` against
+   Cloudflare's own IP and against the `1.1.1.1` resolver directly, since
+   the machine doing the verification had its own stale local DNS cache
+   for a while after — that delay was real but harmless and cleared on
+   its own; don't mistake a local resolver's stale cache for the fix not
+   having worked, verify against `1.1.1.1` or `--resolve` first.
+
+   Left alone deliberately during this cleanup (not blocking, not
+   urgent): `ftp.vapeindia.org` (still points at Hostinger — fine to
+   retire once Hostinger hosting itself is fully decommissioned, no
+   rush); `autoconfig`/`autodiscover.vapeindia.org` (still point at
+   Hostinger's mail service — likely stale now that MX is fully on
+   Google, per the note in step 2 above, but untouched since it's a
+   separate, non-blocking cleanup); `rsend`/`send.vapeindia.org` (an
+   unrelated third-party service via `forge.rmta.net`, `DNS only`, never
+   touched Hostinger at all).
+
+   **Post-launch verification done same day:** SSL/HTTPS clean on both
+   `vapeindia.org` and `www.vapeindia.org`; `/robots.txt`, `/llms.txt`
+   and `/sitemap-index.xml` all serve correctly on the real domain;
+   spot-checked one of the `_redirects`-mapped old WordPress URLs
+   (`/pil-karnataka/`) and confirmed it 301s correctly to
+   `/litigation/karnataka-ends-circular-challenge`; MX records confirmed
+   still fully on Google, untouched by any of the above.
+
+   **Still worth doing, not done yet:** submit
+   `https://vapeindia.org/sitemap-index.xml` in Google Search Console
+   and request re-indexing of a few key pages to speed up Google's
+   re-crawl of the new site under the same (already-trusted) domain —
+   see the SEO/GEO section above for the fuller rationale on what to
+   expect search-wise post-migration.
 
 **API access set up 2026-09-09, for this and future sessions:** a
 fine-grained GitHub PAT (Contents/Workflows/Pull requests/Actions/Secrets:
