@@ -393,8 +393,9 @@ rendered on the site — see `functions/README.md` for the full design and
 the Cloudflare secrets (`GITHUB_TOKEN`, `GITHUB_REPO`, `RESEND_API_KEY`,
 etc.) needed before submissions open a review PR and send mail. **Update
 2026-09-09: this is now configured and confirmed working** (PR-opening
-half verified end-to-end; email half still blocked on Resend domain
-verification, in progress — see the Hosting/DNS section further down).
+half verified end-to-end; email half was blocked on Resend domain
+verification until the DNS cutover — **fully resolved 2026-09-22**, see
+the Hosting/DNS section further down).
 
 **Press coverage recheck (2026-09-09):** searching specifically on Samrat
 Chowdhery's name (not just "AVI"/"vapeindia") surfaced 10 legitimate,
@@ -486,10 +487,10 @@ Still needed, roughly in priority order:
    stored `GITHUB_TOKEN` secret value was silently bad after an in-place
    name+type edit (TOKE→TOKEN, plain_text→secret_text) — editing a secret
    field in place is not reliable, **delete and re-add fresh rather than
-   editing** if this happens again. `RESEND_API_KEY` is also set, but
-   email sending is still blocked on Resend domain verification (see DNS
-   section below — the records are now in Cloudflare's zone, just not
-   authoritative yet). **Correction/caution:** PR #3 ("New testimonial —
+   editing** if this happens again. `RESEND_API_KEY` is also set; email
+   sending was blocked on Resend domain verification until the 2026-09-22
+   DNS cutover (see DNS section below) — **now verified and working**.
+   **Correction/caution:** PR #3 ("New testimonial —
    Test Submission 12...") is a test artifact from this session's
    debugging — safe to close without merging. ~~PRs #1 (news) and #2
    (research) are real content drafts from the actual automation
@@ -1244,9 +1245,21 @@ assuming later steps are done too):
    if editing this record again.
 3. ~~Add the Resend domain-verification DNS records~~ — **done**, all 4
    records (DKIM TXT, 2 CNAMEs, DMARC TXT) added to the Cloudflare zone
-   with zero conflicts. Won't actually verify in Resend until nameservers
-   switch (Hostinger is still authoritative), but nothing left to do here
-   until then.
+   with zero conflicts. ~~Won't actually verify in Resend until
+   nameservers switch~~ — **verified in Resend 2026-09-22**, right after
+   the nameserver cutover (see step 5 below). The Resend dashboard's own
+   domain-setup page still shows leftover instructional text saying to
+   add records "on Hostinger" — that's just stale copy from when the
+   domain was first added there 13 days earlier; it doesn't reflect
+   anything actually being wrong. Clicking "Verify DNS Records" in Resend
+   after the cutover passed cleanly since all 3 records were already
+   sitting in the Cloudflare zone from this step. **The testimonial
+   pipeline's thank-you/team-notification emails (functions/README.md,
+   `functions/api/testimonial.js`) should now work end-to-end** — this
+   was the last missing piece; confirm this is still true if it's ever in
+   question again (send a real test submission and check for both the
+   thank-you email at the submitter's address and the internal
+   notification at `contact@vapeindia.org`).
 4. ~~Add `vapeindia.org` as a custom domain on the Cloudflare Pages
    project~~ — **done 2026-09-21.**
 5. ~~Change nameservers at GoDaddy from Hostinger's to Cloudflare's~~ —
