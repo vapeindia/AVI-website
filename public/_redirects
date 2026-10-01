@@ -8,64 +8,64 @@
 # it's an advocacy tactic (nav-grouped under Our Advocacy), not India-law
 # content, so it didn't belong nested under /india/. Redirect in case the
 # old path got indexed or bookmarked from the .pages.dev preview.
-/india/submissions/    /submissions                    301
-/india/submissions     /submissions                    301
-/about-us/            /about                          301
-/research/             /science                        301
-/india/overview/       /india                          301
-/india/govt/           /india/law                      301
-/india/legal/          /litigation                     301
+/india/submissions/    /submissions/                    301
+/india/submissions     /submissions/                    301
+/about-us/            /about/                          301
+/research/             /science/                        301
+/india/overview/       /india/                          301
+/india/govt/           /india/law/                      301
+/india/legal/          /litigation/                     301
 /india/litigation/*    /litigation/:splat              301
-/india/action/         /india/law                      301
-/contact-us/           /press                          301
-/join-us/              /contribute                     301
-/donate/               /contribute                     301
-/news-events/          /press                          301
+/india/action/         /india/law/                      301
+/contact-us/           /press/                          301
+/join-us/              /contribute/                     301
+/donate/               /contribute/                     301
+/news-events/          /press/                          301
 
 # --- Individual old posts/pages with a confident specific match ---
-/pil-karnataka/                          /litigation/karnataka-ends-circular-challenge   301
-/share-your-vaping-experience/           /testimonials                                    301
-/mission-vision-and-goal/                /about                                            301
-/donate-bk/                              /contribute                                       301
-/joinus/                                 /contribute                                       301
-/join-avi/                               /contribute                                       301
-/subscribe-now/                          /contribute                                       301
-/thanks-for-payment/                     /contribute                                       301
-/enquiry-form/                           /press                                            301
+/pil-karnataka/                          /litigation/karnataka-ends-circular-challenge/   301
+/share-your-vaping-experience/           /testimonials/                                    301
+/mission-vision-and-goal/                /about/                                            301
+/donate-bk/                              /contribute/                                       301
+/joinus/                                 /contribute/                                       301
+/join-avi/                               /contribute/                                       301
+/subscribe-now/                          /contribute/                                       301
+/thanks-for-payment/                     /contribute/                                       301
+/enquiry-form/                           /press/                                            301
 
 # --- Old press/news posts — no per-article page exists on the new site
 # (the press collection renders as one index, not individual pages), so
 # these land on the section index rather than a specific article. Still
 # beats a 404 for anyone following a 2016-2020 citation. ---
-/hindu-rebuttal/                                                                                                                 /press   301
-/delhi-high-court-hearing-on-21st-august/                                                                                        /press   301
-/avi-counters-on-e-cig-ban/                                                                                                      /press   301
-/avi-requests-rajasthan-govt-to-regulate-vaping/                                                                                 /press   301
-/rajasthan-courts-verdict-welocmed-by-consumers/                                                                                 /press   301
-/rajasthan-courts-verdict-welocmed-by-consumers-2/                                                                               /press   301
-/rajasthan-courts-verdict-welocmed-by-consumer-group/                                                                            /press   301
-/rajasthan-courts-verdict-welocmed-by-consumer-group-2/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death/                                                                            /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-2/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking/                                                                                          /press   301
-/centraladvisory/                                                                                                                /submissions   301
-/all-coverages/                                                                                                                  /press   301
-/skarora/                                                                                                                        /press   301
-/letter-to-union-health-minister-india/                                                                                          /submissions   301
-/you-ken-rebuttal/                                                                                                               /press   301
-/protest/                                                                                                                        /campaigns   301
-/worldvapeday/                                                                                                                   /campaigns   301
-/mpletter/                                                                                                                       /submissions   301
-/shadowreport/                                                                                                                   /press   301
-/warontar/                                                                                                                       /campaigns   301
-/resist/                                                                                                                         /submissions   301
+/hindu-rebuttal/                                                                                                                 /press/   301
+/delhi-high-court-hearing-on-21st-august/                                                                                        /press/   301
+/avi-counters-on-e-cig-ban/                                                                                                      /press/   301
+/avi-requests-rajasthan-govt-to-regulate-vaping/                                                                                 /press/   301
+/rajasthan-courts-verdict-welocmed-by-consumers/                                                                                 /press/   301
+/rajasthan-courts-verdict-welocmed-by-consumers-2/                                                                               /press/   301
+/rajasthan-courts-verdict-welocmed-by-consumer-group/                                                                            /press/   301
+/rajasthan-courts-verdict-welocmed-by-consumer-group-2/                                                                          /press/   301
+/nicotine-not-to-be-blamed-for-smoking-related-death/                                                                            /press/   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-2/                                                                          /press/   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press/   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press/   301
+/nicotine-not-to-be-blamed-for-smoking/                                                                                          /press/   301
+/centraladvisory/                                                                                                                /submissions/   301
+/all-coverages/                                                                                                                  /press/   301
+/skarora/                                                                                                                        /press/   301
+/letter-to-union-health-minister-india/                                                                                          /submissions/   301
+/you-ken-rebuttal/                                                                                                               /press/   301
+/protest/                                                                                                                        /campaigns/   301
+/worldvapeday/                                                                                                                   /campaigns/   301
+/mpletter/                                                                                                                       /submissions/   301
+/shadowreport/                                                                                                                   /press/   301
+/warontar/                                                                                                                       /campaigns/   301
+/resist/                                                                                                                         /submissions/   301
 # Four near-duplicate Hindi-slug press-conference posts (same rendered title):
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press   301
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press   301
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8/    /press   301
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%aa%e0%a4%a1/    /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press/   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press/   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8/    /press/   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%aa%e0%a4%a1/    /press/   301
 
 # --- Pages with no equivalent content on the new site — sent home rather
 # than to a section that would misrepresent what's there. Worth a look
@@ -92,85 +92,47 @@
 # either — a bare "/india/ -> /india" rule was here briefly and caused a
 # redirect loop that took the whole India section down; fixed 2026-09-09.
 
-# --- Content date corrections ---
-# A PubMed research entry's year was corrected from 2027 to 2026 (the print
-# issue date vs. the article's actual Sept 2026 epub date — see the
-# fetch-research.mjs comment at its year-parsing line). The slug is
-# filename-derived, so the URL changed too.
-/science/2027-impact-of-non-tobacco-nicotine-products-on-postoperative-outcomes-in-soft-tissue/    /science/2026-impact-of-non-tobacco-nicotine-products-on-postoperative/    301
-
-# --- Research-entry slug fix (fix/pipelines) ---
-# Old slugs were cut at a hard 80-character boundary with no regard for
-# word breaks, leaving many mid-word and/or trailing-hyphen URLs. Slugs
-# now cap at 60 chars and always break cleanly at a hyphen — every
-# changed URL below gets a 301 so no inbound link or search result 404s.
-/science/2026-a-qualitative-assessment-of-oral-nicotine-pouch-use-topography/    /science/2026-a-qualitative-assessment-of-oral-nicotine-pouch-use/    301
-/science/2026-addressing-challenges-in-reviewing-e-cigarette-evidence-proposing-a-new-test-for/    /science/2026-addressing-challenges-in-reviewing-e-cigarette-evidence/    301
-/science/2026-affective-reactivity-to-a-remote-computer-based-trier-social-stress-test-during-/    /science/2026-affective-reactivity-to-a-remote-computer-based-trier/    301
-/science/2026-an-evaluation-of-anxiety-and-depressive-symptoms-in-terms-of-smoking-among-black/    /science/2026-an-evaluation-of-anxiety-and-depressive-symptoms-in-terms/    301
-/science/2026-assessment-of-heavy-metal-contamination-and-source-apportionment-in-smokeless-to/    /science/2026-assessment-of-heavy-metal-contamination-and-source/    301
-/science/2026-associations-of-motivation-to-quit-smoking-or-vaping-quitting-self-efficacy-and-/    /science/2026-associations-of-motivation-to-quit-smoking-or-vaping/    301
-/science/2026-baseline-quitting-self-efficacy-as-a-predictor-of-duration-of-vaping-abstinence-/    /science/2026-baseline-quitting-self-efficacy-as-a-predictor-of-duration/    301
-/science/2026-beliefs-about-non-cigarette-tobacco-products-for-cigarette-smoking-cessation-amo/    /science/2026-beliefs-about-non-cigarette-tobacco-products-for-cigarette/    301
-/science/2026-beliefs-about-the-relative-harmfulness-of-electronic-cigarettes-compared-with-ci/    /science/2026-beliefs-about-the-relative-harmfulness-of-electronic/    301
-/science/2026-cancer-attributable-to-cigarette-smoking-by-ethnic-group-in-the-us-in-2022-2023/    /science/2026-cancer-attributable-to-cigarette-smoking-by-ethnic-group-in/    301
-/science/2026-cannabis-craving-and-cross-substance-substitution-during-cannabis-treatment-init/    /science/2026-cannabis-craving-and-cross-substance-substitution-during/    301
-/science/2026-changes-in-gambling-behaviour-and-harm-across-the-adult-population-among-priorit/    /science/2026-changes-in-gambling-behaviour-and-harm-across-the-adult/    301
-/science/2026-cigarette-smoke-and-e-cigarette-aerosol-extracts-induce-myelopoiesis-and-suppres/    /science/2026-cigarette-smoke-and-e-cigarette-aerosol-extracts-induce/    301
-/science/2026-comparative-burden-and-projections-of-chewing-tobacco-attributable-lip-oral-cavi/    /science/2026-comparative-burden-and-projections-of-chewing-tobacco/    301
-/science/2026-cultural-drivers-modes-of-use-and-perceived-harms-of-traditional-and-non-traditi/    /science/2026-cultural-drivers-modes-of-use-and-perceived-harms-of/    301
-/science/2026-daily-patterns-of-opioid-and-stimulant-use-and-associated-risk-behavior-outcomes/    /science/2026-daily-patterns-of-opioid-and-stimulant-use-and-associated/    301
-/science/2026-effect-of-a-collaborative-intervention-by-pharmacists-and-dentists-on-smoking-ce/    /science/2026-effect-of-a-collaborative-intervention-by-pharmacists-and/    301
-/science/2026-effect-of-flavored-on-nicotine-pouch-products-on-smoking-behaviors-a-sequential-/    /science/2026-effect-of-flavored-on-nicotine-pouch-products-on-smoking/    301
-/science/2026-effectiveness-of-digital-therapy-added-to-the-usual-intervention-for-smoking-ces/    /science/2026-effectiveness-of-digital-therapy-added-to-the-usual/    301
-/science/2026-emergency-department-management-of-nicotine-use-a-white-paper-prepared-for-the-a/    /science/2026-emergency-department-management-of-nicotine-use-a-white/    301
-/science/2026-evaluation-of-dual-combustible-and-electronic-cigarette-use-versus-combustible-c/    /science/2026-evaluation-of-dual-combustible-and-electronic-cigarette-use/    301
-/science/2026-federal-tobacco-21-and-young-adult-nicotine-use-quasi-experimental-evidence-on-p/    /science/2026-federal-tobacco-21-and-young-adult-nicotine-use-quasi/    301
-/science/2026-frequent-mental-distress-associations-with-nicotine-use-behaviors/    /science/2026-frequent-mental-distress-associations-with-nicotine-use/    301
-/science/2026-future-time-perspective-and-vaping-initiation-among-adults-who-smoke-findings-fr/    /science/2026-future-time-perspective-and-vaping-initiation-among-adults/    301
-/science/2026-global-burden-of-lip-and-oral-cavity-cancer-attributed-to-different-tobacco-use-/    /science/2026-global-burden-of-lip-and-oral-cavity-cancer-attributed-to/    301
-/science/2026-heavy-metals-in-nicotine-containing-products-sources-exposure-and-health-risks/    /science/2026-heavy-metals-in-nicotine-containing-products-sources/    301
-/science/2026-heterogeneous-associations-between-cigarette-and-e-cigarette-use-patterns-and-ch/    /science/2026-heterogeneous-associations-between-cigarette-and-e/    301
-/science/2026-impact-of-non-tobacco-nicotine-products-on-postoperative-outcomes-in-soft-tissue/    /science/2026-impact-of-non-tobacco-nicotine-products-on-postoperative/    301
-/science/2026-impact-of-nontobacco-nicotine-dependence-on-outcomes-following-anterior-lumbar-i/    /science/2026-impact-of-nontobacco-nicotine-dependence-on-outcomes/    301
-/science/2026-impact-of-smoked-and-smokeless-tobacco-on-oral-epithelium-a-comparative-study-in/    /science/2026-impact-of-smoked-and-smokeless-tobacco-on-oral-epithelium-a/    301
-/science/2026-integrating-discussion-of-the-smoker-s-quitline-into-prenatal-counseling-a-rando/    /science/2026-integrating-discussion-of-the-smoker-s-quitline-into/    301
-/science/2026-international-best-practice-in-the-cessation-of-vaping-and-non-combustible-nicot/    /science/2026-international-best-practice-in-the-cessation-of-vaping-and/    301
-/science/2026-international-society-of-pediatric-respiratory-diseases-inspired-call-to-action-/    /science/2026-international-society-of-pediatric-respiratory-diseases/    301
-/science/2026-key-challenges-for-in-vitro-testing-of-tobacco-and-next-generation-products-for-/    /science/2026-key-challenges-for-in-vitro-testing-of-tobacco-and-next/    301
-/science/2026-latent-profile-analysis-reveals-diverse-perceptions-of-tobacco-product-risks-amo/    /science/2026-latent-profile-analysis-reveals-diverse-perceptions-of/    301
-/science/2026-metabolite-driven-epigenetic-modifications-remodel-immune-cell-functions-in-copd/    /science/2026-metabolite-driven-epigenetic-modifications-remodel-immune/    301
-/science/2026-moderators-of-the-impact-of-e-cigarette-provision-on-smoking-cessation-secondary/    /science/2026-moderators-of-the-impact-of-e-cigarette-provision-on/    301
-/science/2026-modes-of-cannabis-use-and-mental-health-outcomes-among-older-adults-in-the-unite/    /science/2026-modes-of-cannabis-use-and-mental-health-outcomes-among/    301
-/science/2026-modifying-effects-of-pregnancy-on-the-association-of-heavy-alcohol-consumption-w/    /science/2026-modifying-effects-of-pregnancy-on-the-association-of-heavy/    301
-/science/2026-next-generation-nicotine-product-aerosol-extracts-exhibit-reduced-toxicological-/    /science/2026-next-generation-nicotine-product-aerosol-extracts-exhibit/    301
-/science/2026-nicotine-e-cigarettes-for-cigarette-smoking-cessation-recommendations-to-us-base/    /science/2026-nicotine-e-cigarettes-for-cigarette-smoking-cessation/    301
-/science/2026-nicotine-initiation-products-in-germany-findings-from-a-representative-survey-of/    /science/2026-nicotine-initiation-products-in-germany-findings-from-a/    301
-/science/2026-nicotine-pouch-advertising-and-sales-in-australia-a-qualitative-study-of-younger/    /science/2026-nicotine-pouch-advertising-and-sales-in-australia-a/    301
-/science/2026-non-tobacco-nicotine-dependence-and-postoperative-complications-after-total-ankl/    /science/2026-non-tobacco-nicotine-dependence-and-postoperative/    301
-/science/2026-oral-nicotine-pouch-continuity-programmes-and-us-college-students-intention-to-u/    /science/2026-oral-nicotine-pouch-continuity-programmes-and-us-college/    301
-/science/2026-oral-nicotine-pouches-and-public-health-evidence-from-an-updated-scoping-review/    /science/2026-oral-nicotine-pouches-and-public-health-evidence-from-an/    301
-/science/2026-patterns-and-implications-of-co-use-between-vaping-and-hallucinogens-a-systemati/    /science/2026-patterns-and-implications-of-co-use-between-vaping-and/    301
-/science/2026-patterns-of-lifetime-e-cigarette-tobacco-cigarette-and-nicotine-pouch-use-among-/    /science/2026-patterns-of-lifetime-e-cigarette-tobacco-cigarette-and/    301
-/science/2026-preliminary-evaluation-of-up2uteacher-a-brief-intervention-addressing-tobacco-an/    /science/2026-preliminary-evaluation-of-up2uteacher-a-brief-intervention/    301
-/science/2026-prevalence-and-associated-factors-of-adolescent-tobacco-use-in-three-sub-saharan/    /science/2026-prevalence-and-associated-factors-of-adolescent-tobacco-use/    301
-/science/2026-prevalence-and-characteristics-of-tobacco-nicotine-use-among-recent-graduates-un/    /science/2026-prevalence-and-characteristics-of-tobacco-nicotine-use/    301
-/science/2026-product-acceptance-and-cigarette-reduction-results-from-a-velo-pouch-actual-use-/    /science/2026-product-acceptance-and-cigarette-reduction-results-from-a/    301
-/science/2026-quitline-counsellors-experiences-with-vaping-and-nicotine-replacement-therapy-fo/    /science/2026-quitline-counsellors-experiences-with-vaping-and-nicotine/    301
-/science/2026-regulatory-excise-tax-and-institutional-governance-of-electronic-nicotine-delive/    /science/2026-regulatory-excise-tax-and-institutional-governance-of/    301
-/science/2026-relative-preference-of-cannabis-alcohol-and-nicotine-products-among-u-s-adolesce/    /science/2026-relative-preference-of-cannabis-alcohol-and-nicotine/    301
-/science/2026-rural-urban-inequalities-in-lifetime-tobacco-consumption-among-middle-aged-and-o/    /science/2026-rural-urban-inequalities-in-lifetime-tobacco-consumption/    301
-/science/2026-self-perceived-knowledge-attitudes-personal-use-and-willingness-to-recommend-nic/    /science/2026-self-perceived-knowledge-attitudes-personal-use-and/    301
-/science/2026-smoking-induced-deprivation-and-subsequent-smoking-cessation-among-adults-who-sm/    /science/2026-smoking-induced-deprivation-and-subsequent-smoking/    301
-/science/2026-socioeconomic-inequality-in-any-tobacco-use-versus-current-smoking-across-66-dhs/    /science/2026-socioeconomic-inequality-in-any-tobacco-use-versus-current/    301
-/science/2026-switching-individuals-in-oud-treatment-from-cigarettes-to-the-standardized-resea/    /science/2026-switching-individuals-in-oud-treatment-from-cigarettes-to/    301
-/science/2026-the-united-kingdom-s-tobacco-and-vapes-act-2026-a-landmark-in-tobacco-control-bu/    /science/2026-the-united-kingdom-s-tobacco-and-vapes-act-2026-a-landmark/    301
-/science/2026-therapeutic-potential-of-glucagon-like-peptide-1-receptor-agonists-for-smoking-c/    /science/2026-therapeutic-potential-of-glucagon-like-peptide-1-receptor/    301
-/science/2026-to-evaluate-the-quit-rate-in-smoking-and-smokeless-tobacco-users-accessing-the-n/    /science/2026-to-evaluate-the-quit-rate-in-smoking-and-smokeless-tobacco/    301
-/science/2026-tobacco-specific-nitrosamine-4-methylnitrosamino-1-3-pyridyl-1-butanone-nnk-toxi/    /science/2026-tobacco-specific-nitrosamine-4-methylnitrosamino-1-3/    301
-/science/2026-tobacco-treatment-in-the-inpatient-setting-an-american-college-of-chest-physicia/    /science/2026-tobacco-treatment-in-the-inpatient-setting-an-american/    301
-/science/2026-tobacco-use-and-motivation-to-quit-among-pregnant-women-an-institutional-observa/    /science/2026-tobacco-use-and-motivation-to-quit-among-pregnant-women-an/    301
-/science/2026-tobacco-use-treatment-synopsis-of-the-2026-u-s-department-of-veterans-affairs-an/    /science/2026-tobacco-use-treatment-synopsis-of-the-2026-u-s-department/    301
-/science/2026-united-states-youth-perspectives-on-zyn-oral-nicotine-pouches/    /science/2026-united-states-youth-perspectives-on-zyn-oral-nicotine/    301
-/science/2026-unveiling-the-semi-volatile-composition-and-nicotine-myosmine-release-dynamics-o/    /science/2026-unveiling-the-semi-volatile-composition-and-nicotine/    301
-/science/2026-updates-in-copd-management-from-inflammatory-pathways-to-targeted-therapies/    /science/2026-updates-in-copd-management-from-inflammatory-pathways-to/    301
+# --- Historical URLs from the Wayback Machine CDX index (fix/technical-seo)
+# — the prior 66-URL pass only covered what was in the LIVE sitemap at
+# migration time; the full Wayback crawl history surfaces older posts,
+# category/tag archives and author pages never in that final sitemap.
+# Full source data, confidence levels and the "no good destination" list
+# are in docs/redirect-map.csv. ---
+/my-account/lost-password/               /                                301
+/feeds/news/                             /news/                           301
+/newsfeeds/                               /news/                           301
+/author/vishalgupta/page/2/              /press/                          301
+/category/news/page/2/                   /news/                           301
+/news-events/page/2/                     /news/                           301
+/author/avi/                             /press/                          301
+/author/aviteam/                         /press/                          301
+/author/editor/                          /press/                          301
+/author/samrat/                          /press/                          301
+/author/vishalgupta/                     /press/                          301
+/category/general/                       /news/                           301
+/category/latest-news/                   /news/                           301
+/category/news/                          /news/                           301
+/news-category/avi-in-news/              /press/                          301
+/news-category/vape-news/                /news/                           301
+/tag/delhi-high-court/                   /litigation/                     301
+/tag/e-cigarettes-policy/                /policy/                         301
+/tag/india/                              /india/                          301
+/a-history-of-tobacco/                   /india/                          301
+/avi-events/                             /campaigns/                      301
+/bill/                                   /india/law/                      301
+/blog/                                   /news/                           301
+/contact/                                /press/                          301
+/delhihc/                                /litigation/                     301
+/history-of-avi/                         /about/                          301
+/information-for-govt/                   /policy/                         301
+/legal/                                  /litigation/                     301
+/mythbusters/                            /science/                       301
+/publications/                           /science/                       301
+/research-studies-e-cigarettes/          /science/                       301
+/situation-in-india/                     /india/                          301
+/smokers/                                /quit/                          301
+/surveys/                                /science/                       301
+/vapers/                                 /testimonials/                  301
+/vapers-stories/                         /testimonials/                  301
+/wvd/                                    /campaigns/                     301
+/terms-and-conditions/                   /                                301
