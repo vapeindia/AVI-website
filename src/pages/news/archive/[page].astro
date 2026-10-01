@@ -1,0 +1,92 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NewsMonthBlock from '../../../components/NewsMonthBlock.astro';
+import { buildMonthBlocks, chunkMonthsByItemCount } from '../../../lib/news-digest';
+
+export async function getStaticPaths() {
+  const monthBlocks = await buildMonthBlocks();
+  const RECENT_MONTH_COUNT = 3; // must match news/index.astro
+  const olderMonths = monthBlocks.slice(RECENT_MONTH_COUNT);
+  const chunks = chunkMonthsByItemCount(olderMonths, 30);
+
+  return chunks.map((chunk, i) => ({
+    params: { page: String(i + 1) },
+    props: { chunk, pageNum: i + 1, totalPages: chunks.length },
+  }));
+}
+
+const { chunk, pageNum, totalPages } = Astro.props;
+const prevHref = pageNum === 1 ? '/news/' : `/news/archive/${pageNum - 1}/`;
+const nextHref = pageNum < totalPages ? `/news/archive/${pageNum + 1}/` : null;
+---
+<Base
+  title={`News archive — page ${pageNum}`}
+  description={`Earlier tobacco harm reduction and vaping news coverage, page ${pageNum} of ${totalPages}.`}
+  wide={true}
+  noindex={true}
+>
+  <section class="breakout archive-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Earlier coverage</p>
+      <h1>News archive</h1>
+      <p class="archive-sub">Page {pageNum} of {totalPages} — <a href="/news/">back to current news →</a></p>
+    </div>
+  </section>
+
+  <div class="archive-body">
+    {chunk.map((mblock) => <NewsMonthBlock mblock={mblock} />)}
+
+    <nav class="pager" aria-label="Archive pagination">
+      <a href={prevHref} class="pager-link">← {pageNum === 1 ? 'Current news' : 'Newer'}</a>
+      <span class="pager-count">Page {pageNum} of {totalPages}</span>
+      {nextHref ? <a href={nextHref} class="pager-link">Older →</a> : <span class="pager-link pager-disabled">Older →</span>}
+    </nav>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dark);
+      margin: 0 0 0.75rem;
+    }
+    .archive-hero {
+      background: linear-gradient(rgba(18,60,49,0.85), rgba(18,60,49,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center 70%;
+      color: #fff;
+      padding: 3rem 0 2.5rem;
+    }
+    .archive-hero .eyebrow { color: var(--gold-light); }
+    .archive-hero h1 { color: #fff; margin: 0 0 0.75rem; font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
+    .archive-sub { color: #cfe0d8; font-size: 1rem; margin: 0; }
+    .archive-sub a { color: var(--gold-light); }
+
+    .archive-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.25rem 1.5rem 4rem; }
+
+    .pager {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .pager-link {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--accent-dark);
+      text-decoration: none;
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.6rem 1.2rem;
+    }
+    .pager-link:hover { border-color: var(--accent); }
+    .pager-disabled { opacity: 0.4; pointer-events: none; }
+    .pager-count { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+  </style>
+</Base>
