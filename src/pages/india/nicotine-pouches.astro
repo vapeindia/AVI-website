@@ -1,0 +1,224 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import { getGitDates } from '../../lib/git-dates';
+
+// New page, content/faq-and-guides item 2. Brings together, on one
+// citable URL, the three pieces of the pouches mechanism that /india/law/
+// already covers but spreads across one section among several — the
+// FSSAI food-rule bar (Regulation 2.3.4), the DTAB's 27 August 2026
+// drug-approval freeze, and the Health Ministry's 19 September 2026 order
+// to states. All three facts, and their sourcing, are drawn from
+// /india/law/#nicotine-pouches-and-snus and src/data/peca.ts — nothing
+// new asserted here. The 19 September order itself isn't quoted directly
+// (AVI hasn't seen its full text — see the unreviewed draft statements in
+// src/content/press/), only the fact of it and its public reporting.
+const pageDates = getGitDates('src/pages/india/nicotine-pouches.astro');
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Are Nicotine Pouches Legal in India?',
+  datePublished: pageDates.published,
+  dateModified: pageDates.modified,
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+};
+---
+<Base
+  title="Are Nicotine Pouches Legal in India?"
+  description="No law names or bans nicotine pouches in India — but a two-agency regulatory freeze between FSSAI's food rules and CDSCO's drug rules has closed every lawful route to sell them, as of September 2026."
+  image="/og/india-law.png"
+  wide={true}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+
+  <section class="breakout pouch-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">As of today</p>
+      <h1>Are nicotine pouches legal in India?</h1>
+      <p class="pouch-hero-sub">Short answer: no law bans them by name — but as of September 2026, there's no lawful way to sell one either. Here's the two-agency freeze that did it.</p>
+    </div>
+  </section>
+
+  <div class="pouch-body">
+    <p class="page-authority">
+      By Association of Vapers India · Last reviewed {pageDates.modified}
+      <span class="authority-note">· This is AVI's understanding of the regulatory position, not formal legal advice.</span>
+    </p>
+    <p class="direct-answer">
+      <strong>Are nicotine pouches legal in India? No single law says so either way.</strong>
+      Nicotine pouches and snus aren't named or banned by any Act of
+      Parliament. But two separate regulators have each closed their own
+      route to market — together, that adds up to no lawful pathway to
+      sell one at all, as of September 2026.
+    </p>
+
+    <div class="pouch-timeline">
+      <div class="pouch-step">
+        <Icon name="document" />
+        <h3>No route as a food</h3>
+        <p>Nicotine pouches contain no tobacco leaf, so COTPA — the law covering products like khaini and gutka — doesn't apply. That pushes them to the Food Safety and Standards Authority of India (FSSAI), whose Regulation 2.3.4 bars nicotine as an ingredient in any consumable food product.</p>
+      </div>
+      <div class="pouch-step">
+        <Icon name="scale" />
+        <h3>No route as a drug — 27 August 2026</h3>
+        <p>The other legal home for a purified-nicotine product is as a drug: the Indian Pharmacopoeia lists nicotine as an Active Pharmaceutical Ingredient, so CDSCO treats a new nicotine product as a "new drug" needing clinical trials and therapeutic approval. The Drugs Technical Advisory Board (DTAB) recommended against approving any new nicotine formulations — closing that door too.</p>
+      </div>
+      <div class="pouch-step">
+        <Icon name="shield" />
+        <h3>Enforcement follows — 19 September 2026</h3>
+        <p>The Union Health Ministry directed states to act against nicotine-pouch sales, <a href="https://retail.economictimes.indiatimes.com/amp/news/food-entertainment/personal-care-pet-supplies-liquor/india-orders-crackdown-on-nicotine-pouches-citing-health-risks-letter-shows/134496424" target="_blank" rel="noopener">reported by ET Retail</a> days later, citing a letter to states. AVI is reviewing the order's actual text and the states' enforcement directions before taking a litigation position. No Act of Parliament changed — the freeze above is what the enforcement rests on.</p>
+      </div>
+    </div>
+
+    <p class="split-note">
+      This is a regulatory freeze built from two agencies' rules, not a law
+      Parliament debated and passed — the same kind of overreach courts
+      rejected for e-cigarettes in 2019, when a consumer product was forced
+      into "drug" classification despite no manufacturer making a
+      therapeutic claim for it. No nicotine pouch is sold in India as a
+      cessation aid; they're marketed as consumer products, the same as
+      abroad. <a href="/india/law/#nicotine-pouches-and-snus">Full sourcing on /india/law/ →</a>
+    </p>
+
+    <h2><Icon name="chart" /> The evidence, set against what stays legal</h2>
+    <PullQuote
+      quote="Using [nicotine pouches] instead of cigarettes puts you at a lower risk of mouth cancer, heart disease, lung cancer, stroke, emphysema, and chronic bronchitis."
+      attribution="US FDA, modified-risk marketing order, June 2026"
+    />
+    <div class="pouch-compare">
+      <div class="pouch-col pouch-fda">
+        <p class="split-label">FDA-reviewed, June 2026</p>
+        <p>The claim above is the first reduced-risk marketing claim the FDA has ever authorised for a nicotine pouch, after its own scientific review.</p>
+      </div>
+      <div class="pouch-col pouch-slt">
+        <p class="split-label">Meanwhile in India</p>
+        <p>Loose smokeless tobacco — gutka, khaini — stays legal and openly sold at every paan shop, and is linked to <strong>350,000+</strong> deaths a year, per a peer-reviewed mortality study. A lower-risk pouch stays off the market entirely, while the far more dangerous product doesn't. <a href="/india/smokeless-tobacco/">The full harm reduction case →</a></p>
+      </div>
+    </div>
+
+    <h2><Icon name="document" /> What this means practically</h2>
+    <p>
+      This page doesn't sell, advertise or facilitate access to nicotine
+      pouches or any other product — AVI's advocacy is aimed at changing
+      how this freeze is applied through evidence and engagement with
+      regulators, not circumventing it. Product names, flavours, prices
+      and sellers are deliberately absent from this page and the rest of
+      this site.
+    </p>
+
+    <div class="pouch-related">
+      <a href="/india/law/#nicotine-pouches-and-snus" class="related-card">
+        <h3>The law, in full →</h3>
+        <p>Every source behind the FSSAI and DTAB mechanism, plus e-cigarettes and NRT for contrast.</p>
+      </a>
+      <a href="/india/smokeless-tobacco/" class="related-card">
+        <h3>India's smokeless tobacco users →</h3>
+        <p>The harm reduction case for the roughly 200 million Indians who use gutka, khaini or other SLT.</p>
+      </a>
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .pouch-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center 60%;
+      padding: 3.25rem 0 2.75rem;
+    }
+    .pouch-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .pouch-hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 38rem; margin: 0; }
+
+    .pouch-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+    .page-authority { font-size: 0.82rem; color: var(--muted); margin: 0 0 1.1rem; }
+    .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
+    @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
+    .direct-answer {
+      font-size: 1.02rem;
+      line-height: 1.6;
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 0 0 2.25rem;
+    }
+
+    .pouch-timeline { display: grid; gap: 1.25rem; margin: 0 0 1.75rem; }
+    .pouch-step {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+    }
+    .pouch-step :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--gold-dark); margin-bottom: 0.6rem; }
+    .pouch-step h3 { margin: 0 0 0.5rem; font-size: 1.02rem; }
+    .pouch-step p { margin: 0; font-size: 0.92rem; line-height: 1.6; color: var(--ink); }
+
+    .split-note {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
+      padding: 0.9rem 1.1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0 0 2.25rem;
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      margin: 2.5rem 0 1rem;
+    }
+    h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--accent); flex-shrink: 0; }
+
+    .pouch-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .pouch-col { border-radius: 8px; padding: 1.1rem 1.25rem 1.25rem; border: 1px solid var(--border); }
+    .pouch-col p { font-size: 0.9rem; line-height: 1.6; margin: 0; color: var(--ink); }
+    .pouch-col .split-label { margin-bottom: 0.6rem; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .pouch-fda { background: #eef6f1; border-color: #cfe4d7; }
+    .pouch-fda .split-label { color: var(--accent-dark); }
+    .pouch-slt { background: #fbf1ec; border-color: #ecd3c4; }
+    .pouch-slt .split-label { color: var(--rust-dark); }
+    .pouch-slt strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--rust-dark); }
+    @media (max-width: 640px) {
+      .pouch-compare { grid-template-columns: 1fr; }
+    }
+
+    .pouch-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>
