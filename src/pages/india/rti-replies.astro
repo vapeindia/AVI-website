@@ -39,6 +39,13 @@ import { rtiReplies } from '../../data/rti-replies';
           </div>
           <h2>{r.authority}</h2>
           <p class="jurisdiction">{r.jurisdiction}</p>
+          {r.referenceNumber && (
+            <p class="rti-dates">
+              Ref. {r.referenceNumber}
+              {r.filingDate && <> · Filed {r.filingDate}</>}
+              {r.replyDate && <> · Replied {r.replyDate}</>}
+            </p>
+          )}
 
           <div class="qa-block">
             <h3>Asked</h3>
@@ -123,6 +130,7 @@ import { rtiReplies } from '../../data/rti-replies';
     .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; }
     .rti-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
     .jurisdiction { margin: 0 0 1.1rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
+    .rti-dates { margin: -0.6rem 0 1.1rem; font-size: 0.76rem; color: var(--muted); }
 
     .qa-block { margin-bottom: 1rem; }
     .qa-block h3 {
