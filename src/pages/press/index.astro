@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { getGitDates } from '../../lib/git-dates';
 
 // Unreviewed drafts (committed as `reviewed: false` — see content/newsroom
 // and content.config.ts) never appear on the public index, same gate the
@@ -68,26 +67,14 @@ function displayDate(d: Date): string {
   return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-// Article schema only for `statements` (AVI's own press-release/quote
-// items) — `coverage` is third-party reporting ABOUT AVI, not AVI's own
-// authored content, so marking that up as an AVI-authored Article would
-// misattribute it. datePublished is the statement's own recorded date;
-// dateModified comes from real git history for that specific file.
-const statementArticlesLd = statements
-  .filter((item) => item.data.url || item.data.archivePdf)
-  .map((item) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: item.data.title,
-    datePublished: item.data.date.toISOString().slice(0, 10),
-    dateModified: getGitDates(`src/content/press/${item.id}.md`).modified,
-    author: { '@type': 'Organization', name: 'Association of Vapers India' },
-    url: item.data.url || item.data.archivePdf,
-  }));
+// Each AVI statement now carries its own Article JSON-LD on its own
+// /press/<id>/ detail page (src/pages/press/[...slug].astro) — no longer
+// duplicated here on the index, which would have had every statement's
+// Article claimed by two different pages at once (a correctness issue
+// introduced the moment per-entry pages existed, see content/newsroom).
 ---
 <Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." image="/og/press.png" wide={true}>
   <link slot="head" rel="alternate" type="application/rss+xml" title="AVI statements" href="/press/statements.rss.xml" />
-  {statementArticlesLd.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
   <section class="breakout press-hero">
     <div class="breakout-inner">
       <p class="eyebrow">A decade in the press</p>

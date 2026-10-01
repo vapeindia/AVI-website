@@ -55,6 +55,10 @@ const description = bodyText.length > 155
   ? bodyText.slice(0, 155).replace(/\s+\S*$/, '') + '…'
   : (bodyText || `${typeLabel[item.data.type]} from ${item.data.outlet}, ${displayDate(item.data.date)}.`);
 
+// No explicit `url` field here — Base.astro already emits this page's own
+// canonical <link>, and the Article's URL should be this page, not the
+// external distribution/archive copy linked below (matches the
+// litigation/[...slug] detail page's own Article LD, which omits it too).
 const gitDates = getGitDates(`src/content/press/${item.id}.md`);
 const articleLd = isAviStatement ? {
   '@context': 'https://schema.org',
@@ -63,7 +67,6 @@ const articleLd = isAviStatement ? {
   datePublished: item.data.date.toISOString().slice(0, 10),
   dateModified: gitDates.modified,
   author: { '@type': 'Organization', name: 'Association of Vapers India' },
-  url: item.data.url || item.data.archivePdf || undefined,
 } : null;
 ---
 <Base title={item.data.title} description={description}>
