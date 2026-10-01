@@ -93,7 +93,22 @@ const research = defineCollection({
   }),
 });
 
-// Press coverage OF AVI (distinct from `news`, which is coverage of the topic generally).
+// Press coverage OF AVI (distinct from `news`, which is coverage of the topic generally),
+// plus AVI's own issued statements/press-releases — each now gets a stable
+// detail page at /press/<id>/ (src/pages/press/[...slug].astro), so a
+// journalist or AI answer engine has a citable, permanent URL for an AVI
+// statement rather than only a third-party distribution link.
+//
+// `reviewed` (added content/newsroom, 2026-10) follows the same gate as
+// `testimonials`: defaults to true so all pre-existing entries (migrated
+// from the Drive archive, already vetted) are unaffected, but a new draft
+// statement can be committed as `reviewed: false` to hold it out of the
+// public index, the statements RSS feed, the homepage "Latest from AVI"
+// component and the /press/media-kit "AVI at a glance" counts, and out of
+// the static paths this collection's own detail route builds — an
+// unreviewed entry gets no live page at all. A human must flip the flag
+// before it's public, same human-in-the-loop rule as everywhere else in
+// this file (see CLAUDE.md).
 const press = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/press' }),
   schema: z.object({
@@ -103,6 +118,7 @@ const press = defineCollection({
     url: z.string().url().optional(),   // optional: some archive items are scans, no live URL
     type: z.enum(['coverage', 'op-ed', 'quote', 'interview', 'press-release']),
     archivePdf: z.string().optional(),  // path under /public/archive if the live link is dead
+    reviewed: z.boolean().default(true),
   }),
 });
 
