@@ -27,7 +27,7 @@ const articleLd = {
   author: { '@type': 'Organization', name: 'Association of Vapers India' },
 };
 ---
-<Base title={item.data.title} description={description}>
+<Base title={item.data.title} description={description} image={`/og/litigation-${item.id}.png`}>
   <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <p><a href="/litigation/">← Back to litigation</a></p>
   <span class={`status-pill status-${item.data.status}`}>{statusLabel(item.data.status)}</span>

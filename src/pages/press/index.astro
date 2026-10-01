@@ -58,7 +58,7 @@ const statementArticlesLd = statements
     url: item.data.url || item.data.archivePdf,
   }));
 ---
-<Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." wide={true}>
+<Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." image="/og/press.png" wide={true}>
   {statementArticlesLd.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
   <section class="breakout press-hero">
     <div class="breakout-inner">
