@@ -28,6 +28,17 @@ const typeLabel: Record<string, string> = {
   'press-release': 'Press release',
   quote: 'Quote',
 };
+
+// Several archive entries only have a confirmed year, not an exact date —
+// rather than publish a fabricated day/month, those are stored as 1
+// January of that year (same convention as this site's litigation dates)
+// and displayed as just the year here.
+function displayDate(d: Date): string {
+  if (d.getUTCMonth() === 0 && d.getUTCDate() === 1) {
+    return String(d.getUTCFullYear());
+  }
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+}
 ---
 <Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." wide={true}>
   <section class="breakout press-hero">
@@ -71,7 +82,7 @@ const typeLabel: Record<string, string> = {
             <div class="card-top">
               <span class="type-badge">{typeLabel[item.data.type]}</span>
               <time datetime={item.data.date.toISOString()}>
-                {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                {displayDate(item.data.date)}
               </time>
             </div>
             <h3>{item.data.title}</h3>
@@ -92,7 +103,7 @@ const typeLabel: Record<string, string> = {
               <div class="card-top">
                 <span class="type-badge">{typeLabel[item.data.type]}</span>
                 <time datetime={item.data.date.toISOString()}>
-                  {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {displayDate(item.data.date)}
                 </time>
               </div>
               <h3>{item.data.title}</h3>
@@ -119,7 +130,7 @@ const typeLabel: Record<string, string> = {
             <div class="card-top">
               <span class="type-badge">{typeLabel[item.data.type]}</span>
               <time datetime={item.data.date.toISOString()}>
-                {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                {displayDate(item.data.date)}
               </time>
             </div>
             <h3>{item.data.title}</h3>
@@ -140,7 +151,7 @@ const typeLabel: Record<string, string> = {
               <div class="card-top">
                 <span class="type-badge">{typeLabel[item.data.type]}</span>
                 <time datetime={item.data.date.toISOString()}>
-                  {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {displayDate(item.data.date)}
                 </time>
               </div>
               <h3>{item.data.title}</h3>

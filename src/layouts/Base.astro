@@ -39,7 +39,7 @@ const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
 function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
   if (p === '/quit' || p === '/policy') return 'start';
   if (p.startsWith('/science') || p === '/india' || p === '/india/law') return 'evidence';
-  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation') || p === '/report-harassment') return 'advocacy';
+  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation')) return 'advocacy';
   if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
   return null;
 }
@@ -570,7 +570,6 @@ const group = activeGroup(path);
           <a href="/litigation" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
           <a href="/press" class:list={{ active: path.startsWith('/press') }}>Press</a>
           <a href="/india/rti-replies" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
-          <a href="/report-harassment" class:list={{ active: path === '/report-harassment' }}>Report Harassment</a>
         </div>
       </details>
       <details class="nav-dropdown" class:list={{ active: group === 'updates' }}>

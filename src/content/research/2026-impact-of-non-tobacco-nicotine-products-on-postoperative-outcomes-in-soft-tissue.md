@@ -2,7 +2,7 @@
 title: "Impact of Non-Tobacco Nicotine Products on Postoperative Outcomes in Soft Tissue Hand Surgery."
 authors: "Guruprasad P, Sivaram P, Putnam J"
 journal: "Journal of hand surgery global online"
-year: 2027
+year: 2026
 doi: "10.1016/j.jhsg.2026.101136"
 pubmedId: "42741232"
 studyType: "cohort"

@@ -9,8 +9,6 @@ summary: "Two separate, independently brought groups of sellers challenged Mahar
 documents: []
 ---
 
-Shortened at the site owner's request: court and year only, no case numbers.
-
 Both matters are **seller-brought cases, clearly distinct from AVI**: neither was
 filed, funded, or organised by AVI, and AVI was not a party to either. AVI is a
 consumer advocacy organisation and deliberately does not fund, file, or direct
