@@ -4,7 +4,9 @@ import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
 import { getGitDates } from '../../lib/git-dates';
-import { PECA_ACT, PECA_BANNED, PECA_NOT_BANNED, PECA_SECTIONS, pecaBannedSentence } from '../../data/peca';
+import { PECA_ACT, PECA_BANNED, PECA_NOT_BANNED, PECA_SECTIONS, pecaBannedSentence, PECA_TRANSPORT_DRAFT } from '../../data/peca';
+
+const transportParas = PECA_TRANSPORT_DRAFT.split('\n\n');
 
 const hStats = await getHarassmentStats();
 const lawDates = getGitDates('src/pages/india/law.astro');
@@ -161,6 +163,9 @@ const faqLd = {
       <p>
         See <a href="/litigation/">AVI's litigation page</a> for the ongoing flight-ban case, and our <a href="https://x.com/vapeindia/status/1848254084572172776?s=20" target="_blank" rel="noopener">full commentary</a> on this issue.
       </p>
+
+      <h3 id="transport">What about "transport"?</h3>
+      {transportParas.map((para) => <p>{para}</p>)}
 
       <details class="primary-source">
         <summary>Read the Act itself — Sections {PECA_SECTIONS.s4.number}, {PECA_SECTIONS.s5.number}, {PECA_SECTIONS.s7.number} and {PECA_SECTIONS.s8.number}, verbatim</summary>

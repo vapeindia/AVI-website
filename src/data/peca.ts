@@ -116,22 +116,20 @@ export function pecaNotBannedSentence(): string {
   return PECA_NOT_BANNED.map((s) => s.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' or $1');
 }
 
-// DRAFT — NOT PUBLISHED ANYWHERE ON THE SITE. Written per the
+// PUBLISHED on /india/law/ (as of 2026-10-01, approved by Samrat) — see
+// the "What about 'transport'?" section there. Written per the
 // content/legal-authority task to deal with "transport" head-on: Section
 // 4(i) bans transport with no textual carve-out for personal carrying,
 // unlike the "for sale" qualifier the site used to (wrongly) attach to it.
-// Revised using the actual argument from AVI's own written submission in
-// the flight-ban case (Sutirtha Dutta v. Bureau of Civil Aviation
-// Security, W.P.(C) 5485/2022, Delhi High Court — judgment reserved
-// 15.09.2026): AVI's counsel anticipated this exact objection ("transport"
-// covers a passenger carrying their own device) and answered it with the
+// Uses the actual argument from AVI's own written submission in the
+// flight-ban case (Sutirtha Dutta v. Bureau of Civil Aviation Security,
+// W.P.(C) 5485/2022, Delhi High Court — judgment reserved 15.09.2026):
+// AVI's counsel anticipated this exact objection ("transport" covers a
+// passenger carrying their own device) and answered it with the
 // noscitur a sociis doctrine, citing the same three government
-// communications already used elsewhere on /india/law/. This is NOT
-// legal advice, has NOT been reviewed by Samrat or counsel for
-// publication (distinct from its use in the pending litigation itself),
-// and must not be rendered on any live page until that review happens.
-// Needs Samrat: sign-off (or edits) from Samrat and counsel before this
-// ships anywhere.
+// communications already used elsewhere on /india/law/. Still AVI's own
+// litigation position, not a court ruling — the published text says so;
+// keep that distinction if this is ever edited.
 export const PECA_TRANSPORT_DRAFT = `Section 4(i) bans "transport" of e-cigarettes without the word "for sale" attached to it — that qualifier only appears in Section 5's proviso, about disposing of stock that already existed when the Act commenced, not as a condition on Section 4 itself. Read in isolation, "transport" could describe a vaper carrying their own device from one room to another.
 
 AVI doesn't read it that way, and this isn't just a website's gloss on the Act — it's the argument AVI's own counsel put to the Delhi High Court in the flight-ban case, Sutirtha Dutta v. Bureau of Civil Aviation Security. The written submission anticipates the objection directly: that "transport" in Section 4 "comprehends a passenger carrying his own device, so that personal carriage is already an offence." AVI's answer rests on a named doctrine of statutory interpretation, noscitur a sociis — a word is known by the company it keeps. Every other member of the same list in Section 4(i) — produce, manufacture, import, export, sell, distribute — is a link in a commercial supply chain, so "transport" takes its colour from its companions rather than standing alone. Section 5, the Act's only other operative prohibition, speaks of "stock" — trade inventory, not personal belongings.
