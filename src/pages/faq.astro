@@ -1,0 +1,144 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Plain-text answers, reused verbatim in both the FAQPage JSON-LD and the
+// visible accordion below, so the two can never drift apart.
+const faqs = [
+  {
+    q: 'Is vaping illegal in India?',
+    a: "No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes. It does not ban using, carrying or possessing one for personal use — no provision in PECA makes either an offence, and no penalty attaches to it. The ban applies to the business of e-cigarettes, not the act of vaping.",
+  },
+  {
+    q: 'Can I carry a vape on a flight?',
+    a: "Currently, no — not in India. The Bureau of Civil Aviation Security (BCAS) prohibits carrying e-cigarettes in checked or cabin baggage on flights, a separate rule from PECA with its own legal basis. AVI is actively challenging this ban in the Delhi High Court; arguments have concluded and a verdict is pending. Until that changes, devices carried on flights in India are liable to be confiscated at security.",
+  },
+  {
+    q: 'What does the PECA law actually ban?',
+    a: "PECA, 2019 bans five specific commercial acts: production and manufacture, import and export, sale and distribution, storage and transport for sale, and advertisement of e-cigarettes. It does not ban personal use, possession, or carrying a device for your own use — those aren't named anywhere in the Act, and no penalty attaches to them. First-offence penalties (up to one year's imprisonment and a ₹1 lakh fine) apply only to the commercial acts listed above.",
+  },
+];
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<Base
+  title="Vaping Law FAQ: India"
+  description="Quick answers on vaping law in India — is it illegal, can you fly with a vape, and what PECA, 2019 actually bans."
+  wide={true}
+>
+  {/* Astro's layout doesn't expose a <head> slot (Base.astro's <head> is
+      fixed), so this JSON-LD renders as the first element of <body>/<main>
+      instead — the same place /india/law and /quit already put their own
+      FAQPage schema. Google explicitly supports JSON-LD anywhere in the
+      HTML, body included, and this project's existing FAQ-schema pages are
+      already verified working in Search Console on that basis. */}
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
+  <section class="breakout faq-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Quick answers</p>
+      <h1>Vaping law in India — FAQ</h1>
+      <p class="faq-sub">Short, direct answers to the questions people search for most. Each one links to the full breakdown, with sourcing.</p>
+    </div>
+  </section>
+
+  <div class="faq-body">
+    <div class="faq-accordion">
+      {faqs.map((f, i) => (
+        <details class="faq-item" open={i === 0}>
+          <summary>{f.q}</summary>
+          <div class="faq-answer"><p>{f.a}</p></div>
+        </details>
+      ))}
+    </div>
+
+    <div class="faq-related">
+      <a href="/india/law" class="related-card">
+        <h3>The full legal breakdown →</h3>
+        <p>Every detail on what PECA bans, with government sources and what to do if you're stopped.</p>
+      </a>
+      <a href="/litigation/delhi-bcas-flight-ban" class="related-card">
+        <h3>The flight-ban case →</h3>
+        <p>AVI's ongoing Delhi High Court challenge to the BCAS carry-on restriction.</p>
+      </a>
+      <a href="/report-harassment" class="related-card">
+        <h3>Report police harassment →</h3>
+        <p>Stopped or shaken down over vaping, even though it's not banned? Log it.</p>
+      </a>
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .faq-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 3.25rem 0 2.75rem;
+    }
+    .faq-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .faq-sub { color: #cdd6cf; max-width: 36rem; font-size: 1.02rem; margin: 0; }
+
+    .faq-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+
+    .faq-accordion { display: grid; gap: 0.85rem; margin-bottom: 2.5rem; }
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 1.25rem;
+    }
+    .faq-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.1rem 0;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 600;
+      font-size: 1.02rem;
+      color: var(--ink);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '▾'; font-size: 0.85em; color: var(--muted); flex-shrink: 0; transition: transform 0.15s ease; }
+    .faq-item[open] summary::after { transform: rotate(180deg); }
+    .faq-answer { padding: 0 0 1.25rem; }
+    .faq-answer p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+
+    .faq-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+      gap: 1.25rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

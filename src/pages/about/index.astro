@@ -6,6 +6,49 @@ import { getCollection } from 'astro:content';
 const litigationCount = (await getCollection('litigation')).length;
 const pressCount = (await getCollection('press')).length;
 const yearsActive = new Date().getFullYear() - 2016;
+
+// Only AVI's own interventions — several cases on /litigation are
+// explicitly seller/importer-brought and the site goes out of its way to
+// say so (AVI "does not fund, file, or direct litigation on behalf of
+// vendors or manufacturers"). This section exists to credit AVI's actual
+// record, so it must not blur that same line the litigation page draws.
+const ownCases = [
+  {
+    title: "Karnataka High Court — challenge to the state ENDS circular (2017)",
+    detail: "One of AVI's earliest and most sustained fights: a PIL organised and pursued by HRPR, an allied organisation sharing leadership with AVI, taken through multiple rounds of appeal before final conclusion.",
+    href: '/litigation/karnataka-ends-circular-challenge',
+  },
+  {
+    title: "Delhi High Court — intervention for regulation over a ban (2017)",
+    detail: "AVI engaged counsel and filed a formal intervention application, arguing for regulation on the cigarette model rather than a ban — moot once PECA nationalised the question in 2019.",
+    href: '/litigation/delhi-regulation-challenge-2017',
+  },
+  {
+    title: "Madras High Court — challenge to Tamil Nadu's ENDS ban (2018)",
+    detail: "AVI commissioned the petition, briefed a consumer petitioner and directed strategy end-to-end, citing an RTI reply that the state had no supporting study for its ban.",
+    href: '/litigation/chennai-ends-ban-challenge-2018',
+  },
+  {
+    title: "Delhi High Court — the flight-ban case (2022–ongoing)",
+    detail: "AVI's active case today: two consumer petitioners it identified and briefed, challenging the Bureau of Civil Aviation Security's carry-on ban on e-cigarettes. Arguments are concluded; judgment is reserved.",
+    href: '/litigation/delhi-bcas-flight-ban',
+  },
+];
+
+const rtiHighlights = [
+  {
+    authority: 'ICMR',
+    finding: 'India’s apex medical research body confirmed it had conducted no research into e-cigarettes, funded no study on the subject, and spent nothing on it — "None" on every count.',
+  },
+  {
+    authority: 'Health Ministry, Tobacco Control Division',
+    finding: 'The division that went on to advise a nationwide ban confirmed in writing it had "not conducted any such studies/survey," with no ENDS-specific cessation budget.',
+  },
+  {
+    authority: 'CDSCO',
+    finding: "India's central drug regulator confirmed e-cigarettes \"are not regulated under the provisions of Drugs and Cosmetics Act, 1940\" — undercutting the legal basis later used to restrict them.",
+  },
+];
 ---
 <Base title="About" description="AVI (VapeIndia): India's leading tobacco harm reduction and vaping advocacy group — volunteer-run consumer advocates across India, Asia and the Global South.">
   <h1>About AVI</h1>
@@ -49,15 +92,73 @@ const yearsActive = new Date().getFullYear() - 2016;
     experience carried onto the international stage. See <a href="/litigation">litigation</a>, <a href="/press">press coverage</a>, and <a href="/testimonials">testimonials</a> from the people this work is for.
   </p>
 
+  <h2>Leadership</h2>
+  <div class="leader-card">
+    <div class="leader-text">
+      <h3>Samrat Chowdhery</h3>
+      <p class="leader-role">Founder-director, Association of Vapers India</p>
+      <p>
+        A long-time journalist who has worked at India's top newspapers,
+        Samrat founded AVI in 2016 as part of a small group of former
+        smokers who had themselves quit through vaping, turning that
+        personal experience into India's leading consumer advocacy voice
+        for tobacco harm reduction. He has directed AVI's litigation
+        strategy since its earliest cases in 2017, writes and publishes
+        policy analysis on vaping law in India, and served as president of
+        the International Network of Nicotine Consumer Organisations
+        (INNCO, UN observer status) from July 2020 — representing Indian
+        and Global South consumers at the Global Forum on Nicotine and
+        alongside the WHO's Framework Convention on Tobacco Control.
+      </p>
+      <p class="leader-note">
+        A short public bio — AVI's own records and public statements are
+        the source for each claim above. Samrat, if there's more you'd
+        want added here (publications, specific roles, dates), this is
+        easy to extend.
+      </p>
+    </div>
+  </div>
+
   <h2>Governing Board</h2>
   <ul class="board-list">
-    <li><strong>Samrat Chowdhery</strong> — long-time journalist who has worked at India's top newspapers. Founder-director of AVI.</li>
     <li><strong>Dhaval Gogate</strong> — Pune-based optometrist and healthcare-IT professional; advises on the medical and clinical-evidence side of AVI's harm reduction advocacy.</li>
     <li><strong>Maneesh Kasera</strong> — Kolkata-based IT entrepreneur; a longtime advocate for consumer access to safer nicotine alternatives.</li>
     <li><strong>Olivier Vulliamy</strong> — Goa-based media professional; advocates for harm reduction as a former smoker who switched to vaping.</li>
     <li><strong>Kanav Rishi Kumar</strong> — mechanical engineer; advocates for the harm-reduction potential of safer nicotine technologies.</li>
     <li><strong>Shreyas Madhan</strong> — Chennai-based architect and entrepreneur; advocates for smokers' access to safer alternatives.</li>
   </ul>
+
+  <h2>Legal Interventions &amp; RTI Disclosures</h2>
+  <p>
+    Not every case on AVI's <a href="/litigation">litigation page</a> was
+    AVI's own — several were brought independently by sellers or importers,
+    and AVI deliberately stays out of industry litigation. The record
+    below is specifically AVI's own interventions, plus the Right to
+    Information disclosures that first showed India's ENDS ban had no
+    research behind it.
+  </p>
+  <div class="timeline">
+    {ownCases.map((c) => (
+      <a class="timeline-card" href={c.href}>
+        <Icon name="scale" />
+        <h3>{c.title}</h3>
+        <p>{c.detail}</p>
+        <span class="timeline-link">Full case record →</span>
+      </a>
+    ))}
+  </div>
+
+  <h3>What RTI replies disclosed</h3>
+  <div class="rti-highlight-grid">
+    {rtiHighlights.map((r) => (
+      <div class="rti-highlight-card">
+        <Icon name="document" />
+        <span class="rti-authority">{r.authority}</span>
+        <p>{r.finding}</p>
+      </div>
+    ))}
+  </div>
+  <p><a href="/india/rti-replies">See all RTI replies, by department →</a></p>
 
   <h2>What we do</h2>
   <div class="what-we-do-grid">
@@ -107,6 +208,58 @@ const yearsActive = new Date().getFullYear() - 2016;
   </div>
 
   <style>
+    .leader-card {
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.5rem 1.75rem;
+      margin: 1.25rem 0 2rem;
+    }
+    .leader-text h3 { margin: 0 0 0.2rem; font-size: 1.25rem; }
+    .leader-role { margin: 0 0 1rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.03em; }
+    .leader-text p { font-size: 0.95rem; line-height: 1.65; }
+    .leader-note { font-size: 0.82rem; font-style: italic; color: var(--muted); margin-top: 1rem; }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+    .timeline-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      transition: transform 0.15s ease;
+    }
+    .timeline-card:hover { transform: translateY(-2px); }
+    .timeline-card :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .timeline-card h3 { margin: 0 0 0.5rem; font-size: 1rem; line-height: 1.35; color: var(--ink); }
+    .timeline-card p { margin: 0 0 1rem; font-size: 0.86rem; color: var(--muted); line-height: 1.55; flex-grow: 1; }
+    .timeline-link { font-size: 0.84rem; font-weight: 600; color: var(--accent-dark); }
+
+    .rti-highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin: 1.25rem 0 1.5rem;
+    }
+    .rti-highlight-card {
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+    }
+    .rti-highlight-card :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--gold-dark); margin-bottom: 0.6rem; }
+    .rti-authority { display: block; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.4rem; }
+    .rti-highlight-card p { margin: 0; font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
+
     .board-list {
       list-style: none;
       margin: 1rem 0 2rem;

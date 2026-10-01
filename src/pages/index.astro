@@ -37,10 +37,6 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           consuming it. We've spent a decade reviewing the evidence and
           fighting in court for your right to know about them.
         </p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="/science">See the evidence →</a>
-          <a class="btn btn-outline" href="/india/law">What the law says →</a>
-        </div>
         <div class="hero-bottom">
           <div class="hero-stats">
             <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
@@ -69,21 +65,56 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           <Icon name="heart" />
           <h3>If you smoke, or use toxic SLT</h3>
           <p>See the evidence on lower-risk ways to keep using nicotine, and how people have quit combustible tobacco successfully with them.</p>
-          <a href="/quit">How to quit with safer alternatives →</a>
+          <a class="path-btn" href="/quit">I want to quit smoking →</a>
         </div>
         <div class="path-card path-gold">
           <Icon name="scale" />
           <h3>Policymakers</h3>
           <p>The global policy case for tobacco harm reduction — what's working elsewhere, what isn't, and what it means for India.</p>
-          <a href="/policy">See the policy case →</a>
+          <a class="path-btn" href="/policy">Policy data →</a>
         </div>
         <div class="path-card path-rust">
           <Icon name="megaphone" />
           <h3>Media</h3>
           <p>AVI has been quoted, interviewed and bylined on tobacco harm reduction in India for over a decade. We're always available for comment.</p>
-          <a href="/press">Press coverage &amp; contact →</a>
+          <a class="path-btn" href="/press">Press resources →</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="kyr-wrap">
+    <div class="kyr-card" id="kyr-card">
+      <div class="kyr-head">
+        <img src="/images/avi-logo.png" alt="" class="kyr-logo" />
+        <span class="kyr-brand">Association of Vapers India</span>
+      </div>
+      <p class="kyr-eyebrow">Know your rights under PECA, 2019</p>
+      <p class="kyr-headline">Personal possession is <strong>NOT banned.</strong></p>
+      <div class="kyr-split">
+        <div class="kyr-col kyr-banned">
+          <span class="kyr-col-label">Banned</span>
+          <ul>
+            <li>Production &amp; sale</li>
+            <li>Import &amp; export</li>
+            <li>Distribution</li>
+            <li>Advertisement</li>
+          </ul>
+        </div>
+        <div class="kyr-col kyr-notbanned">
+          <span class="kyr-col-label">Not banned</span>
+          <ul>
+            <li>Personal use</li>
+            <li>Possession</li>
+            <li>Carrying a device</li>
+          </ul>
+        </div>
+      </div>
+      <p class="kyr-foot">No provision in PECA makes personal use or possession an offence. Penalties apply only to the commercial acts above. · <strong>vapeindia.org/india/law</strong></p>
+    </div>
+    <div class="kyr-actions">
+      <a class="btn btn-primary" href="/india/law#know-your-rights">Read the full legal breakdown →</a>
+      <a class="btn btn-outline" href="/report-harassment">Report an incident →</a>
     </div>
   </section>
 
@@ -400,19 +431,83 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     }
     .path-card :global(svg) { width: 1.75rem; height: 1.75rem; margin-bottom: 0.75rem; }
     .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
-    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
-    .path-card a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.1rem; }
+    .path-btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-decoration: none;
+      color: #fff !important;
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+    }
     .path-green { border-color: var(--accent); }
     .path-green :global(svg) { color: var(--accent); }
-    .path-green a { color: var(--accent-dark); }
+    .path-green .path-btn { background: var(--accent); }
+    .path-green .path-btn:hover { background: var(--accent-dark); }
     .path-gold { border-color: var(--gold); }
     .path-gold :global(svg) { color: var(--gold); }
-    .path-gold a { color: var(--gold-dark); }
+    .path-gold .path-btn { background: var(--gold); }
+    .path-gold .path-btn:hover { background: var(--gold-dark); }
     .path-rust { border-color: var(--rust); }
     .path-rust :global(svg) { color: var(--rust); }
-    .path-rust a { color: var(--rust-dark); }
+    .path-rust .path-btn { background: var(--rust); }
+    .path-rust .path-btn:hover { background: var(--rust-dark); }
     @media (max-width: 780px) {
       .path-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Shareable "Know your rights" card — a self-contained visual unit
+       designed to read correctly in isolation (no surrounding page chrome
+       needed), since its purpose is to look right in a phone screenshot. */
+    .kyr-wrap {
+      max-width: var(--max-w-wide);
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .kyr-card {
+      width: 100%;
+      max-width: 26rem;
+      background: var(--ink-black);
+      color: #fff;
+      border-radius: 18px;
+      padding: 1.75rem 1.6rem;
+      box-shadow: 0 10px 30px rgba(20,25,20,0.18);
+    }
+    .kyr-head { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.5rem; }
+    .kyr-logo { height: 28px; width: auto; }
+    .kyr-brand { font-size: 0.82rem; font-weight: 700; color: #cfe0d8; }
+    .kyr-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold-light);
+      margin: 0 0 0.6rem;
+    }
+    .kyr-headline { font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.3; margin: 0 0 1.5rem; }
+    .kyr-headline strong { color: var(--gold-light); }
+    .kyr-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1.5rem; }
+    .kyr-col { border-radius: 10px; padding: 0.9rem 1rem; }
+    .kyr-banned { background: rgba(179,85,46,0.18); border: 1px solid rgba(179,85,46,0.4); }
+    .kyr-notbanned { background: rgba(47,138,114,0.2); border: 1px solid rgba(47,138,114,0.45); }
+    .kyr-col-label { display: block; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+    .kyr-banned .kyr-col-label { color: #f0b48f; }
+    .kyr-notbanned .kyr-col-label { color: var(--gold-light); }
+    .kyr-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+    .kyr-col li { font-size: 0.84rem; line-height: 1.4; }
+    .kyr-foot { font-size: 0.72rem; line-height: 1.5; color: #b9c2bc; margin: 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.15); }
+    .kyr-foot strong { color: #fff; }
+    .kyr-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+    @media (max-width: 480px) {
+      .kyr-card { padding: 1.4rem 1.25rem; border-radius: 14px; }
+      .kyr-headline { font-size: 1.3rem; }
     }
 
     /* Know your rights CTA */

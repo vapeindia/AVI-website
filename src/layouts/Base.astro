@@ -297,6 +297,22 @@ const group = activeGroup(path);
       border-bottom: none !important;
     }
     .nav-contribute:hover { background: var(--accent); color: #fff; }
+    .nav-report {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-left: 1rem;
+      background: var(--rust-dark);
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 0.86rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      text-decoration: none;
+      border-bottom: none !important;
+    }
+    .nav-report:hover { background: var(--rust); color: #fff; }
+    .nav-report :global(svg) { width: 1rem; height: 1rem; flex-shrink: 0; }
     nav.site a {
       color: var(--muted);
       text-decoration: none;
@@ -419,6 +435,11 @@ const group = activeGroup(path);
         margin-left: 0;
         margin-top: 1rem;
         text-align: center;
+      }
+      .nav-report {
+        margin-left: 0;
+        margin-top: 0.6rem;
+        justify-content: center;
       }
     }
 
@@ -560,7 +581,9 @@ const group = activeGroup(path);
         </div>
       </details>
       <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
+      <a href="/faq" class:list={{ active: path === '/faq' }}>FAQ</a>
       <a href="/search" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /><span class="nav-search-label">Search</span></a>
+      <a href="/report-harassment" class="nav-report"><Icon name="scale" />Report Police Harassment</a>
       <a href="/contribute" class="nav-contribute">Contribute</a>
     </nav>
   </header>
@@ -644,6 +667,7 @@ const group = activeGroup(path);
         <a href="/news">Daily News</a>
         <a href="/media">Our Media</a>
         <a href="/testimonials">Testimonials</a>
+        <a href="/faq">FAQ</a>
         <a href="/contribute">Contribute</a>
         <a href="/search">Search</a>
       </nav>
