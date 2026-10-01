@@ -1,8 +1,40 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is vaping safer than smoking?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Yes. Major health bodies agree it is the burning of tobacco — not the nicotine — that causes most smoking-related disease, and vaping involves no combustion. Cochrane's living review found nicotine e-cigarettes help more smokers quit than nicotine replacement therapy (about 8–10 per 100 vs. 6 per 100).",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does vaping actually help people quit smoking?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "The best available evidence says yes. Cochrane's 2025 living review found about 8–10 smokers per 100 quit using nicotine e-cigarettes, versus 6 with nicotine replacement therapy (gums, patches) and 4 with no support — making e-cigarettes the most effective aid studied head-to-head.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is nicotine itself the dangerous part of smoking?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "No. The overwhelming evidence, summarised by bodies including the UK's Royal College of Physicians, is that it is burning tobacco — the tar and thousands of combustion byproducts — that causes most smoking-related disease, not the nicotine itself.",
+      },
+    },
+  ],
+};
 ---
-<Base title="Quitting with Safer Alternatives" description="The evidence on quitting smoking or smokeless tobacco with vaping, nicotine pouches and snus — and why India's current law keeps this option out of reach." wide={true}>
+<Base title="Is Vaping Safer Than Smoking? The Evidence" description="Yes — per Cochrane's living review, e-cigarettes help more smokers quit than nicotine replacement therapy, and it's combustion, not nicotine, that drives most smoking-related disease. The full evidence on switching, for India." wide={true}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   <section class="breakout hero">
     <div class="breakout-inner hero-inner">
       <p class="eyebrow">For those ready to switch</p>
@@ -18,6 +50,13 @@ import Icon from '../components/Icon.astro';
   </section>
 
   <div class="quit-body">
+    <p class="direct-answer">
+      <strong>Is vaping safer than smoking? Yes.</strong> It is the burning of
+      tobacco — not the nicotine — that causes most smoking-related disease,
+      and vaping involves no combustion. Cochrane's living review found
+      nicotine e-cigarettes help more smokers quit than nicotine replacement
+      therapy. The evidence behind both claims is below.
+    </p>
     <nav class="page-toc" aria-label="On this page">
       <span class="toc-label">On this page:</span>
       <a href="#does-it-work">Does it work?</a>
@@ -151,6 +190,16 @@ import Icon from '../components/Icon.astro';
     .hero-sub a { color: var(--gold-light); }
 
     .quit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .direct-answer {
+      max-width: 46rem;
+      font-size: 1.02rem;
+      line-height: 1.6;
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 0 0 2.25rem;
+    }
     .page-toc {
       display: flex;
       flex-wrap: wrap;
