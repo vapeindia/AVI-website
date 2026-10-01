@@ -38,7 +38,7 @@ const BRAND_NAMES = blocklist.reviewBrands ?? [];
 // rules (October 2026 review)", rule 4.
 const DRAFTING_NOTE_PATTERNS = [
   /\bsite[- ]owner'?s?\b/i,
-  /\bplaceholder\b/i,
+  /\bplaceholder\b(?!=)/i, // not the HTML `placeholder="..."` attribute
   /\bTODO\b/,
   /\bTBD\b/,
   /\blorem\b/i,
