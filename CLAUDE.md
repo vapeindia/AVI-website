@@ -4,6 +4,60 @@ This file is read automatically by Claude Code on startup. It exists so you
 don't need to re-explain project context in a fresh session — everything
 below reflects decisions made in prior conversation with the site owner.
 
+## Site rules (October 2026 review)
+
+Binding rules for every future session working on this site, placed here
+at the top so they're read first regardless of how long this file grows.
+They sit on top of, not instead of, the project-specific notes further
+down — where a note below gives more detail on the same topic (e.g. the
+nicotine-pouches FSSAI/DTAB mechanism, or a specific pipeline's design),
+follow both.
+
+1. **PECA guardrail.** Nothing may read as advertising, promotion or
+   purchase guidance for e-cigarettes, heated tobacco or nicotine
+   pouches. AVI's own copy never includes brand or product names,
+   flavours, nicotine strengths, puff counts, prices, shops or offers,
+   and nothing on where or how to get anything — product categories
+   only ("e-cigarettes," "nicotine pouches," never a brand). A brand
+   name may appear only inside a quoted government order, court record
+   or news headline, and only after the site owner approves it.
+2. **Adults only.** Copy speaks to adults who already smoke or use
+   tobacco. Never target or picture anyone under 18. Where it fits,
+   say plainly that people who don't use tobacco or nicotine shouldn't
+   start.
+3. **No invented facts.** Never make up figures, dates, case numbers,
+   names, quotes or positions. If something is missing, leave it out
+   and list it in the pull request description under "Needs Samrat."
+4. **No internal notes on pages.** Drafting notes, caveats, "unverified"
+   flags and TODOs go in the pull request description, never in page
+   content. An entry that can't be verified stays unpublished rather
+   than shipping with a visible caveat attached.
+5. **Human in the loop.** One branch and one pull request per task.
+   Never merge or deploy. Pipeline output stays `reviewed: false` until
+   the site owner approves it.
+   **Conflict with existing notes, flagged rather than silently
+   resolved:** several sections further down this file (the `news` and
+   `research` content-collection notes, and the `harassmentReports`
+   note) document an explicit, dated site-owner instruction to run
+   those pipelines fully automated, with `reviewed: true` and no PR
+   gate. This rule, as given in this October 2026 review, reads as a
+   reversal of that. Don't silently pick one policy over the other —
+   confirm the current intent with the site owner before changing any
+   of those pipelines' review-gate behaviour, and update the relevant
+   section(s) below once confirmed so this file stops contradicting
+   itself.
+6. **Sourced statistics.** Every statistic on a page shows its source,
+   year and link.
+7. **Stable URLs.** Internal links use the canonical trailing-slash
+   form (e.g. `/india/law/`). Never change or remove a published URL
+   without adding a 301 in `public/_redirects`.
+8. **No Vapers Database / archive personal data.** Never use the Vapers
+   Database folder, or any personal data from the archive, in anything
+   that ships.
+9. **House style.** Plain, accessible language. Mix short and long
+   sentences. Short paragraphs. No jargon, corporate fluff or academic
+   words. No Oxford comma. British/Indian spelling.
+
 ## Who this is for
 
 Association of Vapers India (AVI) — a tobacco harm reduction consumer
