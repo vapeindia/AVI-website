@@ -1,0 +1,212 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+
+// Hindi draft, content/faq-and-guides item 6. Translates two specific
+// sections of /india/law/ — the Know-your-rights card and the "If you're
+// stopped by police" section — faithfully from the English original.
+// Deliberately NOT a full page port: no status grid, no PECA
+// section-by-section breakdown, no dynamic harassment-report counter —
+// just the two sections the brief named, plus a short frame and a link
+// back to the full English page.
+//
+// This route exists so the plumbing (page, hreflang, noindex) is in place
+// and reviewable, but it is a DRAFT: noindex'd below, and nothing live on
+// the site links to it — not the nav, not the footer, not /india/law/
+// itself. Per the brief: "Keep them unpublished until a fluent Hindi
+// reviewer I name signs off." See the PR description's "Needs Samrat"
+// section for the still-needed reviewer name. Once that sign-off happens,
+// a follow-up change should: remove noindex, add this page's URL to
+// /india/law/'s own <head> as a reciprocal hreflang="hi" link, and decide
+// whether it belongs in the footer/nav.
+const enUrl = new URL('/india/law/', Astro.site).toString();
+const hiUrl = new URL('/hi/india/law/', Astro.site).toString();
+---
+<Base
+  title="क्या भारत में वेपिंग प्रतिबंधित है? — जानिए अपने अधिकार"
+  description="पुलिस उत्पीड़न पर आपके अधिकार — हिंदी मसौदा, समीक्षा लंबित। पूर्ण अंग्रेज़ी पृष्ठ के लिए /india/law/ देखें।"
+  wide={true}
+  noindex={true}
+  lang="hi"
+>
+  <link slot="head" rel="alternate" hreflang="en" href={enUrl} />
+  <link slot="head" rel="alternate" hreflang="hi" href={hiUrl} />
+  <link slot="head" rel="alternate" hreflang="x-default" href={enUrl} />
+
+  <section class="breakout law-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">आज की स्थिति</p>
+      <h1>क्या भारत में वेपिंग प्रतिबंधित है?</h1>
+      <p class="law-hero-sub">संक्षिप्त उत्तर: नहीं — निजी इस्तेमाल के लिए नहीं। यह पृष्ठ दो खंडों का हिंदी अनुवाद है: "जानिए अपने अधिकार" और "अगर पुलिस आपको रोके तो क्या करें"।</p>
+    </div>
+  </section>
+
+  <div class="law-body">
+    <p class="page-note">
+      पूर्ण कानूनी विवरण अंग्रेज़ी में यहाँ उपलब्ध है: <a href="/india/law/">/india/law/ →</a>
+    </p>
+  </div>
+
+  <section class="breakout rights-section" id="know-your-rights">
+    <div class="breakout-inner">
+      <div class="rights-content">
+        <p class="rights-eyebrow"><Icon name="scale" /> जानिए अपने अधिकार</p>
+        <h2>पुलिस ने परेशान किया? इस्तेमाल और रखना प्रतिबंधित नहीं है।</h2>
+        <p class="rights-lede">
+          सड़क पर वेपर्स को रोकना, ई-सिगरेट को "पूरी तरह अवैध" बताना, और नकद
+          "जुर्माना" मांगना एक वास्तविक और बार-बार होने वाली समस्या है — जो
+          PECA कानून की गलत व्याख्या पर आधारित है। यह खंड ठीक उसी पल के लिए
+          एक प्रमाणित संदर्भ है, जिसे आप दिखा सकते हैं।
+        </p>
+
+        <h3>प्रमाण, एक ही जगह पर</h3>
+        <div class="evidence-grid">
+          <a class="evidence-card" href="https://twitter.com/MoHFW_INDIA/status/1174325122993278977?t=6X-kwOEHGvSL3ndHKTj9uQ&s=19" target="_blank" rel="noopener">
+            <Icon name="quote" />
+            <span class="ev-label">स्वास्थ्य मंत्रालय का अपना ट्वीट</span>
+            <span class="ev-sub">2019 — इस्तेमाल और रखना प्रतिबंधित नहीं</span>
+          </a>
+          <a class="evidence-card" href="https://www.mha.gov.in/sites/default/files/CSDiv_ecigerete_12122019.pdf" target="_blank" rel="noopener">
+            <Icon name="document" />
+            <span class="ev-label">गृह मंत्रालय का परिपत्र</span>
+            <span class="ev-sub">बिंदु C — निजी इस्तेमाल अपराध नहीं है</span>
+          </a>
+          <a class="evidence-card" href="https://twitter.com/vapeindia/status/1200639227425366017?t=UZhVQ7iMF4hDjVOPfSiiZw&s=19" target="_blank" rel="noopener">
+            <Icon name="megaphone" />
+            <span class="ev-label">स्वास्थ्य मंत्री, संसद में</span>
+            <span class="ev-sub">वीडियो — आश्वासन दिया कि इस्तेमाल प्रतिबंधित नहीं होगा</span>
+          </a>
+          <a class="evidence-card" href="/documents/senior-advocate-opinion-vaping-possession.mp4" target="_blank" rel="noopener">
+            <Icon name="scale" />
+            <span class="ev-label">एक वरिष्ठ अधिवक्ता की राय</span>
+            <span class="ev-sub">वीडियो — रखना अपराध क्यों नहीं है</span>
+          </a>
+        </div>
+
+        <h3>अगर पुलिस आपको वेपिंग को लेकर रोके</h3>
+        <ol class="tips-list">
+          <li>शांत और विनम्र रहें — सड़क पर बहस करने के बजाय जानकारी के आधार पर अपनी बात रखें।</li>
+          <li>अधिकारी का नाम, बैज/सेवा नंबर और थाना पूछें। एक असली अधिकारी यह बिना झिझक बताएगा।</li>
+          <li>स्पष्ट रूप से पूछें कि आपने किस कानून और धारा का उल्लंघन किया है। निजी इस्तेमाल या रखने के लिए ऐसी कोई धारा नहीं है।</li>
+          <li>मामला "निपटाने" के लिए कभी नकद न दें। भारतीय कानून में इसके लिए मौके पर नकद जुर्माने का कोई प्रावधान नहीं है — यह रिश्वत या धोखाधड़ी है, दंड नहीं।</li>
+          <li>अगर वे आपका डिवाइस जब्त करने या हिरासत में लेने पर ज़ोर दें, तो थाने चलने और लिखित जब्ती ज्ञापन (seizure memo) मांगें।</li>
+          <li>अपने फोन पर <a href="https://www.mha.gov.in/sites/default/files/CSDiv_ecigerete_12122019.pdf" target="_blank" rel="noopener">गृह मंत्रालय का परिपत्र</a> खोलकर दिखाएं — बिंदु C में यह साफ़ लिखा है।</li>
+          <li>अगर सुरक्षित रूप से संभव हो, तो ऑडियो या वीडियो रिकॉर्ड करें। सिर्फ यह पूछना, "क्या मैं इसे रिकॉर्ड कर सकता हूँ?", अक्सर स्थिति को अपने आप शांत कर देता है।</li>
+          <li>समय, स्थान, वाहन नंबर और दिखने वाले बैज नंबर नोट कर लें।</li>
+          <li>बाद में इसकी शिकायत दर्ज करें — अपने राज्य के पुलिस शिकायत प्राधिकरण या DGP पोर्टल पर, और अगर पैसा लिया गया हो तो भ्रष्टाचार निरोधक ब्यूरो (Anti-Corruption Bureau) में भी।</li>
+          <li><a href="/report-harassment/">जो हुआ उसकी रिपोर्ट करें</a> — दो मिनट, डिफ़ॉल्ट रूप से गुमनाम।</li>
+        </ol>
+
+        <p class="rights-note">
+          यह कानून के बारे में AVI की समझ है, औपचारिक कानूनी सलाह नहीं — किसी
+          सक्रिय कानूनी मामले के लिए वकील से सलाह लें। लेकिन ऊपर दिए गए तथ्य
+          — PECA के पाठ में क्या लिखा है, और दोनों मंत्रालयों ने खुद क्या
+          कहा है — सार्वजनिक रिकॉर्ड हैं, राय नहीं।
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="law-body">
+    <p class="page-note">
+      पूर्ण अंग्रेज़ी पृष्ठ: <a href="/india/law/">/india/law/ →</a>
+    </p>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .law-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center 60%;
+      padding: 3.25rem 0 2.75rem;
+    }
+    .law-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .law-hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 38rem; margin: 0; }
+
+    .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 1.5rem 1.5rem; }
+    .page-note { font-size: 0.9rem; color: var(--muted); }
+
+    .rights-section {
+      background: linear-gradient(160deg, rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f7ede6;
+      padding: 2.75rem 0 3rem;
+      border-top: 4px solid var(--rust);
+      border-bottom: 4px solid var(--rust);
+    }
+    .rights-content { max-width: 44rem; }
+    .rights-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #f6b48a;
+      margin: 0 0 0.75rem;
+    }
+    .rights-eyebrow :global(svg) { width: 1.1rem; height: 1.1rem; }
+    .rights-section h2 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.35; }
+    .rights-section h3 { color: #fff; margin: 2rem 0 0.85rem; font-size: 1.1rem; }
+    .rights-lede { color: #f7f0e9; font-size: 1.02rem; line-height: 1.75; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+    .rights-section p a,
+    .tips-list a { color: #ffd3b0; text-decoration: underline; }
+    .rights-section p a:hover,
+    .tips-list a:hover { color: #fff; }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin: 0 0 1.5rem;
+    }
+    .evidence-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .evidence-card:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.4); }
+    .evidence-card :global(svg) { width: 1.3rem; height: 1.3rem; color: #f6b48a; }
+    .ev-label { font-weight: 700; font-size: 0.92rem; color: #fff; text-shadow: none; }
+    .ev-sub { font-size: 0.8rem; color: #e3d3c8; line-height: 1.4; text-shadow: none; }
+    @media (max-width: 640px) {
+      .evidence-grid { grid-template-columns: 1fr; }
+    }
+
+    .tips-list {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 8px;
+      padding: 1.25rem 1.25rem 1.25rem 2.4rem;
+      margin: 0 0 1.5rem;
+    }
+    .tips-list li { margin-bottom: 0.75rem; line-height: 1.8; }
+    .tips-list li:last-child { margin-bottom: 0; }
+    .rights-note {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #ddccc1;
+      border-left: 3px solid rgba(255,255,255,0.3);
+      padding-left: 1rem;
+      margin-top: 1.5rem;
+      text-shadow: none;
+      line-height: 1.75;
+    }
+  </style>
+</Base>

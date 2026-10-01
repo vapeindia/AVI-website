@@ -15,6 +15,11 @@ interface Props {
    * title itself rather than as a generic suffix. See the comment below on
    * why every other page keeps the short suffix form instead. */
   rawTitle?: boolean;
+  /** `<html lang>`. Defaults to 'en' — only the Hindi draft at
+   * /hi/india/law/ (content/faq-and-guides, item 6) passes 'hi' today.
+   * The nav/footer stay in English regardless, since only two sections of
+   * that one page are translated, not the whole site chrome. */
+  lang?: string;
 }
 const {
   title,
@@ -23,6 +28,7 @@ const {
   image = '/images/og-default.jpg',
   noindex = false,
   rawTitle = false,
+  lang = 'en',
 } = Astro.props;
 
 // Kept short deliberately — the full "Association of Vapers India" name
@@ -61,7 +67,7 @@ function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' |
 const group = activeGroup(path);
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
