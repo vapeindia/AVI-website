@@ -35,17 +35,17 @@ follow both.
 5. **Human in the loop.** One branch and one pull request per task.
    Never merge or deploy. Pipeline output stays `reviewed: false` until
    the site owner approves it.
-   **Conflict with existing notes, flagged rather than silently
-   resolved:** several sections further down this file (the `news` and
-   `research` content-collection notes, and the `harassmentReports`
-   note) document an explicit, dated site-owner instruction to run
-   those pipelines fully automated, with `reviewed: true` and no PR
-   gate. This rule, as given in this October 2026 review, reads as a
-   reversal of that. Don't silently pick one policy over the other —
-   confirm the current intent with the site owner before changing any
-   of those pipelines' review-gate behaviour, and update the relevant
-   section(s) below once confirmed so this file stops contradicting
-   itself.
+   **Confirmed exception (2026-10-01):** this does not apply
+   retroactively to the `news`, `research` and `harassmentReports`
+   pipelines — the site owner confirmed they continue exactly as
+   documented further down this file: fully automated, `reviewed: true`
+   (or, for `harassmentReports`, no `reviewed` field at all) and no PR
+   gate. Rule 5 governs everything else — manual edits, Claude-driven
+   content changes, and any *new* pipeline — not these three named,
+   already-approved automations. Don't reopen this question on their
+   behalf; if a future session wants to add a new automated, no-PR
+   pipeline, that needs its own explicit site-owner sign-off the same
+   way these three got theirs.
 6. **Sourced statistics.** Every statistic on a page shows its source,
    year and link.
 7. **Stable URLs.** Internal links use the canonical trailing-slash
