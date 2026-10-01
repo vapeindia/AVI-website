@@ -5,10 +5,10 @@ import Icon from '../../components/Icon.astro';
 const UPI_ID = 'yespay.bizsbiz129416@yesbankltd';
 const UPI_PAYEE = 'Harm Reduction Policy and Research';
 
-// docs/tasks/07-mobilisation.md item 2, with the site owner's own
-// correction: a upi://pay deep link can't actually be tested on a phone
-// from this environment, so the button ships switched off by default
-// rather than live/untested. Flip to true only after Samrat has confirmed
+// docs/tasks/07-mobilisation.md item 2, with Samrat's own correction: a
+// upi://pay deep link can't actually be tested on a phone from this
+// environment, so the button ships switched off by default rather than
+// live/untested. Flip to true only after Samrat has confirmed
 // the link opens correctly in Google Pay, PhonePe and Paytm on both
 // Android and iPhone — see the PR description's "Needs Samrat" section for
 // the exact test steps and what to do if an app rejects it. The "Copy UPI
@@ -246,4 +246,37 @@ const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURICom
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
     .testimonials-link { font-weight: 600; font-size: 0.95rem; margin: 0; }
   </style>
+
+  <script>
+    // "Copy UPI ID" — ships live regardless of the upi://pay deep link's
+    // own enabled/disabled state (see the correction noted in the
+    // frontmatter above).
+    const copyBtn = document.querySelector<HTMLButtonElement>('.upi-copy-btn');
+    const feedback = document.querySelector<HTMLElement>('[data-upi-copy-feedback]');
+    copyBtn?.addEventListener('click', async () => {
+      const upiId = copyBtn.getAttribute('data-copy-upi') || '';
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(upiId);
+        } else {
+          const tmp = document.createElement('textarea');
+          tmp.value = upiId;
+          tmp.style.position = 'fixed';
+          tmp.style.left = '-9999px';
+          document.body.appendChild(tmp);
+          tmp.select();
+          document.execCommand('copy');
+          document.body.removeChild(tmp);
+        }
+        if (feedback) {
+          feedback.hidden = false;
+          setTimeout(() => { feedback.hidden = true; }, 2000);
+        }
+      } catch {
+        // Clipboard access denied/unsupported — the UPI ID is already
+        // visible as plain selectable text right above the button, so
+        // there's nothing destructive to fall back to.
+      }
+    });
+  </script>
 </Base>
