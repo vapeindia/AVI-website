@@ -1,8 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
+import logo from '../assets/images/avi-logo.png';
+import heroPhoto from '../assets/images/bangalore-protest-hero.jpg';
 
 const hStats = await getHarassmentStats();
 
@@ -50,7 +53,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       </div>
       <div class="hero-photo-wrap">
         <figure>
-          <img src="/images/campaigns/bangalore-protest.jpg" alt="Vapers protesting the e-cigarette ban in Bengaluru, at AVI's nationwide six-city protest, 28 September 2019" />
+          <Image src={heroPhoto} width={1000} height={750} alt="Vapers protesting the e-cigarette ban in Bengaluru, at AVI's nationwide six-city protest, 28 September 2019" loading="eager" />
           <figcaption class="photo-tag">India Vape Ban Protest — six cities, 2019</figcaption>
         </figure>
         <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="/campaigns/#2019-09-28-six-city-vape-ban-protest">More from that day →</a></p>
@@ -86,7 +89,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
   <section class="kyr-wrap">
     <div class="kyr-card" id="kyr-card">
       <div class="kyr-head">
-        <img src="/images/avi-logo.png" alt="" class="kyr-logo" />
+        <Image src={logo} width={56} height={56} alt="" class="kyr-logo" />
         <span class="kyr-brand">Association of Vapers India</span>
       </div>
       <p class="kyr-eyebrow">Know your rights under PECA, 2019</p>
@@ -226,7 +229,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       <p class="eyebrow watch-eyebrow">From our YouTube channel</p>
       <div class="watch-inner">
         <a class="watch-thumb" id="watch-link" href={latestVideo.url} target="_blank" rel="noopener">
-          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" />
+          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" width="480" height="360" />
           <span class="play-badge" aria-hidden="true">▶</span>
         </a>
         <div class="watch-copy">
