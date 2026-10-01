@@ -118,11 +118,18 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
 
   <div class="news-body">
     <div class="disclaimer">
-      <strong>About this feed:</strong> these summaries are generated
-      automatically from a wide pool of Indian and international news
-      sources and outlets — they are not written or vetted by AVI staff,
-      and do not reflect AVI's own views or positions. For AVI's own
+      <strong>About this feed:</strong> every item's summary is AI-written,
+      in AVI's own paraphrased words rather than copied article text, and
+      none of this reflects AVI's own views or positions — for AVI's own
       analysis and statements, see our <a href="/press">press</a> and <a href="/policy">policy</a> pages.
+      Items from an established outlet (major Indian and international
+      news organisations, or established science/medical journals) publish
+      automatically once they pass a set of automated filters; anything
+      naming a specific vape/tobacco brand, from a trade outlet that itself
+      carries product advertising, or from any other source gets an AVI
+      team member's look before it goes live. Automated or reviewed, no
+      item here is independently fact-checked the way AVI's own statements
+      are.
     </div>
 
     {(() => {

@@ -86,8 +86,10 @@ const research = defineCollection({
     ]),
     substance: z.array(z.enum(['e-cigarette', 'nicotine-pouch', 'snus', 'combustible', 'general'])).default(['general']),
     brief: z.string().max(500),   // plain-language AI summary, paraphrased not quoted
-    relevanceToIndia: z.string().optional(),
-    reviewed: z.boolean().default(true), // passed the script's own validation — see comment above
+    relevanceToIndia: z.string().optional(), // AI-written, often "None stated." — see whyItMattersIndia below for the human-written counterpart
+    whyItMattersIndia: z.string().optional(), // human-written only — fetch-research.mjs never sets this. Its presence/absence drives noindex (see science/[...slug].astro) and the detail-page section.
+    reviewedDate: z.coerce.date().optional(), // set only when a human has actually read and checked this entry — drives the AI-disclosure label on the detail page. Never set by fetch-research.mjs.
+    reviewed: z.boolean().default(true), // passed the script's own validation — see comment above. Distinct from reviewedDate: this means "passed automated filters," not "a person checked it."
   }),
 });
 
