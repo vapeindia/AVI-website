@@ -1,0 +1,141 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { getGitDates } from '../../lib/git-dates';
+
+// Only reviewed entries get a built page — an entry committed as
+// `reviewed: false` (a draft statement awaiting Samrat's sign-off, see
+// content/newsroom) has no public URL at all until the flag flips, same
+// as the testimonials pipeline's gate.
+export async function getStaticPaths() {
+  const items = await getCollection('press', ({ data }) => data.reviewed);
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+
+const typeLabel: Record<string, string> = {
+  coverage: 'Coverage',
+  interview: 'Interview',
+  'op-ed': 'Op-ed',
+  'press-release': 'Statement',
+  quote: 'Quote',
+};
+
+// AVI's own voice (press-release/quote) gets an Article schema, attributed
+// to AVI as author — `coverage`/`op-ed`/`interview` are third-party work
+// ABOUT or BY AVI elsewhere, not AVI's own authored page, so marking those
+// up as an AVI-authored Article would misattribute them. Mirrors the same
+// distinction src/pages/press/index.astro already draws for its
+// statementArticlesLd block.
+const isAviStatement = item.data.type === 'press-release' || item.data.type === 'quote';
+
+function displayDate(d: Date): string {
+  if (d.getUTCMonth() === 0 && d.getUTCDate() === 1) {
+    return String(d.getUTCFullYear());
+  }
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+// No dedicated dek/summary field on this collection (unlike litigation's
+// `summary`) — derive a plain-text meta description from the entry's own
+// markdown body instead, same truncate-to-155 pattern litigation/[...slug]
+// uses for its own description.
+function plainText(md: string): string {
+  return md
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#*_`>]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+const bodyText = plainText(item.body ?? '');
+const description = bodyText.length > 155
+  ? bodyText.slice(0, 155).replace(/\s+\S*$/, '') + '…'
+  : (bodyText || `${typeLabel[item.data.type]} from ${item.data.outlet}, ${displayDate(item.data.date)}.`);
+
+const gitDates = getGitDates(`src/content/press/${item.id}.md`);
+const articleLd = isAviStatement ? {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: item.data.title,
+  datePublished: item.data.date.toISOString().slice(0, 10),
+  dateModified: gitDates.modified,
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+  url: item.data.url || item.data.archivePdf || undefined,
+} : null;
+---
+<Base title={item.data.title} description={description}>
+  {articleLd && <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />}
+  <p><a href="/press/">← Back to press</a></p>
+  <span class={`type-badge type-${item.data.type}`}>{typeLabel[item.data.type]}</span>
+  <h1>{item.data.title}</h1>
+  <p class="meta"><small>{item.data.outlet} · <time datetime={item.data.date.toISOString()}>{displayDate(item.data.date)}</time></small></p>
+  <div class="body">
+    <Content />
+  </div>
+  {(item.data.url || item.data.archivePdf) && (
+    <p class="source-link">
+      <a href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">
+        {isAviStatement ? 'Original distribution/archive copy →' : 'Read the original →'}
+      </a>
+    </p>
+  )}
+
+  <div class="press-detail-related">
+    <a href="/press/" class="related-card">
+      <h3>All press →</h3>
+      <p>Every AVI statement and piece of independent coverage, in one place.</p>
+    </a>
+    <a href="/press/media-kit/" class="related-card">
+      <h3>Media kit →</h3>
+      <p>Boilerplate, bios, AVI's stats and who to contact for a story.</p>
+    </a>
+  </div>
+
+  <style>
+    .type-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent-dark);
+      margin-bottom: 0.75rem;
+    }
+    .type-coverage { background: var(--accent); }
+    .type-interview { background: var(--gold); }
+    .type-op-ed { background: var(--rust); }
+    .type-press-release { background: var(--accent-dark); }
+    .type-quote { background: var(--muted); }
+    h1 { margin-top: 0.25rem; }
+    .meta { color: var(--muted); margin-top: -0.5rem; }
+    .body :global(p) { line-height: 1.65; }
+    .source-link { font-weight: 600; }
+
+    .press-detail-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>
