@@ -20,6 +20,10 @@ No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2
 
 Yes. It is the burning of tobacco — not the nicotine — that causes most smoking-related disease, per major health bodies including the UK's Royal College of Physicians; vaping involves no combustion. Cochrane's 2025 living review found about 8–10 smokers per 100 quit using nicotine e-cigarettes, versus 6 per 100 with nicotine replacement therapy (gums, patches) and 4 per 100 with no support — the best-certainty head-to-head evidence available, favouring e-cigarettes. Full evidence and sourcing at https://vapeindia.org/quit.
 
+## Are nicotine pouches or snus legal in India?
+
+No law names or bans nicotine pouches, but as of September 2026 there is no lawful route to sell them either — a two-agency regulatory freeze, not an Act of Parliament. Nicotine pouches contain no tobacco leaf, so COTPA doesn't cover them and they fall to FSSAI, whose Regulation 2.3.4 bars nicotine as a food ingredient. The only other legal route — as a drug — was closed when the Drugs Technical Advisory Board (DTAB) recommended on 27 August 2026 that no new nicotine formulations be approved; CDSCO and the Union Health Ministry have since issued enforcement directives, and states are seizing stock. AVI's position: this rests on the same jurisdictional overreach courts rejected for e-cigarettes in 2019, since no nicotine pouch is marketed in India as a cessation drug. Full detail at https://vapeindia.org/india/law.
+
 ## Core pages
 
 - [Homepage](https://vapeindia.org/): Overview of AVI's tobacco harm reduction advocacy in India.
