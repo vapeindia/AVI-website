@@ -15,15 +15,32 @@
  * social-media post, a forum thread/post, a tag/category index page, or a
  * stock-data "company hub" page with no real story (see
  * NON_ARTICLE_URL_PATTERNS / MARKET_DATA_TITLE_PATTERNS / the post-summary
- * looksLikeNoContentSummary() check below). Writes a paraphrased AI
- * summary per item and creates entries under src/content/news/ with
- * `reviewed: true` — as of 2026-09 this pipeline is fully automated
- * (explicit site-owner instruction) and the GitHub Action commits straight
- * to main, no PR/human gate. `reviewed` here means "passed the automated
- * filters above," not "a person checked it" — see the standing disclaimer
- * on the News index page. This is scoped to `news` only; fetch-research.mjs
- * and the testimonials pipeline are unchanged and still require human
- * review.
+ * looksLikeNoContentSummary() check below), market-research/brand-ranking
+ * wire reports (isMarketResearch()), and items with no actual tobacco/
+ * nicotine/vaping term anywhere in the title or snippet (isRelevant() — the
+ * floor that stops a loosely-matching Google Alert, e.g. "PECA 2019"
+ * surfacing an NHL player named Peca, from reaching this far at all).
+ * Syndicated copies of one wire story across multiple outlets are
+ * deduplicated (dedupeSyndicated()), keeping the earliest/most-original
+ * publisher. Writes a paraphrased AI summary per item.
+ *
+ * As of a fix/pipelines hardening pass, this is a HYBRID, not fully
+ * automated: an item only gets `reviewed: true` (auto-published, GitHub
+ * Action commits straight to main) when it also comes from an outlet on
+ * ALLOWLISTED_OUTLETS and clears every filter above. Everything else that
+ * clears the filters — a named vape/tobacco brand (matchedReviewBrand(),
+ * routed to review rather than blocked outright since a brand mention
+ * isn't always an ad), a trade outlet that itself runs product advertising
+ * (vapingpost.com and similar), or simply an outlet not on the allowlist
+ * (most Google Alert results, since an Alert can surface any domain Google
+ * indexes) — is written `reviewed: false` and reaches the site only via the
+ * weekly review PR (see .github/workflows/fetch-news.yml), not main
+ * directly. `reviewed: true` still means "passed the automated filters AND
+ * is from a trusted outlet," not "a person checked this specific item" —
+ * see the standing disclaimer on the News index page, which describes this
+ * distinction. Scoped to `news` only; fetch-research.mjs and the
+ * testimonials pipeline are separate and already require human review for
+ * anything not auto-approved by their own rules.
  *
  * Requires ANTHROPIC_API_KEY env var. Run via GitHub Action on a schedule.
  */
@@ -40,8 +57,70 @@ function loadJson(file, fallback) {
 }
 
 const FEEDS = loadJson('feeds.json', []);
-const BLOCKLIST = loadJson('blocklist.json', []);
+// blocklist.json used to be a flat domain array; it's now an object with
+// `domains` (hostname blocklist, unchanged behaviour), `rejectPatterns`
+// (promotional-language auto-reject, added after two DOJO flavour-launch
+// posts and similar went live) and `reviewBrands` (named vape brands that
+// route to manual review instead of either publishing or rejecting outright
+// — a brand mention isn't always an ad, e.g. a lawsuit or FDA action, so it
+// gets a human glance rather than a blanket block). Support the old flat-
+// array shape too, so a stale/hand-edited config doesn't crash the script.
+const BLOCKLIST_RAW = loadJson('blocklist.json', { domains: [], rejectPatterns: [], reviewBrands: [] });
+const BLOCKLIST = Array.isArray(BLOCKLIST_RAW) ? BLOCKLIST_RAW : (BLOCKLIST_RAW.domains ?? []);
+const REJECT_PATTERNS = Array.isArray(BLOCKLIST_RAW) ? [] : (BLOCKLIST_RAW.rejectPatterns ?? []).map((p) => new RegExp(p, 'i'));
+const REVIEW_BRANDS = Array.isArray(BLOCKLIST_RAW) ? [] : (BLOCKLIST_RAW.reviewBrands ?? []);
 const PRESS_WIRE_DOMAINS = loadJson('press-wire-domains.json', []);
+
+// Established outlets whose own editorial process is trusted enough to
+// auto-publish once an item has passed every other filter below. Everything
+// else — including every other domain a broad Google Alert can surface —
+// is written as a reviewed:false draft instead of published outright; see
+// main() and .github/workflows/fetch-news.yml for how those drafts reach a
+// weekly review PR rather than main directly.
+const ALLOWLISTED_OUTLETS = [
+  'reuters.com', 'ptinews.com', 'thehindu.com', 'indianexpress.com',
+  'theprint.in', 'hindustantimes.com', 'timesofindia.indiatimes.com',
+  'economictimes.indiatimes.com', 'livemint.com', 'scroll.in', 'ndtv.com',
+  'bmj.com', 'nature.com', 'filtermag.org',
+];
+
+function isAllowlistedOutlet(url) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '');
+    return ALLOWLISTED_OUTLETS.some((d) => host === d || host.endsWith(`.${d}`));
+  } catch {
+    return false;
+  }
+}
+
+// These specific words are legitimate in an enforcement/crime story about a
+// vape shop ("police raided a vape store", "customs seized stock from an
+// e-cigarette shop") — exactly the kind of policy-relevant news this feed
+// should keep, not promotional copy. Reject only when no such context is
+// present; flavour/puff-count/pod/coil/launch-type patterns don't get this
+// exception since they essentially never appear in a genuine enforcement
+// story.
+const COMMERCIAL_WORDS_NEEDING_CONTEXT = new Set(['buy', 'shop', 'shops', 'store', 'stores', 'price', 'prices', 'offer', 'offers', 'discount', 'discounts']);
+const ENFORCEMENT_CONTEXT_PATTERN = /\b(police|raid(ed)?|seiz(e|ed|ure)|arrest(ed)?|bust(ed)?|sealed|crackdown|confiscat(e|ed|ion)|illegal|smuggl(e|ed|ing)|customs|court|sentenc(e|ed|ing)|fine(d)?|prosecut(e|ed|ion))\b/i;
+
+function matchesRejectPattern(item) {
+  const haystack = `${item.title} ${item.snippet}`;
+  for (const re of REJECT_PATTERNS) {
+    const m = re.exec(haystack);
+    if (!m) continue;
+    const word = m[0].toLowerCase().replace(/s$/, '');
+    if (COMMERCIAL_WORDS_NEEDING_CONTEXT.has(m[0].toLowerCase()) || COMMERCIAL_WORDS_NEEDING_CONTEXT.has(word)) {
+      if (ENFORCEMENT_CONTEXT_PATTERN.test(haystack)) continue; // legitimate enforcement story, not a promo
+    }
+    return re;
+  }
+  return null;
+}
+
+function matchedReviewBrand(item) {
+  const haystack = `${item.title} ${item.snippet}`;
+  return REVIEW_BRANDS.find((b) => new RegExp(`\\b${b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(haystack)) ?? null;
+}
 
 function isBlocked(url) {
   try {
@@ -134,6 +213,35 @@ function isIndustryPressRelease(item) {
     // malformed URL — let isBlocked() handle exclusion, not this check
   }
   return PRESS_RELEASE_TITLE_PATTERNS.some((re) => re.test(item.title));
+}
+
+// Every item must mention an actual tobacco/nicotine/vaping term somewhere
+// in the title or snippet — added after the "PECA 2019" Google Alert
+// (which has no per-feed keywordFilter, unlike the Filter/GFN feed) matched
+// an NHL player's surname, Matthew Peca, with zero tobacco relevance
+// anywhere in the story. This is a floor that applies to every feed,
+// Google Alerts included, regardless of whether that feed also defines its
+// own keywordFilter below.
+const RELEVANCE_TERMS = /\b(nicotine|tobacco|cigarette|e-?cigarette|vap(e|es|ing|er|ers)|ENDS|smokeless|snus|nicotine pouch(es)?|heated tobacco|HTP|bidi(s)?|khaini|gutk?h?a|hookah|waterpipe|PECA)\b/i;
+
+function isRelevant(item) {
+  return RELEVANCE_TERMS.test(`${item.title} ${item.snippet}`);
+}
+
+// Market-research/brand-ranking wire content ("Market Forecast to 2035",
+// "Top N Tobacco Brands...") — genuine news coverage ABOUT the industry
+// (a lawsuit, a regulatory action, a market-size figure cited inside a
+// policy story) stays in; a standalone market-research report doesn't.
+const MARKET_RESEARCH_TITLE_PATTERNS = [
+  /\bmarket (forecast|report|size|growth|analysis|outlook)\b/i,
+  /\bindustry report\b/i,
+  /\btop\s+\d+\s+.{0,30}\bbrands?\b/i,
+  /\bmarket is growing\b/i,
+  /\bcagr\b/i,
+];
+
+function isMarketResearch(title) {
+  return MARKET_RESEARCH_TITLE_PATTERNS.some((re) => re.test(title));
 }
 
 function matchesKeywords(item, keywords) {
@@ -421,7 +529,7 @@ function slugify(title) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 80);
 }
 
-function toFrontmatter(item, ai) {
+function toFrontmatter(item, ai, reviewed) {
   const date = new Date(item.date);
   return `---
 title: ${JSON.stringify(item.title)}
@@ -430,68 +538,159 @@ sourceName: ${JSON.stringify(item.sourceName)}
 sourceUrl: ${JSON.stringify(item.url)}
 summary: ${JSON.stringify(clampSummary(ai.summary, SUMMARY_MAX))}
 topic: ${JSON.stringify(ai.topic)}
-reviewed: true
+reviewed: ${reviewed}
 ---
 `;
+}
+
+// Syndicated copies of one wire story (the same nicotine-pouch story ran
+// under five different outlet bylines on 25-26 Sep once) cluster here by a
+// normalized title signature — lowercased, punctuation stripped, common
+// stopwords dropped, remaining significant words sorted so word-order
+// differences between outlets' headlines don't defeat the match — plus a
+// 72-hour date window. Within a cluster, keep whichever item is both dated
+// earliest AND from an allowlisted outlet when one exists (a syndicator
+// often reposts a wire story a few hours after the original with an
+// identical or near-identical pubDate, so earliest-alone isn't a reliable
+// tiebreaker); otherwise just the earliest.
+const STOPWORDS = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'from', 'by', 'is', 'are', 'was', 'were', 'as', 'it', 'its', 'after', 'over', 'amid']);
+
+function titleSignature(title) {
+  const words = title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w && !STOPWORDS.has(w));
+  return [...new Set(words)].sort().join(' ');
+}
+
+function dedupeSyndicated(items) {
+  const clusters = [];
+  for (const item of items) {
+    const sig = titleSignature(item.title);
+    const itemTime = new Date(item.date).getTime();
+    const cluster = clusters.find((c) => c.sig === sig && Math.abs(c.items[0].time - itemTime) < 72 * 3600_000);
+    if (cluster) {
+      cluster.items.push({ item, time: itemTime });
+    } else {
+      clusters.push({ sig, items: [{ item, time: itemTime }] });
+    }
+  }
+  const kept = [];
+  for (const cluster of clusters) {
+    if (cluster.items.length === 1) {
+      kept.push(cluster.items[0].item);
+      continue;
+    }
+    const sorted = [...cluster.items].sort((a, b) => a.time - b.time);
+    const allowlistedFirst = sorted.find((x) => isAllowlistedOutlet(x.item.url));
+    const winner = allowlistedFirst ?? sorted[0];
+    kept.push(winner.item);
+    console.log(`Deduped ${cluster.items.length} syndicated copies of "${winner.item.title}" — kept ${winner.item.url}`);
+  }
+  return kept;
 }
 
 async function main() {
   const seen = existingUrls();
   fs.mkdirSync(CONTENT_DIR, { recursive: true });
-  let written = 0;
+  let publishedCount = 0;
+  let reviewCount = 0;
 
+  // Phase 1: gather every candidate from every feed before filtering, so
+  // cross-feed syndicated duplicates (the same wire story via two different
+  // outlets' RSS) can be caught by dedupeSyndicated() below — a per-feed
+  // loop could never see across feeds.
+  let allItems = [];
   for (const feed of FEEDS) {
-    let items = [];
     try {
-      items = await fetchFeed(feed.url, feed.name);
+      const items = await fetchFeed(feed.url, feed.name);
+      allItems.push(...items.map((it) => ({ ...it, keywordFilter: feed.keywordFilter })));
     } catch (err) {
       console.error(`Feed failed: ${feed.name} — ${err.message}`);
+    }
+  }
+  allItems = allItems.filter((item) => item.url && !seen.has(item.url));
+  allItems = dedupeSyndicated(allItems);
+
+  for (const item of allItems) {
+    if (seen.has(item.url)) continue; // dedup may have re-surfaced an already-written URL as a cluster loser
+    if (isBlocked(item.url)) {
+      console.log(`Blocked (commercial domain): ${item.url}`);
       continue;
     }
-    for (const item of items) {
-      if (!item.url || seen.has(item.url)) continue;
-      if (isBlocked(item.url)) {
-        console.log(`Blocked (commercial domain): ${item.url}`);
-        continue;
-      }
-      if (isVendorHostname(item.url)) {
-        console.log(`Blocked (vendor-shaped hostname): ${item.url}`);
-        continue;
-      }
-      if (isSuspiciousRedirectUrl(item.url)) {
-        console.log(`Blocked (spam/open-redirect URL shape): ${item.url}`);
-        continue;
-      }
-      if (isIndustryPressRelease(item)) {
-        console.log(`Skipped (industry press release): ${item.title}`);
-        continue;
-      }
-      if (isOffTopicJunk(item)) {
-        console.log(`Skipped (off-topic/low-quality title pattern): ${item.title}`);
-        continue;
-      }
-      if (isNonArticleUrl(item.url) || MARKET_DATA_TITLE_PATTERNS.some((re) => re.test(item.title))) {
-        console.log(`Skipped (not an article — social post, tag page or company market-data hub): ${item.title}`);
-        continue;
-      }
-      if (!matchesKeywords(item, feed.keywordFilter)) {
-        console.log(`Skipped (off-topic per keywordFilter): ${item.title}`);
-        continue;
-      }
-      seen.add(item.url);
-      const ai = await writeSummary(item);
-      if (looksLikeNoContentSummary(ai.summary)) {
-        console.log(`Skipped (AI reports no real content in snippet): ${item.title}`);
-        continue;
-      }
-      const date = new Date(item.date);
-      const filename = `${date.toISOString().slice(0, 10)}-${slugify(item.title)}.md`;
-      fs.writeFileSync(path.join(CONTENT_DIR, filename), toFrontmatter(item, ai));
-      written += 1;
+    if (isVendorHostname(item.url)) {
+      console.log(`Blocked (vendor-shaped hostname): ${item.url}`);
+      continue;
+    }
+    if (isSuspiciousRedirectUrl(item.url)) {
+      console.log(`Blocked (spam/open-redirect URL shape): ${item.url}`);
+      continue;
+    }
+    if (isIndustryPressRelease(item)) {
+      console.log(`Skipped (industry press release): ${item.title}`);
+      continue;
+    }
+    if (isOffTopicJunk(item)) {
+      console.log(`Skipped (off-topic/low-quality title pattern): ${item.title}`);
+      continue;
+    }
+    if (isNonArticleUrl(item.url) || MARKET_DATA_TITLE_PATTERNS.some((re) => re.test(item.title))) {
+      console.log(`Skipped (not an article — social post, tag page or company market-data hub): ${item.title}`);
+      continue;
+    }
+    if (isMarketResearch(item.title)) {
+      console.log(`Skipped (market-research/brand-ranking report): ${item.title}`);
+      continue;
+    }
+    if (!isRelevant(item)) {
+      console.log(`Skipped (no tobacco/nicotine/vaping term in title or snippet): ${item.title}`);
+      continue;
+    }
+    if (!matchesKeywords(item, item.keywordFilter)) {
+      console.log(`Skipped (off-topic per keywordFilter): ${item.title}`);
+      continue;
+    }
+    const rejectHit = matchesRejectPattern(item);
+    if (rejectHit) {
+      console.log(`Blocked (promotional-language pattern ${rejectHit}): ${item.title}`);
+      continue;
+    }
+
+    seen.add(item.url);
+    const ai = await writeSummary(item);
+    if (looksLikeNoContentSummary(ai.summary)) {
+      console.log(`Skipped (AI reports no real content in snippet): ${item.title}`);
+      continue;
+    }
+
+    // Needs-review routing: a named vape/tobacco brand (could be a lawsuit
+    // or FDA action, not necessarily an ad — a human should glance at it),
+    // a trade outlet that itself carries product advertising, or any
+    // outlet not on the trusted allowlist — which, for the Google Alerts
+    // feeds especially, is most items, since an Alert can surface any
+    // domain Google indexes. Only an allowlisted outlet that also clears
+    // every filter above auto-publishes; everything else becomes a
+    // reviewed:false draft for the weekly review PR (see
+    // .github/workflows/fetch-news.yml) rather than main directly.
+    const brandHit = matchedReviewBrand(item);
+    const isTradeOutletWithAds = PRESS_WIRE_DOMAINS.some((d) => { try { return new URL(item.url).hostname.replace(/^www\./, '').endsWith(d); } catch { return false; } }) || /vapingpost\.com$/i.test(new URL(item.url).hostname);
+    const allowlisted = isAllowlistedOutlet(item.url);
+    const needsReview = !!brandHit || isTradeOutletWithAds || !allowlisted;
+
+    const date = new Date(item.date);
+    const filename = `${date.toISOString().slice(0, 10)}-${slugify(item.title)}.md`;
+    fs.writeFileSync(path.join(CONTENT_DIR, filename), toFrontmatter(item, ai, !needsReview));
+    if (needsReview) {
+      reviewCount += 1;
+      const why = brandHit ? `named brand "${brandHit}"` : isTradeOutletWithAds ? 'trade outlet running product ads' : 'outlet not on the trusted allowlist';
+      console.log(`Wrote for review (${why}): ${filename}`);
+    } else {
+      publishedCount += 1;
       console.log(`Wrote draft: ${filename}`);
     }
   }
-  console.log(`Done. ${written} new news entries written (reviewed: true — passed automated filters, no human gate).`);
+  console.log(`Done. ${publishedCount} entries auto-published (reviewed: true — allowlisted outlet, passed every automated filter), ${reviewCount} entries written for weekly human review (reviewed: false).`);
 }
 
 main().catch((err) => {

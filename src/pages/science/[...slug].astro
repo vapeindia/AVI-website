@@ -3,7 +3,12 @@ import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const items = await getCollection('research');
+  // Without this filter, a reviewed:false draft still gets built as a live
+  // page and lands in the sitemap even though /science's own index hides
+  // it — exactly the kind of silent mismatch that makes the sitemap and
+  // the visible library disagree. Matches the filter index.astro already
+  // applies to the same collection.
+  const items = await getCollection('research', ({ data }) => data.reviewed);
   return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
 }
 const { item } = Astro.props;
@@ -11,8 +16,18 @@ const { Content } = await render(item);
 const description = item.data.brief.length > 155
   ? item.data.brief.slice(0, 155).replace(/\s+\S*$/, '') + '…'
   : item.data.brief;
+
+// Noindex any entry a human hasn't written an India-relevance note for —
+// without this, the library's thin, auto-generated-only pages (the vast
+// majority, since whyItMattersIndia is never set by the fetch script)
+// would otherwise compete in search against AVI's own real content.
+const noindex = !item.data.whyItMattersIndia;
+
+const aiLabel = item.data.reviewedDate
+  ? `Plain-language summary written with AI and checked by AVI on ${item.data.reviewedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}.`
+  : 'Plain-language summary written with AI, from the published abstract — not yet individually checked by AVI.';
 ---
-<Base title={item.data.title} description={description}>
+<Base title={item.data.title} description={description} noindex={noindex}>
   <p><a href="/science">← Back to research library</a></p>
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
@@ -20,9 +35,12 @@ const description = item.data.brief.length > 155
   <div class="tags">
     {item.data.substance.map((s) => <span class="tag">{s}</span>)}
   </div>
+  <p class="ai-label">{aiLabel}</p>
   <p class="lead">{item.data.brief}</p>
-  {item.data.relevanceToIndia && (
-    <p class="india-note"><strong>Relevance to India:</strong> {item.data.relevanceToIndia}</p>
+  {item.data.whyItMattersIndia ? (
+    <p class="india-note"><strong>Why it matters for India:</strong> {item.data.whyItMattersIndia}</p>
+  ) : item.data.relevanceToIndia && (
+    <p class="india-note india-note-ai"><strong>Relevance to India (AI-drafted):</strong> {item.data.relevanceToIndia}</p>
   )}
   <Content />
   <p class="links">
@@ -65,12 +83,14 @@ const description = item.data.brief.length > 155
       padding: 0.15rem 0.5rem;
       border-radius: 4px;
     }
+    .ai-label { font-size: 0.8rem; font-style: italic; color: var(--muted); margin: 0 0 1rem; }
     .lead { font-size: 1.05rem; }
     .india-note {
       background: var(--paper-alt);
       border-left: 3px solid var(--gold);
       padding: 1rem 1.25rem;
     }
+    .india-note-ai { border-left-color: var(--border); font-size: 0.92rem; color: var(--muted); }
     .links { margin-top: 2rem; font-weight: 600; }
 
     .study-related {

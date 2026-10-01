@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   fetch:
@@ -26,21 +27,55 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/fetch-news.mjs
 
-      # Fully automated as of 2026-09 (explicit site-owner instruction) — no
-      # PR, no human review gate. Commercial/vendor domains, industry press
-      # releases and off-topic items are screened by fetch-news.mjs itself
-      # (blocklist.json, press-wire-domains.json + title patterns,
-      # keywordFilter); the News index carries a standing disclaimer that
-      # these are auto-generated and don't reflect AVI's views. Scoped to
-      # `news` only — research and testimonials still go through a PR.
-      - name: Commit and push new entries
+      # Hybrid as of a fix/pipelines hardening pass (see fetch-news.mjs's own
+      # header comment for the full rule): fetch-news.mjs writes each new
+      # file with reviewed: true (allowlisted outlet, passed every filter)
+      # or reviewed: false (named brand, trade outlet with ads, or any
+      # non-allowlisted source) already decided. This step only has to sort
+      # the resulting files by that field — it doesn't re-decide anything.
+      - name: Split new entries by reviewed flag
+        id: split
+        run: |
+          mkdir -p /tmp/auto /tmp/review
+          to_publish=0
+          to_review=0
+          for f in $(git status --porcelain src/content/news | awk '{print $2}'); do
+            if grep -q '^reviewed: true$' "$f"; then
+              echo "$f" >> /tmp/auto/list.txt
+              to_publish=$((to_publish+1))
+            else
+              echo "$f" >> /tmp/review/list.txt
+              to_review=$((to_review+1))
+            fi
+          done
+          echo "to_publish=$to_publish" >> "$GITHUB_OUTPUT"
+          echo "to_review=$to_review" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push auto-published entries
+        if: steps.split.outputs.to_publish != '0'
         run: |
           git config user.name "AVI news bot"
           git config user.email "contact@vapeindia.org"
-          git add src/content/news
-          if git diff --cached --quiet; then
-            echo "No new entries."
-          else
-            git commit -m "News: add new auto-fetched entries"
-            git push
-          fi
+          git add $(cat /tmp/auto/list.txt)
+          git commit -m "News: add ${{ steps.split.outputs.to_publish }} auto-published entries"
+          git push
+
+      # One standing branch/PR that accumulates across every scheduled run
+      # until a human reviews and merges it — create-pull-request updates
+      # the existing PR (adding that run's new files as another commit)
+      # rather than opening a new one each time, which is what makes this a
+      # "weekly" review PR in practice even though the workflow itself runs
+      # daily.
+      - name: Open or update the weekly review PR
+        if: steps.split.outputs.to_review != '0'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: ${{ 'src/content/news' }}
+          commit-message: "News: ${{ steps.split.outputs.to_review }} items awaiting review"
+          branch: auto/news-weekly-review
+          title: "Weekly news review"
+          body: |
+            Items here each failed at least one trust check and need a human look before publishing — see each file's `topic`/`sourceName` and the commit history on this branch for why. Flip `reviewed: true` (and merge) for anything that's genuinely fine, edit or delete anything that isn't.
+
+            Routed here because the item: named a specific vape/tobacco brand, came from a trade outlet that itself carries product advertising, or came from a source not on `ALLOWLISTED_OUTLETS` in `scripts/fetch-news.mjs`.
+          labels: content-review

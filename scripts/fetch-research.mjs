@@ -59,6 +59,33 @@ function sanitizeBrief(brief) {
   };
 }
 
+// Relevance gate, added after the library accumulated papers on gambling,
+// cannabis craving, opioid/stimulant use, alcohol in pregnancy, COPD
+// epigenetics and the Trier social stress test — each matched one of the
+// broad PubMed queries below on a tangential mention (nicotine used only as
+// a covariate, a shared study population, etc.), not because the paper is
+// actually about tobacco/nicotine harm reduction. Two independent
+// requirements, both checked against title+abstract: a real product/
+// substance term, AND a harm-reduction-relevant angle. Title/abstract
+// mentioning nicotine in passing is not enough on its own.
+//
+// Verified against the actual research library before finalizing: an
+// earlier draft of these two regexes missed plain "smoking"/"smoker",
+// plural forms (adolescent{s}, regulat{ion/ory/ions}), "quitline" (word-
+// boundary \b doesn't match mid-compound-word), and comparative-risk
+// phrasing that doesn't use the literal string "reduced-risk" (e.g.
+// "exhibit reduced toxicological effects compared to cigarette smoke") —
+// each would have wrongly flagged a genuinely on-topic paper as a removal
+// candidate. Fixed by using \w* stems instead of a fixed set of suffixes
+// wherever a plural/inflection was the actual gap.
+const PRODUCT_TERMS = /\b(nicotine|tobacco|smoking|smoker\w*|cigarette\w*|e-?cigarette\w*|vap\w*|ENDS|smokeless|snus|nicotine pouch\w*|heated tobacco|HTP|cigar\w*|bidi\w*|khaini|gutk?h?a|hookah|waterpipe)\b/i;
+const ANGLE_TERMS = /\b(cessation|quit\w*|abstinen\w*|relative risk|harm reduction|less harmful|safer|reduced|modified[- ]risk|compared (to|with)|versus|vs\.?|youth|young(er)? (people|adults?)|teen\w*|adolescent\w*|minor\w*|underage|regulat\w*|polic\w*|ban\w*|legislat\w*|tax\w*)\b/i;
+
+function isRelevant(paper) {
+  const haystack = `${paper.title} ${paper.abstract || ''}`;
+  return PRODUCT_TERMS.test(haystack) && ANGLE_TERMS.test(haystack);
+}
+
 const QUERIES = [
   '(electronic cigarette OR e-cigarette OR vaping OR ENDS) AND (smoking cessation OR harm reduction)',
   '(nicotine pouch OR snus) AND (health OR cessation OR safety)',
@@ -159,8 +186,18 @@ Respond ONLY as JSON: {"brief": "...", "relevanceToIndia": "...", "studyType": "
   }
 }
 
+// Breaks at a word boundary rather than a hard character cut — a plain
+// .slice(N) can land mid-word or leave a dangling trailing hyphen (both
+// happened across most of this collection's existing slugs before a
+// fix/pipelines pass renamed them with 301s; see public/_redirects).
 function slugify(title) {
-  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 80);
+  let slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  if (slug.length > 60) {
+    slug = slug.slice(0, 60);
+    const lastHyphen = slug.lastIndexOf('-');
+    if (lastHyphen > 0) slug = slug.slice(0, lastHyphen);
+  }
+  return slug.replace(/-+$/, '');
 }
 
 function toFrontmatter(paper, brief) {
@@ -193,6 +230,10 @@ async function main() {
     for (const paper of papers) {
       if (seen.has(paper.pubmedId)) continue;
       seen.add(paper.pubmedId);
+      if (!isRelevant(paper)) {
+        console.log(`Skipped (no product term + harm-reduction angle together): ${paper.title}`);
+        continue;
+      }
 
       const rawBrief = await writeBrief(paper);
       const brief = sanitizeBrief(rawBrief);
