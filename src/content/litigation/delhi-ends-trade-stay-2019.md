@@ -9,8 +9,6 @@ summary: "Sellers of ENDS devices, joined by an individual consumer, challenged 
 documents: []
 ---
 
-Shortened at the site owner's request: court and year only, no case numbers.
-
 This is a **seller-brought case, clearly distinct from AVI**: it was filed, argued
 and funded by the vendors and the individual consumer named as petitioners, not by
 AVI. AVI is a consumer advocacy organisation and does not fund, file, or direct

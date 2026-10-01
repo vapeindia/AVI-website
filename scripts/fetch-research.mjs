@@ -98,7 +98,13 @@ async function searchPubMed(query, sinceDate) {
       title: s.title,
       authors: (s.authors ?? []).map((a) => a.name).join(', ') || 'Unknown',
       journal: s.fulljournalname ?? s.source ?? '',
-      year: parseInt((s.pubdate ?? '').slice(0, 4), 10) || new Date().getFullYear(),
+      // Prefer epubdate (when the article actually went live online) over
+      // pubdate (the print/issue date) — for continuously-published online
+      // journals these can land a full year apart (e.g. an article epub'd
+      // Sept 2026 whose print issue is dated "2027 Jan"), and pubdate alone
+      // produced a visibly-wrong future-dated entry on the live site once
+      // already. Fall back to pubdate, then today, if epubdate is absent.
+      year: parseInt((s.epubdate || s.pubdate || '').slice(0, 4), 10) || new Date().getFullYear(),
       doi: (s.elocationid ?? '').replace('doi: ', '') || undefined,
       abstract: abstractsById[id] ?? '',
     };

@@ -91,3 +91,10 @@
 # already the same path on the new site, so no redirect needed for those
 # either — a bare "/india/ -> /india" rule was here briefly and caused a
 # redirect loop that took the whole India section down; fixed 2026-09-09.
+
+# --- Content date corrections ---
+# A PubMed research entry's year was corrected from 2027 to 2026 (the print
+# issue date vs. the article's actual Sept 2026 epub date — see the
+# fetch-research.mjs comment at its year-parsing line). The slug is
+# filename-derived, so the URL changed too.
+/science/2027-impact-of-non-tobacco-nicotine-products-on-postoperative-outcomes-in-soft-tissue/    /science/2026-impact-of-non-tobacco-nicotine-products-on-postoperative-outcomes-in-soft-tissue/    301

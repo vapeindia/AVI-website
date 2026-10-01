@@ -9,9 +9,6 @@ summary: "A commercial importer challenged Customs' decision to withhold an e-ci
 documents: []
 ---
 
-Renamed and shortened at the site owner's request: court and year only, no case
-numbers.
-
 This is a **seller-brought case, clearly distinct from AVI**: it was filed and
 argued by the importer, not by AVI. AVI is a consumer advocacy organisation and
 does not fund, file, or direct litigation on behalf of importers or vendors. Where

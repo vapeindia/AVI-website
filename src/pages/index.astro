@@ -41,7 +41,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           <div class="hero-stats">
             <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
             <div><strong>7M+</strong><span>deaths/year</span></div>
-            <div><strong>200M+</strong><span>switched to safer alternatives</span></div>
+            <div><strong>200M+</strong><span>use safer nicotine products</span></div>
           </div>
           <p class="hero-stats-source">
             Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
@@ -50,10 +50,10 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       </div>
       <div class="hero-photo-wrap">
         <figure>
-          <img src="/images/campaigns/bengaluru-protest-toi.jpg" alt="A vaper holding a 'Vaping Ends Smoking' placard at AVI's nationwide protest against the e-cigarette ban, Bengaluru, 28 September 2019" />
+          <img src="/images/campaigns/bangalore-protest.jpg" alt="Vapers protesting the e-cigarette ban in Bengaluru, at AVI's nationwide six-city protest, 28 September 2019" />
           <figcaption class="photo-tag">India Vape Ban Protest — six cities, 2019</figcaption>
         </figure>
-        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="https://timesofindia.indiatimes.com/india/vapers-hold-nationwide-protest-against-ban-on-e-cigarettes/articleshow/71351824.cms" target="_blank" rel="noopener">Photo: Times of India →</a></p>
+        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="/campaigns#2019-09-28-six-city-vape-ban-protest">More from that day →</a></p>
       </div>
     </div>
   </section>
@@ -129,11 +129,19 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           <a class="btn btn-outline" href="/report-harassment">Report an incident →</a>
         </div>
       </div>
-      <a class="rights-cta-stat" href="/report-harassment">
-        <strong>{hStats.total}</strong>
-        <span>{hStats.total > 0 ? `harassment report${hStats.total === 1 ? '' : 's'} logged` : 'reports logged — be the first'}</span>
-        <em>Tracker live since October 2026</em>
-      </a>
+      {hStats.visible ? (
+        <a class="rights-cta-stat" href="/report-harassment">
+          <strong>{hStats.total}</strong>
+          <span>harassment report{hStats.total === 1 ? '' : 's'} logged</span>
+          <em>Tracker live since October 2026</em>
+        </a>
+      ) : (
+        <a class="rights-cta-stat" href="/campaigns#2020-2023-airport-confiscation-reports">
+          <strong>60</strong>
+          <span>airport confiscations AVI documented, 2020–23</span>
+          <em>New tracker launched October 2026 — report yours →</em>
+        </a>
+      )}
     </div>
   </section>
 
@@ -304,9 +312,9 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
         want it available to the millions still smoking. This work — litigation,
         evidence review, correcting misinformation — is funded entirely by
         individual contributions, not industry.{' '}
-        {testimonialCount > 0
+        {testimonialCount >= 10
           ? <a href="/testimonials">Read {testimonialCount}+ stories from people it's helped →</a>
-          : <a href="/testimonials">Read stories from people it's helped →</a>}
+          : <a href="/testimonials">Read their stories →</a>}
       </p>
       <a class="btn btn-gold" href="/contribute">Support this work →</a>
     </div>

@@ -203,7 +203,15 @@ const faqLd = {
         <div class="report-counter">
           <Icon name="chart" />
           <p>
-            <strong>{hStats.total}</strong> harassment report{hStats.total === 1 ? '' : 's'} logged so far{hStats.totalAmount > 0 ? ` — ₹${hStats.totalAmount.toLocaleString('en-IN')} demanded or paid in total` : ''}. <a href="/report-harassment">{hStats.total > 0 ? 'See the full breakdown, or report your own' : 'Be the first to report an incident'} →</a>
+            {hStats.visible ? (
+              <>
+                <strong>{hStats.total}</strong> harassment report{hStats.total === 1 ? '' : 's'} logged so far{hStats.totalAmount > 0 ? ` — ₹${hStats.totalAmount.toLocaleString('en-IN')} demanded or paid in total` : ''}. <a href="/report-harassment">See the full breakdown, or report your own →</a>
+              </>
+            ) : (
+              <>
+                Tracker launched October 2026 — AVI's earlier <a href="/campaigns#2020-2023-airport-confiscation-reports">2020–23 crowdsourced form</a> documented <strong>60</strong> airport confiscations nationwide. <a href="/report-harassment">Be among the first to report a street-level incident →</a>
+              </>
+            )}
           </p>
         </div>
 

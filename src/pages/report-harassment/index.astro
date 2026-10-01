@@ -32,14 +32,22 @@ const CITIES = [
         <Icon name="chart" />
         <h2>What's been reported so far</h2>
       </div>
-      {stats.total === 0 ? (
-        <p class="stats-empty">No reports yet — be the first. Every field below except the incident details is used only as an anonymous number in this count.</p>
+      {!stats.visible ? (
+        <p class="stats-empty">
+          Tracker launched October 2026 — numbers will show here once enough
+          reports have come in to be meaningful, rather than a count in the
+          single digits. Be among the first: every field below except the
+          incident details is used only as an anonymous number in this
+          count. AVI has done this before at real scale — a <a href="/campaigns#2020-2023-airport-confiscation-reports">2020–23 crowdsourced form</a> documented
+          60 airport confiscations nationwide and directly produced the
+          petitioners in AVI's ongoing flight-ban case.
+        </p>
       ) : (
         <>
           <div class="stats-grid">
-            <div class="stat-card"><strong>{stats.total}</strong><span>reports logged</span></div>
+            <div class="stat-card"><strong>{stats.total}</strong><span>report{stats.total === 1 ? '' : 's'} logged</span></div>
             <div class="stat-card"><strong>₹{stats.totalAmount.toLocaleString('en-IN')}</strong><span>total demanded or paid</span></div>
-            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>devices never returned</span></div>
+            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>device{stats.notReturnedCount === 1 ? '' : 's'} never returned</span></div>
           </div>
           {stats.topCities.length > 0 && (
             <div class="city-breakdown">
@@ -55,9 +63,9 @@ const CITIES = [
               </ul>
             </div>
           )}
+          <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
         </>
       )}
-      <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
     </section>
 
     <section class="proof-section">

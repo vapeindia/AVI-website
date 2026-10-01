@@ -9,8 +9,7 @@ summary: "AVI organised, funded and ran this litigation end-to-end: it commissio
 documents: []
 ---
 
-Renamed and shortened at the site owner's request: court and year only, no case
-numbers. AVI's own records confirm it ran this litigation from first draft to
+AVI's own records confirm it ran this litigation from first draft to
 final withdrawal, even though the named petitioner was an individual consumer,
 not AVI.
 

@@ -9,8 +9,6 @@ summary: "AVI is fighting this case today. The Bureau of Civil Aviation Security
 documents: []
 ---
 
-Shortened at the site owner's request: court and year only, no case numbers.
-
 The two petitioners weren't found by chance. From January 2020 — days
 after the flight ban took effect — AVI ran a public
 [confiscation-report form](/campaigns#2020-2023-airport-confiscation-reports) that logged 60 incidents nationwide

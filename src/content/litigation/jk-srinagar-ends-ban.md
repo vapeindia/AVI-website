@@ -9,5 +9,4 @@ summary: "An individual petitioner challenged J&K's ban on ENDS — imposed by s
 documents: []
 ---
 
-Shortened at the site owner's request: court and year only, no case numbers.
 AVI supported this litigation, though not as the direct petitioner.

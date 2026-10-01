@@ -82,11 +82,17 @@ for (const week of weekBlocks) {
   }
 }
 
+// 'industry' is a real schema value (used for filtering/auditing — see
+// fetch-news.mjs) but not shown publicly as its own labelled category:
+// surfacing an "Industry" badge on AVI's own news page reads too close to
+// the PECA advertising-risk line (it visibly signals the site tracks
+// vendor/industry news as a named category). Folded into the same visible
+// label and badge colour as 'other' instead.
 const topicLabel: Record<string, string> = {
   policy: 'Policy',
   litigation: 'Litigation',
   science: 'Science',
-  industry: 'Industry',
+  industry: 'Commentary',
   other: 'Commentary',
 };
 
@@ -412,7 +418,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     .topic-policy .topic-badge { background: var(--accent); }
     .topic-litigation .topic-badge { background: var(--rust); }
     .topic-science .topic-badge { background: var(--accent-dark); }
-    .topic-industry .topic-badge { background: var(--gold); }
+    .topic-industry .topic-badge,
     .topic-other .topic-badge { background: var(--muted); }
 
     .news-card h5 { margin: 0 0 0.3rem; font-size: 1.03rem; line-height: 1.35; }
