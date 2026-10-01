@@ -28,7 +28,7 @@ const aiLabel = item.data.reviewedDate
   : 'Plain-language summary written with AI, from the published abstract — not yet individually checked by AVI.';
 ---
 <Base title={item.data.title} description={description} noindex={noindex}>
-  <p><a href="/science">← Back to research library</a></p>
+  <p><a href="/science/">← Back to research library</a></p>
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
   <p class="byline"><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
@@ -49,11 +49,11 @@ const aiLabel = item.data.reviewedDate
   </p>
 
   <div class="study-related">
-    <a href="/science" class="related-card">
+    <a href="/science/" class="related-card">
       <h3>Evidence library →</h3>
       <p>The full published research behind AVI's position, browsable by topic.</p>
     </a>
-    <a href="/quit" class="related-card">
+    <a href="/quit/" class="related-card">
       <h3>If you smoke →</h3>
       <p>What this evidence means in practice — the case for switching.</p>
     </a>

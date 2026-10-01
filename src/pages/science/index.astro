@@ -152,13 +152,13 @@ const substanceLabel: Record<string, string> = {
             <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
             <span class="year">{item.data.year}</span>
           </div>
-          <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
+          <h3><a href={`/science/${item.id}/`}>{item.data.title}</a></h3>
           <p class="byline">{item.data.authors} · {item.data.journal}</p>
           <div class="tags">
             {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
           </div>
           <p class="gist">{item.data.brief}</p>
-          <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
+          <a class="read-link" href={`/science/${item.id}/`}>Full entry →</a>
         </article>
       ))}
       </div>
@@ -172,13 +172,13 @@ const substanceLabel: Record<string, string> = {
                 <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
                 <span class="year">{item.data.year}</span>
               </div>
-              <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
+              <h3><a href={`/science/${item.id}/`}>{item.data.title}</a></h3>
               <p class="byline">{item.data.authors} · {item.data.journal}</p>
               <div class="tags">
                 {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
               </div>
               <p class="gist">{item.data.brief}</p>
-              <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
+              <a class="read-link" href={`/science/${item.id}/`}>Full entry →</a>
             </article>
           ))}
           </div>
@@ -187,11 +187,11 @@ const substanceLabel: Record<string, string> = {
     </section>
 
     <section class="science-related">
-      <a href="/quit" class="related-card">
+      <a href="/quit/" class="related-card">
         <h3>If you smoke →</h3>
         <p>What this evidence means in practice — the case for switching, and what's actually available in India.</p>
       </a>
-      <a href="/policy" class="related-card">
+      <a href="/policy/" class="related-card">
         <h3>For policymakers →</h3>
         <p>The regulatory case built on this evidence — what's worked elsewhere, and what hasn't.</p>
       </a>
