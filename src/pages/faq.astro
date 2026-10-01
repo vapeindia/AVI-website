@@ -1,12 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+import { pecaBannedSentence, pecaNotBannedSentence } from '../data/peca';
 
 // Plain-text answers, reused verbatim in both the FAQPage JSON-LD and the
-// visible accordion below, so the two can never drift apart.
+// visible accordion below, so the two can never drift apart. The PECA
+// banned/not-banned wording is generated from src/data/peca.ts (the
+// single source of truth for what the Act says) rather than typed out
+// here — see that file for section citations and the verbatim Act text.
 const faqs = [
   {
     q: 'Is vaping illegal in India?',
-    a: "No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes. It does not ban using, carrying or possessing one for personal use — no provision in PECA makes either an offence, and no penalty attaches to it. The ban applies to the business of e-cigarettes, not the act of vaping.",
+    a: `No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the ${pecaBannedSentence()} of e-cigarettes. It does not ban using, carrying or possessing one for personal use — no provision in PECA makes either an offence, and no penalty attaches to it. The ban applies to the business of e-cigarettes, not the act of vaping.`,
   },
   {
     q: 'Can I carry a vape on a flight?',
@@ -14,7 +18,7 @@ const faqs = [
   },
   {
     q: 'What does the PECA law actually ban?',
-    a: "PECA, 2019 bans five specific commercial acts: production and manufacture, import and export, sale and distribution, storage and transport for sale, and advertisement of e-cigarettes. It does not ban personal use, possession, or carrying a device for your own use — those aren't named anywhere in the Act, and no penalty attaches to them. First-offence penalties (up to one year's imprisonment and a ₹1 lakh fine) apply only to the commercial acts listed above.",
+    a: `PECA, 2019 bans six specific things: ${pecaBannedSentence()}. It does not ban personal use, possession, or carrying a device for your own use — those aren't named anywhere in the Act, and no penalty attaches to them. First-offence penalties (up to one year's imprisonment and a ₹1 lakh fine) apply only to the acts listed above.`,
   },
 ];
 

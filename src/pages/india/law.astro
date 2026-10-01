@@ -4,9 +4,16 @@ import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
 import { getGitDates } from '../../lib/git-dates';
+import { PECA_ACT, PECA_BANNED, PECA_NOT_BANNED, PECA_SECTIONS, pecaBannedSentence } from '../../data/peca';
 
 const hStats = await getHarassmentStats();
 const lawDates = getGitDates('src/pages/india/law.astro');
+
+// Needs Samrat: name of the advocate who reviewed this page's legal
+// content, if he wants one credited. Left unset omits the "Reviewed by"
+// line entirely rather than naming someone who hasn't actually reviewed
+// it — see the content/legal-authority task.
+const REVIEWED_BY: string | null = null;
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -25,7 +32,7 @@ const faqLd = {
       name: 'Is vaping banned in India?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes. Using, carrying or possessing one for personal use is not a criminal offence anywhere in the law.",
+        text: `No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the ${pecaBannedSentence()} of e-cigarettes. Using, carrying or possessing one for personal use is not a criminal offence anywhere in the law.`,
       },
     },
     {
@@ -33,7 +40,7 @@ const faqLd = {
       name: 'Is vaping legal in India?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Yes. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes, but does not ban personal use. Vaping itself is not a criminal offence under PECA.",
+        text: `Yes. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the ${pecaBannedSentence()} of e-cigarettes, but does not ban personal use. Vaping itself is not a criminal offence under PECA.`,
       },
     },
     {
@@ -41,7 +48,7 @@ const faqLd = {
       name: 'Is it illegal to carry or possess an e-cigarette in India?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "No. PECA's bans apply only to commercial acts — production, sale, import, distribution and advertisement. Personal possession and carrying a device for your own use are not banned, and no provision in PECA makes either an offence.",
+        text: `No. PECA's bans apply only to commercial acts — ${pecaBannedSentence()}. Personal possession and carrying a device for your own use are not banned, and no provision in PECA makes either an offence.`,
       },
     },
     {
@@ -75,10 +82,15 @@ const faqLd = {
   </section>
 
   <div class="law-body">
+    <p class="page-authority">
+      By Association of Vapers India · Last reviewed {lawDates.modified}
+      {REVIEWED_BY && <> · Reviewed by {REVIEWED_BY}</>}
+      <span class="authority-note">· This is AVI's understanding of the law, not formal legal advice.</span>
+    </p>
     <p class="direct-answer">
       <strong>Is vaping banned in India? No — not for personal use.</strong> India's
       Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the
-      production, sale, import, distribution and advertisement of
+      {pecaBannedSentence()} of
       e-cigarettes. It does not ban using, carrying or possessing one — that
       distinction is the whole story below, department by department.
     </p>
@@ -87,7 +99,7 @@ const faqLd = {
         <Icon name="shield" />
         <h3>E-cigarettes &amp; ENDS</h3>
         <p class="status-tag">Sale banned — use is not</p>
-        <p>PECA, 2019 bans production, sale, import and advertisement outright. Personal use and possession are <a href="#know-your-rights">not banned</a> — PECA has no provision that makes either an offence.</p>
+        <p>PECA, 2019 bans the business of e-cigarettes outright — see the full list below. Personal use and possession are <a href="#know-your-rights">not banned</a> — PECA has no provision that makes either an offence.</p>
       </div>
       <div class="status-card status-blocked">
         <Icon name="leaf" />
@@ -114,19 +126,14 @@ const faqLd = {
         <div class="banned-col banned-yes">
           <p class="split-label"><Icon name="close" /> Banned under PECA</p>
           <ul>
-            <li>Production &amp; manufacture</li>
-            <li>Import &amp; export</li>
-            <li>Sale &amp; distribution</li>
-            <li>Storage &amp; transport for sale</li>
-            <li>Advertisement</li>
+            {PECA_BANNED.map((item) => <li>{item.label} <a href={`#section-${item.section.match(/^\d+/)}`} class="cite">s.{item.section}</a></li>)}
           </ul>
         </div>
         <div class="banned-col banned-no">
           <p class="split-label"><Icon name="check" /> Not banned</p>
           <ul>
             <li>Vaping — personal use</li>
-            <li>Personal possession</li>
-            <li>Carrying a device for your own use</li>
+            {PECA_NOT_BANNED.slice(1).map((item) => <li>{item}</li>)}
           </ul>
         </div>
       </div>
@@ -154,6 +161,31 @@ const faqLd = {
       <p>
         See <a href="/litigation/">AVI's litigation page</a> for the ongoing flight-ban case, and our <a href="https://x.com/vapeindia/status/1848254084572172776?s=20" target="_blank" rel="noopener">full commentary</a> on this issue.
       </p>
+
+      <details class="primary-source">
+        <summary>Read the Act itself — Sections {PECA_SECTIONS.s4.number}, {PECA_SECTIONS.s5.number}, {PECA_SECTIONS.s7.number} and {PECA_SECTIONS.s8.number}, verbatim</summary>
+        <p class="source-note">
+          Transcribed from {PECA_ACT.gazetteCitation} ({PECA_ACT.commonName}, Act No. {PECA_ACT.actNumber}) —
+          <a href={PECA_ACT.gazettePdf} target="_blank" rel="noopener">original Gazette PDF</a> ·
+          <a href={PECA_ACT.indiaCodeUrl} target="_blank" rel="noopener">India Code</a>
+        </p>
+        <div class="act-section" id="section-4">
+          <h4>Section {PECA_SECTIONS.s4.number} — {PECA_SECTIONS.s4.heading}</h4>
+          <pre>{PECA_SECTIONS.s4.text}</pre>
+        </div>
+        <div class="act-section" id="section-5">
+          <h4>Section {PECA_SECTIONS.s5.number} — {PECA_SECTIONS.s5.heading}</h4>
+          <pre>{PECA_SECTIONS.s5.text}</pre>
+        </div>
+        <div class="act-section" id="section-7">
+          <h4>Section {PECA_SECTIONS.s7.number} — {PECA_SECTIONS.s7.heading}</h4>
+          <pre>{PECA_SECTIONS.s7.text}</pre>
+        </div>
+        <div class="act-section" id="section-8">
+          <h4>Section {PECA_SECTIONS.s8.number} — {PECA_SECTIONS.s8.heading}</h4>
+          <pre>{PECA_SECTIONS.s8.text}</pre>
+        </div>
+      </details>
 
     </div>
   </div>
@@ -379,6 +411,46 @@ const faqLd = {
     .law-hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 38rem; margin: 0; }
 
     .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+    .primary-source {
+      max-width: var(--max-w);
+      margin-top: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      background: var(--paper-alt);
+    }
+    .primary-source summary { cursor: pointer; font-weight: 600; color: var(--accent-dark); }
+    .source-note { font-size: 0.82rem; color: var(--muted); margin: 0.9rem 0 1.2rem; }
+    .source-note a { color: var(--accent-dark); }
+    .act-section { margin: 1.3rem 0; }
+    .act-section h4 { margin: 0 0 0.5rem; font-size: 0.95rem; }
+    .act-section pre {
+      white-space: pre-wrap;
+      font-family: inherit;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
+      margin: 0;
+    }
+    .page-authority {
+      max-width: var(--max-w);
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+    .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
+    @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
+    .cite {
+      font-size: 0.7em;
+      font-weight: 600;
+      color: var(--accent-dark);
+      text-decoration: none;
+      opacity: 0.75;
+    }
+    .cite:hover { opacity: 1; text-decoration: underline; }
     .direct-answer {
       max-width: var(--max-w);
       font-size: 1.02rem;
