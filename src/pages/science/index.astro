@@ -84,6 +84,7 @@ const substanceLabel: Record<string, string> = {
 };
 ---
 <Base title="Science" description="A continuously updated library of tobacco harm reduction research relevant to e-cigarettes, nicotine pouches and snus." wide={true}>
+  <link slot="head" rel="alternate" type="application/rss+xml" title="AVI Evidence Library" href="/science/rss.xml" />
   <section class="breakout science-hero">
     <div class="breakout-inner">
       <p class="eyebrow">The evidence base</p>
@@ -133,7 +134,7 @@ const substanceLabel: Record<string, string> = {
     <section class="live-section">
       <div class="section-head">
         <h2>Ongoing research</h2>
-        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}.</p>
+        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}. <a href="/science/rss.xml">Subscribe via RSS →</a></p>
       </div>
       <div class="disclaimer">
         <strong>About these briefs:</strong> summaries are AI-generated
