@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 
 // Expanded from 3 questions to ~12 (content/faq-and-guides, item 1) — every
 // answer below is grounded in content that already exists elsewhere on the
@@ -115,6 +116,9 @@ const faqLd = {
   </section>
 
   <div class="faq-body">
+    <div class="faq-share">
+      <ShareButtons title="Vaping in India: FAQ — quick, sourced answers" />
+    </div>
     <div class="faq-accordion">
       {faqs.map((f, i) => (
         <details class="faq-item" open={i === 0}>
@@ -164,6 +168,7 @@ const faqLd = {
 
     .faq-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
 
+    .faq-share { margin-bottom: 1.5rem; }
     .faq-accordion { display: grid; gap: 0.85rem; margin-bottom: 2.5rem; }
     .faq-item {
       background: #fff;

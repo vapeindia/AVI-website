@@ -2,6 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
 import { getGitDates } from '../../lib/git-dates';
 import { PECA_ACT, PECA_BANNED, PECA_NOT_BANNED, PECA_SECTIONS, pecaBannedSentence, PECA_TRANSPORT_DRAFT } from '../../data/peca';
@@ -104,6 +106,9 @@ const faqLd = {
       e-cigarettes. It does not ban using, carrying or possessing one — that
       distinction is the whole story below, department by department.
     </p>
+    <div class="law-share">
+      <ShareButtons title="Is vaping banned in India? Here's what the law actually says." />
+    </div>
     <div class="status-grid">
       <div class="status-card status-banned">
         <Icon name="shield" />
@@ -395,6 +400,10 @@ const faqLd = {
         cases AVI has fought against state-level bans and the flight ban PECA
         doesn't touch.
       </p>
+    </div>
+
+    <div class="law-newsletter">
+      <NewsletterSignup id="india-law" />
     </div>
 
     <div class="law-related">
@@ -761,6 +770,9 @@ const faqLd = {
       margin-top: 1.5rem;
       text-shadow: none;
     }
+
+    .law-share { margin: 1.25rem 0 1.75rem; }
+    .law-newsletter { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
 
     .law-related {
       display: grid;

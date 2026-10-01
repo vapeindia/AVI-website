@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
 import logo from '../assets/images/avi-logo.png';
@@ -353,6 +355,16 @@ function displayStatementDate(d: Date): string {
           : <a href="/testimonials/">Read their stories →</a>}
       </p>
       <a class="btn btn-gold" href="/contribute/">Support this work →</a>
+    </div>
+  </section>
+
+  <section class="breakout stay-connected">
+    <div class="breakout-inner stay-connected-inner">
+      <NewsletterSignup id="homepage" />
+      <div class="stay-connected-share">
+        <p class="sc-share-label">Know someone who should see this?</p>
+        <ShareButtons title="Association of Vapers India — tobacco harm reduction advocacy for India" />
+      </div>
     </div>
   </section>
 
@@ -747,5 +759,19 @@ function displayStatementDate(d: Date): string {
     .donate-pitch h2 { color: #fff; margin: 0 0 0.65rem; font-size: clamp(1.5rem, 4.5vw, 1.9rem); line-height: 1.25; }
     .donate-pitch p { color: #fbe6db; line-height: 1.5; margin: 0 0 1.1rem; }
     .donate-pitch a:not(.btn) { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
+
+    /* Stay connected: email signup + share, item 1 and item 5 */
+    .stay-connected { background: var(--paper-alt); padding: 2.25rem 0; margin-top: 1.5rem; }
+    .stay-connected-inner {
+      display: grid;
+      grid-template-columns: 1.2fr auto;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .stay-connected-share { padding-top: 0.25rem; }
+    .sc-share-label { margin: 0 0 0.6rem; font-size: 0.88rem; font-weight: 600; color: var(--muted); }
+    @media (max-width: 780px) {
+      .stay-connected-inner { grid-template-columns: 1fr; }
+    }
   </style>
 </Base>

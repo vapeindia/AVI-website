@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import SocialIcon from '../components/SocialIcon.astro';
 import Icon from '../components/Icon.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 import logo from '../assets/images/avi-logo.png';
 
 interface Props {
@@ -357,6 +359,10 @@ const group = activeGroup(path);
     }
     nav.site a.nav-search svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
     nav.site a.nav-search.active { border-bottom-color: transparent; color: var(--gold-dark); }
+    .nav-share-trigger.nav-search { display: inline-flex; align-items: center; cursor: pointer; list-style: none; }
+    .nav-share-trigger.nav-search::-webkit-details-marker { display: none; }
+    .nav-share-trigger.nav-search svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
+    .nav-share-menu { padding: 0.9rem 0.85rem; min-width: auto; }
 
     .nav-dropdown { position: relative; display: inline-block; }
     .nav-dropdown summary {
@@ -515,6 +521,7 @@ const group = activeGroup(path);
     .footer-brand-row img.mark { height: 26px; width: auto; opacity: 0.85; flex-shrink: 0; }
     .footer-name { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink); }
     .footer-tagline { display: block; font-size: 0.78rem; color: var(--muted); }
+    .footer-newsletter { padding-top: 0.75rem; border-top: 1px solid var(--border); margin-bottom: 0.25rem; }
     .footer-links-flat {
       display: flex;
       flex-wrap: wrap;
@@ -607,6 +614,21 @@ const group = activeGroup(path);
       <a href="/testimonials/" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
       <a href="/faq/" class:list={{ active: path === '/faq' }}>FAQ</a>
       <a href="/search/" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /><span class="nav-search-label">Search</span></a>
+      {/* "Bring it together on the homepage and menu" (item 5) — one share
+          trigger, reachable from every page's nav, rather than requiring a
+          visitor to scroll to find a page-specific ShareButtons instance. */}
+      <details class="nav-dropdown nav-share-dropdown">
+        <summary class="nav-search nav-share-trigger" aria-label="Share this page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" />
+            <path d="M8.3 10.7l7.4-4.4M8.3 13.3l7.4 4.4" />
+          </svg>
+          <span class="nav-search-label">Share</span>
+        </summary>
+        <div class="dropdown-menu nav-share-menu">
+          <ShareButtons title={pageTitle} />
+        </div>
+      </details>
       <a href="/report-harassment/" class="nav-report"><Icon name="scale" />Report Police Harassment</a>
       <a href="/contribute/" class="nav-contribute">Contribute</a>
     </nav>
@@ -675,6 +697,9 @@ const group = activeGroup(path);
           <span class="footer-name">Association of Vapers India</span>
           <span class="footer-tagline">Tobacco harm reduction advocacy for India, since 2016.</span>
         </div>
+      </div>
+      <div class="footer-newsletter">
+        <NewsletterSignup id="footer" compact={true} />
       </div>
       <nav class="footer-links-flat" aria-label="Footer">
         <a href="/about/">About</a>
