@@ -119,6 +119,13 @@ const litigation = defineCollection({
     status: z.enum(['pending', 'disposed', 'withdrawn', 'superseded-by-peca']),
     outcome: z.string().optional(),
     summary: z.string(),
+    // False for the 3 entries explicitly marked in their own body text as
+    // seller/importer-brought cases AVI didn't file, fund or direct — so
+    // /about/'s "cases fought" count (and any future stat like it) doesn't
+    // claim credit for litigation that wasn't AVI's own. See the
+    // content/legal-authority task: the count used to include all 8
+    // entries regardless of who actually brought the case.
+    aviCase: z.boolean().default(true),
     documents: z.array(z.object({
       label: z.string(),
       path: z.string(),
