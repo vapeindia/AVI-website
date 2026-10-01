@@ -12,6 +12,10 @@ Key facts:
 - Funding: individual contributions only; no funding from tobacco or nicotine manufacturers.
 - Legal entity: AVI itself is not a registered legal entity; domestic contributions are received through Harm Reduction Policy & Research Pvt. Ltd. (HRPR), an MCA-registered private company.
 
+## Is vaping banned in India?
+
+No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes. It does not ban using, carrying or possessing an e-cigarette for personal use — no provision in PECA makes personal use or possession an offence, and no penalty attaches to it. The ban applies to the business of e-cigarettes, not the act of vaping. Full detail, with sourcing and the government's own statements confirming this, is at https://vapeindia.org/india/law.
+
 ## Core pages
 
 - [Homepage](https://vapeindia.org/): Overview of AVI's tobacco harm reduction advocacy in India.

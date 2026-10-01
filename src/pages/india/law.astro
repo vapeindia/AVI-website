@@ -12,6 +12,14 @@ const faqLd = {
   mainEntity: [
     {
       '@type': 'Question',
+      name: 'Is vaping banned in India?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, sale, import, distribution and advertisement of e-cigarettes. Using, carrying or possessing one for personal use is not a criminal offence anywhere in the law.",
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'Is vaping legal in India?',
       acceptedAnswer: {
         '@type': 'Answer',
@@ -45,16 +53,24 @@ const faqLd = {
   ],
 };
 ---
-<Base title="Current law in India" description="Is vaping legal in India? What PECA actually bans (sale, import, advertisement) and doesn't ban (personal use and possession) — the law, as of today." wide={true}>
+<Base title="Is Vaping Banned in India?" description="No — vaping and e-cigarette use or possession are not banned in India. PECA, 2019 bans sale, production, import and advertisement only — the law, in full." wide={true}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   <section class="breakout law-hero">
     <div class="breakout-inner">
       <p class="eyebrow">As of today</p>
-      <h1>The law in India, as it stands</h1>
+      <h1>Is vaping banned in India?</h1>
+      <p class="law-hero-sub">Short answer: no — not for personal use. Here's exactly what the law bans, and what it doesn't.</p>
     </div>
   </section>
 
   <div class="law-body">
+    <p class="direct-answer">
+      <strong>Is vaping banned in India? No — not for personal use.</strong> India's
+      Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the
+      production, sale, import, distribution and advertisement of
+      e-cigarettes. It does not ban using, carrying or possessing one — that
+      distinction is the whole story below, department by department.
+    </p>
     <div class="status-grid">
       <div class="status-card status-banned">
         <Icon name="shield" />
@@ -333,9 +349,20 @@ const faqLd = {
       background-position: center 60%;
       padding: 3.25rem 0 2.75rem;
     }
-    .law-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .law-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .law-hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 38rem; margin: 0; }
 
     .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+    .direct-answer {
+      max-width: var(--max-w);
+      font-size: 1.02rem;
+      line-height: 1.6;
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 0 0 2.25rem;
+    }
 
     .status-grid {
       display: grid;

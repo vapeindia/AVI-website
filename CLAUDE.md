@@ -839,6 +839,46 @@ the card background), resized to 800px wide and converted to JPEG
 (`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
 channel was needed once the fill was already baked in.
 
+## Query-targeted optimization: "is vaping banned in India" (2026-10-01)
+
+Site-owner ask: rank highly, in both classic Google search and AI answer
+engines, for the specific query "is vaping banned in India." Deliberately
+concentrated every change on **one page** (`/india/law`) rather than
+spreading the phrase across multiple pages — splitting optimization for
+a single exact-match query across several pages just makes them compete
+with each other (keyword cannibalization) instead of each ranking signal
+reinforcing the same URL.
+
+What changed on `/india/law`:
+- `<title>`/`og:title`/`twitter:title` changed from the generic "Current
+  law in India" to **"Is Vaping Banned in India?"** — the exact query,
+  verbatim, in the single highest-weight piece of on-page SEO real estate.
+- Meta description rewritten to open with "No —" and the same phrasing.
+- **H1 changed to the literal question** ("Is vaping banned in India?"),
+  with a new one-line hero subtitle giving the short answer immediately
+  ("Short answer: no — not for personal use...").
+- Added a new **`.direct-answer` callout block** as the very first thing
+  in the page body, before the existing status-grid cards — a short,
+  self-contained, quotable paragraph that states the question and answers
+  it in one place. This is deliberately written as a standalone unit a
+  search snippet or an AI answer engine could lift verbatim, since that's
+  exactly the shape both Google's featured snippets and AI Overviews/
+  ChatGPT/Perplexity-style citation tend to extract.
+- **FAQPage schema**: added "Is vaping banned in India?" as a new,
+  first-listed Q&A (previously only had the inverse phrasing, "Is vaping
+  legal in India?" — kept that one too, immediately after, since real
+  users search both ways).
+- **`llms.txt`**: added a dedicated `## Is vaping banned in India?`
+  section with the same direct answer, right after the existing key-facts
+  list — the GEO-specific file gets the exact-match question treated the
+  same way the page itself does.
+
+Didn't touch the URL/slug (`/india/law` stays as-is — changing it would
+have thrown away whatever indexing history that URL already has) and
+didn't duplicate this treatment onto the India hub page or homepage —
+one strong, unambiguous target page beats several half-hearted ones for
+a single query like this.
+
 ## SEO / GEO pass (2026-09-19)
 
 Site-owner ask: be findable for "tobacco harm reduction advocacy", "vaping
