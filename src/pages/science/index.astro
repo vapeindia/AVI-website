@@ -84,6 +84,7 @@ const substanceLabel: Record<string, string> = {
 };
 ---
 <Base title="Science" description="A continuously updated library of tobacco harm reduction research relevant to e-cigarettes, nicotine pouches and snus." wide={true}>
+  <link slot="head" rel="alternate" type="application/rss+xml" title="AVI Evidence Library" href="/science/rss.xml" />
   <section class="breakout science-hero">
     <div class="breakout-inner">
       <p class="eyebrow">The evidence base</p>
@@ -133,7 +134,7 @@ const substanceLabel: Record<string, string> = {
     <section class="live-section">
       <div class="section-head">
         <h2>Ongoing research</h2>
-        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}.</p>
+        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}. <a href="/science/rss.xml">Subscribe via RSS →</a></p>
       </div>
       <div class="disclaimer">
         <strong>About these briefs:</strong> summaries are AI-generated
@@ -152,13 +153,13 @@ const substanceLabel: Record<string, string> = {
             <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
             <span class="year">{item.data.year}</span>
           </div>
-          <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
+          <h3><a href={`/science/${item.id}/`}>{item.data.title}</a></h3>
           <p class="byline">{item.data.authors} · {item.data.journal}</p>
           <div class="tags">
             {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
           </div>
           <p class="gist">{item.data.brief}</p>
-          <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
+          <a class="read-link" href={`/science/${item.id}/`}>Full entry →</a>
         </article>
       ))}
       </div>
@@ -172,13 +173,13 @@ const substanceLabel: Record<string, string> = {
                 <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
                 <span class="year">{item.data.year}</span>
               </div>
-              <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
+              <h3><a href={`/science/${item.id}/`}>{item.data.title}</a></h3>
               <p class="byline">{item.data.authors} · {item.data.journal}</p>
               <div class="tags">
                 {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
               </div>
               <p class="gist">{item.data.brief}</p>
-              <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
+              <a class="read-link" href={`/science/${item.id}/`}>Full entry →</a>
             </article>
           ))}
           </div>
@@ -187,11 +188,11 @@ const substanceLabel: Record<string, string> = {
     </section>
 
     <section class="science-related">
-      <a href="/quit" class="related-card">
+      <a href="/quit/" class="related-card">
         <h3>If you smoke →</h3>
         <p>What this evidence means in practice — the case for switching, and what's actually available in India.</p>
       </a>
-      <a href="/policy" class="related-card">
+      <a href="/policy/" class="related-card">
         <h3>For policymakers →</h3>
         <p>The regulatory case built on this evidence — what's worked elsewhere, and what hasn't.</p>
       </a>

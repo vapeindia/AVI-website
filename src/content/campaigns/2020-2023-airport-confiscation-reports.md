@@ -29,7 +29,7 @@ when AVI was still deciding whether this fight was worth mounting.
 
 That base is what it became: AVI drew on these reports to identify and
 brief the two consumer petitioners now named in its
-[ongoing Delhi High Court case against the flight ban](/litigation/delhi-bcas-flight-ban) —
+[ongoing Delhi High Court case against the flight ban](/litigation/delhi-bcas-flight-ban/) —
 the same underlying complaint dozens of respondents had already
 documented, now argued in court as evidence the ban lacks any basis in
 demonstrated in-flight risk.

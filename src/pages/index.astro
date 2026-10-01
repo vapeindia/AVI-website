@@ -1,8 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
+import logo from '../assets/images/avi-logo.png';
+import heroPhoto from '../assets/images/bangalore-protest-hero.jpg';
 
 const hStats = await getHarassmentStats();
 
@@ -26,7 +29,7 @@ const latestVideo = videoData[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
 ---
-<Base title="Tobacco Harm Reduction Advocacy" description="India's leading consumer advocacy group for tobacco harm reduction: evidence, litigation and policy work for safer nicotine alternatives." wide={true}>
+<Base title="Association of Vapers India (AVI) · Tobacco harm reduction advocacy" rawTitle={true} description="India's leading consumer advocacy group for tobacco harm reduction: evidence, litigation and policy work for safer nicotine alternatives." wide={true}>
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
@@ -50,10 +53,10 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       </div>
       <div class="hero-photo-wrap">
         <figure>
-          <img src="/images/campaigns/bangalore-protest.jpg" alt="Vapers protesting the e-cigarette ban in Bengaluru, at AVI's nationwide six-city protest, 28 September 2019" />
+          <Image src={heroPhoto} width={1000} height={750} alt="Vapers protesting the e-cigarette ban in Bengaluru, at AVI's nationwide six-city protest, 28 September 2019" loading="eager" />
           <figcaption class="photo-tag">India Vape Ban Protest — six cities, 2019</figcaption>
         </figure>
-        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="/campaigns#2019-09-28-six-city-vape-ban-protest">More from that day →</a></p>
+        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="/campaigns/#2019-09-28-six-city-vape-ban-protest">More from that day →</a></p>
       </div>
     </div>
   </section>
@@ -65,19 +68,19 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           <Icon name="heart" />
           <h3>If you smoke, or use toxic SLT</h3>
           <p>See the evidence on lower-risk ways to keep using nicotine, and how people have quit combustible tobacco successfully with them.</p>
-          <a class="path-btn" href="/quit">I want to quit smoking →</a>
+          <a class="path-btn" href="/quit/">I want to quit smoking →</a>
         </div>
         <div class="path-card path-gold">
           <Icon name="scale" />
           <h3>Policymakers</h3>
           <p>The global policy case for tobacco harm reduction — what's working elsewhere, what isn't, and what it means for India.</p>
-          <a class="path-btn" href="/policy">Policy data →</a>
+          <a class="path-btn" href="/policy/">Policy data →</a>
         </div>
         <div class="path-card path-rust">
           <Icon name="megaphone" />
           <h3>Media</h3>
           <p>AVI has been quoted, interviewed and bylined on tobacco harm reduction in India for over a decade. We're always available for comment.</p>
-          <a class="path-btn" href="/press">Press resources →</a>
+          <a class="path-btn" href="/press/">Press resources →</a>
         </div>
       </div>
     </div>
@@ -86,7 +89,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
   <section class="kyr-wrap">
     <div class="kyr-card" id="kyr-card">
       <div class="kyr-head">
-        <img src="/images/avi-logo.png" alt="" class="kyr-logo" />
+        <Image src={logo} width={56} height={56} alt="" class="kyr-logo" />
         <span class="kyr-brand">Association of Vapers India</span>
       </div>
       <p class="kyr-eyebrow">Know your rights under PECA, 2019</p>
@@ -113,8 +116,8 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       <p class="kyr-foot">No provision in PECA makes personal use or possession an offence. Penalties apply only to the commercial acts above. · <strong>vapeindia.org/india/law</strong></p>
     </div>
     <div class="kyr-actions">
-      <a class="btn btn-primary" href="/india/law#know-your-rights">Read the full legal breakdown →</a>
-      <a class="btn btn-outline" href="/report-harassment">Report an incident →</a>
+      <a class="btn btn-primary" href="/india/law/#know-your-rights">Read the full legal breakdown →</a>
+      <a class="btn btn-outline" href="/report-harassment/">Report an incident →</a>
     </div>
   </section>
 
@@ -125,18 +128,18 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
         <h2>Stopped by police over your vape? Use and possession are not banned.</h2>
         <p>PECA bans the sale of e-cigarettes, not carrying or using one. If an officer tells you otherwise, this page has the receipts — and a place to report what happened.</p>
         <div class="rights-cta-links">
-          <a class="btn btn-primary" href="/india/law#know-your-rights">Know your rights →</a>
-          <a class="btn btn-outline" href="/report-harassment">Report an incident →</a>
+          <a class="btn btn-primary" href="/india/law/#know-your-rights">Know your rights →</a>
+          <a class="btn btn-outline" href="/report-harassment/">Report an incident →</a>
         </div>
       </div>
       {hStats.visible ? (
-        <a class="rights-cta-stat" href="/report-harassment">
+        <a class="rights-cta-stat" href="/report-harassment/">
           <strong>{hStats.total}</strong>
           <span>harassment report{hStats.total === 1 ? '' : 's'} logged</span>
           <em>Tracker live since October 2026</em>
         </a>
       ) : (
-        <a class="rights-cta-stat" href="/campaigns#2020-2023-airport-confiscation-reports">
+        <a class="rights-cta-stat" href="/campaigns/#2020-2023-airport-confiscation-reports">
           <strong>60</strong>
           <span>airport confiscations AVI documented, 2020–23</span>
           <em>New tracker launched October 2026 — report yours →</em>
@@ -156,11 +159,11 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
         press — all funded by individual contributions, not industry.
       </p>
       <nav class="wwd-tabs" aria-label="AVI's work">
-        <a href="/science">Evidence →</a>
-        <a href="/litigation">Litigation →</a>
-        <a href="/press">Press →</a>
-        <a href="/submissions">Submissions →</a>
-        <a href="/campaigns">Campaigns →</a>
+        <a href="/science/">Evidence →</a>
+        <a href="/litigation/">Litigation →</a>
+        <a href="/press/">Press →</a>
+        <a href="/submissions/">Submissions →</a>
+        <a href="/campaigns/">Campaigns →</a>
       </nav>
     </div>
   </section>
@@ -171,7 +174,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
         <button type="button" class="feed-tab active" role="tab" aria-selected="true" aria-controls="feed-panel-news" id="feed-tab-news" data-target="news">Latest news</button>
         <button type="button" class="feed-tab" role="tab" aria-selected="false" aria-controls="feed-panel-research" id="feed-tab-research" data-target="research">Evidence library</button>
       </div>
-      <a class="feed-all" id="feed-all-link" href="/news">All news →</a>
+      <a class="feed-all" id="feed-all-link" href="/news/">All news →</a>
     </div>
     <div class="feed-panels">
       <ul class="feed-list feed-news" id="feed-panel-news" role="tabpanel" aria-labelledby="feed-tab-news">
@@ -185,7 +188,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       <ul class="feed-list feed-research" id="feed-panel-research" role="tabpanel" aria-labelledby="feed-tab-research" hidden>
         {latestResearch.map((item) => (
           <li>
-            <a href={`/science/${item.id}`}>{item.data.title}</a>
+            <a href={`/science/${item.id}/`}>{item.data.title}</a>
             <span>{item.data.journal}, {item.data.year}</span>
           </li>
         ))}
@@ -226,7 +229,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       <p class="eyebrow watch-eyebrow">From our YouTube channel</p>
       <div class="watch-inner">
         <a class="watch-thumb" id="watch-link" href={latestVideo.url} target="_blank" rel="noopener">
-          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" />
+          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" width="480" height="360" />
           <span class="play-badge" aria-hidden="true">▶</span>
         </a>
         <div class="watch-copy">
@@ -234,7 +237,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           <p id="watch-summary">{latestVideo.summary}</p>
           <div class="watch-links">
             <a class="btn btn-outline" id="watch-cta" href={latestVideo.url} target="_blank" rel="noopener">Watch on YouTube →</a>
-            <a href="/media">More videos →</a>
+            <a href="/media/">More videos →</a>
           </div>
         </div>
       </div>
@@ -313,10 +316,10 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
         evidence review, correcting misinformation — is funded entirely by
         individual contributions, not industry.{' '}
         {testimonialCount >= 10
-          ? <a href="/testimonials">Read {testimonialCount}+ stories from people it's helped →</a>
-          : <a href="/testimonials">Read their stories →</a>}
+          ? <a href="/testimonials/">Read {testimonialCount}+ stories from people it's helped →</a>
+          : <a href="/testimonials/">Read their stories →</a>}
       </p>
-      <a class="btn btn-gold" href="/contribute">Support this work →</a>
+      <a class="btn btn-gold" href="/contribute/">Support this work →</a>
     </div>
   </section>
 

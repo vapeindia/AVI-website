@@ -2,14 +2,19 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 ---
-<Base title="Search" description="Search across AVI's news, press coverage, science library, litigation record, campaigns and testimonials." wide={true} noindex={true}>
-  <section class="breakout search-hero">
+<Base
+  title="Page not found"
+  description="This page doesn't exist on vapeindia.org — search the site or jump to a main section."
+  noindex={true}
+>
+  <section class="breakout notfound-hero">
     <div class="breakout-inner">
-      <p class="eyebrow">Search everything</p>
-      <h1>Find anything on this site</h1>
-      <p class="search-sub">
-        News, press coverage, the science library, litigation, campaigns,
-        submissions and testimonials — one search across all of it.
+      <p class="eyebrow">404</p>
+      <h1>That page doesn't exist</h1>
+      <p class="notfound-sub">
+        The link that brought you here is broken, or the page moved. Try a
+        search, jump to one of the sections below, or let us know what you
+        were looking for.
       </p>
       <div class="search-box">
         <Icon name="search" />
@@ -23,9 +28,32 @@ import Icon from '../components/Icon.astro';
     </div>
   </section>
 
-  <div class="search-body">
+  <div class="notfound-body">
     <p id="search-status" role="status">Start typing to search.</p>
     <div id="search-results" class="results-list"></div>
+
+    <div class="section-links">
+      <p class="section-links-label">Or go straight to a section:</p>
+      <nav class="section-grid" aria-label="Main sections">
+        <a href="/">Home</a>
+        <a href="/india/law/">Is vaping banned in India?</a>
+        <a href="/quit/">If you smoke</a>
+        <a href="/policy/">For policymakers</a>
+        <a href="/science/">Evidence library</a>
+        <a href="/litigation/">Litigation</a>
+        <a href="/press/">Press</a>
+        <a href="/news/">Daily news</a>
+        <a href="/about/">About AVI</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/report-harassment/">Report police harassment</a>
+        <a href="/contribute/">Contribute</a>
+      </nav>
+    </div>
+
+    <p class="report-line">
+      Followed a link to get here from somewhere else — a search result, a
+      press mention, a bookmark? <a href="mailto:contact@vapeindia.org?subject=Broken%20link%20on%20vapeindia.org">Tell us at contact@vapeindia.org</a> so we can fix it.
+    </p>
   </div>
 
   <script>
@@ -53,7 +81,6 @@ import Icon from '../components/Icon.astro';
       }
       loaded = true;
     }
-    loadIndex();
 
     function escapeHtml(s: string) {
       return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
@@ -76,8 +103,6 @@ import Icon from '../components/Icon.astro';
         const haystack = `${item.title} ${item.snippet} ${item.type}`.toLowerCase();
         return terms.every((t) => haystack.includes(t));
       });
-      // Newest first among matches that have a date; undated items (e.g. a
-      // litigation matter with no filedDate) sort to the end, not the top.
       matches.sort((a, b) => {
         if (!a.date && !b.date) return 0;
         if (!a.date) return 1;
@@ -86,24 +111,17 @@ import Icon from '../components/Icon.astro';
       });
 
       if (matches.length === 0) {
-        status.textContent = `No results for “${query}”.`;
+        status.textContent = `No results for "${query}".`;
         results.innerHTML = '';
         return;
       }
-      const shown = matches.slice(0, 60);
-      status.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'}${matches.length > shown.length ? ` (showing first ${shown.length})` : ''} for “${query}”.`;
+      const shown = matches.slice(0, 20);
+      status.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'}${matches.length > shown.length ? ` (showing first ${shown.length})` : ''} for "${query}".`;
       results.innerHTML = shown.map((item) => {
-        const dateStr = item.date
-          ? new Date(item.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
-          : '';
         const external = /^https?:\/\//.test(item.url);
         return `<a class="result-card" href="${escapeHtml(item.url)}"${external ? ' target="_blank" rel="noopener"' : ''}>
-          <span class="result-top">
-            <span class="result-type">${escapeHtml(item.type)}</span>
-            ${dateStr ? `<span class="result-date">${escapeHtml(dateStr)}</span>` : ''}
-          </span>
+          <span class="result-type">${escapeHtml(item.type)}</span>
           <h2>${escapeHtml(item.title)}</h2>
-          <p>${escapeHtml(item.snippet)}</p>
         </a>`;
       }).join('');
     }
@@ -114,12 +132,6 @@ import Icon from '../components/Icon.astro';
       debounceTimer = setTimeout(() => render(input.value), 120);
     });
 
-    // Support a shared/bookmarked link like /search?q=karnataka
-    const params = new URLSearchParams(location.search);
-    const initialQuery = params.get('q');
-    if (initialQuery) {
-      input.value = initialQuery;
-    }
     loadIndex().then(() => render(input?.value ?? ''));
     input?.focus();
   </script>
@@ -127,21 +139,21 @@ import Icon from '../components/Icon.astro';
   <style>
     .eyebrow {
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
-    .search-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+    .notfound-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
       background-size: cover;
       background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
-    .search-hero h1 { color: #fff; margin: 0 0 0.9rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
-    .search-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.02rem; margin: 0 0 2rem; }
+    .notfound-hero h1 { color: #fff; margin: 0 0 0.9rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .notfound-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.02rem; margin: 0 0 2rem; }
 
     .search-box {
       display: flex;
@@ -163,34 +175,55 @@ import Icon from '../components/Icon.astro';
       background: transparent;
     }
 
-    .search-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .notfound-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
     #search-status { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.5rem; }
 
-    .results-list { display: grid; gap: 1rem; }
+    .results-list { display: grid; gap: 0.75rem; margin-bottom: 2.5rem; }
     .result-card {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1.1rem 1.4rem;
+      padding: 0.85rem 1.2rem;
       text-decoration: none;
       color: inherit;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
     }
     .result-card:hover { border-color: var(--gold-dark); }
-    .result-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; }
     .result-type {
-      font-size: 0.7rem;
+      flex-shrink: 0;
+      font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      padding: 0.15rem 0.55rem;
+      padding: 0.15rem 0.5rem;
       border-radius: 99px;
       color: #fff;
       background: var(--accent);
     }
-    .result-date { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
-    .result-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; color: var(--ink); text-decoration: none; }
-    .result-card p { margin: 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; text-decoration: none; }
+    .result-card h2 { margin: 0; font-size: 0.95rem; line-height: 1.35; color: var(--ink); }
+
+    .section-links { padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .section-links-label { font-weight: 600; font-size: 0.9rem; margin: 0 0 1rem; }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
+      gap: 0.6rem;
+    }
+    .section-grid a {
+      display: block;
+      background: var(--paper-alt);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .section-grid a:hover { background: var(--gold-light); color: var(--ink); }
+
+    .report-line { margin-top: 2rem; font-size: 0.88rem; color: var(--muted); }
   </style>
 </Base>

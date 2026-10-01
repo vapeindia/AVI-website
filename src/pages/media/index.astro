@@ -80,7 +80,7 @@ const latest = videoData[0];
         <p class="spotlight-label">Featured</p>
         <div class="spotlight-inner">
           <a class="spotlight-thumb" id="spotlight-link" href={latest.url} target="_blank" rel="noopener">
-            <img id="spotlight-img" src={latest.thumb} alt={latest.title} />
+            <img id="spotlight-img" src={latest.thumb} alt={latest.title} width="480" height="360" />
             <span class="play-badge" aria-hidden="true">▶</span>
           </a>
           <div class="spotlight-copy">
@@ -97,7 +97,7 @@ const latest = videoData[0];
     <section class="platforms">
       <div class="section-head">
         <h2>Find AVI everywhere</h2>
-        <p>Every platform where India's tobacco harm reduction conversation happens — and in <a href="/press">third-party press coverage</a> too.</p>
+        <p>Every platform where India's tobacco harm reduction conversation happens — and in <a href="/press/">third-party press coverage</a> too.</p>
       </div>
       <div class="platform-grid">
         {platforms.map((p) => (
@@ -122,7 +122,7 @@ const latest = videoData[0];
       {mostWatched.map((v, i) => (
         <a class="video-card" href={`https://www.youtube.com/watch?v=${v.data.videoId}`} target="_blank" rel="noopener" hidden={i >= 4}>
           <div class="thumb">
-            <img src={v.data.thumbnailUrl} alt={v.data.title} loading="lazy" />
+            <img src={v.data.thumbnailUrl} alt={v.data.title} loading="lazy" width="480" height="360" />
             <span class="play-badge" aria-hidden="true">▶</span>
           </div>
           <h2>{v.data.title}</h2>
@@ -143,11 +143,11 @@ const latest = videoData[0];
     )}
 
     <div class="media-related">
-      <a href="/news" class="related-card">
+      <a href="/news/" class="related-card">
         <h3>Daily news →</h3>
         <p>Coverage of vaping and tobacco harm reduction from across the web, updated daily.</p>
       </a>
-      <a href="/press" class="related-card">
+      <a href="/press/" class="related-card">
         <h3>Press coverage →</h3>
         <p>How AVI's own work has been reported, and its statements on the record.</p>
       </a>

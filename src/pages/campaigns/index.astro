@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import DecorativeRings from '../../components/DecorativeRings.astro';
 import { getCollection, render } from 'astro:content';
+import { getImageSize } from '../../lib/image-size';
 
 const all = (await getCollection('campaigns'))
   .sort((a, b) => b.data.dateStart.valueOf() - a.data.dateStart.valueOf());
@@ -47,6 +49,18 @@ function fmtRange(start: Date, end?: Date) {
   const startStr = start.toLocaleDateString('en-IN', sameYear ? { month: 'short', day: 'numeric' } : opts);
   return `${startStr} – ${end.toLocaleDateString('en-IN', opts)}`;
 }
+
+// Real pixel dimensions for every photo src used below, read once at build
+// time so <Image> can carry accurate width/height (CLS prevention) even
+// though these come from public/ (content-driven, not ESM imports).
+const allPhotoSrcs = [
+  ...withBody.flatMap(({ item }) => item.data.photos.map((p) => p.src)),
+  ...materials.map((m) => m.src),
+];
+const sizeEntries = await Promise.all(
+  [...new Set(allPhotoSrcs)].map(async (src) => [src, await getImageSize(src)] as const)
+);
+const sizeBySrc = new Map(sizeEntries);
 ---
 <Base title="Campaigns" description="World Vape Day, the six-city protest against the ENDS ban, #WarOnTar and other on-the-ground advocacy AVI has organised over the years." wide={true}>
   <section class="breakout camp-hero">
@@ -55,7 +69,7 @@ function fmtRange(start: Date, end?: Date) {
       <p class="eyebrow">A decade of organising</p>
       <h1>Beyond the courtroom — AVI's public campaigns</h1>
       <p class="camp-sub">
-        <a href="/litigation">Litigation</a> and <a href="/submissions">policy letters</a> are
+        <a href="/litigation/">Litigation</a> and <a href="/submissions/">policy letters</a> are
         one half of AVI's work; the other
         is getting in front of the public and the press directly — protests,
         seminars, delegations to government, and campaigns that turned
@@ -74,7 +88,7 @@ function fmtRange(start: Date, end?: Date) {
         <div class="feat-photo-grid">
           {featuredItem.data.photos.map((p) => (
             <figure>
-              <img src={p.src} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
+              <Image src={p.src} {...sizeBySrc.get(p.src)!} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
               <figcaption>{p.caption}</figcaption>
             </figure>
           ))}
@@ -106,7 +120,7 @@ function fmtRange(start: Date, end?: Date) {
             <div class="photo-strip">
               {item.data.photos.map((p) => (
                 <figure>
-                  <img src={p.src} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
+                  <Image src={p.src} {...sizeBySrc.get(p.src)!} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
                   {p.caption && <figcaption>{p.caption}</figcaption>}
                 </figure>
               ))}
@@ -133,7 +147,7 @@ function fmtRange(start: Date, end?: Date) {
       <div class="materials-grid">
         {materials.map((m) => (
           <a class="material-card" href={m.src} download title={`Download: ${m.title}`}>
-            <img src={m.src} alt={m.title} loading="lazy" width="1080" height="1080" />
+            <Image src={m.src} {...sizeBySrc.get(m.src)!} alt={m.title} loading="lazy" />
             <span class="material-download"><Icon name="download" /> Download</span>
           </a>
         ))}
@@ -167,7 +181,7 @@ function fmtRange(start: Date, end?: Date) {
       </p>
       <a class="btn btn-primary involve-link" href="https://bit.ly/ConnectAVI" target="_blank" rel="noopener">Fill out the form →</a>
       <p class="involve-related">
-        Prefer to support with funds instead? See <a href="/contribute">Contribute</a>. Already switched to a safer alternative and want to share your experience? <a href="/testimonials">Share your story</a>.
+        Prefer to support with funds instead? See <a href="/contribute/">Contribute</a>. Already switched to a safer alternative and want to share your experience? <a href="/testimonials/">Share your story</a>.
       </p>
     </section>
   </div>

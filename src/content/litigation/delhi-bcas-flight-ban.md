@@ -11,7 +11,7 @@ documents: []
 
 The two petitioners weren't found by chance. From January 2020 — days
 after the flight ban took effect — AVI ran a public
-[confiscation-report form](/campaigns#2020-2023-airport-confiscation-reports) that logged 60 incidents nationwide
+[confiscation-report form](/campaigns/#2020-2023-airport-confiscation-reports) that logged 60 incidents nationwide
 over three years, most heavily out of Mumbai and Delhi, with 70% of
 respondents willing to join a legal challenge. That crowdsourced record is
 where these two petitioners came from, and the pattern it documented —

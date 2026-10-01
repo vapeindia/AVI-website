@@ -1,104 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import NewsMonthBlock from '../../components/NewsMonthBlock.astro';
+import { buildMonthBlocks, chunkMonthsByItemCount } from '../../lib/news-digest';
 
-const items = (await getCollection('news', ({ data }) => data.reviewed))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const monthBlocks = await buildMonthBlocks();
 
-const digests = await getCollection('newsDigests');
-const dailyDigestByDate = new Map(
-  digests.filter((d) => d.data.type === 'daily' || !d.data.type).map((d) => [d.data.date.toISOString().slice(0, 10), d.data.summary])
-);
-const weeklyDigestByWeekStart = new Map(
-  digests.filter((d) => d.data.type === 'weekly').map((d) => [d.data.date.toISOString().slice(0, 10), d.data])
-);
-const monthlyDigestByMonth = new Map(
-  digests.filter((d) => d.data.type === 'monthly').map((d) => [d.data.date.toISOString().slice(0, 7), d.data])
-);
-
-// Monday of the ISO week containing `date` — matches
-// scripts/generate-weekly-digest.mjs's isoWeekStart() exactly, so a week
-// grouped here lines up with whichever weekly digest that script wrote.
-function isoWeekStartKey(date: Date): string {
-  const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-  const day = d.getUTCDay() || 7;
-  if (day !== 1) d.setUTCDate(d.getUTCDate() - (day - 1));
-  return d.toISOString().slice(0, 10);
-}
-function monthKey(date: Date): string {
-  return date.toISOString().slice(0, 7);
-}
-
-// Group same-day items together so a day with a written digest shows it
-// once above its cluster of cards, rather than repeating context per card.
-type Item = (typeof items)[number];
-const dayGroups: { dateKey: string; date: Date; items: Item[] }[] = [];
-for (const item of items) {
-  const dateKey = item.data.date.toISOString().slice(0, 10);
-  const group = dayGroups[dayGroups.length - 1];
-  if (group && group.dateKey === dateKey) {
-    group.items.push(item);
-  } else {
-    dayGroups.push({ dateKey, date: item.data.date, items: [item] });
-  }
-}
-
-// Group days into ISO weeks. The current, still-forming week never
-// collapses to a weekly card even if a digest exists for it.
-const now = new Date();
-const currentWeekStart = isoWeekStartKey(now);
-const currentMonth = monthKey(now);
-type WeekBlock = { weekStart: string; weekly: (typeof digests)[number]['data'] | null; days: typeof dayGroups };
-const weekBlocks: WeekBlock[] = [];
-for (const day of dayGroups) {
-  const weekStart = isoWeekStartKey(day.date);
-  const weekly = weekStart === currentWeekStart ? null : (weeklyDigestByWeekStart.get(weekStart) ?? null);
-  const block = weekBlocks[weekBlocks.length - 1];
-  if (block && block.weekStart === weekStart) {
-    block.days.push(day);
-  } else {
-    weekBlocks.push({ weekStart, weekly, days: [day] });
-  }
-}
-
-// Group weeks into calendar months. A week straddling a month boundary
-// (its Monday in one month, some later days in the next) is grouped under
-// the month of its most recent day, not its Monday — that's the month
-// most of a boundary week's real content usually belongs to, and it's
-// what scripts/generate-monthly-digest.mjs itself groups by (a news
-// item's own date, not its week's start). `week.days[0]` is the most
-// recent day since dayGroups was built from `items` in descending-date
-// order. The current, still-forming month never collapses to a card.
-type MonthBlock = { month: string; monthly: (typeof digests)[number]['data'] | null; weeks: WeekBlock[] };
-const monthBlocks: MonthBlock[] = [];
-for (const week of weekBlocks) {
-  const month = monthKey(week.days[0].date);
-  const monthly = month === currentMonth ? null : (monthlyDigestByMonth.get(month) ?? null);
-  const block = monthBlocks[monthBlocks.length - 1];
-  if (block && block.month === month) {
-    block.weeks.push(week);
-  } else {
-    monthBlocks.push({ month, monthly, weeks: [week] });
-  }
-}
-
-// 'industry' is a real schema value (used for filtering/auditing — see
-// fetch-news.mjs) but not shown publicly as its own labelled category:
-// surfacing an "Industry" badge on AVI's own news page reads too close to
-// the PECA advertising-risk line (it visibly signals the site tracks
-// vendor/industry news as a named category). Folded into the same visible
-// label and badge colour as 'other' instead.
-const topicLabel: Record<string, string> = {
-  policy: 'Policy',
-  litigation: 'Litigation',
-  science: 'Science',
-  industry: 'Commentary',
-  other: 'Commentary',
-};
-
-const dayFmt = (d: Date) => d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
-const shortFmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateString('en-IN', { year: 'numeric', month: 'long' });
+// Only the most recent 3 months (this month + the 2 before it) render on
+// this page — everything older is paginated into /news/archive/<page>/
+// (30 stories/page, never splitting a month) instead of being dumped into
+// one giant collapsed-but-still-fully-rendered archive block on this same
+// page, which is what made this page several hundred items heavy before.
+const RECENT_MONTH_COUNT = 3;
+const recentMonths = monthBlocks.slice(0, RECENT_MONTH_COUNT);
+const olderMonths = monthBlocks.slice(RECENT_MONTH_COUNT);
+const olderItemCount = olderMonths.reduce((n, m) => n + m.itemCount, 0);
+const archivePageCount = chunkMonthsByItemCount(olderMonths, 30).length;
 ---
 <Base title="Daily News" description="Current developments on tobacco harm reduction, vaping and nicotine pouch regulation relevant to India." wide={true}>
   <section class="breakout news-hero">
@@ -121,7 +37,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
       <strong>About this feed:</strong> every item's summary is AI-written,
       in AVI's own paraphrased words rather than copied article text, and
       none of this reflects AVI's own views or positions — for AVI's own
-      analysis and statements, see our <a href="/press">press</a> and <a href="/policy">policy</a> pages.
+      analysis and statements, see our <a href="/press/">press</a> and <a href="/policy/">policy</a> pages.
       Items from an established outlet (major Indian and international
       news organisations, or established science/medical journals) publish
       automatically once they pass a set of automated filters; anything
@@ -132,126 +48,21 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
       are.
     </div>
 
-    {(() => {
-      // Only the most recent 3 months (this month + the 2 before it) render
-      // as individually-visible sections on page load — everything older
-      // renders inside one collapsed archive so the page doesn't print 30+
-      // month summaries by default. A month's own <details> being "closed"
-      // doesn't hide its <summary> (heading + digest paragraph still print),
-      // which is why a long history needs this outer wrapper too, not just
-      // per-month collapsing.
-      const RECENT_MONTH_COUNT = 3;
-      const recentMonths = monthBlocks.slice(0, RECENT_MONTH_COUNT);
-      const olderMonths = monthBlocks.slice(RECENT_MONTH_COUNT);
+    {recentMonths.map((mblock) => <NewsMonthBlock mblock={mblock} />)}
 
-      const renderMonth = (mblock: MonthBlock) => {
-        const WeekList = (
-          <>
-            {mblock.weeks.map((wblock) => {
-              const dayCount = wblock.days.length;
-              const itemCount = wblock.days.reduce((n, d) => n + d.items.length, 0);
-              const weekly = wblock.weekly;
-              const DayList = (
-                <>
-                  {wblock.days.map((day) => (
-                    <div class="day-group">
-                      <div class="day-heading">
-                        <h4>{dayFmt(day.date)}</h4>
-                        <span class="count-tag">{day.items.length} {day.items.length === 1 ? 'story' : 'stories'}</span>
-                      </div>
-                      {dailyDigestByDate.has(day.dateKey) && (
-                        <p class="digest-text">{dailyDigestByDate.get(day.dateKey)}</p>
-                      )}
-                      <details class="articles-toggle">
-                        <summary>Show {day.items.length} {day.items.length === 1 ? 'article' : 'articles'}</summary>
-                        <div class="news-grid">
-                          {day.items.map((item) => (
-                            <article class={`news-card topic-${item.data.topic}`}>
-                              <div class="card-top">
-                                <span class="topic-badge">{topicLabel[item.data.topic]}</span>
-                              </div>
-                              <h5><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h5>
-                              <p class="source">{item.data.sourceName}</p>
-                              <p class="gist">{item.data.summary}</p>
-                              <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
-                            </article>
-                          ))}
-                        </div>
-                      </details>
-                    </div>
-                  ))}
-                </>
-              );
-
-              if (weekly) {
-                const weekStartDate = new Date(`${wblock.weekStart}T00:00:00Z`);
-                return (
-                  <details class="week-toggle">
-                    <summary>
-                      <div class="summary-head">
-                        <h3>Week of {shortFmt(weekStartDate)} – {shortFmt(weekly.weekEnd!)}</h3>
-                        <span class="count-tag">{itemCount} {itemCount === 1 ? 'story' : 'stories'} · {dayCount} {dayCount === 1 ? 'day' : 'days'}</span>
-                      </div>
-                      <p class="digest-text weekly">{weekly.summary}</p>
-                    </summary>
-                    <div class="nested-block">{DayList}</div>
-                  </details>
-                );
-              }
-              return <div class="week-open">{DayList}</div>;
-            })}
-          </>
-        );
-
-        const monthly = mblock.monthly;
-        if (monthly) {
-          const monthItemCount = mblock.weeks.reduce((n, w) => n + w.days.reduce((m, d) => m + d.items.length, 0), 0);
-          return (
-            <section class="top-block">
-              <details class="month-toggle">
-                <summary>
-                  <div class="summary-head">
-                    <h2>{monthFmt(mblock.month)}</h2>
-                    <span class="count-tag">{monthItemCount} {monthItemCount === 1 ? 'story' : 'stories'} this month</span>
-                  </div>
-                  <p class="digest-text monthly">{monthly.summary}</p>
-                </summary>
-                <div class="nested-block">{WeekList}</div>
-              </details>
-            </section>
-          );
-        }
-
-        return <section class="top-block top-block-open">{WeekList}</section>;
-      };
-
-      const olderItemCount = olderMonths.reduce(
-        (n, m) => n + m.weeks.reduce((wn, w) => wn + w.days.reduce((dn, d) => dn + d.items.length, 0), 0),
-        0
-      );
-
-      return (
-        <>
-          {recentMonths.map(renderMonth)}
-          {olderMonths.length > 0 && (
-            <details class="older-archive">
-              <summary>
-                Show earlier coverage — {olderMonths.length} more months, {olderItemCount} stories
-              </summary>
-              <div class="nested-block">{olderMonths.map(renderMonth)}</div>
-            </details>
-          )}
-        </>
-      );
-    })()}
+    {olderMonths.length > 0 && (
+      <a class="archive-link" href="/news/archive/1/">
+        See earlier coverage — {olderMonths.length} more months, {olderItemCount} stories, across {archivePageCount} {archivePageCount === 1 ? 'page' : 'pages'} →
+      </a>
+    )}
   </div>
 
   <div class="news-related-wrap">
-    <a href="/science" class="related-card">
+    <a href="/science/" class="related-card">
       <h3>Evidence library →</h3>
       <p>The published research behind AVI's position, beyond the day's news.</p>
     </a>
-    <a href="/press" class="related-card">
+    <a href="/press/" class="related-card">
       <h3>Press coverage →</h3>
       <p>AVI's own statements and the coverage of its work specifically.</p>
     </a>
@@ -293,43 +104,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     .disclaimer strong { color: var(--ink); }
     .disclaimer a { font-weight: 600; }
 
-    .top-block { margin-bottom: 2rem; }
-    .top-block:last-child { margin-bottom: 0; }
-    .top-block-open { display: flex; flex-direction: column; gap: 2rem; }
-
-    /* Shared collapsed-card look for month/week toggles */
-    .month-toggle, .week-toggle {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .month-toggle summary, .week-toggle summary {
-      cursor: pointer;
-      list-style: none;
-      padding: 1.25rem 1.5rem;
-      background: var(--paper-alt);
-    }
-    .month-toggle summary::-webkit-details-marker,
-    .week-toggle summary::-webkit-details-marker { display: none; }
-    .month-toggle summary::after,
-    .week-toggle summary::after {
-      content: "Show breakdown ▾";
-      display: inline-block;
-      margin-top: 0.6rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent-dark);
-    }
-    .month-toggle[open] summary::after,
-    .week-toggle[open] summary::after { content: "Hide breakdown ▴"; }
-
-    .older-archive {
-      margin-top: 0.5rem;
-    }
-    .older-archive > summary {
-      cursor: pointer;
-      list-style: none;
+    .archive-link {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -340,100 +115,10 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
       border: 1px solid var(--border);
       border-radius: 999px;
       padding: 0.7rem 1.4rem;
+      text-decoration: none;
+      margin: 0.5rem 0 2rem;
     }
-    .older-archive > summary::-webkit-details-marker { display: none; }
-    .older-archive > summary::after { content: '▾'; font-size: 0.8em; display: inline-block; transition: transform 0.15s ease; }
-    .older-archive[open] > summary::after { transform: rotate(180deg); }
-    .older-archive > summary:hover { border-color: var(--accent); }
-    .older-archive > .nested-block { border-top: none; padding: 1.5rem 0 0; display: flex; flex-direction: column; gap: 2rem; }
-
-    .summary-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .summary-head h2 { margin: 0; font-size: 1.35rem; color: var(--accent-dark); }
-    .summary-head h3 { margin: 0; font-size: 1.15rem; color: var(--accent-dark); }
-    .count-tag { font-size: 0.78rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
-
-    .digest-text.monthly, .digest-text.weekly { margin: 0.6rem 0 0; font-weight: 500; background: none; border: none; padding: 0; }
-
-    .nested-block { padding: 0.25rem 1.5rem 1.5rem; border-top: 1px solid var(--border); }
-    .nested-block > .week-toggle,
-    .nested-block > .week-open { margin-top: 1.25rem; }
-    .nested-block .month-toggle, .nested-block .week-toggle { background: var(--paper-alt); }
-    .nested-block .week-toggle summary { background: #fff; }
-
-    .week-open { display: block; }
-
-    .day-group { margin-top: 1.25rem; }
-    .day-group:first-child { margin-top: 0; }
-    .day-heading {
-      display: flex;
-      align-items: baseline;
-      gap: 0.75rem;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .day-heading h4 { margin: 0; font-size: 1.05rem; color: var(--accent-dark); }
-    .digest-text {
-      background: var(--paper-alt);
-      border-left: 3px solid var(--accent);
-      padding: 0.9rem 1.25rem;
-      font-size: 0.92rem;
-      line-height: 1.6;
-      color: var(--ink);
-      margin: 0 0 1rem;
-      border-radius: 0 6px 6px 0;
-    }
-    .nested-block .digest-text:not(.weekly):not(.monthly) { background: #fff; }
-
-    .articles-toggle summary {
-      cursor: pointer;
-      list-style: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--accent-dark);
-      padding: 0.3rem 0;
-    }
-    .articles-toggle summary::-webkit-details-marker { display: none; }
-    .articles-toggle summary::before { content: "▸ "; }
-    .articles-toggle[open] summary::before { content: "▾ "; }
-    .articles-toggle .news-grid { margin-top: 1rem; }
-
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
-      gap: 1.5rem;
-    }
-    .news-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.4rem 1.5rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
-    }
-    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-    .topic-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 0.2rem 0.55rem;
-      border-radius: 99px;
-      color: #fff;
-    }
-    .topic-policy .topic-badge { background: var(--accent); }
-    .topic-litigation .topic-badge { background: var(--rust); }
-    .topic-science .topic-badge { background: var(--accent-dark); }
-    .topic-industry .topic-badge,
-    .topic-other .topic-badge { background: var(--muted); }
-
-    .news-card h5 { margin: 0 0 0.3rem; font-size: 1.03rem; line-height: 1.35; }
-    .news-card h5 a { color: var(--ink); text-decoration: none; }
-    .news-card h5 a:hover { color: var(--accent); }
-    .source { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
-    .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
-    .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
+    .archive-link:hover { border-color: var(--accent); color: var(--accent-dark); }
 
     .news-related-wrap {
       max-width: var(--max-w-wide);

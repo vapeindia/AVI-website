@@ -44,7 +44,7 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
   <div class="lit-body">
     <div class="lit-grid">
       {cases.map((c) => (
-        <a class={`lit-card status-${c.data.status}`} href={`/litigation/${c.id}`}>
+        <a class={`lit-card status-${c.data.status}`} href={`/litigation/${c.id}/`}>
           <div class="card-top">
             <Icon name="scale" />
             <span class="status-badge">{statusLabel(c.data.status)}</span>
@@ -58,11 +58,11 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
     </div>
 
     <div class="lit-related">
-      <a href="/submissions" class="related-card">
+      <a href="/submissions/" class="related-card">
         <h3>Submissions to policymakers →</h3>
         <p>Letters and formal responses AVI has sent directly to the health ministry, MPs and government advisories.</p>
       </a>
-      <a href="/press" class="related-card">
+      <a href="/press/" class="related-card">
         <h3>Press coverage →</h3>
         <p>How this litigation has been reported — and AVI's own statements on it — in the press.</p>
       </a>

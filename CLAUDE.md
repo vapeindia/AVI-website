@@ -1456,6 +1456,42 @@ X's embedded timeline is effectively broken for logged-out visitors
 an X timeline. YouTube's RSS/oEmbed is reliable if a "latest video" embed
 is ever wanted.
 
+## public/_redirects has a hard ~107-rule ceiling (2026-10-01) — read this
+## before adding more redirects
+
+Found during a technical-SEO pass: `public/_redirects` does NOT get
+anywhere near Cloudflare's documented "2,000 static / 100 dynamic" rule
+split. In practice, **every rule in the file counts against one ~107-rule
+ceiling, regardless of status code** — confirmed two ways: `wrangler pages
+dev` logs `Parsed 107 valid redirect rules` and `Maximum number of dynamic
+rules supported is 100. Skipping remaining N lines of file`; and, more
+importantly, a binary search directly against the **live production
+site** (not just the local dev emulator) found the exact same boundary —
+rule 107 in file order returns a real 301, rule 108 silently falls through
+to a 200 homepage response instead. Converting a rule from `301` to `200`
+(a same-content rewrite rather than a real redirect) did NOT free up any
+extra headroom — both status codes count against the same ~107 cap, which
+rules out the "static vs dynamic" theory the 2,000/100 split implies for
+a plain `_redirects` file specifically (that split may only apply to
+Cloudflare's separate Bulk Redirects dashboard feature, not this file).
+
+**The missing-404-page bug (fixed in the same PR) was MASKING this** —
+with no `dist/404.html`, Cloudflare Pages serves the homepage with a 200
+for any unmatched path, including a redirect rule silently dropped past
+the cap, so a broken redirect and a working one were indistinguishable by
+status code alone before that fix. If `_redirects` is ever extended again:
+count total rules first (`grep -c '301$\|200$' public/_redirects`-style),
+keep it under ~100 with margin, and verify with a `wrangler pages dev`
+`Parsed N valid redirect rules` check — don't assume the 2,000-rule number
+applies. If more than ~100 real redirects are ever needed, the actual fix
+is Cloudflare Pages' Bulk Redirects feature (dashboard/API-managed,
+separate from this file), not more `_redirects` lines. The 71
+`/science/<slug>` internal redirects added by the slug-rename work in an
+earlier session were removed from this file entirely to make room for the
+historically valuable WordPress-era URLs added in the same pass that
+discovered this limit — see `docs/redirect-map.csv` for the full mapping
+and git history on this file for exactly what was cut and why.
+
 ## Deadline context
 
 Site owner is targeting go-live by Sunday (from whenever this file is

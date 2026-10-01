@@ -17,6 +17,15 @@ const description = item.data.brief.length > 155
   ? item.data.brief.slice(0, 155).replace(/\s+\S*$/, '') + '…'
   : item.data.brief;
 
+// Academic paper titles routinely run 150-200+ characters — fine as the
+// visible <h1> below, but a <title> tag that long gets truncated unpredictably
+// by Google and is well past any browser tab. Shortened at a word boundary to
+// ~50 chars so the full "<title> · AVI" lands near 60 total; the full,
+// untruncated title is still the page's own H1 immediately below it.
+const pageTitle = item.data.title.length > 50
+  ? item.data.title.slice(0, 50).replace(/\s+\S*$/, '') + '…'
+  : item.data.title;
+
 // Noindex any entry a human hasn't written an India-relevance note for —
 // without this, the library's thin, auto-generated-only pages (the vast
 // majority, since whyItMattersIndia is never set by the fetch script)
@@ -27,8 +36,8 @@ const aiLabel = item.data.reviewedDate
   ? `Plain-language summary written with AI and checked by AVI on ${item.data.reviewedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}.`
   : 'Plain-language summary written with AI, from the published abstract — not yet individually checked by AVI.';
 ---
-<Base title={item.data.title} description={description} noindex={noindex}>
-  <p><a href="/science">← Back to research library</a></p>
+<Base title={pageTitle} description={description} noindex={noindex}>
+  <p><a href="/science/">← Back to research library</a></p>
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
   <p class="byline"><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
@@ -49,11 +58,11 @@ const aiLabel = item.data.reviewedDate
   </p>
 
   <div class="study-related">
-    <a href="/science" class="related-card">
+    <a href="/science/" class="related-card">
       <h3>Evidence library →</h3>
       <p>The full published research behind AVI's position, browsable by topic.</p>
     </a>
-    <a href="/quit" class="related-card">
+    <a href="/quit/" class="related-card">
       <h3>If you smoke →</h3>
       <p>What this evidence means in practice — the case for switching.</p>
     </a>
