@@ -120,10 +120,22 @@ export function pecaNotBannedSentence(): string {
 // content/legal-authority task to deal with "transport" head-on: Section
 // 4(i) bans transport with no textual carve-out for personal carrying,
 // unlike the "for sale" qualifier the site used to (wrongly) attach to it.
-// This paragraph is AVI's reasoning for why that still shouldn't be read
-// to cover a vaper carrying their own device, using only sources already
-// cited elsewhere on /india/law/ — it is NOT legal advice, has NOT been
-// reviewed by Samrat or counsel, and must not be rendered on any live
-// page until that review happens. Needs Samrat: sign-off (or edits) from
-// Samrat and counsel before this ships anywhere.
-export const PECA_TRANSPORT_DRAFT = `Section 4(i) bans "transport" of e-cigarettes without the word "for sale" attached to it — that qualifier only appears in Section 5's proviso, about disposing of stock that already existed when the Act commenced, not as a condition on Section 4 itself. Read in isolation, "transport" could describe a vaper carrying their own device from one room to another. AVI's view is that it shouldn't be read that way, for reasons grounded in how the Act itself and the government have described its purpose, not in the word "transport" alone. First, "transport" sits in Section 4(i) alongside produce, manufacture, import, export, sell and distribute — six verbs describing the movement of goods through a commercial supply chain, and the Act's own Section 2 declares its purpose as bringing "the electronic cigarettes industry" under control, not regulating personal conduct. Second, every government statement on record addressing personal use points the same way: the Health Ministry's own account said use and possession were not banned before the Act was even passed; the Home Ministry's circular (point C) says personal use and possession is not an offence; and the Health Minister told Parliament directly, during the bill's debate, that use and possession would not be banned because doing so would violate personal liberties. None of those three statements carves out an exception for "but carrying it is different" — they describe the Act as reaching the business of e-cigarettes, full stop. Read together with Section 4(i)'s company — commercial verbs, aimed at a declared industry-control purpose — AVI reads "transport" the same way: a link in the commercial chain, not a vaper's own pocket or bag. That is an interpretation, not settled law; no court has ruled on this specific word, and the Act's text does not itself distinguish commercial from personal transport the way it's silent on personal use elsewhere. This paragraph needs Samrat's and counsel's sign-off before it goes anywhere public.`;
+// Revised using the actual argument from AVI's own written submission in
+// the flight-ban case (Sutirtha Dutta v. Bureau of Civil Aviation
+// Security, W.P.(C) 5485/2022, Delhi High Court — judgment reserved
+// 15.09.2026): AVI's counsel anticipated this exact objection ("transport"
+// covers a passenger carrying their own device) and answered it with the
+// noscitur a sociis doctrine, citing the same three government
+// communications already used elsewhere on /india/law/. This is NOT
+// legal advice, has NOT been reviewed by Samrat or counsel for
+// publication (distinct from its use in the pending litigation itself),
+// and must not be rendered on any live page until that review happens.
+// Needs Samrat: sign-off (or edits) from Samrat and counsel before this
+// ships anywhere.
+export const PECA_TRANSPORT_DRAFT = `Section 4(i) bans "transport" of e-cigarettes without the word "for sale" attached to it — that qualifier only appears in Section 5's proviso, about disposing of stock that already existed when the Act commenced, not as a condition on Section 4 itself. Read in isolation, "transport" could describe a vaper carrying their own device from one room to another.
+
+AVI doesn't read it that way, and this isn't just a website's gloss on the Act — it's the argument AVI's own counsel put to the Delhi High Court in the flight-ban case, Sutirtha Dutta v. Bureau of Civil Aviation Security. The written submission anticipates the objection directly: that "transport" in Section 4 "comprehends a passenger carrying his own device, so that personal carriage is already an offence." AVI's answer rests on a named doctrine of statutory interpretation, noscitur a sociis — a word is known by the company it keeps. Every other member of the same list in Section 4(i) — produce, manufacture, import, export, sell, distribute — is a link in a commercial supply chain, so "transport" takes its colour from its companions rather than standing alone. Section 5, the Act's only other operative prohibition, speaks of "stock" — trade inventory, not personal belongings.
+
+That reading isn't just AVI's own: it's "the contemporaneous construction placed upon the said Act by the very Departments of the Union charged with its administration" — the submission's own words, backed by the same three government communications already cited on this page: the Health Ministry's public statement, the Joint Secretary's letter to every state's Chief Secretary (its clause C stating plainly that personal possession for personal use is not an offence), and the Health Secretary's own follow-up letter to the same effect, all predating the Act's commencement or issued shortly after it.
+
+This is AVI's litigation position, formally argued in a case where judgment is reserved — not yet a court's ruling. No judge has accepted or rejected this specific reading of "transport," and the Act's text doesn't itself carve out personal transport the way it's silent on personal use and possession elsewhere. That distinction — a strong, formally-argued interpretation versus settled law — needs to stay clear if this goes on the page.`;
