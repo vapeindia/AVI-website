@@ -8,6 +8,11 @@ interface Props {
   wide?: boolean;
   image?: string;
   noindex?: boolean;
+  /** Use `title` exactly as given, skipping the automatic "· AVI" suffix —
+   * for the one page (the homepage) where the full org name belongs in the
+   * title itself rather than as a generic suffix. See the comment below on
+   * why every other page keeps the short suffix form instead. */
+  rawTitle?: boolean;
 }
 const {
   title,
@@ -15,6 +20,7 @@ const {
   wide = false,
   image = '/images/og-default.jpg',
   noindex = false,
+  rawTitle = false,
 } = Astro.props;
 
 // Kept short deliberately — the full "Association of Vapers India" name
@@ -25,7 +31,12 @@ const {
 // the visible header/logo, and most pages' own descriptions — this is
 // just the <title>/og:title/twitter:title suffix, which every platform
 // pairs with the vapeindia.org domain shown alongside it anyway.
-const pageTitle = `${title} · AVI`;
+//
+// The homepage is the deliberate exception (rawTitle=true): it's the page
+// most likely to be the branded-search landing result for "Association of
+// Vapers India" itself, so the full name belongs in the title verbatim
+// rather than behind "· AVI" — see index.astro's own Base call.
+const pageTitle = rawTitle ? title : `${title} · AVI`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
 
@@ -90,6 +101,8 @@ const group = activeGroup(path);
     url: 'https://vapeindia.org',
     logo: new URL('/images/avi-logo.png', Astro.site).toString(),
     foundingDate: '2016',
+    founder: { '@type': 'Person', name: 'Samrat Chowdhery' },
+    email: 'contact@vapeindia.org',
     description: "A tobacco harm reduction consumer advocacy group in India, working for the right of Indian tobacco users to access lower-risk alternatives to combustible tobacco.",
     slogan: 'Reducing risk, saving lives since 2016',
     knowsAbout: [

@@ -3,8 +3,18 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
+import { getGitDates } from '../../lib/git-dates';
 
 const hStats = await getHarassmentStats();
+const lawDates = getGitDates('src/pages/india/law.astro');
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Is Vaping Banned in India?',
+  datePublished: lawDates.published,
+  dateModified: lawDates.modified,
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+};
 
 const faqLd = {
   '@context': 'https://schema.org',
@@ -55,6 +65,7 @@ const faqLd = {
 ---
 <Base title="Is Vaping Banned in India?" description="No — vaping and e-cigarette use or possession are not banned in India. PECA, 2019 bans sale, production, import and advertisement only — the law, in full." wide={true}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <section class="breakout law-hero">
     <div class="breakout-inner">
       <p class="eyebrow">As of today</p>
