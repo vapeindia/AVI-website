@@ -13,10 +13,9 @@ AVI's own records confirm it ran this litigation from first draft to
 final withdrawal, even though the named petitioner was an individual consumer,
 not AVI.
 
-**Update:** independently verified against the actual court filing — W.P. No.
-29814 of 2018, Madras High Court. Cary Edwards's sworn affidavit and typed
-set of documents — both found in AVI's case archive — confirm the petition
-challenged Tamil Nadu G.O. Ms. No. 384
+**Update:** independently verified against the actual court filing. Cary
+Edwards's sworn affidavit and typed set of documents — both found in AVI's
+case archive — confirm the petition challenged Tamil Nadu G.O. Ms. No. 384
 (Health & Family Welfare, dated 3 September 2018), affirmed 29 October 2018:
 a 24-year smoker who'd switched to vaping in 2017, arguing the ban was
 arbitrary, unsupported by any research (citing the same RTI reply used
