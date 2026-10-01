@@ -1,12 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 const all = (await getCollection('submissions'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const withBody = await Promise.all(all.map(async (item) => ({ item, Content: (await render(item)).Content })));
 
 const typeLabel: Record<string, string> = {
   letter: 'Letter',
@@ -23,16 +21,17 @@ const typeLabel: Record<string, string> = {
         Beyond <a href="/litigation/">litigation</a> and <a href="/campaigns/">public campaigning</a>, AVI has repeatedly written
         directly to the people making this policy — the health ministry,
         every sitting MP, and in response to specific government advisories —
-        making the evidence-based case for regulation over prohibition. These
-        are reproduced here close to their original text, not summarised
-        away, so the actual arguments made are on the record.
+        making the evidence-based case for regulation over prohibition. Each
+        one has its own page with the original letter where AVI's own copy
+        could be located, and a close account of its arguments otherwise —
+        marked either way, so it's clear which is which.
       </p>
     </div>
   </section>
 
   <div class="sub-body">
     <div class="sub-grid">
-      {withBody.map(({ item, Content }) => (
+      {all.map((item) => (
         <article class={`sub-card type-${item.data.type}`}>
           <div class="card-top">
             <span class="type-badge">{typeLabel[item.data.type]}</span>
@@ -43,13 +42,7 @@ const typeLabel: Record<string, string> = {
           <h2>{item.data.title}</h2>
           <p class="recipient">To: {item.data.recipient}</p>
           <p class="summary">{item.data.summary}</p>
-          <details>
-            <summary>Read the full text</summary>
-            <div class="full-text"><Content /></div>
-          </details>
-          {item.data.archivePdf && (
-            <a class="pdf-link" href={item.data.archivePdf} target="_blank" rel="noopener">View the original filing (PDF) →</a>
-          )}
+          <a class="read-link" href={`/submissions/${item.id}/`}>Read the full text →</a>
         </article>
       ))}
     </div>
@@ -115,28 +108,7 @@ const typeLabel: Record<string, string> = {
     .recipient { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .summary { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; }
 
-    details summary {
-      cursor: pointer;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--accent-dark);
-      list-style: none;
-    }
-    details summary::-webkit-details-marker { display: none; }
-    details summary::before { content: '+ '; }
-    details[open] summary::before { content: '– '; }
-    .full-text {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.92rem;
-      line-height: 1.7;
-      color: var(--ink);
-    }
-    .full-text :global(p) { margin: 0 0 0.9rem; }
-    .full-text :global(p:last-child) { margin-bottom: 0; }
-    .full-text :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
-    .pdf-link { display: block; margin-top: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); }
+    .read-link { display: inline-block; margin-top: 0.25rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-dark); }
 
     .sub-related {
       display: grid;

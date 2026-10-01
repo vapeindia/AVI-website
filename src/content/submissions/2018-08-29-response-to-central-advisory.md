@@ -60,3 +60,9 @@ evidence available, amounted to a serious public health policy error with
 a direct cost in lives — one made harder to justify given the government's
 own acknowledgment of a one-million-deaths-a-year, ₹1-lakh-crore-a-year
 domestic tobacco burden it had yet to seriously act on.
+
+---
+
+*This is AVI's own account of the rebuttal's arguments, not a verbatim
+reproduction — the original filing wasn't located in AVI's available
+records for this update.*

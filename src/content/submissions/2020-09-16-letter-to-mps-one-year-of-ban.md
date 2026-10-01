@@ -91,3 +91,9 @@ regulations, and approaches from China, New Zealand, the Philippines and
 South Africa — and offered its own expertise in shaping a policy that
 would serve India's 27 crore tobacco users with accurate information and
 safer choices.
+
+---
+
+*This is AVI's own account of the letter's ten points, not a verbatim
+reproduction — the original filing wasn't located in AVI's available
+records for this update.*

@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
 import logo from '../assets/images/avi-logo.png';
 import heroPhoto from '../assets/images/bangalore-protest-hero.jpg';
+import { PECA_BANNED, PECA_NOT_BANNED } from '../data/peca';
 
 const hStats = await getHarassmentStats();
 
@@ -98,18 +99,13 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
         <div class="kyr-col kyr-banned">
           <span class="kyr-col-label">Banned</span>
           <ul>
-            <li>Production &amp; sale</li>
-            <li>Import &amp; export</li>
-            <li>Distribution</li>
-            <li>Advertisement</li>
+            {PECA_BANNED.map((item) => <li>{item.label} <small>(s.{item.section})</small></li>)}
           </ul>
         </div>
         <div class="kyr-col kyr-notbanned">
           <span class="kyr-col-label">Not banned</span>
           <ul>
-            <li>Personal use</li>
-            <li>Possession</li>
-            <li>Carrying a device</li>
+            {PECA_NOT_BANNED.map((item) => <li>{item}</li>)}
           </ul>
         </div>
       </div>
@@ -513,6 +509,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     .kyr-notbanned .kyr-col-label { color: var(--gold-light); }
     .kyr-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
     .kyr-col li { font-size: 0.84rem; line-height: 1.4; }
+    .kyr-col li small { opacity: 0.7; font-size: 0.78em; }
     .kyr-foot { font-size: 0.72rem; line-height: 1.5; color: #b9c2bc; margin: 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.15); }
     .kyr-foot strong { color: #fff; }
     .kyr-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }

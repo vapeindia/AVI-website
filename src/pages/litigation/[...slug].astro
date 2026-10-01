@@ -34,7 +34,12 @@ const articleLd = {
   <h1>{item.data.title}</h1>
   <p class="meta"><small>{item.data.court}, {item.data.state}</small></p>
   <p class="lead">{item.data.summary}</p>
-  {item.data.outcome && <p class="outcome"><strong>Outcome:</strong> {item.data.outcome}</p>}
+  {item.data.outcome && (
+    <div class="outcome">
+      <p><strong>{item.data.status === 'pending' ? 'Status' : 'Outcome'}:</strong> {item.data.outcome}</p>
+      <p class="outcome-updated">Last updated {gitDates.modified}</p>
+    </div>
+  )}
   <Content />
   {item.data.documents.length > 0 && (
     <>
@@ -78,6 +83,12 @@ const articleLd = {
       background: var(--paper-alt);
       border-left: 3px solid var(--gold);
       padding: 1rem 1.25rem;
+    }
+    .outcome p { margin: 0; }
+    .outcome-updated {
+      margin-top: 0.5rem !important;
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
     .case-related {
