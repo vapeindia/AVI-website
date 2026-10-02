@@ -50,7 +50,10 @@ const DRAFTING_NOTE_PATTERNS = [
 ];
 
 const FLAVOUR_WORDS = /\b(flavou?rs?|mint|menthol|fruit|berry|mango|melon|tobacco[- ]flavou?r)\b/i;
-const PRICE_PATTERN = /(₹|Rs\.?\s?|\$)\s?\d[\d,]*(\.\d+)?/;
+// Excludes `$1`/`$2`-style regex replacement strings (always a single digit
+// immediately closed by a quote) — real prices don't look like that, and
+// .astro files legitimately contain JS regex code, not just prose.
+const PRICE_PATTERN = /(₹|Rs\.?\s?|\$)\s?\d[\d,]*(\.\d+)?(?!['"`])/;
 
 function isInsideQuote(line) {
   // Heuristic, not exhaustive: a blockquote line, or text wrapped in actual
@@ -110,8 +113,26 @@ function check1_2_brandFlavourPrice(addedLines) {
   }
 }
 
+const unreviewedDraftCache = new Map();
+// Content collection entries committed as `reviewed: false` never build into
+// a live page (every collection's getStaticPaths/index filters on it, and
+// check5 below independently confirms that for research) — so a marker like
+// "[QUOTE PLACEHOLDER]" in one is the intended, documented way to hold a
+// slot open (see e.g. the content/newsroom draft statements), not a leaked
+// drafting note. Only src/content entries carry this field; src/pages
+// components are never gated this way, so this never exempts page code.
+function isUnreviewedDraft(file) {
+  if (!file.startsWith('src/content/')) return false;
+  if (unreviewedDraftCache.has(file)) return unreviewedDraftCache.get(file);
+  const abs = path.join(process.cwd(), file);
+  const result = fs.existsSync(abs) && /^reviewed:\s*false\s*$/m.test(fs.readFileSync(abs, 'utf-8'));
+  unreviewedDraftCache.set(file, result);
+  return result;
+}
+
 function check3_draftingNotes(addedLines) {
   for (const { file, line, text } of addedLines) {
+    if (isUnreviewedDraft(file)) continue;
     for (const re of DRAFTING_NOTE_PATTERNS) {
       if (re.test(text)) {
         violations.push({ file, line, rule: 'drafting-note', detail: `matches ${re}`, text: text.trim() });

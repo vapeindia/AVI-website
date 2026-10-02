@@ -1,0 +1,188 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { rtiReplies } from '../../../data/rti-replies';
+
+// Every count below is computed from live site data, not hand-maintained —
+// see the content/newsroom brief, item 2.
+const FOUNDING_YEAR = 2016;
+const courtCases = (await getCollection('litigation', ({ data }) => data.aviCase)).length;
+const submissionsCount = (await getCollection('submissions')).length;
+const rtiCount = rtiReplies.length;
+const publishedPress = await getCollection('press', ({ data }) => data.reviewed);
+const statementsCount = publishedPress.filter((p) => p.data.type === 'press-release' || p.data.type === 'quote').length;
+const pressFeaturesCount = publishedPress.filter((p) => ['coverage', 'interview', 'op-ed'].includes(p.data.type)).length;
+
+const topics = [
+  { label: 'PECA, 2019', detail: "What India's e-cigarette law actually bans — and doesn't.", href: '/india/law/' },
+  { label: 'Nicotine pouches, FSSAI and CDSCO', detail: 'The food/drug regulatory freeze now blocking pouches, by a different mechanism than PECA.', href: '/india/law/#nicotine-pouches-and-snus' },
+  { label: 'The flight ban', detail: "BCAS's ban on carrying e-cigarettes on flights — the ongoing Delhi High Court case.", href: '/litigation/delhi-bcas-flight-ban/' },
+  { label: 'Police harassment', detail: 'Confiscation and extortion over a possession ban that does not exist in law.', href: '/report-harassment/' },
+  { label: 'Smokeless tobacco', detail: "India's ~200 million smokeless-tobacco users, and harm reduction beyond vaping.", href: '/india/' },
+  { label: 'WHO FCTC meetings', detail: "Representing Indian and Global South consumers at the Convention's sidelines.", href: '/about/' },
+];
+---
+<Base title="Media kit" description="Boilerplate, AVI at a glance, leadership bios and contact details for journalists covering tobacco harm reduction in India.">
+  <p><a href="/press/">← Back to press</a></p>
+  <h1>Media kit</h1>
+  <p class="lead">Everything a journalist needs to cite or quote AVI accurately — boilerplate copy, AVI's record in numbers, leadership bios, the topics we comment on, and how to reach us.</p>
+
+  <h2>Boilerplate</h2>
+  <div class="kit-block">
+    <p class="kit-label">50 words</p>
+    <p class="boilerplate">Association of Vapers India (AVI), also known as VapeIndia, is India's leading consumer advocacy group for tobacco harm reduction. Founded in 2016 by former smokers, it fights bans on e-cigarettes and nicotine pouches in court and submits evidence to policymakers on behalf of India's 200 million smokeless-tobacco users and smokers.</p>
+  </div>
+  <div class="kit-block">
+    <p class="kit-label">100 words</p>
+    <p class="boilerplate">Association of Vapers India (AVI), also known as VapeIndia, is India's leading consumer advocacy group for tobacco harm reduction, and one of roughly 50 such groups worldwide. Founded in 2016 by former smokers who had quit through vaping, AVI also campaigns for smokeless nicotine users — India has roughly 200 million smokeless-tobacco users against around 100 million smokers. AVI has fought court challenges to state and national bans on e-cigarettes since 2017, made formal submissions to policymakers, and built a public evidence library. It is volunteer-run and funded by domestic contributions through Harm Reduction Policy &amp; Research Pvt. Ltd., not by industry.</p>
+  </div>
+
+  <h2>AVI at a glance</h2>
+  <div class="glance-grid">
+    <div class="glance-card"><Icon name="chart" /><strong>{FOUNDING_YEAR}</strong><span>founded</span></div>
+    <div class="glance-card"><Icon name="scale" /><strong>{courtCases}</strong><span>court cases fought</span></div>
+    <div class="glance-card"><Icon name="document" /><strong>{submissionsCount}</strong><span>formal submissions to policymakers</span></div>
+    <div class="glance-card"><Icon name="document" /><strong>{rtiCount}</strong><span>RTI replies on record</span></div>
+    <div class="glance-card"><Icon name="megaphone" /><strong>{statementsCount}</strong><span>public statements issued</span></div>
+    <div class="glance-card"><Icon name="megaphone" /><strong>{pressFeaturesCount}</strong><span>independent press features</span></div>
+  </div>
+  <p class="glance-note">Counts above are computed directly from this site's published records at build time — see <a href="/litigation/">litigation</a>, <a href="/submissions/">submissions</a>, <a href="/india/rti-replies/">RTI replies</a> and <a href="/press/">press</a>.</p>
+
+  <h2>Leadership</h2>
+  <div class="bio-block">
+    <h3>Samrat Chowdhery — short bio</h3>
+    <p>Samrat Chowdhery is the founder-director of Association of Vapers India. A long-time journalist at some of India's top newspapers, he founded AVI in 2016 after quitting smoking through vaping, has directed its litigation strategy since 2017, and served as president of the International Network of Nicotine Consumer Organisations (INNCO) from 2020 to 2022.</p>
+  </div>
+  <div class="bio-block">
+    <h3>Samrat Chowdhery — long bio</h3>
+    <p>Samrat Chowdhery is the founder-director of the Association of Vapers India (AVI). A long-time journalist who worked at several of India's leading newspapers, he founded AVI in 2016 as part of a small group of former smokers who had themselves quit smoking through vaping, turning that personal experience into India's leading consumer advocacy voice for tobacco harm reduction. He has directed AVI's litigation strategy since its earliest court cases in 2017, and writes and publishes policy analysis on vaping law in India. From 2020 to 2022 he served as president of the International Network of Nicotine Consumer Organisations (INNCO, which holds UN observer status), representing Indian and Global South consumers at the Global Forum on Nicotine and at events on the sidelines of the WHO's Framework Convention on Tobacco Control.</p>
+  </div>
+
+  <h2>Logo</h2>
+  <div class="logo-block">
+    <img src="/images/avi-logo.png" width="140" height="140" alt="Association of Vapers India logo" />
+    <div>
+      <p>AVI's logo mark, transparent PNG background.</p>
+      <a class="btn btn-outline" href="/images/avi-logo.png" target="_blank" rel="noopener">Open full size →</a>
+    </div>
+  </div>
+
+  <h2>Topics AVI comments on</h2>
+  <ul class="topics-list">
+    {topics.map((t) => (
+      <li><a href={t.href}><strong>{t.label}</strong></a> — {t.detail}</li>
+    ))}
+  </ul>
+
+  <h2>Contact</h2>
+  <div class="contact-block">
+    <div>
+      <span class="contact-label">Press queries</span>
+      <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a>
+    </div>
+    <div>
+      <span class="contact-label">For faster response — WhatsApp AVI's Director</span>
+      <a href="https://wa.me/919920076599" target="_blank" rel="noopener">Message on WhatsApp →</a>
+    </div>
+  </div>
+
+  <div class="kit-related">
+    <a href="/press/" class="related-card">
+      <h3>All press →</h3>
+      <p>AVI's statements and independent coverage, filterable by type.</p>
+    </a>
+    <a href="/about/" class="related-card">
+      <h3>About AVI →</h3>
+      <p>Full organisational background, governance and funding.</p>
+    </a>
+  </div>
+
+  <style>
+    .lead { font-size: 1.05rem; color: var(--muted); }
+    .kit-block { margin: 1rem 0 1.5rem; }
+    .kit-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gold-dark);
+      margin: 0 0 0.4rem;
+    }
+    .boilerplate {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.25rem;
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 1.5rem;
+      margin: 1.25rem 0 0.75rem;
+    }
+    .glance-card {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .glance-card :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); flex-shrink: 0; }
+    .glance-card strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--ink); }
+    .glance-card span { font-size: 0.85rem; color: var(--muted); }
+    .glance-note { font-size: 0.82rem; color: var(--muted); }
+
+    .bio-block { margin: 1rem 0 1.5rem; }
+    .bio-block h3 { font-size: 1rem; margin: 0 0 0.5rem; }
+    .bio-block p { font-size: 0.95rem; line-height: 1.65; }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .logo-block img { width: 90px; height: 90px; flex-shrink: 0; }
+    .logo-block p { margin: 0 0 0.6rem; font-size: 0.9rem; color: var(--muted); }
+
+    .topics-list { padding-left: 1.2rem; }
+    .topics-list li { margin-bottom: 0.6rem; line-height: 1.55; }
+
+    .contact-block {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin: 1rem 0 2rem;
+    }
+    .contact-label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .contact-block a { font-weight: 600; }
+
+    .kit-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

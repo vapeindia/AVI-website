@@ -29,8 +29,22 @@ const videoData = (await getCollection('videos'))
 const latestVideo = videoData[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
+
+// AVI's own voice only (press-release/quote), excluding anything still
+// reviewed: false — see content.config.ts and src/pages/press/index.astro.
+// Newest three, for the homepage "Latest from AVI" strip.
+const latestStatements = (await getCollection('press', ({ data }) =>
+  data.reviewed && (data.type === 'press-release' || data.type === 'quote')
+))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+function displayStatementDate(d: Date): string {
+  if (d.getUTCMonth() === 0 && d.getUTCDate() === 1) return String(d.getUTCFullYear());
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+}
 ---
 <Base title="Association of Vapers India (AVI) · Tobacco harm reduction advocacy" rawTitle={true} description="India's leading consumer advocacy group for tobacco harm reduction: evidence, litigation and policy work for safer nicotine alternatives." wide={true}>
+  <link slot="head" rel="alternate" type="application/rss+xml" title="AVI statements" href="/press/statements.rss.xml" />
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
@@ -219,6 +233,29 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
       });
     });
   </script>
+
+  {latestStatements.length > 0 && (
+    <section class="breakout latest-avi">
+      <div class="breakout-inner">
+        <div class="latest-avi-head">
+          <div>
+            <p class="eyebrow">In AVI's own words</p>
+            <h2>Latest from AVI</h2>
+          </div>
+          <a class="latest-avi-all" href="/press/">All statements →</a>
+        </div>
+        <div class="latest-avi-grid">
+          {latestStatements.map((item) => (
+            <a class="latest-avi-card" href={`/press/${item.id}/`}>
+              <time datetime={item.data.date.toISOString()}>{displayStatementDate(item.data.date)}</time>
+              <h3>{item.data.title}</h3>
+              <span class="latest-avi-link">Read the statement →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   {latestVideo && (
     <section class="watch-strip" id="watch-strip">
@@ -629,6 +666,43 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     }
     .feed-list a:hover { color: var(--accent); }
     .feed-list span { font-size: 0.78rem; color: var(--muted); }
+
+    /* Latest from AVI — AVI's own statements, distinct from the aggregated
+       third-party news/research tabs above. */
+    .latest-avi { max-width: var(--max-w-wide); margin: 2.5rem auto 0; padding: 0 1.5rem; }
+    .latest-avi-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .latest-avi-head h2 { margin: 0; font-size: 1.4rem; }
+    .latest-avi-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .latest-avi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
+      gap: 1.25rem;
+    }
+    .latest-avi-card {
+      display: block;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent-dark);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      transition: transform 0.15s ease;
+    }
+    .latest-avi-card:hover { transform: translateY(-2px); }
+    .latest-avi-card time { font-size: 0.78rem; color: var(--muted); }
+    .latest-avi-card h3 {
+      margin: 0.4rem 0 0.75rem;
+      font-size: 1.02rem;
+      line-height: 1.4;
+      color: var(--ink);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .latest-avi-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); }
 
     /* Watch strip */
     .watch-strip { max-width: var(--max-w-wide); margin: 1.5rem auto 0; padding: 0 1.5rem; }
