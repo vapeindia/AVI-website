@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -41,6 +42,9 @@ const aiLabel = item.data.reviewedDate
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
   <p class="byline"><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
+  <div class="study-share">
+    <ShareButtons title={item.data.title} />
+  </div>
   <div class="tags">
     {item.data.substance.map((s) => <span class="tag">{s}</span>)}
   </div>
@@ -83,6 +87,7 @@ const aiLabel = item.data.reviewedDate
     }
     h1 { margin-top: 0.25rem; }
     .byline { color: var(--muted); margin-top: -0.5rem; }
+    .study-share { margin: 0.75rem 0; }
     .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0 1.25rem; }
     .tag {
       font-size: 0.72rem;

@@ -211,6 +211,18 @@ access control, keep them apart.
   or surfacing individual moderated reports), re-read this note first —
   the "no PR gate" design only holds as long as nothing identifying is
   ever added to the schema.
+- **Email signups** (added 2026-10-02, docs/tasks/07-mobilisation.md item
+  1) are not a content collection at all — no subscriber data is ever
+  committed to this repo. `src/components/NewsletterSignup.astro` (embedded
+  on the homepage, `/press/`, `/india/law/` and the footer) posts to
+  `functions/api/subscribe.js`, which hand-builds a double opt-in flow on
+  top of Resend's Contacts/Segments API (Resend's own "Audiences" concept
+  is now "Segments" — no built-in double-opt-in, confirmed against their
+  current docs) — see `functions/README.md` for the required
+  `SUBSCRIBE_TOKEN_SECRET`/`RESEND_SEGMENT_ID` secrets and
+  `functions/api/confirm-subscription.js`/`unsubscribe.js` for the rest of
+  the flow. Collects only email + optional city, never imports any
+  existing list.
 
 `testimonials` writes `reviewed: false` drafts only; a human (or Claude, on
 explicit instruction) must flip that flag before anything appears on a
@@ -1501,6 +1513,47 @@ being asked to help hit that date, prioritise the "still open" list above
 in the order given — items 1-2 are bulk content work well suited to a
 long Claude Code session; items 3-4 need the site owner's input first,
 so ask for those early rather than blocking on them at the end.
+
+## Testimonial moderation checklist (2026-10-02, docs/tasks/07-mobilisation.md
+## item 4) — read this before flipping `reviewed: true` on any testimonial
+
+Every testimonial PR (`functions/api/testimonial.js` opens one per
+submission, see that file and `functions/README.md`) already carries a
+short checklist in its own PR body. This is the fuller version a human (or
+Claude, on explicit instruction) should actually work through before
+flipping `reviewed: true` — don't just skim the PR's own summary:
+
+1. **No product brand, flavour, or device names, and no purchase info**
+   (shop, website, price, "how I got mine"). This is the PECA
+   advertising-risk guard (rule 1 above) applied to visitor-submitted
+   content, not just AVI's own copy — redact or ask the submitter to
+   resubmit rather than publish as-is if this shows up. The submission
+   form now asks people not to include this up front, but moderation is
+   the actual backstop, not the honour system.
+2. **Reads as a genuine, specific, first-person account** of moving away
+   from combustible tobacco — not generic praise, not spam, not
+   copy-pasted marketing language.
+3. **Name and location are plausible**, not obviously fake or a placement
+   for something else entirely.
+4. **Nothing that reads as a medical claim** beyond "this helped me quit/
+   cut down" in the person's own words — don't let a submission's
+   phrasing get sharpened into a clinical-sounding claim when editing for
+   length.
+5. **Consent was actually given** — the submission form requires a
+   checkbox agreeing that name + location can be published; this should
+   already be true of everything that reaches a PR, but if a future
+   change to the form or function ever makes that checkbox skippable,
+   this stops being a formality.
+6. **Trim, don't rewrite** — if 1-2 sentences are the only problem (e.g.
+   one stray brand mention), cut just those rather than rewriting the
+   whole testimonial in AVI's voice; it needs to stay the submitter's own
+   words, same principle as the 2026-09-19 Anand M. trim (see above).
+
+If a submission fails (1) in a way that can't be cleanly trimmed, or fails
+(2)/(3), it stays `reviewed: false` / unpublished rather than being force-
+edited into something publishable — same "stays unpublished rather than
+shipping with a caveat" principle as rule 4 above, applied here to quality/
+risk rather than unverified facts.
 
 ---
 

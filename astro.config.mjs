@@ -66,6 +66,12 @@ export default defineConfig({
       filter: (page) => {
         const url = new URL(page);
         if (url.pathname.startsWith('/search')) return false; // a tool, not content — noindex'd on the page itself too
+        // Hindi drafts (content/faq-and-guides, item 6) — noindex'd on the
+        // page itself too, and unlinked from anywhere live; excluding from
+        // the sitemap as well avoids the contradictory signal of listing a
+        // noindexed URL for crawlers, same reasoning as the science filter
+        // just below.
+        if (url.pathname.startsWith('/hi/')) return false;
         const scienceMatch = url.pathname.match(/^\/science\/([^/]+)\/?$/);
         if (scienceMatch && noindexedScienceSlugs.has(scienceMatch[1])) return false;
         return true;

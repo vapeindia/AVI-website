@@ -1,24 +1,85 @@
 ---
 import Base from '../layouts/Base.astro';
-import { pecaBannedSentence, pecaNotBannedSentence } from '../data/peca';
+import ShareButtons from '../components/ShareButtons.astro';
 
-// Plain-text answers, reused verbatim in both the FAQPage JSON-LD and the
-// visible accordion below, so the two can never drift apart. The PECA
-// banned/not-banned wording is generated from src/data/peca.ts (the
-// single source of truth for what the Act says) rather than typed out
-// here — see that file for section citations and the verbatim Act text.
+// Expanded from 3 questions to ~12 (content/faq-and-guides, item 1) — every
+// answer below is grounded in content that already exists elsewhere on the
+// site (mostly /india/law/, /quit/, /policy/ and /about/), nothing invented
+// here. One question from the brief — "What is AVI's position on young
+// people and vaping?" — is deliberately left out: the brief marked it
+// "(I'll write this)", so it isn't AVI's place to draft it. See the PR
+// description's "Needs Samrat" section.
+//
+// Each answer is plain prose (40-80 words, reused verbatim in the FAQPage
+// JSON-LD below) plus a separate link to the full page it's drawn from —
+// kept as a distinct field rather than inline markup so the JSON-LD
+// `text` stays clean plain text.
 const faqs = [
   {
     q: 'Is vaping illegal in India?',
-    a: `No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the ${pecaBannedSentence()} of e-cigarettes. It does not ban using, carrying or possessing one for personal use — no provision in PECA makes either an offence, and no penalty attaches to it. The ban applies to the business of e-cigarettes, not the act of vaping.`,
+    a: "No — not for personal use. India's Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the production, import, export, transport, sale, distribution, storage and advertisement of e-cigarettes — the business of them. Using, carrying or possessing a device for personal use isn't named as an offence anywhere in the Act, and no penalty attaches to it.",
+    href: '/india/law/',
+    linkText: 'Read the law in full →',
   },
   {
-    q: 'Can I carry a vape on a flight?',
-    a: "Currently, no — not in India. The Bureau of Civil Aviation Security (BCAS) prohibits carrying e-cigarettes in checked or cabin baggage on flights, a separate rule from PECA with its own legal basis. AVI is actively challenging this ban in the Delhi High Court; judgment was reserved on 15 September 2026. Until that changes, devices carried on flights in India are liable to be confiscated at security.",
+    q: 'Can police arrest or fine me for vaping?',
+    a: 'No. PECA\'s penalties attach only to commercial acts — sale, production, import and the like — never to personal use or possession, so there\'s no legal basis for an arrest or an on-the-spot fine either. Officers who confiscate a device or demand cash "to settle it" are acting outside the law, not enforcing it.',
+    href: '/india/law/#know-your-rights',
+    linkText: 'Know your rights →',
   },
   {
-    q: 'What does the PECA law actually ban?',
-    a: `PECA, 2019 bans six specific things: ${pecaBannedSentence()}. It does not ban personal use, possession, or carrying a device for your own use — those aren't named anywhere in the Act, and no penalty attaches to them. First-offence penalties (up to one year's imprisonment and a ₹1 lakh fine) apply only to the acts listed above.`,
+    q: 'What should I do if police take my vape or ask for money?',
+    a: 'Stay calm, and ask for the officer\'s name, badge number and station — a genuine officer gives this readily. Ask which law and section applies; there isn\'t one for personal use. Never hand over cash "to settle it" — that\'s a bribe, not a fine. If they push to confiscate your device, ask for a written seizure memo, then report what happened.',
+    href: '/india/law/#know-your-rights',
+    linkText: 'Full steps, and where to report it →',
+  },
+  {
+    q: 'Can I carry a vape on a flight in India?',
+    a: 'Currently, no. The Bureau of Civil Aviation Security (BCAS) bans carrying e-cigarettes in checked or cabin baggage on Indian flights — a separate rule from PECA, with its own legal basis. AVI is challenging this in the Delhi High Court; judgment was reserved on 15 September 2026. Until that changes, devices carried on flights are liable to be confiscated at security.',
+    href: '/litigation/delhi-bcas-flight-ban/',
+    linkText: 'The flight-ban case →',
+  },
+  {
+    q: 'Are nicotine pouches legal in India?',
+    a: "No law names or bans nicotine pouches, but as of September 2026 there's no lawful route to sell them either. FSSAI's food rules bar nicotine as an ingredient, and an August 2026 drug-approval freeze closed the other route. It's a regulatory freeze, not an Act of Parliament — the same kind of overreach courts rejected for e-cigarettes in 2019.",
+    href: '/india/nicotine-pouches/',
+    linkText: 'The full breakdown →',
+  },
+  {
+    q: 'Does PECA cover heated tobacco products?',
+    a: 'Yes. PECA\'s own definition of "electronic cigarette" explicitly includes "all forms of Electronic Nicotine Delivery Systems, Heat Not Burn Products, e-Hookah and the like devices, by whatever name called." So heated tobacco products face the same bans on sale, import and advertisement as vapes — and personal use isn\'t banned for them either, for the same reason it isn\'t for e-cigarettes.',
+    href: '/india/law/',
+    linkText: 'Read the Act itself →',
+  },
+  {
+    q: 'Is vaping safer than smoking?',
+    a: "Yes. Major health bodies agree it's the burning of tobacco, not the nicotine, that causes most smoking-related disease, and vaping involves no combustion. Cochrane's living review found nicotine e-cigarettes help more smokers quit than nicotine replacement therapy — about 8–10 per 100 vapers, against 6 per 100 using gums or patches.",
+    href: '/quit/#does-it-work',
+    linkText: 'See the evidence →',
+  },
+  {
+    q: 'Does vaping help smokers quit?',
+    a: "The best available evidence says yes. Cochrane's 2025 living review found about 8–10 smokers per 100 quit using nicotine e-cigarettes, against 6 with nicotine replacement therapy and 4 with no support at all — making e-cigarettes the most effective cessation aid studied head-to-head so far.",
+    href: '/quit/#does-it-work',
+    linkText: 'The full evidence →',
+  },
+  {
+    q: 'Is nicotine what makes smoking dangerous?',
+    a: "No. The overwhelming evidence, summarised by bodies including the UK's Royal College of Physicians, is that it's burning tobacco — the tar and thousands of combustion byproducts — that causes most smoking-related disease, not the nicotine itself. That's the basis for why switching to a non-combustible nicotine source lowers risk so sharply.",
+    href: '/quit/#what-matters',
+    linkText: 'More on what the evidence says →',
+  },
+  {
+    q: 'Who funds AVI, and does it take industry money?',
+    a: 'AVI accepts no funding from tobacco or nicotine manufacturers. Domestic contributions supporting its advocacy are received and accounted for through Harm Reduction Policy & Research Pvt. Ltd. (HRPR), audited annually and taxed as company income. Overseas support is handled only as contracted, invoiced project work — not through this site.',
+    href: '/about/#funding',
+    linkText: 'How AVI is funded and governed →',
+  },
+  {
+    q: 'Is AVI a registered organisation?',
+    a: "No — AVI itself is not a registered legal entity. Domestic contributions supporting its work are received and accounted for through Harm Reduction Policy & Research Pvt. Ltd. (HRPR), a private limited company registered with India's Ministry of Corporate Affairs, audited annually rather than held in a personal account.",
+    href: '/about/#funding',
+    linkText: 'More on how AVI is governed →',
   },
 ];
 
@@ -33,8 +94,8 @@ const faqLd = {
 };
 ---
 <Base
-  title="Vaping Law FAQ: India"
-  description="Quick answers on vaping law in India — is it illegal, can you fly with a vape, and what PECA, 2019 actually bans."
+  title="Vaping in India: FAQ"
+  description="Quick, sourced answers on vaping law, nicotine pouches, flight rules and the evidence on switching — is it illegal, can police fine you, does it help you quit."
   image="/og/faq.png"
   wide={true}
 >
@@ -49,17 +110,23 @@ const faqLd = {
   <section class="breakout faq-hero">
     <div class="breakout-inner">
       <p class="eyebrow">Quick answers</p>
-      <h1>Vaping law in India — FAQ</h1>
-      <p class="faq-sub">Short, direct answers to the questions people search for most. Each one links to the full breakdown, with sourcing.</p>
+      <h1>Vaping in India: FAQ</h1>
+      <p class="faq-sub">Short, direct answers to the questions people search for most — each one sourced and linking to the full page behind it.</p>
     </div>
   </section>
 
   <div class="faq-body">
+    <div class="faq-share">
+      <ShareButtons title="Vaping in India: FAQ — quick, sourced answers" />
+    </div>
     <div class="faq-accordion">
       {faqs.map((f, i) => (
         <details class="faq-item" open={i === 0}>
           <summary>{f.q}</summary>
-          <div class="faq-answer"><p>{f.a}</p></div>
+          <div class="faq-answer">
+            <p>{f.a}</p>
+            <p class="faq-link"><a href={f.href}>{f.linkText}</a></p>
+          </div>
         </details>
       ))}
     </div>
@@ -101,6 +168,7 @@ const faqLd = {
 
     .faq-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
 
+    .faq-share { margin-bottom: 1.5rem; }
     .faq-accordion { display: grid; gap: 0.85rem; margin-bottom: 2.5rem; }
     .faq-item {
       background: #fff;
@@ -124,7 +192,10 @@ const faqLd = {
     .faq-item summary::after { content: '▾'; font-size: 0.85em; color: var(--muted); flex-shrink: 0; transition: transform 0.15s ease; }
     .faq-item[open] summary::after { transform: rotate(180deg); }
     .faq-answer { padding: 0 0 1.25rem; }
-    .faq-answer p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+    .faq-answer p { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+    .faq-answer p.faq-link { margin: 0; font-size: 0.88rem; font-weight: 600; }
+    .faq-answer p.faq-link a { text-decoration: none; }
+    .faq-answer p.faq-link a:hover { text-decoration: underline; }
 
     .faq-related {
       display: grid;

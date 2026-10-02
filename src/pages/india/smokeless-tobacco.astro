@@ -1,0 +1,219 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import { getGitDates } from '../../lib/git-dates';
+
+// New page, content/faq-and-guides item 3 — "AVI's most distinctive
+// argument and nobody owns it in search." Built entirely from facts
+// already published on /india/, /quit/ and /policy/ (each cited inline
+// below with its original source) — nothing new asserted here. Distinct
+// from /india/nicotine-pouches/ (item 2): that page is about the
+// regulatory mechanism blocking one specific lower-risk product; this one
+// is the broader harm-reduction case for India's ~200 million smokeless
+// tobacco users as a group, most of whom use loose, unregulated products
+// (gutka, khaini) that face no such block at all.
+const pageDates = getGitDates('src/pages/india/smokeless-tobacco.astro');
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: "India's Smokeless Tobacco Users and the Case for Harm Reduction",
+  datePublished: pageDates.published,
+  dateModified: pageDates.modified,
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+};
+---
+<Base
+  title="Smokeless Tobacco in India: The Harm Reduction Case"
+  description="India has roughly 200 million smokeless-tobacco users — nearly twice its number of smokers — yet harm reduction policy almost never addresses them. The case for why that has to change."
+  image="/og/india-law.png"
+  wide={true}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+
+  <section class="breakout slt-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">AVI's distinctive argument</p>
+      <h1>Smokeless tobacco in India — the harm reduction case nobody's making</h1>
+      <p class="slt-hero-sub">India has roughly twice as many smokeless-tobacco users as smokers. Global harm reduction policy almost never talks about them. Here's why that has to change.</p>
+    </div>
+  </section>
+
+  <div class="slt-body">
+    <p class="page-authority">
+      By Association of Vapers India · Last reviewed {pageDates.modified}
+      <span class="authority-note">· This is AVI's reading of the evidence, not medical or legal advice.</span>
+    </p>
+    <p class="direct-answer">
+      <strong>India has roughly 200 million smokeless-tobacco users — gutka, khaini and other products chewed or held in the mouth — against around 100 million smokers.</strong>
+      Most global tobacco policy, and most of the harm reduction movement,
+      is built around cigarettes. India's larger tobacco problem isn't
+      smoking. It's this.
+    </p>
+
+    <h2><Icon name="chart" /> The scale of it</h2>
+    <p>
+      Nationally, 9.3–10.4% of Indian adults smoke. But smoking-only use is
+      just 7.23% of adults — smokeless-only use runs higher, at 17.94%,
+      with a further 3.44% using both (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">GATS-2, 2016-17</a>).
+      Put plainly: more Indians use smokeless tobacco alone than smoke at
+      all. A harm reduction conversation that only talks about vaping is
+      missing most of the people it should be for.
+    </p>
+
+    <h2><Icon name="shield" /> Legal, unregulated, and getting worse</h2>
+    <p>
+      Loose smokeless tobacco — gutka, khaini — is sold openly at paan
+      shops nationwide, taxed but otherwise largely unregulated for
+      product safety, and linked to <strong>350,000+</strong> deaths a
+      year by a <a href="https://pubmed.ncbi.nlm.nih.gov/25526253/" target="_blank" rel="noopener">peer-reviewed mortality study</a>.
+      Rather than falling, rural gutka consumption has <a href="https://theprint.in/economy/indias-deadly-surge-in-tobacco-use-60-urban-spike-in-a-decade-565-gutka-boom-in-rural-households/2870574/" target="_blank" rel="noopener">surged 565% over the past decade</a>, per a 2026 EAC-PM working paper drawing on official government survey data.
+      Meanwhile the one lower-risk smokeless category that could compete
+      with it — nicotine pouches — has no lawful route to market at all, by
+      a separate regulatory freeze. <a href="/india/nicotine-pouches/">Why pouches are blocked →</a>
+    </p>
+    <p class="split-note">
+      That's the shape of the problem: the most dangerous smokeless option
+      stays legal and keeps growing, while a demonstrably lower-risk one is
+      kept off the market entirely. Policy that doesn't distinguish between
+      the two isn't neutral — it's protecting the status quo.
+    </p>
+
+    <h2><Icon name="heart" /> What the evidence says about switching</h2>
+    <p>
+      Sweden's shift away from smoking, driven substantially by
+      substitution with snus, produced the <strong>lowest daily smoking
+      rate in Europe (~5%)</strong> and 44% lower tobacco-attributable
+      mortality than the EU average. Swedish snus is manufactured to
+      different, quality-controlled standards than Indian khaini or
+      gutka — the lesson is that regulated, lower-risk substitution works
+      at population scale, not that India's current loose SLT products are
+      already safe. <a href="/quit/#does-it-work">Full sourcing →</a>
+    </p>
+    <p>
+      The largest India-specific study available — a 2020 survey of around
+      3,000 vapers — found broadly similar results among smokeless tobacco
+      users as among smokers: most who tried switching to a lower-risk
+      alternative either quit or reduced their use of the product they
+      started with. It's a self-selected sample, not population-
+      representative, but it's the largest evidence India has on this
+      question.
+    </p>
+
+    <PullQuote
+      quote="In India for example, there are significantly more users of smokeless tobacco, often high-risk non-food grade smokeless tobacco, than cigarette smokers. Traditional cessation services may not work in such an environment and for all tobacco users … on behalf of those in LMICs, we say loud and clear — nothing about us without us."
+      attribution="AVI's director, INNCO Foreword"
+    />
+
+    <h2><Icon name="document" /> Why this isn't just a vaping issue</h2>
+    <p>
+      AVI's focus has expanded from vaping to smokeless nicotine for
+      exactly this reason: a harm reduction movement that only serves
+      smokers is leaving out the larger share of India's tobacco users.
+      Regulating safer smokeless alternatives — not banning them by a
+      different mechanism than the one used against e-cigarettes — is as
+      much a part of AVI's case as the vaping fight is. <a href="/policy/">The full policy case →</a>
+    </p>
+    <p class="callout-note">
+      This page doesn't sell, advertise or recommend any product, named or
+      unnamed — it sets out the scale of the problem and the published
+      evidence on substitution. It's written for adults who already use
+      tobacco; if you don't use tobacco or nicotine in any form, none of
+      this is a reason to start.
+    </p>
+
+    <div class="slt-related">
+      <a href="/quit/" class="related-card">
+        <h3>If you already use tobacco →</h3>
+        <p>What the evidence says about switching, for smokers and smokeless users alike.</p>
+      </a>
+      <a href="/policy/" class="related-card">
+        <h3>For policymakers →</h3>
+        <p>The regulatory case, India's own data, and what AVI is asking for.</p>
+      </a>
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .slt-hero {
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 3.25rem 0 2.75rem;
+    }
+    .slt-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 48rem; }
+    .slt-hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 38rem; margin: 0; }
+
+    .slt-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+    .page-authority { font-size: 0.82rem; color: var(--muted); margin: 0 0 1.1rem; }
+    .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
+    @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
+    .direct-answer {
+      font-size: 1.02rem;
+      line-height: 1.6;
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 0 0 2.25rem;
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      margin: 2.5rem 0 1rem;
+    }
+    h2:first-of-type { margin-top: 0; }
+    h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--accent); flex-shrink: 0; }
+
+    .split-note {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
+      padding: 0.9rem 1.1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 1rem 0 1.75rem;
+    }
+    .callout-note {
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 1.5rem;
+    }
+
+    .slt-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

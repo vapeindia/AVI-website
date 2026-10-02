@@ -57,10 +57,16 @@ const faqLd = {
       nicotine e-cigarettes help more smokers quit than nicotine replacement
       therapy. The evidence behind both claims is below.
     </p>
+    <p class="adults-note">
+      This page is written for adults who already smoke or use tobacco and
+      are weighing a lower-risk alternative. If you don't use tobacco or
+      nicotine in any form, nothing here is a reason to start.
+    </p>
     <nav class="page-toc" aria-label="On this page">
       <span class="toc-label">On this page:</span>
       <a href="#does-it-work">Does it work?</a>
       <a href="#what-matters">What matters, if you switch</a>
+      <a href="#quit-entirely">Want to quit entirely?</a>
       <a href="#resources">Further reading</a>
       <a href="#legal-reality">The legal reality</a>
     </nav>
@@ -83,7 +89,7 @@ const faqLd = {
         </div>
         <div class="evidence-card">
           <h3>India-specific: 3,000-vaper survey, 2020</h3>
-          <p>The largest India-specific study found: <strong>71.3% of surveyed smokers quit (30.0%) or reduced (41.3%)</strong> smoking with e-cigarettes, with similar results for SLT users. A self-selected sample of vapers, not population-representative — but the largest evidence India has.</p>
+          <p>The largest India-specific study found: <strong>71.3% of surveyed smokers quit (30.0%) or reduced (41.3%)</strong> smoking with e-cigarettes, with similar results for SLT users — see <a href="/india/smokeless-tobacco/">the harm reduction case for India's ~200 million smokeless-tobacco users →</a>. A self-selected sample of vapers, not population-representative — but the largest evidence India has.</p>
           <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7106589/" target="_blank" rel="noopener">Read the study →</a>
         </div>
         <div class="evidence-card">
@@ -116,6 +122,31 @@ const faqLd = {
         <li><strong>Behavioural support helps, whichever method you use.</strong> Every body cited on this page that studied it found combining a lower-risk alternative with some form of counselling or structured support improved quit outcomes further.</li>
         <li><strong>"Less harmful" is not "harmless."</strong> Every major body cited here is explicit about this. The comparison that matters for an existing smoker or SLT user is against continuing to smoke or chew — not against using nothing at all.</li>
       </ul>
+    </section>
+
+    <section class="q-section quitline-section" id="quit-entirely">
+      <div class="section-head">
+        <Icon name="heart" />
+        <h2>Want to stop using nicotine altogether?</h2>
+      </div>
+      <p>
+        Switching to a lower-risk alternative is one option for adults who
+        already smoke or use tobacco — quitting nicotine entirely is
+        another, and India has free, government-run support for that too:
+      </p>
+      <ul class="quitline-list">
+        <li>
+          <strong>National Tobacco Quitline</strong> — call <a href="tel:+911800112356">1800-11-2356</a>, free, for counselling on quitting any form of tobacco.
+        </li>
+        <li>
+          <strong>mCessation programme</strong> — a free SMS-based quit-support service from the Ministry of Health and Family Welfare's National Tobacco Control Programme. <a href="https://ntcp.mohfw.gov.in/mcessation" target="_blank" rel="noopener">Sign up at ntcp.mohfw.gov.in/mcessation →</a>
+        </li>
+      </ul>
+      <p>
+        Whichever route you're considering, talk to a doctor — they can
+        help you weigh cessation support, nicotine replacement therapy and
+        other options against your own health and circumstances.
+      </p>
     </section>
 
     <section class="q-section resources-section" id="resources">
@@ -200,6 +231,24 @@ const faqLd = {
       padding: 1.1rem 1.4rem;
       margin: 0 0 2.25rem;
     }
+    .adults-note {
+      max-width: 46rem;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--muted);
+      border-left: 3px solid var(--gold);
+      padding-left: 1rem;
+      margin: 0 0 2rem;
+    }
+    .quitline-list { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 1rem; max-width: 46rem; }
+    .quitline-list li {
+      padding: 1rem 1.25rem;
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+    .quitline-section p { max-width: 46rem; }
     .page-toc {
       display: flex;
       flex-wrap: wrap;

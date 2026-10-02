@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
 import logo from '../assets/images/avi-logo.png';
@@ -10,23 +12,35 @@ import { PECA_BANNED, PECA_NOT_BANNED } from '../data/peca';
 
 const hStats = await getHarassmentStats();
 
+// "In the news" (item 4) — three approved items, title + publisher name
+// only, no AI-paraphrased summary shown alongside.
 const latestNews = (await getCollection('news', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
-
-const latestResearch = (await getCollection('research', ({ data }) => data.reviewed))
-  .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
 const videoData = (await getCollection('videos'))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
   .map((v) => ({
+    videoId: v.data.videoId,
     title: v.data.title,
     summary: v.data.summary,
     thumb: v.data.thumbnailUrl,
     url: `https://www.youtube.com/watch?v=${v.data.videoId}`,
   }));
-const latestVideo = videoData[0];
+// docs/tasks/08-homepage.md item 6: the newest upload (June 2024) is a
+// dated one-off, not a steady drumbeat — don't just show "whatever's
+// newest" (that would keep surfacing dated event recaps as new videos get
+// pulled in weekly) or display a publish date here. Pin the strongest
+// evergreen explainer instead: a plain, undated "is nicotine addictive"
+// answer that stays accurate regardless of when a visitor finds it. If
+// this video is ever removed from the channel, falls back to whatever's
+// newest rather than breaking.
+const FEATURED_VIDEO_ID = 'dqHWiP5rGtE'; // "Is Nicotine Addictive?"
+const featuredIndex = videoData.findIndex((v) => v.videoId === FEATURED_VIDEO_ID);
+const orderedVideos = featuredIndex > 0
+  ? [videoData[featuredIndex], ...videoData.slice(0, featuredIndex), ...videoData.slice(featuredIndex + 1)]
+  : videoData;
+const latestVideo = orderedVideos[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
 
@@ -42,12 +56,19 @@ function displayStatementDate(d: Date): string {
   if (d.getUTCMonth() === 0 && d.getUTCDate() === 1) return String(d.getUTCFullYear());
   return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
 }
+
+// Item 7's WhatsApp button on the "Know your rights" card — a plain
+// wa.me share-intent link, same convention as ShareButtons.astro.
+const kyrShareUrl = `${new URL('/india/law/', Astro.site).toString()}#know-your-rights`;
+const kyrWaText = "Know your rights: possession of an e-cigarette is not banned under India's PECA law.";
+const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrShareUrl}`)}`;
 ---
 <Base title="Association of Vapers India (AVI) · Tobacco harm reduction advocacy" rawTitle={true} description="India's leading consumer advocacy group for tobacco harm reduction: evidence, litigation and policy work for safer nicotine alternatives." wide={true}>
   <link slot="head" rel="alternate" type="application/rss+xml" title="AVI statements" href="/press/statements.rss.xml" />
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
+        <p class="hero-org-line">Association of Vapers India</p>
         <h1>Still smoking? There's a <em>safer path forward.</em></h1>
         <p class="hero-sub">
           If nicotine gums and patches haven't worked for you, or you're not
@@ -56,14 +77,27 @@ function displayStatementDate(d: Date): string {
           fighting in court for your right to know about them.
         </p>
         <div class="hero-bottom">
-          <div class="hero-stats">
-            <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
-            <div><strong>7M+</strong><span>deaths/year</span></div>
-            <div><strong>200M+</strong><span>use safer nicotine products</span></div>
+          <div class="hero-stats-group">
+            <p class="hero-stats-label">Worldwide</p>
+            <div class="hero-stats">
+              <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
+              <div><strong>7M+</strong><span>deaths/year</span></div>
+              <div><strong>200M+</strong><span>use safer nicotine products</span></div>
+            </div>
+            <p class="hero-stats-source">
+              Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
+            </p>
           </div>
-          <p class="hero-stats-source">
-            Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
-          </p>
+          <div class="hero-stats-group">
+            <p class="hero-stats-label">In India</p>
+            <div class="hero-stats hero-stats-india">
+              <div><strong>100M</strong><span>smokers</span></div>
+              <div><strong>200M</strong><span>smokeless tobacco users</span></div>
+            </div>
+            <p class="hero-stats-source">
+              Source: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">GATS-2, 2016-17</a> — same figures as <a href="/india/">/india/</a>
+            </p>
+          </div>
         </div>
       </div>
       <div class="hero-photo-wrap">
@@ -129,6 +163,24 @@ function displayStatementDate(d: Date): string {
       <a class="btn btn-primary" href="/india/law/#know-your-rights">Read the full legal breakdown →</a>
       <a class="btn btn-outline" href="/report-harassment/">Report an incident →</a>
     </div>
+    {/* docs/tasks/08-homepage.md item 7 — a WhatsApp share button for this
+        card specifically (this is the content people actually screenshot
+        and forward), plus the email signup so a visitor who came for the
+        legal answer has an easy next step besides leaving. Plain wa.me
+        share-intent URL, same convention as ShareButtons.astro — no
+        third-party script. */}
+    <div class="kyr-extra">
+      <a class="kyr-whatsapp" href={kyrWaHref} target="_blank" rel="noopener" aria-label="Share this on WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3a9 9 0 0 0-7.8 13.4L3 21l4.7-1.2A9 9 0 1 0 12 3z" />
+          <path d="M8.3 9.8c.4 2.6 2.4 4.6 5 5" />
+        </svg>
+        Share on WhatsApp
+      </a>
+      <div class="kyr-newsletter">
+        <NewsletterSignup id="kyr-card" compact={true} />
+      </div>
+    </div>
   </section>
 
   <section class="breakout rights-cta">
@@ -178,81 +230,67 @@ function displayStatementDate(d: Date): string {
     </div>
   </section>
 
-  <section class="feed-section">
-    <div class="feed-tabbar">
-      <div class="feed-tabs" role="tablist" aria-label="Latest updates">
-        <button type="button" class="feed-tab active" role="tab" aria-selected="true" aria-controls="feed-panel-news" id="feed-tab-news" data-target="news">Latest news</button>
-        <button type="button" class="feed-tab" role="tab" aria-selected="false" aria-controls="feed-panel-research" id="feed-tab-research" data-target="research">Evidence library</button>
+  {/* docs/tasks/08-homepage.md item 5: a short teaser strip linking to the
+      full chronological record at /about/timeline/, built from the site's
+      own dated litigation/submissions/campaigns/press entries. */}
+  <section class="breakout timeline-strip">
+    <div class="breakout-inner timeline-strip-inner">
+      <div>
+        <Icon name="clock" />
+        <h2>Ten years of AVI, 2016–2026</h2>
+        <p>Every court filing, submission, campaign and statement AVI's public record carries a date for, in one place.</p>
       </div>
-      <a class="feed-all" id="feed-all-link" href="/news/">All news →</a>
-    </div>
-    <div class="feed-panels">
-      <ul class="feed-list feed-news" id="feed-panel-news" role="tabpanel" aria-labelledby="feed-tab-news">
-        {latestNews.map((item) => (
-          <li>
-            <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
-            <span>{item.data.sourceName}</span>
-          </li>
-        ))}
-      </ul>
-      <ul class="feed-list feed-research" id="feed-panel-research" role="tabpanel" aria-labelledby="feed-tab-research" hidden>
-        {latestResearch.map((item) => (
-          <li>
-            <a href={`/science/${item.id}/`}>{item.data.title}</a>
-            <span>{item.data.journal}, {item.data.year}</span>
-          </li>
-        ))}
-      </ul>
+      <a class="btn btn-outline" href="/about/timeline/">See the full timeline →</a>
     </div>
   </section>
 
-  <script>
-    const feedTabs = document.querySelectorAll('.feed-tab');
-    const feedAllLink = document.getElementById('feed-all-link');
-    const feedTargets: Record<string, { panel: string; href: string; label: string }> = {
-      news: { panel: 'feed-panel-news', href: '/news', label: 'All news →' },
-      research: { panel: 'feed-panel-research', href: '/science', label: 'Full library →' },
-    };
-    feedTabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const target = (tab as HTMLElement).dataset.target;
-        if (!target) return;
-        feedTabs.forEach((t) => {
-          const active = t === tab;
-          t.classList.toggle('active', active);
-          t.setAttribute('aria-selected', String(active));
-        });
-        Object.entries(feedTargets).forEach(([key, { panel }]) => {
-          document.getElementById(panel)?.toggleAttribute('hidden', key !== target);
-        });
-        const info = feedTargets[target];
-        if (info && feedAllLink) {
-          feedAllLink.setAttribute('href', info.href);
-          feedAllLink.textContent = info.label;
-        }
-      });
-    });
-  </script>
-
-  {latestStatements.length > 0 && (
+  {/* docs/tasks/08-homepage.md item 4: the external aggregated "Latest
+      news"/"Evidence library" tabbed block (the old .feed-section, two
+      third-party feeds switched between with no AVI voice in either) is
+      replaced outright by AVI's own "Latest from AVI" statements, promoted
+      to this position. A short "In the news" list keeps the three most
+      recent approved third-party items visible underneath it — title and
+      publisher name only, same as the old feed list rendered, just not
+      behind a tab anymore. */}
+  {(latestStatements.length > 0 || latestNews.length > 0) && (
     <section class="breakout latest-avi">
       <div class="breakout-inner">
-        <div class="latest-avi-head">
-          <div>
-            <p class="eyebrow">In AVI's own words</p>
-            <h2>Latest from AVI</h2>
+        {latestStatements.length > 0 && (
+          <>
+            <div class="latest-avi-head">
+              <div>
+                <p class="eyebrow">In AVI's own words</p>
+                <h2>Latest from AVI</h2>
+              </div>
+              <a class="latest-avi-all" href="/press/">All statements →</a>
+            </div>
+            <div class="latest-avi-grid">
+              {latestStatements.map((item) => (
+                <a class="latest-avi-card" href={`/press/${item.id}/`}>
+                  <time datetime={item.data.date.toISOString()}>{displayStatementDate(item.data.date)}</time>
+                  <h3>{item.data.title}</h3>
+                  <span class="latest-avi-link">Read the statement →</span>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+        {latestNews.length > 0 && (
+          <div class="in-the-news">
+            <div class="itn-head">
+              <p class="itn-label">In the news</p>
+              <a class="itn-all" href="/news/">All news →</a>
+            </div>
+            <ul class="itn-list">
+              {latestNews.map((item) => (
+                <li>
+                  <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
+                  <span>{item.data.sourceName}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <a class="latest-avi-all" href="/press/">All statements →</a>
-        </div>
-        <div class="latest-avi-grid">
-          {latestStatements.map((item) => (
-            <a class="latest-avi-card" href={`/press/${item.id}/`}>
-              <time datetime={item.data.date.toISOString()}>{displayStatementDate(item.data.date)}</time>
-              <h3>{item.data.title}</h3>
-              <span class="latest-avi-link">Read the statement →</span>
-            </a>
-          ))}
-        </div>
+        )}
       </div>
     </section>
   )}
@@ -277,7 +315,7 @@ function displayStatementDate(d: Date): string {
     </section>
   )}
 
-  <script type="application/json" id="watch-video-data" set:html={JSON.stringify(videoData).replace(/</g, '\\u003c')} />
+  <script type="application/json" id="watch-video-data" set:html={JSON.stringify(orderedVideos).replace(/</g, '\\u003c')} />
   <script>
     const videos = JSON.parse(document.getElementById('watch-video-data')?.textContent || '[]');
     const strip = document.getElementById('watch-strip');
@@ -290,7 +328,7 @@ function displayStatementDate(d: Date): string {
     if (strip && videos.length > 1) {
       const ROTATE_MS = 9000;
       const FADE_MS = 250;
-      let currentIndex = 0; // matches the server-rendered latest video
+      let currentIndex = 0; // matches the server-rendered featured video
       let paused = false;
       let timer;
 
@@ -356,6 +394,16 @@ function displayStatementDate(d: Date): string {
     </div>
   </section>
 
+  <section class="breakout stay-connected">
+    <div class="breakout-inner stay-connected-inner">
+      <NewsletterSignup id="homepage" />
+      <div class="stay-connected-share">
+        <p class="sc-share-label">Know someone who should see this?</p>
+        <ShareButtons title="Association of Vapers India — tobacco harm reduction advocacy for India" />
+      </div>
+    </div>
+  </section>
+
   <style>
     .eyebrow {
       font-size: 0.82rem;
@@ -379,6 +427,14 @@ function displayStatementDate(d: Date): string {
     }
     .hero-copy { display: flex; flex-direction: column; min-width: 0; }
     .hero-bottom { margin-top: auto; }
+    .hero-org-line {
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold-dark);
+    }
     .hero-v2 h1 {
       color: var(--ink-black);
       font-size: clamp(2.1rem, 3.8vw, 3rem);
@@ -393,13 +449,25 @@ function displayStatementDate(d: Date): string {
     }
     .hero-v2 .hero-ctas { display: flex; gap: 0.6rem; flex-wrap: nowrap; margin-bottom: 1.5rem; }
     .hero-v2 .hero-ctas .btn { flex: 1 1 auto; text-align: center; white-space: nowrap; }
+    /* India's figures (item 3) sit beside the global ones, each group with
+       its own label and source line, rather than merged into one
+       undifferentiated row of five numbers. */
+    .hero-stats-group { padding-top: 1.1rem; border-top: 1px solid var(--border); }
+    .hero-stats-group + .hero-stats-group { padding-top: 0.9rem; border-top: none; }
+    .hero-stats-label {
+      margin: 0 0 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
     .hero-v2 .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.75rem;
-      padding-top: 1.4rem;
-      border-top: 1px solid var(--border);
     }
+    .hero-v2 .hero-stats.hero-stats-india { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 20rem; }
     .hero-v2 .hero-stats strong {
       display: block;
       font-family: var(--font-serif);
@@ -412,7 +480,8 @@ function displayStatementDate(d: Date): string {
     @media (max-width: 480px) {
       .hero-v2 .hero-ctas { margin-bottom: 1.25rem; }
       .hero-v2 .hero-ctas .btn { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
-      .hero-v2 .hero-stats { gap: 0.4rem; padding-top: 1rem; }
+      .hero-stats-group { padding-top: 0.85rem; }
+      .hero-v2 .hero-stats { gap: 0.4rem; }
       .hero-v2 .hero-stats strong { font-size: 1.3rem; }
       .hero-v2 .hero-stats span { font-size: 0.7rem; line-height: 1.15; margin-top: 0.1rem; }
       .hero-v2 .hero-stats-source { margin-top: 0.5rem; }
@@ -550,6 +619,33 @@ function displayStatementDate(d: Date): string {
     .kyr-foot { font-size: 0.72rem; line-height: 1.5; color: #b9c2bc; margin: 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.15); }
     .kyr-foot strong { color: #fff; }
     .kyr-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+    .kyr-extra {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      max-width: 26rem;
+    }
+    .kyr-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #fff;
+      background: #25963f;
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      text-decoration: none;
+    }
+    .kyr-whatsapp:hover { background: #1f7d35; color: #fff; }
+    .kyr-whatsapp svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+    .kyr-newsletter { width: 100%; }
+    .kyr-newsletter :global(.newsletter-signup) { max-width: none; }
     @media (max-width: 480px) {
       .kyr-card { padding: 1.4rem 1.25rem; border-radius: 14px; }
       .kyr-headline { font-size: 1.3rem; }
@@ -622,37 +718,36 @@ function displayStatementDate(d: Date): string {
     }
     .wwd-tabs a:hover { background: rgba(255,255,255,0.22); color: #fff; }
 
-    /* Feed section — tabbed so News and Evidence share one compact slot
-       instead of two full-height stacked/side-by-side lists. */
-    .feed-section { max-width: var(--max-w-wide); margin: 1.5rem auto 0; padding: 0 1.5rem; }
-    .feed-tabbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
-    .feed-tabs { display: flex; gap: 0.5rem; }
-    .feed-tab {
-      font: inherit;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--muted);
-      background: var(--paper-alt);
-      border: none;
-      border-radius: 99px;
-      padding: 0.45rem 1rem;
-      cursor: pointer;
+    /* Ten years of AVI — teaser strip, item 5 */
+    .timeline-strip { background: var(--paper-alt); padding: 1.75rem 0; margin-top: 1.5rem; }
+    .timeline-strip-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
     }
-    .feed-tab:hover { color: var(--ink); }
-    .feed-tab.active { background: var(--accent-dark); color: #fff; }
-    .feed-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
-    .feed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
-    .feed-list[hidden] { display: none; }
-    .feed-list li {
+    .timeline-strip :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--gold-dark); margin-bottom: 0.5rem; }
+    .timeline-strip h2 { margin: 0 0 0.35rem; font-size: 1.25rem; }
+    .timeline-strip p { margin: 0; max-width: 32rem; color: var(--muted); font-size: 0.92rem; }
+    .timeline-strip .btn { flex-shrink: 0; }
+
+    /* In the news — a short, title+publisher-only list of third-party
+       coverage (item 4), nested under "Latest from AVI" rather than its
+       own tabbed block. */
+    .in-the-news { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
+    .itn-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .itn-label { margin: 0; font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .itn-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .itn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+    .itn-list li {
       background: #fff;
       border: 1px solid var(--border);
-      border-left: 3px solid var(--border);
+      border-left: 3px solid var(--gold);
       border-radius: 6px;
       padding: 0.55rem 0.9rem;
     }
-    .feed-news li { border-left-color: var(--gold); }
-    .feed-research li { border-left-color: var(--accent); }
-    .feed-list a {
+    .itn-list a {
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
@@ -664,11 +759,12 @@ function displayStatementDate(d: Date): string {
       color: var(--ink);
       margin-bottom: 0.15rem;
     }
-    .feed-list a:hover { color: var(--accent); }
-    .feed-list span { font-size: 0.78rem; color: var(--muted); }
+    .itn-list a:hover { color: var(--accent); }
+    .itn-list span { font-size: 0.78rem; color: var(--muted); }
 
-    /* Latest from AVI — AVI's own statements, distinct from the aggregated
-       third-party news/research tabs above. */
+    /* Latest from AVI — AVI's own statements, now the primary homepage
+       update block (item 4) in place of the old external "Latest news"
+       tabbed feed. */
     .latest-avi { max-width: var(--max-w-wide); margin: 2.5rem auto 0; padding: 0 1.5rem; }
     .latest-avi-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
     .latest-avi-head h2 { margin: 0; font-size: 1.4rem; }
@@ -747,5 +843,19 @@ function displayStatementDate(d: Date): string {
     .donate-pitch h2 { color: #fff; margin: 0 0 0.65rem; font-size: clamp(1.5rem, 4.5vw, 1.9rem); line-height: 1.25; }
     .donate-pitch p { color: #fbe6db; line-height: 1.5; margin: 0 0 1.1rem; }
     .donate-pitch a:not(.btn) { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
+
+    /* Stay connected: email signup + share, item 1 and item 5 */
+    .stay-connected { background: var(--paper-alt); padding: 2.25rem 0; margin-top: 1.5rem; }
+    .stay-connected-inner {
+      display: grid;
+      grid-template-columns: 1.2fr auto;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .stay-connected-share { padding-top: 0.25rem; }
+    .sc-share-label { margin: 0 0 0.6rem; font-size: 0.88rem; font-weight: 600; color: var(--muted); }
+    @media (max-width: 780px) {
+      .stay-connected-inner { grid-template-columns: 1fr; }
+    }
   </style>
 </Base>

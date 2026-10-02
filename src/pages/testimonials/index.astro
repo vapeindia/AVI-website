@@ -33,6 +33,13 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
         <Icon name="quote" />
         <h2>Share your story</h2>
       </div>
+      <p class="form-prompt">
+        Tell us how you quit smoking or other tobacco use — what you
+        switched to, what helped, what surprised you. <strong>Please don't
+        name brands, specific formulations, devices or where you bought anything</strong> —
+        we can't publish those details, so a story that includes them has to
+        be trimmed or held back rather than posted as written.
+      </p>
       <p class="form-note">
         Your name and location (city or state) are published with your
         testimonial so readers know these are real people, not anonymous
@@ -52,7 +59,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
             rows="6"
             maxlength="2000"
             required
-            placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco?"
+            placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco? (No brand, formulation, device or purchase-location names, please.)"
           ></textarea>
         </div>
         <div class="field-row">
@@ -69,6 +76,10 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
           <label for="email">Email <small>(kept private — never published)</small></label>
           <input id="email" name="email" type="email" required maxlength="200" />
         </div>
+        <label class="consent-row">
+          <input type="checkbox" id="publishConsent" name="publishConsent" required />
+          I agree that my name and location (as entered above) may be published alongside my testimonial on vapeindia.org.
+        </label>
         <!-- Honeypot: real visitors never see or fill this in. Bots that fill every
              field on a form typically will. Any submission with this non-empty is
              silently dropped by the function. -->
@@ -141,7 +152,18 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     .section-head p { margin: 0.15rem 0 0; flex-basis: 100%; font-size: 0.8rem; color: var(--muted); }
 
     .form-section { margin-bottom: 3.5rem; }
+    .form-prompt { max-width: 46rem; color: var(--ink); font-size: 0.95rem; line-height: 1.6; margin: 0 0 1rem; }
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-weight: 400;
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+    .consent-row input { margin-top: 0.2rem; }
 
     .test-form {
       background: #fff;

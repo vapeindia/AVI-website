@@ -2,9 +2,19 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
 import { getGitDates } from '../../lib/git-dates';
 import { PECA_ACT, PECA_BANNED, PECA_NOT_BANNED, PECA_SECTIONS, pecaBannedSentence, PECA_TRANSPORT_DRAFT } from '../../data/peca';
+
+// Definition clause (3(d)) split on blank lines, same pattern the Act text
+// elsewhere on this page already renders with — see PECA_SECTIONS.s4 etc.
+// below. Added content/faq-and-guides (item 1): the FAQ's "does PECA cover
+// heated tobacco products?" answer quotes this clause, so it needs to
+// actually be visible and citable on the page it links to, not just live
+// in src/data/peca.ts.
+const definitionParas = PECA_SECTIONS.definition.text.split('\n\n');
 
 const transportParas = PECA_TRANSPORT_DRAFT.split('\n\n');
 
@@ -96,6 +106,9 @@ const faqLd = {
       e-cigarettes. It does not ban using, carrying or possessing one — that
       distinction is the whole story below, department by department.
     </p>
+    <div class="law-share">
+      <ShareButtons title="Is vaping banned in India? Here's what the law actually says." />
+    </div>
     <div class="status-grid">
       <div class="status-card status-banned">
         <Icon name="shield" />
@@ -168,12 +181,16 @@ const faqLd = {
       {transportParas.map((para) => <p>{para}</p>)}
 
       <details class="primary-source">
-        <summary>Read the Act itself — Sections {PECA_SECTIONS.s4.number}, {PECA_SECTIONS.s5.number}, {PECA_SECTIONS.s7.number} and {PECA_SECTIONS.s8.number}, verbatim</summary>
+        <summary>Read the Act itself — the definition, and Sections {PECA_SECTIONS.s4.number}, {PECA_SECTIONS.s5.number}, {PECA_SECTIONS.s7.number} and {PECA_SECTIONS.s8.number}, verbatim</summary>
         <p class="source-note">
           Transcribed from {PECA_ACT.gazetteCitation} ({PECA_ACT.commonName}, Act No. {PECA_ACT.actNumber}) —
           <a href={PECA_ACT.gazettePdf} target="_blank" rel="noopener">original Gazette PDF</a> ·
           <a href={PECA_ACT.indiaCodeUrl} target="_blank" rel="noopener">India Code</a>
         </p>
+        <div class="act-section" id="section-definition">
+          <h4>Section {PECA_SECTIONS.definition.number} — {PECA_SECTIONS.definition.heading}</h4>
+          {definitionParas.map((para) => <pre>{para}</pre>)}
+        </div>
         <div class="act-section" id="section-4">
           <h4>Section {PECA_SECTIONS.s4.number} — {PECA_SECTIONS.s4.heading}</h4>
           <pre>{PECA_SECTIONS.s4.text}</pre>
@@ -320,7 +337,7 @@ const faqLd = {
         Pouches and snus involve no vapour or heating element, so they fall
         outside PECA entirely — but as of September 2026 they're being shut
         out through a different route: a two-agency catch-22 that leaves no
-        legal pathway to sell them at all.
+        legal pathway to sell them at all. <a href="/india/nicotine-pouches/">Full breakdown: are nicotine pouches legal in India? →</a>
       </p>
       <ul>
         <li><strong>No route as a food.</strong> Since nicotine pouches contain no tobacco leaf, COTPA (which only covers products like khaini and gutkha) doesn't apply — which pushes them to FSSAI. But FSSAI's <a href="https://cdsco.gov.in/opencms/resources/UploadCDSCOWeb/2018/UploadCommitteeFiles/Minutes%20of%2094TH%20DTAB%20dated%2027.08.2026.pdf" target="_blank" rel="noopener">Regulation 2.3.4</a> explicitly bars nicotine as an ingredient in any consumable food product.</li>
@@ -383,6 +400,10 @@ const faqLd = {
         cases AVI has fought against state-level bans and the flight ban PECA
         doesn't touch.
       </p>
+    </div>
+
+    <div class="law-newsletter">
+      <NewsletterSignup id="india-law" />
     </div>
 
     <div class="law-related">
@@ -749,6 +770,9 @@ const faqLd = {
       margin-top: 1.5rem;
       text-shadow: none;
     }
+
+    .law-share { margin: 1.25rem 0 1.75rem; }
+    .law-newsletter { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
 
     .law-related {
       display: grid;

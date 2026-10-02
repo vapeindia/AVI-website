@@ -110,8 +110,17 @@ const CITIES = [
         <h2>Report an incident</h2>
       </div>
       <p class="form-note">
-        City, date and what happened are published only as anonymous numbers above — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note.
+        City, date and what happened are published only as anonymous numbers above — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note. <strong>You don't need to give an email address to submit a report</strong> — it's entirely optional.
       </p>
+
+      <details class="rh-privacy">
+        <summary>Full privacy notice — what's stored, where, and who sees it</summary>
+        <div class="rh-privacy-body">
+          <p><strong>What's public:</strong> city, date, what happened, the amount (if any), whether the device was returned and whether the officer identified themselves are committed to AVI's public code repository as anonymous, aggregated data — that's what powers the counts on this page and on the "Know your rights" section of <a href="/india/law/#know-your-rights">/india/law</a>. None of those fields can identify you.</p>
+          <p><strong>What's private:</strong> an email address and anything you write in "Anything else you want to tell us?" are never committed to that repository or shown anywhere on this site. They are sent only in a private message to AVI's small team, and only used to follow up with you — for example if you asked to be contacted about legal support. They're kept only for as long as it takes to do that, then deleted — never added to a mailing list or kept indefinitely.</p>
+          <p><strong>Who sees it:</strong> only AVI's own team sees the email/details above. <strong>Nothing you submit is passed to police, a lawyer, a journalist or anyone else without asking you first</strong> — ticking "willing to help" means we might reach out to ask, not that we act on your behalf automatically.</p>
+        </div>
+      </details>
 
       <form id="rh-form" class="rh-form">
         <div class="field">
@@ -141,10 +150,14 @@ const CITIES = [
           <label class="check-row"><input type="checkbox" name="whatHappened" value="other" /> Something else</label>
         </fieldset>
 
-        <div class="field">
-          <label for="amount">Amount demanded or paid <small>(₹, leave as 0 if none)</small></label>
-          <input id="amount" name="amount" type="number" min="0" max="1000000" step="1" value="0" />
-        </div>
+        <fieldset class="field">
+          <legend>Amount demanded or paid</legend>
+          <label class="check-row"><input type="checkbox" id="noMoneyDemanded" name="noMoneyDemanded" checked /> No money was demanded or paid</label>
+          <div class="field amount-field" id="amount-field" hidden>
+            <label for="amount">How much? <small>(₹)</small></label>
+            <input id="amount" name="amount" type="number" min="0" max="1000000" step="1" value="" />
+          </div>
+        </fieldset>
 
         <div class="field-row">
           <div class="field">
@@ -302,6 +315,13 @@ const CITIES = [
     .form-section { margin-bottom: 3.5rem; }
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
 
+    .rh-privacy { max-width: 46rem; margin: 0 0 1.75rem; font-size: 0.88rem; }
+    .rh-privacy summary { cursor: pointer; font-weight: 600; color: var(--accent-dark); }
+    .rh-privacy-body { margin-top: 0.75rem; display: grid; gap: 0.75rem; }
+    .rh-privacy-body p { margin: 0; color: var(--muted); line-height: 1.6; }
+
+    .amount-field { margin-top: 0.75rem; max-width: 12rem; }
+
     .rh-form {
       background: #fff;
       border: 1px solid var(--border);
@@ -364,12 +384,23 @@ const CITIES = [
     const citySelect = document.getElementById('city') as HTMLSelectElement | null;
     const otherCityField = document.getElementById('other-city-field');
     const otherCityInput = document.getElementById('otherCity') as HTMLInputElement | null;
+    const noMoneyCheckbox = document.getElementById('noMoneyDemanded') as HTMLInputElement | null;
+    const amountField = document.getElementById('amount-field');
+    const amountInput = document.getElementById('amount') as HTMLInputElement | null;
 
     citySelect?.addEventListener('change', () => {
       const isOther = citySelect.value === 'Other';
       if (otherCityField) otherCityField.hidden = !isOther;
       if (otherCityInput) otherCityInput.required = isOther;
     });
+
+    function syncAmountField() {
+      const noMoney = noMoneyCheckbox?.checked ?? true;
+      if (amountField) amountField.hidden = noMoney;
+      if (noMoney && amountInput) amountInput.value = '';
+    }
+    noMoneyCheckbox?.addEventListener('change', syncAmountField);
+    syncAmountField();
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -386,6 +417,7 @@ const CITIES = [
 
       const city = data.get('city') === 'Other' ? String(data.get('otherCity') || '').trim() : String(data.get('city') || '');
       const whatHappened = data.getAll('whatHappened').map(String);
+      const amount = data.get('noMoneyDemanded') === 'on' ? 0 : Number(data.get('amount') || 0);
 
       const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
       if (submitButton) submitButton.disabled = true;
@@ -400,7 +432,7 @@ const CITIES = [
             date: data.get('date'),
             city,
             whatHappened,
-            amount: Number(data.get('amount') || 0),
+            amount,
             deviceReturned: data.get('deviceReturned'),
             officerIdentified: data.get('officerIdentified'),
             willingToHelp: data.get('willingToHelp') === 'on',
@@ -414,6 +446,7 @@ const CITIES = [
         status.dataset.state = 'ok';
         form.reset();
         if (otherCityField) otherCityField.hidden = true;
+        syncAmountField();
       } catch {
         status.textContent =
           "Something went wrong submitting this. Please try again, or email details directly to contact@vapeindia.org.";

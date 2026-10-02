@@ -1,0 +1,187 @@
+---
+// Email signup — docs/tasks/07-mobilisation.md item 1. Posts to the
+// Cloudflare Pages Function at functions/api/subscribe.js, which sends a
+// double opt-in confirmation email (via Resend) before anything is added
+// to Resend's contacts list — see that function's header comment and
+// functions/README.md for the full design and required secrets.
+//
+// Deliberately collects only email + optional city, nothing else, and the
+// DPDP-Act-style notice below is self-contained (a <details> toggle) so
+// this component doesn't depend on a separate privacy page existing.
+//
+// `id` must be unique per instance on a given page (e.g. "footer",
+// "homepage", "press", "india-law") since Base.astro's footer renders one
+// copy on every page and several pages also embed a second, in-body copy —
+// without unique ids those two instances' <label for> / <input id> pairs
+// would collide.
+interface Props {
+  id: string;
+  /** Compact, single-row variant for the footer. Default (false) is the
+   * fuller in-page section with its own heading and consent notice. */
+  compact?: boolean;
+}
+const { id, compact = false } = Astro.props;
+---
+<div class={compact ? 'newsletter-signup compact' : 'newsletter-signup'}>
+  {!compact && (
+    <>
+      <h2 class="ns-heading">Get AVI's updates</h2>
+      <p class="ns-sub">Policy wins, court dates and campaign calls-to-action — straight to your inbox, nothing else.</p>
+    </>
+  )}
+  <form class="ns-form" data-ns-form>
+    <div class="ns-fields">
+      <label class="sr-only" for={`ns-email-${id}`}>Email address</label>
+      <input id={`ns-email-${id}`} name="email" type="email" required maxlength="200" placeholder="Email address" autocomplete="email" />
+      <label class="sr-only" for={`ns-city-${id}`}>City (optional)</label>
+      <input id={`ns-city-${id}`} name="city" type="text" maxlength="60" placeholder="City (optional)" autocomplete="address-level2" />
+      <button type="submit" class="btn btn-primary">Sign up</button>
+    </div>
+
+    <details class="ns-privacy">
+      <summary>What this means for your data</summary>
+      <p>
+        We'll use your email only to send AVI's own updates — policy wins,
+        court dates and campaign calls-to-action, typically no more than a
+        few times a month. A city, if you give one, is used only to make an
+        occasional update more locally relevant — it's never published or
+        shared. We store nothing else, and we never add emails from any
+        existing list to this one. You'll get one confirmation email first;
+        nothing else is sent until you click it. Every update after that
+        carries a one-click unsubscribe link, or write to{' '}
+        <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a> any
+        time to be removed.
+      </p>
+    </details>
+    <label class="ns-consent">
+      <input type="checkbox" name="consent" required />
+      I agree to receive these emails and have read how AVI will use my data.
+    </label>
+
+    <!-- Honeypot: real visitors never see or fill this in. -->
+    <p class="hp" aria-hidden="true">
+      <label for={`ns-website-${id}`}>Leave this field blank</label>
+      <input id={`ns-website-${id}`} name="website" type="text" tabindex="-1" autocomplete="off" />
+    </p>
+
+    <p class="ns-status" role="status" data-ns-status></p>
+  </form>
+
+  <style>
+    .newsletter-signup { max-width: 34rem; }
+    .ns-heading { margin: 0 0 0.4rem; font-size: 1.3rem; }
+    .ns-sub { margin: 0 0 1.1rem; color: var(--muted); font-size: 0.92rem; }
+
+    .ns-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .ns-fields input[type="email"],
+    .ns-fields input[type="text"] {
+      flex: 1 1 11rem;
+      min-width: 0;
+      font: inherit;
+      font-size: 0.92rem;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--paper);
+    }
+    .ns-fields input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .ns-fields button { flex: 0 0 auto; border: none; cursor: pointer; white-space: nowrap; }
+    .ns-fields button:disabled { opacity: 0.6; cursor: default; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .ns-privacy { margin: 0.35rem 0 0.6rem; font-size: 0.82rem; }
+    .ns-privacy summary { cursor: pointer; color: var(--accent-dark); font-weight: 600; }
+    .ns-privacy p { margin: 0.5rem 0 0; color: var(--muted); line-height: 1.55; max-width: 32rem; }
+    .ns-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin: 0.5rem 0 0;
+    }
+    .ns-consent input { margin-top: 0.2rem; }
+    .hp { position: absolute; left: -9999px; }
+    .ns-status { margin: 0.6rem 0 0; font-size: 0.85rem; }
+    .ns-status[data-state="ok"] { color: var(--accent-dark); }
+    .ns-status[data-state="err"] { color: #a3342a; }
+
+    /* Compact (footer) variant: one tight row, no heading/sub, smaller text. */
+    .newsletter-signup.compact { max-width: 28rem; margin: 0 0 0.75rem; }
+    .newsletter-signup.compact .ns-fields { margin-bottom: 0.3rem; }
+    .newsletter-signup.compact .ns-fields input,
+    .newsletter-signup.compact .ns-fields button { font-size: 0.82rem; padding: 0.45rem 0.6rem; }
+    .newsletter-signup.compact .ns-privacy,
+    .newsletter-signup.compact .ns-consent { font-size: 0.74rem; }
+  </style>
+</div>
+
+<script>
+  // One shared handler for every newsletter-signup form on the page —
+  // Astro dedupes identical inline <script> blocks, so this still runs
+  // once even though the component (and this script) may appear more than
+  // once on one page (e.g. a page-body copy plus the footer's).
+  function bindNewsletterForms() {
+    document.querySelectorAll<HTMLFormElement>('form[data-ns-form]').forEach((form) => {
+      if (form.dataset.nsBound === '1') return;
+      form.dataset.nsBound = '1';
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const status = form.querySelector<HTMLElement>('[data-ns-status]');
+        const data = new FormData(form);
+
+        // Honeypot: if a bot filled this in, pretend to succeed and stop.
+        if (String(data.get('website') || '').trim() !== '') {
+          if (status) { status.textContent = 'Thanks — check your inbox to confirm.'; status.dataset.state = 'ok'; }
+          form.reset();
+          return;
+        }
+
+        const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+        if (status) { status.textContent = 'Submitting…'; status.dataset.state = ''; }
+
+        try {
+          const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: data.get('email'),
+              city: data.get('city'),
+              website: data.get('website'),
+            }),
+          });
+          if (!res.ok) throw new Error('request failed');
+          if (status) {
+            status.textContent = "Almost there — check your inbox and confirm your email to finish signing up.";
+            status.dataset.state = 'ok';
+          }
+          form.reset();
+        } catch {
+          if (status) {
+            status.textContent = 'Something went wrong. Please try again, or email contact@vapeindia.org.';
+            status.dataset.state = 'err';
+          }
+        } finally {
+          if (submitButton) submitButton.disabled = false;
+        }
+      });
+    });
+  }
+  bindNewsletterForms();
+</script>

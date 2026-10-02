@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import { getCollection, render } from 'astro:content';
 
 // Unreviewed drafts (committed as `reviewed: false` — see content/newsroom
@@ -209,6 +210,10 @@ function displayDate(d: Date): string {
       )}
     </section>
 
+    <div class="press-newsletter">
+      <NewsletterSignup id="press" />
+    </div>
+
     <div class="press-related">
       <a href="/litigation/" class="related-card">
         <h3>Litigation →</h3>
@@ -386,6 +391,12 @@ function displayDate(d: Date): string {
     .press-archive[open] summary::after { transform: rotate(180deg); }
     .press-archive summary:hover { border-color: var(--accent); }
     .archive-grid { margin-top: 1.5rem; }
+
+    .press-newsletter {
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
 
     .press-related {
       display: grid;
