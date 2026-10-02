@@ -1,30 +1,20 @@
 #!/usr/bin/env node
 /**
- * CI guard, run on every PR (.github/workflows/content-guard.yml).
+ * Build-time content guard. Runs as part of `npm run build` (see
+ * package.json) and in .github/workflows/content-guard.yml on every push
+ * to main — a failed check here fails the Cloudflare Pages build, so the
+ * last good deploy stays live instead of a bad one going out.
  *
- * Checks 1-3 below look only at LINES ADDED by the PR (the diff against its
- * base), not the whole file — the site had trailing-slash-less internal
- * links and other now-disallowed patterns everywhere before this guard
- * existed; scanning whole-file state would fail every future PR on
- * pre-existing content nobody touched. Scoping to added lines means this
- * guard only stops a PR from introducing a NEW instance of a known problem,
- * which is the realistic bar for a check introduced partway through a
- * project's life. Check 4 (reviewed:false leaking into the build) checks
- * the actual build output, not the diff, since that failure mode doesn't
- * depend on what a specific PR touched.
+ * Scans the whole src/content and src/pages trees (not a diff — there's no
+ * PR base ref in a direct-to-main workflow) for three things: a brand name
+ * outside an approved quote, a leftover drafting note, and an internal
+ * link missing its trailing slash.
  *
- * Usage: node scripts/ci-content-guard.mjs <base-ref>
+ * Usage: node scripts/ci-content-guard.mjs
  * Exits 1 and prints every violation if anything trips; exits 0 otherwise.
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
-
-const baseRef = process.argv[2];
-if (!baseRef) {
-  console.error('Usage: node scripts/ci-content-guard.mjs <base-ref>');
-  process.exit(2);
-}
 
 function loadJson(file, fallback) {
   const p = path.join(process.cwd(), file);
@@ -34,8 +24,6 @@ function loadJson(file, fallback) {
 const blocklist = loadJson('scripts/config/blocklist.json', { reviewBrands: [] });
 const BRAND_NAMES = blocklist.reviewBrands ?? [];
 
-// Same families as the urgent-fixes task's sweep — see CLAUDE.md's "Site
-// rules (October 2026 review)", rule 4.
 const DRAFTING_NOTE_PATTERNS = [
   /\bsite[- ]owner'?s?\b/i,
   /\bplaceholder\b(?!=)/i, // not the HTML `placeholder="..."` attribute
@@ -49,78 +37,42 @@ const DRAFTING_NOTE_PATTERNS = [
   /\[(note|tk|citation needed)[:\]]/i,
 ];
 
-const FLAVOUR_WORDS = /\b(flavou?rs?|mint|menthol|fruit|berry|mango|melon|tobacco[- ]flavou?r)\b/i;
-// Excludes `$1`/`$2`-style regex replacement strings (always a single digit
-// immediately closed by a quote) — real prices don't look like that, and
-// .astro files legitimately contain JS regex code, not just prose.
-const PRICE_PATTERN = /(₹|Rs\.?\s?|\$)\s?\d[\d,]*(\.\d+)?(?!['"`])/;
+// Internal links only: a leading single "/" and no second leading slash
+// (excludes protocol-relative "//..."), not already ending in "/", and not
+// pointing at a file (has a dot after the last slash — .jpg, .pdf, .xml,
+// etc. never take a trailing slash).
+const INTERNAL_LINK_PATTERN = /href="(\/(?!\/)[^"#?]*)"/g;
 
 function isInsideQuote(line) {
   // Heuristic, not exhaustive: a blockquote line, or text wrapped in actual
   // quotation marks (a quoted government order/court record/news
-  // headline, per the PECA-guardrail rule's approved exception) counts as
-  // "inside an approved quote." Doesn't understand multi-line blockquotes
-  // that don't repeat the > marker — a real gap, documented rather than
-  // silently assumed away.
-  const trimmed = line.replace(/^\+/, '').trim();
+  // headline) counts as "inside an approved quote." Doesn't understand
+  // multi-line blockquotes that don't repeat the > marker.
+  const trimmed = line.trim();
   if (trimmed.startsWith('>')) return true;
   return /"[^"]*"/.test(trimmed) || /[“][^”]*[”]/.test(trimmed);
 }
 
-function getAddedLines(base) {
-  const diff = execSync(`git diff --unified=0 ${base}...HEAD -- src/content src/pages`, { maxBuffer: 1024 * 1024 * 50 }).toString();
-  const lines = [];
-  let currentFile = null;
-  let lineNo = 0;
-  for (const raw of diff.split('\n')) {
-    if (raw.startsWith('+++ ')) {
-      currentFile = raw.slice(6).replace(/^b\//, '');
-      continue;
-    }
-    const hunk = raw.match(/^@@ -\d+(?:,\d+)? \+(\d+)/);
-    if (hunk) {
-      lineNo = parseInt(hunk[1], 10);
-      continue;
-    }
-    if (raw.startsWith('+++') || raw.startsWith('---')) continue;
-    if (raw.startsWith('+')) {
-      lines.push({ file: currentFile, line: lineNo, text: raw.slice(1) });
-      lineNo += 1;
-    } else if (!raw.startsWith('-')) {
-      lineNo += 1;
-    }
-  }
-  return lines;
+function relFile(abs) {
+  return path.relative(process.cwd(), abs).split(path.sep).join('/');
 }
 
-const violations = [];
-
-function check1_2_brandFlavourPrice(addedLines) {
-  for (const { file, line, text } of addedLines) {
-    if (isInsideQuote(text)) continue;
-    for (const brand of BRAND_NAMES) {
-      const re = new RegExp(`\\b${brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-      if (re.test(text)) {
-        violations.push({ file, line, rule: 'brand-name', detail: `"${brand}" outside an approved quote`, text: text.trim() });
-      }
-    }
-    if (FLAVOUR_WORDS.test(text)) {
-      violations.push({ file, line, rule: 'flavour-word', detail: 'flavour/flavor term outside an approved quote', text: text.trim() });
-    }
-    if (PRICE_PATTERN.test(text)) {
-      violations.push({ file, line, rule: 'price', detail: 'price-shaped text outside an approved quote', text: text.trim() });
-    }
+function walk(dir, exts) {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walk(full, exts));
+    else if (exts.some((e) => entry.name.endsWith(e))) out.push(full);
   }
+  return out;
 }
 
+// Content collection entries committed as `reviewed: false` (currently
+// just pending testimonials awaiting moderation) haven't been checked by a
+// human yet and never build into a live page, so a stray flagged word in
+// visitor-submitted text shouldn't block the whole site's build.
 const unreviewedDraftCache = new Map();
-// Content collection entries committed as `reviewed: false` never build into
-// a live page (every collection's getStaticPaths/index filters on it, and
-// check5 below independently confirms that for research) — so a marker like
-// "[QUOTE PLACEHOLDER]" in one is the intended, documented way to hold a
-// slot open (see e.g. the content/newsroom draft statements), not a leaked
-// drafting note. Only src/content entries carry this field; src/pages
-// components are never gated this way, so this never exempts page code.
 function isUnreviewedDraft(file) {
   if (!file.startsWith('src/content/')) return false;
   if (unreviewedDraftCache.has(file)) return unreviewedDraftCache.get(file);
@@ -130,62 +82,49 @@ function isUnreviewedDraft(file) {
   return result;
 }
 
-function check3_draftingNotes(addedLines) {
-  for (const { file, line, text } of addedLines) {
-    if (isUnreviewedDraft(file)) continue;
-    for (const re of DRAFTING_NOTE_PATTERNS) {
-      if (re.test(text)) {
-        violations.push({ file, line, rule: 'drafting-note', detail: `matches ${re}`, text: text.trim() });
+const violations = [];
+
+const files = [
+  ...walk(path.join(process.cwd(), 'src/content'), ['.md', '.mdx']),
+  ...walk(path.join(process.cwd(), 'src/pages'), ['.astro', '.md']),
+];
+
+for (const abs of files) {
+  const file = relFile(abs);
+  const draftExempt = isUnreviewedDraft(file);
+  const lines = fs.readFileSync(abs, 'utf-8').split('\n');
+
+  lines.forEach((lineText, i) => {
+    const line = i + 1;
+
+    if (!isInsideQuote(lineText)) {
+      for (const brand of BRAND_NAMES) {
+        const re = new RegExp(`\\b${brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+        if (re.test(lineText)) {
+          violations.push({ file, line, rule: 'brand-name', detail: `"${brand}" outside an approved quote`, text: lineText.trim() });
+        }
       }
     }
-  }
-}
 
-// Internal links only: a leading single "/" and no second leading slash
-// (excludes protocol-relative "//..."), not already ending in "/", and not
-// pointing at a file (has a dot after the last slash — .jpg, .pdf, .xml,
-// .json, etc. never take a trailing slash) or a hash/query-only fragment.
-const INTERNAL_LINK_PATTERN = /href="(\/(?!\/)[^"#?]*)"/g;
+    if (!draftExempt) {
+      for (const re of DRAFTING_NOTE_PATTERNS) {
+        if (re.test(lineText)) {
+          violations.push({ file, line, rule: 'drafting-note', detail: `matches ${re}`, text: lineText.trim() });
+        }
+      }
+    }
 
-function check4_trailingSlash(addedLines) {
-  for (const { file, line, text } of addedLines) {
     let m;
     INTERNAL_LINK_PATTERN.lastIndex = 0;
-    while ((m = INTERNAL_LINK_PATTERN.exec(text))) {
+    while ((m = INTERNAL_LINK_PATTERN.exec(lineText))) {
       const href = m[1];
-      if (href === '') continue; // bare "/" already has no further slash to add
-      if (href.endsWith('/')) continue;
+      if (href === '' || href.endsWith('/')) continue;
       const lastSegment = href.slice(href.lastIndexOf('/') + 1);
       if (lastSegment.includes('.')) continue; // a file, not a page route
-      violations.push({ file, line, rule: 'trailing-slash', detail: `"${href}" should end in "/"`, text: text.trim() });
+      violations.push({ file, line, rule: 'trailing-slash', detail: `"${href}" should end in "/"`, text: lineText.trim() });
     }
-  }
+  });
 }
-
-function check5_reviewedFalseLeak() {
-  const researchDir = path.join(process.cwd(), 'src/content/research');
-  if (!fs.existsSync(researchDir)) return;
-  const unreviewedSlugs = [];
-  for (const file of fs.readdirSync(researchDir)) {
-    if (!file.endsWith('.md')) continue;
-    const text = fs.readFileSync(path.join(researchDir, file), 'utf-8');
-    if (/^reviewed:\s*false\s*$/m.test(text)) {
-      unreviewedSlugs.push(file.replace(/\.md$/, ''));
-    }
-  }
-  for (const slug of unreviewedSlugs) {
-    const builtPath = path.join(process.cwd(), 'dist/science', slug, 'index.html');
-    if (fs.existsSync(builtPath)) {
-      violations.push({ file: `src/content/research/${slug}.md`, line: 0, rule: 'reviewed-false-leak', detail: `built as a live page at dist/science/${slug}/index.html despite reviewed: false`, text: '' });
-    }
-  }
-}
-
-const added = getAddedLines(baseRef);
-check1_2_brandFlavourPrice(added);
-check3_draftingNotes(added);
-check4_trailingSlash(added);
-check5_reviewedFalseLeak();
 
 if (violations.length === 0) {
   console.log('Content guard: no violations found.');

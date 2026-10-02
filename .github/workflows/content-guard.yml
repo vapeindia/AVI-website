@@ -1,7 +1,7 @@
 name: Content guard
 
 on:
-  pull_request:
+  push:
     branches: [main]
 
 jobs:
@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # full history — the guard diffs against the PR's base ref
 
       - uses: actions/setup-node@v4
         with:
@@ -19,8 +17,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build site
+      - name: Build site (runs the content guard first)
         run: npm run build
-
-      - name: Run content guard
-        run: node scripts/ci-content-guard.mjs "origin/${{ github.event.pull_request.base.ref }}"

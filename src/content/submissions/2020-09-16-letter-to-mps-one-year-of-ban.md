@@ -60,7 +60,7 @@ AVI wrote to every MP with ten specific objections.
    vaping had fallen 34% by 2020; nearly 100 FCTC signatory nations had
    chosen regulation over the ban the government cited FCTC alignment for;
    and government counsel in a Kolkata court had stated the ban was partly
-   meant to keep Juul out of the market.
+   meant to keep foreign vaping brands out of the market.
 
 8. **The science had only strengthened since the ban.** A January 2020
    *Journal of Hazardous Materials* study compared toxicity on bronchial

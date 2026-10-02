@@ -18,9 +18,12 @@
  *
  * Run via GitHub Action on a schedule. Requires ANTHROPIC_API_KEY env var.
  * Idempotent: skips any PMID/DOI already present in src/content/research/.
+ * A paper the relevance gate rejects is logged to data/rejected-log.json
+ * (shared with fetch-news.mjs) rather than written anywhere.
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { logRejected } from './lib/rejected-log.mjs';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content/research');
 const LOOKBACK_DAYS = 8; // slight overlap with weekly schedule to avoid gaps
@@ -231,7 +234,9 @@ async function main() {
       if (seen.has(paper.pubmedId)) continue;
       seen.add(paper.pubmedId);
       if (!isRelevant(paper)) {
-        console.log(`Skipped (no product term + harm-reduction angle together): ${paper.title}`);
+        const reason = 'no product term + harm-reduction angle together';
+        console.log(`Rejected (${reason}): ${paper.title}`);
+        logRejected({ feed: 'research', title: paper.title, url: paper.doi ? `https://doi.org/${paper.doi}` : `https://pubmed.ncbi.nlm.nih.gov/${paper.pubmedId}/`, reason });
         continue;
       }
 

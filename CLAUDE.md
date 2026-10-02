@@ -4,59 +4,27 @@ This file is read automatically by Claude Code on startup. It exists so you
 don't need to re-explain project context in a fresh session — everything
 below reflects decisions made in prior conversation with the site owner.
 
-## Site rules (October 2026 review)
+## Site rules
 
-Binding rules for every future session working on this site, placed here
-at the top so they're read first regardless of how long this file grows.
-They sit on top of, not instead of, the project-specific notes further
-down — where a note below gives more detail on the same topic (e.g. the
-nicotine-pouches FSSAI/DTAB mechanism, or a specific pipeline's design),
-follow both.
+How we work
+- Work on main. When a task is done, run `npm run build`. If it passes, commit with a short message and push to main, which publishes it. If it fails, fix it first. Never push a broken build.
+- Save tokens. Find files with grep and read only what the task needs. Don't start a dev server, take screenshots or run Lighthouse unless asked. Don't use subagents. Don't re-read a file after editing it.
+- Finish with five lines at most: what changed, the commit, and anything under "Needs Samrat".
+- Never invent a fact, figure, date, name or quote. If one is missing, leave it out and list it under "Needs Samrat".
 
-1. **PECA guardrail.** Nothing may read as advertising, promotion or
-   purchase guidance for e-cigarettes, heated tobacco or nicotine
-   pouches. AVI's own copy never includes brand or product names,
-   flavours, nicotine strengths, puff counts, prices, shops or offers,
-   and nothing on where or how to get anything — product categories
-   only ("e-cigarettes," "nicotine pouches," never a brand). A brand
-   name may appear only inside a quoted government order, court record
-   or news headline, and only after the site owner approves it.
-2. **Adults only.** Copy speaks to adults who already smoke or use
-   tobacco. Never target or picture anyone under 18. Where it fits,
-   say plainly that people who don't use tobacco or nicotine shouldn't
-   start.
-3. **No invented facts.** Never make up figures, dates, case numbers,
-   names, quotes or positions. If something is missing, leave it out
-   and list it in the pull request description under "Needs Samrat."
-4. **No internal notes on pages.** Drafting notes, caveats, "unverified"
-   flags and TODOs go in the pull request description, never in page
-   content. An entry that can't be verified stays unpublished rather
-   than shipping with a visible caveat attached.
-5. **Human in the loop.** One branch and one pull request per task.
-   Never merge or deploy. Pipeline output stays `reviewed: false` until
-   the site owner approves it.
-   **Confirmed exception (2026-10-01):** this does not apply
-   retroactively to the `news`, `research` and `harassmentReports`
-   pipelines — the site owner confirmed they continue exactly as
-   documented further down this file: fully automated, `reviewed: true`
-   (or, for `harassmentReports`, no `reviewed` field at all) and no PR
-   gate. Rule 5 governs everything else — manual edits, Claude-driven
-   content changes, and any *new* pipeline — not these three named,
-   already-approved automations. Don't reopen this question on their
-   behalf; if a future session wants to add a new automated, no-PR
-   pipeline, that needs its own explicit site-owner sign-off the same
-   way these three got theirs.
-6. **Sourced statistics.** Every statistic on a page shows its source,
-   year and link.
-7. **Stable URLs.** Internal links use the canonical trailing-slash
-   form (e.g. `/india/law/`). Never change or remove a published URL
-   without adding a 301 in `public/_redirects`.
-8. **No Vapers Database / archive personal data.** Never use the Vapers
-   Database folder, or any personal data from the archive, in anything
-   that ships.
-9. **House style.** Plain, accessible language. Mix short and long
-   sentences. Short paragraphs. No jargon, corporate fluff or academic
-   words. No Oxford comma. British/Indian spelling.
+Content
+- PECA: AVI never promotes a product. AVI's own copy names no brands, flavours, nicotine strengths, puff counts, prices or sellers, and gives no tips on buying or importing. A brand may appear only inside a quoted headline, court record or government order.
+- Write for adults who smoke or use tobacco, and for people who shape policy. Never show or address anyone under 18.
+- Disclaimers: one line at the end of legal pages only: "This is AVI's reading of the law, not legal advice." The footer line covers the rest. No other disclaimers.
+- Every figure shows its source and year, linked.
+- Internal links end with a slash. Never change a published URL without a 301 in public/_redirects.
+- Never use the Vapers Database folder or anyone's personal data.
+
+Voice
+- Advocacy first. Lead with the answer, then the proof. Paragraphs of three sentences at most. Mix short and long sentences.
+- Plain words. No jargon, no corporate or academic phrasing.
+- No Oxford comma. Avoid dashes; use a full stop, comma or colon.
+- Indian English. India figures in lakh and crore: 10 crore smokers, 13.5 lakh deaths a year.
 
 ## Who this is for
 

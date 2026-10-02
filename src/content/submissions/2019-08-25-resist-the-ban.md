@@ -17,7 +17,7 @@ AVI published this page to explain, in plain terms, what was happening and
 why it mattered: the draft **Prohibition of Electronic Cigarettes
 (production, manufacture, import, export, sale, distribution and
 advertisement) Ordinance, 2019** would ban ENDS sale and advertising
-outright — including vaping devices, heat-not-burn devices like IQOS, and
+outright — including vaping devices, heat-not-burn devices, and
 e-hookah — with penalties up to ₹1 lakh and a year in jail for a first
 offence, rising to five years for repeat offences, and even barred giving
 out free samples. Personal use and possession were not banned, but every

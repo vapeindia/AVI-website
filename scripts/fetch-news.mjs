@@ -21,32 +21,26 @@
  * floor that stops a loosely-matching Google Alert, e.g. "PECA 2019"
  * surfacing an NHL player named Peca, from reaching this far at all).
  * Syndicated copies of one wire story across multiple outlets are
- * deduplicated (dedupeSyndicated()), keeping the earliest/most-original
- * publisher. Writes a paraphrased AI summary per item.
+ * deduplicated (dedupeSyndicated()), keeping the earliest.
  *
- * As of a fix/pipelines hardening pass, this is a HYBRID, not fully
- * automated: an item only gets `reviewed: true` (auto-published, GitHub
- * Action commits straight to main) when it also comes from an outlet on
- * ALLOWLISTED_OUTLETS and clears every filter above. Everything else that
- * clears the filters — a named vape/tobacco brand (matchedReviewBrand(),
- * routed to review rather than blocked outright since a brand mention
- * isn't always an ad), a trade outlet that itself runs product advertising
- * (vapingpost.com and similar), or simply an outlet not on the allowlist
- * (most Google Alert results, since an Alert can surface any domain Google
- * indexes) — is written `reviewed: false` and reaches the site only via the
- * weekly review PR (see .github/workflows/fetch-news.yml), not main
- * directly. `reviewed: true` still means "passed the automated filters AND
- * is from a trusted outlet," not "a person checked this specific item" —
- * see the standing disclaimer on the News index page, which describes this
- * distinction. Scoped to `news` only; fetch-research.mjs and the
- * testimonials pipeline are separate and already require human review for
- * anything not auto-approved by their own rules.
+ * Direct-to-main, no review gate (per Samrat, 2026-10-02): an item that
+ * clears every filter is written reviewed: true and committed straight to
+ * main. Everything the filters reject is dropped and logged to
+ * data/rejected-log.json instead of being written as a draft — there's no
+ * review PR to send it to. A brand name may appear in a headline (it's the
+ * original outlet's own wording, not AVI's), but the AI-written summary
+ * must not name one — checked after generation; if it does, the whole item
+ * is rejected and logged rather than published with an edited summary.
+ * `sourceName` is the real publisher for every item, including Google
+ * Alert results — resolved from the article's own URL, never shown as
+ * "Google Alert" (see publisherNameForUrl() below).
  *
  * Requires ANTHROPIC_API_KEY env var. Run via GitHub Action on a schedule.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { XMLParser } from 'fast-xml-parser';
+import { logRejected } from './lib/rejected-log.mjs';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content/news');
 const CONFIG_DIR = path.join(process.cwd(), 'scripts/config');
@@ -59,37 +53,63 @@ function loadJson(file, fallback) {
 const FEEDS = loadJson('feeds.json', []);
 // blocklist.json used to be a flat domain array; it's now an object with
 // `domains` (hostname blocklist, unchanged behaviour), `rejectPatterns`
-// (promotional-language auto-reject, added after two DOJO flavour-launch
-// posts and similar went live) and `reviewBrands` (named vape brands that
-// route to manual review instead of either publishing or rejecting outright
-// — a brand mention isn't always an ad, e.g. a lawsuit or FDA action, so it
-// gets a human glance rather than a blanket block). Support the old flat-
-// array shape too, so a stale/hand-edited config doesn't crash the script.
+// (promotional-language auto-reject) and `reviewBrands` (named vape/
+// tobacco brands — no longer a routing signal for the item as a whole, see
+// isBrandInSummary() below, which checks only the AI-written summary).
+// Support the old flat-array shape too, so a stale/hand-edited config
+// doesn't crash the script.
 const BLOCKLIST_RAW = loadJson('blocklist.json', { domains: [], rejectPatterns: [], reviewBrands: [] });
 const BLOCKLIST = Array.isArray(BLOCKLIST_RAW) ? BLOCKLIST_RAW : (BLOCKLIST_RAW.domains ?? []);
 const REJECT_PATTERNS = Array.isArray(BLOCKLIST_RAW) ? [] : (BLOCKLIST_RAW.rejectPatterns ?? []).map((p) => new RegExp(p, 'i'));
 const REVIEW_BRANDS = Array.isArray(BLOCKLIST_RAW) ? [] : (BLOCKLIST_RAW.reviewBrands ?? []);
 const PRESS_WIRE_DOMAINS = loadJson('press-wire-domains.json', []);
 
-// Established outlets whose own editorial process is trusted enough to
-// auto-publish once an item has passed every other filter below. Everything
-// else — including every other domain a broad Google Alert can surface —
-// is written as a reviewed:false draft instead of published outright; see
-// main() and .github/workflows/fetch-news.yml for how those drafts reach a
-// weekly review PR rather than main directly.
-const ALLOWLISTED_OUTLETS = [
-  'reuters.com', 'ptinews.com', 'thehindu.com', 'indianexpress.com',
-  'theprint.in', 'hindustantimes.com', 'timesofindia.indiatimes.com',
-  'economictimes.indiatimes.com', 'livemint.com', 'scroll.in', 'ndtv.com',
-  'bmj.com', 'nature.com', 'filtermag.org',
-];
+// Known outlet hostnames → a real display name, for Google Alert results
+// (whose `sourceName` would otherwise be the generic alert label, e.g.
+// "Google Alert: e-cigarette India"). Anything not listed here falls back
+// to hostnameToDisplayName() below rather than needing every domain
+// enumerated up front.
+const OUTLET_DISPLAY_NAMES = {
+  'reuters.com': 'Reuters',
+  'ptinews.com': 'PTI',
+  'thehindu.com': 'The Hindu',
+  'indianexpress.com': 'The Indian Express',
+  'theprint.in': 'ThePrint',
+  'hindustantimes.com': 'Hindustan Times',
+  'timesofindia.indiatimes.com': 'The Times of India',
+  'economictimes.indiatimes.com': 'The Economic Times',
+  'livemint.com': 'Mint',
+  'scroll.in': 'Scroll.in',
+  'ndtv.com': 'NDTV',
+  'bmj.com': 'The BMJ',
+  'nature.com': 'Nature',
+  'filtermag.org': 'Filter',
+  'vapingpost.com': 'Vaping Post',
+  'vapers.org.uk': 'Vapers Digest',
+  'clearingtheair.eu': 'Clearing the Air',
+  'quitlikesweden.org': 'Quit Like Sweden',
+  'clivebates.com': 'Clive Bates',
+};
 
-function isAllowlistedOutlet(url) {
+function hostnameToDisplayName(host) {
+  const label = host.replace(/^www\./, '').split('.')[0];
+  return label.split(/[-_]/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+// Direct-outlet feeds (Filter, Vaping Post, etc.) already carry their real
+// name in feeds.json — only a Google Alert result needs its publisher
+// resolved from the article's own URL, since one Alert surfaces many
+// different outlets.
+function publisherNameForUrl(url, feedName) {
+  if (!feedName.startsWith('Google Alert')) return feedName;
   try {
     const host = new URL(url).hostname.replace(/^www\./, '');
-    return ALLOWLISTED_OUTLETS.some((d) => host === d || host.endsWith(`.${d}`));
+    for (const [domain, name] of Object.entries(OUTLET_DISPLAY_NAMES)) {
+      if (host === domain || host.endsWith(`.${domain}`)) return name;
+    }
+    return hostnameToDisplayName(host);
   } catch {
-    return false;
+    return feedName;
   }
 }
 
@@ -117,9 +137,11 @@ function matchesRejectPattern(item) {
   return null;
 }
 
-function matchedReviewBrand(item) {
-  const haystack = `${item.title} ${item.snippet}`;
-  return REVIEW_BRANDS.find((b) => new RegExp(`\\b${b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(haystack)) ?? null;
+// Checked against the AI-written summary only, never the headline — a real
+// outlet's own headline naming a brand (an FDA action, a lawsuit) is fine
+// to show verbatim; AVI's own derived summary must not name one.
+function brandInText(text) {
+  return REVIEW_BRANDS.find((b) => new RegExp(`\\b${b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text)) ?? null;
 }
 
 function isBlocked(url) {
@@ -131,16 +153,15 @@ function isBlocked(url) {
   }
 }
 
-// Added 2026-09-13: a specific e-cig brand's own product page
-// (whitecloudelectroniccigarettes.com/cirrus-rechargeable-ecig) went live,
-// surfaced the same way any vendor page can be — a broad "e-cigarettes"
-// Google Alert doesn't care whose site uses the term. Added that one
-// domain to blocklist.json too, but an enumerated domain list will always
-// lag every new vendor site Google indexes. This is a narrow backstop for
-// hostnames that announce what they are: compound vendor-category words
-// checked against every current feeds.json/blocklist.json entry first to
-// avoid a false positive (deliberately NOT "vape" alone, which would wrongly
-// catch vapers.org.uk and vapingpost.com).
+// A specific e-cig brand's own product page went live once, surfaced the
+// same way any vendor page can be — a broad "e-cigarettes" Google Alert
+// doesn't care whose site uses the term. That one domain is in
+// blocklist.json too, but an enumerated domain list will always lag every
+// new vendor site Google indexes. This is a narrow backstop for hostnames
+// that announce what they are: compound vendor-category words checked
+// against every current feeds.json/blocklist.json entry first to avoid a
+// false positive (deliberately NOT "vape" alone, which would wrongly catch
+// vapers.org.uk and vapingpost.com).
 const VENDOR_HOSTNAME_SUBSTRINGS = [
   'electroniccigarette',
   'ecigarettestore',
@@ -164,21 +185,12 @@ function isVendorHostname(url) {
   }
 }
 
-// Added 2026-09-13: found six live "quit vaping guide" news entries whose
-// sourceUrl was actually a `pannellum.htm?config=...` open redirect on a
-// compromised third-party server (a University of Tokyo research-institute
-// subdomain, a personal site) pointing at video.unkk.top — an SEO-poisoning
-// technique that abuses a trusted domain's search authority to rank scam
-// pages. These predate the SEO_GUIDE_SPAM_PATTERN title filter below (added
-// later the same day) and slipped through before it existed, but title
-// matching alone is too fragile against a campaign that's clearly varying
-// its wording ("Science Backed Ultimate Guide", "Proven Guide", "Complete
-// Guide") — the URL shape itself is the unambiguous signature, checked
-// directly here rather than relying on any title pattern to catch it.
-// Not folded into BLOCKLIST/isBlocked(): that's a hostname allowlist check
-// against known vendor domains, and the abused hosts here are innocent,
-// unrelated domains each time — the fingerprint is the URL shape, not who
-// owns it.
+// A handful of live "quit vaping guide" entries once turned out to have a
+// `pannellum.htm?config=...` open redirect on a compromised third-party
+// server as their sourceUrl — an SEO-poisoning technique abusing a trusted
+// domain's search authority to rank scam pages. Title matching alone is
+// too fragile against a campaign that varies its wording, so the URL shape
+// itself is checked directly.
 const SUSPICIOUS_REDIRECT_URL_PATTERNS = [
   /pannellum\.htm\?config=/i,
   /unkk\.top/i,
@@ -193,8 +205,7 @@ function isSuspiciousRedirectUrl(url) {
 // coverage this feed is for — distinct from genuine reporting ABOUT the
 // industry (a trade body's regulatory response, a lawsuit, a market-size
 // story), which stays in. Two signals: known PR-wire distribution domains,
-// or launch-announcement language in the title itself (works regardless of
-// which domain syndicates it).
+// or launch-announcement language in the title itself.
 const PRESS_RELEASE_TITLE_PATTERNS = [
   /\blaunch(es|ed|ing)?\b.{0,40}\b(vape|e-?cig|device|pod|disposable|flavou?r)/i,
   /\bunveil(s|ed|ing)?\b.{0,40}\b(vape|e-?cig|device|pod|flavou?r)/i,
@@ -216,12 +227,9 @@ function isIndustryPressRelease(item) {
 }
 
 // Every item must mention an actual tobacco/nicotine/vaping term somewhere
-// in the title or snippet — added after the "PECA 2019" Google Alert
-// (which has no per-feed keywordFilter, unlike the Filter/GFN feed) matched
-// an NHL player's surname, Matthew Peca, with zero tobacco relevance
-// anywhere in the story. This is a floor that applies to every feed,
-// Google Alerts included, regardless of whether that feed also defines its
-// own keywordFilter below.
+// in the title or snippet — a floor that applies to every feed, Google
+// Alerts included, regardless of whether that feed also defines its own
+// keywordFilter.
 const RELEVANCE_TERMS = /\b(nicotine|tobacco|cigarette|e-?cigarette|vap(e|es|ing|er|ers)|ENDS|smokeless|snus|nicotine pouch(es)?|heated tobacco|HTP|bidi(s)?|khaini|gutk?h?a|hookah|waterpipe|PECA)\b/i;
 
 function isRelevant(item) {
@@ -250,18 +258,15 @@ function matchesKeywords(item, keywords) {
   return keywords.some((kw) => haystack.includes(kw.toLowerCase()));
 }
 
-// Added 2026-09-12 after reviewing a batch of live auto-committed entries
-// and a stale PR that surfaced the same patterns: violent/general crime
-// stories where a vape shop or the word "tobacco" is only incidental (an
-// armed robbery AT a vape shop, a firearm-possession sentencing that
-// happened to match a Tobacco Google Alert), SEO/content-farm "ultimate
-// guide" articles (thin, and a real risk of disguised product promotion —
-// the same PECA advertising-risk concern isIndustryPressRelease() already
-// guards against), device/brand product reviews, and garbled/truncated
-// scrapes ("print this page", a bare tag name). Deliberately narrow and
-// pattern-specific rather than blanket keyword bans on words like
-// "arrested" or "smuggling" — a cigarette-smuggling or counterfeit-vape
-// bust is a genuine tobacco-black-market/policy story and must stay in.
+// Violent/general crime stories where a vape shop or the word "tobacco" is
+// only incidental (an armed robbery AT a vape shop, a firearm-possession
+// sentencing that happened to match a Tobacco Google Alert), SEO/content-
+// farm "ultimate guide" articles, device/brand product reviews, and
+// garbled/truncated scrapes ("print this page", a bare tag name).
+// Deliberately narrow and pattern-specific rather than blanket keyword bans
+// on words like "arrested" or "smuggling" — a cigarette-smuggling or
+// counterfeit-vape bust is a genuine tobacco-black-market/policy story and
+// must stay in.
 const OFF_TOPIC_CRIME_PATTERNS = [
   /\barmed robbery\b/i,
   /\b(first|second)[- ]degree murder\b/i,
@@ -272,35 +277,16 @@ const OFF_TOPIC_CRIME_PATTERNS = [
 
 const SEO_GUIDE_SPAM_PATTERN = /\b(ultimate|comprehensive|proven|complete|definitive|science-backed)\s+guide\b/i;
 
-// Added 2026-09-13 after an Altria stock-data "company hub" page (no real
-// article, matched by a broad "e-cigarettes" Google Alert on the ticker)
-// went live on the homepage. Google Alerts also surface individual
-// social-media posts (a caption, not a news item) the same way — those are
-// caught here by URL shape, unambiguously and regardless of domain, before
+// Google Alerts also surface individual social-media posts (a caption, not
+// a news item), forum threads, and non-article index/hub pages. Caught
+// here by URL shape, unambiguously and regardless of domain, before
 // spending an AI call on them. Deliberately NOT extended to generic
-// tag/category/author/companies path segments: tried that, but real outlets
-// use those words as ordinary URL taxonomy for genuine articles (Free
-// Malaysia Today's permalinks all include "/category/nation/...", and SMH's
-// include "/business/companies/..." for a real story) — path-shape alone
-// can't distinguish a news-org's section URL from a stock-data ticker hub.
-// The looksLikeNoContentSummary() check below is what actually catches
-// those non-article index/hub pages instead, since a real article always
-// has content to summarize and a hub page never does.
-// Same day, same root cause: two ProBoards forum-thread posts and one
-// XenForo-style forum post (e-cigarette-forum.com) were also live — an
-// individual user's discussion-board post is exactly as non-editorial as a
-// social-media caption, just running on older forum software. Detected the
-// same way: by URL shape, not content, since a forum thread/post URL is an
-// unambiguous shape regardless of what community runs it.
-// Tried adding a facebook.com/<page>/posts/ pattern here too (a Delray
-// Beach PD community post slipped through the same day) but reverted it:
-// unlike the other platforms above, Facebook posts in this feed are often
-// a real news org's own distribution of a real, substantive story (a
-// Houston TV station, a Philippine outlet) — the URL shape alone doesn't
-// distinguish that from a random community page's post. The one bad case
-// was already caught by looksLikeNoContentSummary() below regardless
-// (its AI summary said "Unable to provide summary..."), so no separate
-// URL rule was actually needed for it.
+// tag/category/author/companies path segments — real outlets use those
+// words as ordinary URL taxonomy for genuine articles. A Facebook post
+// pattern was tried and reverted too: unlike the other platforms, this
+// feed's Facebook links are often a real news org's own distribution of a
+// substantive story, so the URL shape alone can't tell them apart —
+// looksLikeNoContentSummary() below catches a genuinely empty one anyway.
 const NON_ARTICLE_URL_PATTERNS = [
   /linkedin\.com\/posts\//i,
   /tiktok\.com\/@[^/]+\/video\//i,
@@ -314,8 +300,8 @@ function isNonArticleUrl(url) {
   return NON_ARTICLE_URL_PATTERNS.some((re) => re.test(url));
 }
 
-// Same 2026-09-13 fix: a company "news & analysis" listing page's own title
-// gives it away even when the URL shape above doesn't catch it.
+// A company "news & analysis" listing page's own title gives it away even
+// when the URL shape above doesn't catch it.
 const MARKET_DATA_TITLE_PATTERNS = [
   /\bnews\s*&\s*analysis\b/i,
   /\|\s*the markets\b/i,
@@ -324,38 +310,10 @@ const MARKET_DATA_TITLE_PATTERNS = [
 
 // Last-resort net, independent of domain/URL/title shape: when the RSS
 // snippet is empty or too thin to summarize, the AI politely says so
-// rather than fabricating content — that admission is the most reliable
-// signal of all that this isn't a real article, and catches shapes the
-// checks above don't anticipate. Checked after the AI call, so this can't
-// prevent that one API call, but it does stop the item from being
-// published and the URL is still marked `seen` so it won't be retried.
-// Broadened same day: a fifth live entry's summary read "The snippet
-// provided does not contain sufficient content to create a meaningful
-// summary" — different phrasing from every pattern below, so it slipped
-// through. Added a more general pattern (any "no/does-not-X content-word"
-// construction near a summarizing word) rather than one more exact phrase,
-// since the AI clearly doesn't repeat itself verbatim across these and a
-// growing list of exact strings will always be one phrasing behind.
-// Broadened again 2026-09-13: a Filter/GFN item about prison re-entry
-// support was deleted as off-topic earlier the same day, then reappeared
-// on the very next scheduled run — deleting a published entry doesn't
-// blocklist its URL, so an item whose RSS snippet happens to mention a
-// stray keyword (enough to pass the feed's own keywordFilter) will keep
-// coming back. Its own AI summary said so plainly both times ("This
-// article is not relevant to tobacco harm reduction advocacy"), just in
-// off-topic language rather than no-content language — added a second
-// pattern group for that self-admission specifically.
+// rather than fabricating content — the most reliable signal that this
+// isn't a real article. Checked after the AI call, so this can't prevent
+// that one API call, but it does stop the item from being published.
 const OFF_TOPIC_SELF_ADMISSION_PATTERNS = [
-  // 2026-09-16: the exact same prison re-entry article this block was
-  // originally written for (see the 2026-09-13 note above) came back a
-  // THIRD time — its AI summary said "is not related to tobacco harm
-  // reduction" this run, which the original relevant-only pattern missed
-  // entirely. Broadened to catch "related"/"relevant" as a pair, and
-  // dropped the requirement that the topic phrase immediately follow —
-  // AI phrasing varies ("not relevant to X", "not related to X",
-  // "X... is not relevant", etc.) more than a fixed-order regex can
-  // chase. If this recurs again, the lesson from last time still holds:
-  // broaden the content-based check, don't special-case the URL.
   /not (relevant|related) to (tobacco harm reduction|this (site|page|topic))/i,
   /(is|was|be) not (relevant|related) to/i,
   /falls? outside (the )?scope/i,
@@ -397,12 +355,14 @@ function isGarbledTitle(title) {
   return t.split(/\s+/).length < 3;
 }
 
-function isOffTopicJunk(item) {
+function offTopicReason(item) {
   const title = item.title;
-  if (isGarbledTitle(title)) return true;
-  if (isProductReviewTitle(title)) return true;
-  if (SEO_GUIDE_SPAM_PATTERN.test(title)) return true;
-  return OFF_TOPIC_CRIME_PATTERNS.some((re) => re.test(title));
+  if (isGarbledTitle(title)) return 'garbled/truncated title';
+  if (isProductReviewTitle(title)) return 'device/brand product review';
+  if (SEO_GUIDE_SPAM_PATTERN.test(title)) return 'SEO "ultimate guide" spam pattern';
+  const crimeHit = OFF_TOPIC_CRIME_PATTERNS.find((re) => re.test(title));
+  if (crimeHit) return 'incidental mention in an unrelated crime story';
+  return null;
 }
 
 function existingUrls() {
@@ -449,28 +409,29 @@ function unwrapGoogleRedirect(url) {
   return url;
 }
 
-async function fetchFeed(feedUrl, sourceName) {
+async function fetchFeed(feedUrl, feedName) {
   const xml = await fetch(feedUrl).then((r) => r.text());
   const parser = new XMLParser({ ignoreAttributes: false });
   const parsed = parser.parse(xml);
   const items = parsed?.rss?.channel?.item ?? parsed?.feed?.entry ?? [];
   const arr = Array.isArray(items) ? items : [items];
-  return arr.filter(Boolean).map((item) => ({
-    title: cleanText(item.title?.['#text'] ?? item.title ?? ''),
-    url: unwrapGoogleRedirect(item.link?.['@_href'] ?? item.link ?? ''),
-    date: item.pubDate ?? item.published ?? new Date().toISOString(),
-    snippet: cleanText(item.description ?? item.summary ?? '').slice(0, 1000),
-    sourceName,
-  }));
+  return arr.filter(Boolean).map((item) => {
+    const url = unwrapGoogleRedirect(item.link?.['@_href'] ?? item.link ?? '');
+    return {
+      title: cleanText(item.title?.['#text'] ?? item.title ?? ''),
+      url,
+      date: item.pubDate ?? item.published ?? new Date().toISOString(),
+      snippet: cleanText(item.description ?? item.summary ?? '').slice(0, 1000),
+      sourceName: publisherNameForUrl(url, feedName),
+    };
+  });
 }
 
 // Must match the `topic` enum in src/content.config.ts exactly, and
 // `SUMMARY_MAX` the news `summary` field's z.string().max(400) — this is
 // the guardrail that stops a malformed AI response from reaching disk and
 // breaking the whole site build (Astro's getCollection() fails the ENTIRE
-// build on one bad entry — this happened for real once already, via an
-// unvalidated enum value in the `research` collection's generator; see
-// that script for the fuller account). Don't remove this to "simplify".
+// build on one bad entry). Don't remove this to "simplify".
 const VALID_TOPICS = new Set(['policy', 'litigation', 'science', 'industry', 'other']);
 const SUMMARY_MAX = 400;
 
@@ -494,7 +455,7 @@ function sanitizeSummary(ai, fallbackSnippet) {
 
 async function writeSummary(item) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  const prompt = `Write a neutral, paraphrased 1-2 sentence summary (max 400 characters, your own words, no verbatim quoting) of this news item for a tobacco-harm-reduction advocacy news page in India. Also classify its topic as one of: policy, litigation, science, industry, other.
+  const prompt = `Write a neutral, paraphrased 1-2 sentence summary (max 400 characters, your own words, no verbatim quoting) of this news item for a tobacco-harm-reduction advocacy news page in India. Never name a specific product brand, even if the source headline does — describe it by category instead (e.g. "a vaping brand", "a heat-not-burn device"). Also classify its topic as one of: policy, litigation, science, industry, other.
 
 Title: ${item.title}
 Snippet: ${item.snippet}
@@ -529,7 +490,7 @@ function slugify(title) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 80);
 }
 
-function toFrontmatter(item, ai, reviewed) {
+function toFrontmatter(item, ai) {
   const date = new Date(item.date);
   return `---
 title: ${JSON.stringify(item.title)}
@@ -538,21 +499,16 @@ sourceName: ${JSON.stringify(item.sourceName)}
 sourceUrl: ${JSON.stringify(item.url)}
 summary: ${JSON.stringify(clampSummary(ai.summary, SUMMARY_MAX))}
 topic: ${JSON.stringify(ai.topic)}
-reviewed: ${reviewed}
+reviewed: true
 ---
 `;
 }
 
-// Syndicated copies of one wire story (the same nicotine-pouch story ran
-// under five different outlet bylines on 25-26 Sep once) cluster here by a
-// normalized title signature — lowercased, punctuation stripped, common
-// stopwords dropped, remaining significant words sorted so word-order
-// differences between outlets' headlines don't defeat the match — plus a
-// 72-hour date window. Within a cluster, keep whichever item is both dated
-// earliest AND from an allowlisted outlet when one exists (a syndicator
-// often reposts a wire story a few hours after the original with an
-// identical or near-identical pubDate, so earliest-alone isn't a reliable
-// tiebreaker); otherwise just the earliest.
+// Syndicated copies of one wire story cluster here by a normalized title
+// signature — lowercased, punctuation stripped, common stopwords dropped,
+// remaining significant words sorted so word-order differences between
+// outlets' headlines don't defeat the match — plus a 72-hour date window.
+// Within a cluster, keep whichever item is dated earliest.
 const STOPWORDS = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'from', 'by', 'is', 'are', 'was', 'were', 'as', 'it', 'its', 'after', 'over', 'amid']);
 
 function titleSignature(title) {
@@ -582,20 +538,23 @@ function dedupeSyndicated(items) {
       kept.push(cluster.items[0].item);
       continue;
     }
-    const sorted = [...cluster.items].sort((a, b) => a.time - b.time);
-    const allowlistedFirst = sorted.find((x) => isAllowlistedOutlet(x.item.url));
-    const winner = allowlistedFirst ?? sorted[0];
+    const winner = [...cluster.items].sort((a, b) => a.time - b.time)[0];
     kept.push(winner.item);
     console.log(`Deduped ${cluster.items.length} syndicated copies of "${winner.item.title}" — kept ${winner.item.url}`);
   }
   return kept;
 }
 
+function reject(item, reason) {
+  console.log(`Rejected (${reason}): ${item.title}`);
+  logRejected({ feed: 'news', title: item.title, url: item.url, reason });
+}
+
 async function main() {
   const seen = existingUrls();
   fs.mkdirSync(CONTENT_DIR, { recursive: true });
   let publishedCount = 0;
-  let reviewCount = 0;
+  let rejectedCount = 0;
 
   // Phase 1: gather every candidate from every feed before filtering, so
   // cross-feed syndicated duplicates (the same wire story via two different
@@ -615,82 +574,39 @@ async function main() {
 
   for (const item of allItems) {
     if (seen.has(item.url)) continue; // dedup may have re-surfaced an already-written URL as a cluster loser
-    if (isBlocked(item.url)) {
-      console.log(`Blocked (commercial domain): ${item.url}`);
-      continue;
-    }
-    if (isVendorHostname(item.url)) {
-      console.log(`Blocked (vendor-shaped hostname): ${item.url}`);
-      continue;
-    }
-    if (isSuspiciousRedirectUrl(item.url)) {
-      console.log(`Blocked (spam/open-redirect URL shape): ${item.url}`);
-      continue;
-    }
-    if (isIndustryPressRelease(item)) {
-      console.log(`Skipped (industry press release): ${item.title}`);
-      continue;
-    }
-    if (isOffTopicJunk(item)) {
-      console.log(`Skipped (off-topic/low-quality title pattern): ${item.title}`);
-      continue;
-    }
+
+    if (isBlocked(item.url)) { reject(item, 'commercial/vendor domain'); rejectedCount++; continue; }
+    if (isVendorHostname(item.url)) { reject(item, 'vendor-shaped hostname'); rejectedCount++; continue; }
+    if (isSuspiciousRedirectUrl(item.url)) { reject(item, 'spam/open-redirect URL shape'); rejectedCount++; continue; }
+    if (isIndustryPressRelease(item)) { reject(item, 'industry press release'); rejectedCount++; continue; }
+    const offTopic = offTopicReason(item);
+    if (offTopic) { reject(item, offTopic); rejectedCount++; continue; }
     if (isNonArticleUrl(item.url) || MARKET_DATA_TITLE_PATTERNS.some((re) => re.test(item.title))) {
-      console.log(`Skipped (not an article — social post, tag page or company market-data hub): ${item.title}`);
-      continue;
+      reject(item, 'not an article — social post, forum thread, tag page or market-data hub'); rejectedCount++; continue;
     }
-    if (isMarketResearch(item.title)) {
-      console.log(`Skipped (market-research/brand-ranking report): ${item.title}`);
-      continue;
-    }
-    if (!isRelevant(item)) {
-      console.log(`Skipped (no tobacco/nicotine/vaping term in title or snippet): ${item.title}`);
-      continue;
-    }
-    if (!matchesKeywords(item, item.keywordFilter)) {
-      console.log(`Skipped (off-topic per keywordFilter): ${item.title}`);
-      continue;
-    }
+    if (isMarketResearch(item.title)) { reject(item, 'market-research/brand-ranking report'); rejectedCount++; continue; }
+    if (!isRelevant(item)) { reject(item, 'no tobacco/nicotine/vaping term in title or snippet'); rejectedCount++; continue; }
+    if (!matchesKeywords(item, item.keywordFilter)) { reject(item, 'off-topic per feed keywordFilter'); rejectedCount++; continue; }
     const rejectHit = matchesRejectPattern(item);
-    if (rejectHit) {
-      console.log(`Blocked (promotional-language pattern ${rejectHit}): ${item.title}`);
-      continue;
-    }
+    if (rejectHit) { reject(item, `promotional-language pattern ${rejectHit}`); rejectedCount++; continue; }
 
     seen.add(item.url);
     const ai = await writeSummary(item);
     if (looksLikeNoContentSummary(ai.summary)) {
-      console.log(`Skipped (AI reports no real content in snippet): ${item.title}`);
-      continue;
+      reject(item, 'AI reports no real content in snippet'); rejectedCount++; continue;
     }
-
-    // Needs-review routing: a named vape/tobacco brand (could be a lawsuit
-    // or FDA action, not necessarily an ad — a human should glance at it),
-    // a trade outlet that itself carries product advertising, or any
-    // outlet not on the trusted allowlist — which, for the Google Alerts
-    // feeds especially, is most items, since an Alert can surface any
-    // domain Google indexes. Only an allowlisted outlet that also clears
-    // every filter above auto-publishes; everything else becomes a
-    // reviewed:false draft for the weekly review PR (see
-    // .github/workflows/fetch-news.yml) rather than main directly.
-    const brandHit = matchedReviewBrand(item);
-    const isTradeOutletWithAds = PRESS_WIRE_DOMAINS.some((d) => { try { return new URL(item.url).hostname.replace(/^www\./, '').endsWith(d); } catch { return false; } }) || /vapingpost\.com$/i.test(new URL(item.url).hostname);
-    const allowlisted = isAllowlistedOutlet(item.url);
-    const needsReview = !!brandHit || isTradeOutletWithAds || !allowlisted;
+    const brandHit = brandInText(ai.summary);
+    if (brandHit) {
+      reject(item, `AI summary named a brand ("${brandHit}") despite the prompt`); rejectedCount++; continue;
+    }
 
     const date = new Date(item.date);
     const filename = `${date.toISOString().slice(0, 10)}-${slugify(item.title)}.md`;
-    fs.writeFileSync(path.join(CONTENT_DIR, filename), toFrontmatter(item, ai, !needsReview));
-    if (needsReview) {
-      reviewCount += 1;
-      const why = brandHit ? `named brand "${brandHit}"` : isTradeOutletWithAds ? 'trade outlet running product ads' : 'outlet not on the trusted allowlist';
-      console.log(`Wrote for review (${why}): ${filename}`);
-    } else {
-      publishedCount += 1;
-      console.log(`Wrote draft: ${filename}`);
-    }
+    fs.writeFileSync(path.join(CONTENT_DIR, filename), toFrontmatter(item, ai));
+    publishedCount += 1;
+    console.log(`Published: ${filename}`);
   }
-  console.log(`Done. ${publishedCount} entries auto-published (reviewed: true — allowlisted outlet, passed every automated filter), ${reviewCount} entries written for weekly human review (reviewed: false).`);
+  console.log(`Done. ${publishedCount} entries published to main, ${rejectedCount} rejected and logged to data/rejected-log.json.`);
 }
 
 main().catch((err) => {
