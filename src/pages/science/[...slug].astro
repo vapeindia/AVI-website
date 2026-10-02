@@ -1,15 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ShareButtons from '../../components/ShareButtons.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  // Without this filter, a reviewed:false draft still gets built as a live
-  // page and lands in the sitemap even though /science's own index hides
-  // it — exactly the kind of silent mismatch that makes the sitemap and
-  // the visible library disagree. Matches the filter index.astro already
-  // applies to the same collection.
-  const items = await getCollection('research', ({ data }) => data.reviewed);
+  const items = await getCollection('research');
   return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
 }
 const { item } = Astro.props;
@@ -17,43 +11,18 @@ const { Content } = await render(item);
 const description = item.data.brief.length > 155
   ? item.data.brief.slice(0, 155).replace(/\s+\S*$/, '') + '…'
   : item.data.brief;
-
-// Academic paper titles routinely run 150-200+ characters — fine as the
-// visible <h1> below, but a <title> tag that long gets truncated unpredictably
-// by Google and is well past any browser tab. Shortened at a word boundary to
-// ~50 chars so the full "<title> · AVI" lands near 60 total; the full,
-// untruncated title is still the page's own H1 immediately below it.
-const pageTitle = item.data.title.length > 50
-  ? item.data.title.slice(0, 50).replace(/\s+\S*$/, '') + '…'
-  : item.data.title;
-
-// Noindex any entry a human hasn't written an India-relevance note for —
-// without this, the library's thin, auto-generated-only pages (the vast
-// majority, since whyItMattersIndia is never set by the fetch script)
-// would otherwise compete in search against AVI's own real content.
-const noindex = !item.data.whyItMattersIndia;
-
-const aiLabel = item.data.reviewedDate
-  ? `Plain-language summary written with AI and checked by AVI on ${item.data.reviewedDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}.`
-  : 'Plain-language summary written with AI, from the published abstract — not yet individually checked by AVI.';
 ---
-<Base title={pageTitle} description={description} noindex={noindex}>
-  <p><a href="/science/">← Back to research library</a></p>
+<Base title={item.data.title} description={description}>
+  <p><a href="/science">← Back to research library</a></p>
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
   <p class="byline"><strong>{item.data.authors}</strong> · {item.data.journal}, {item.data.year}</p>
-  <div class="study-share">
-    <ShareButtons title={item.data.title} />
-  </div>
   <div class="tags">
     {item.data.substance.map((s) => <span class="tag">{s}</span>)}
   </div>
-  <p class="ai-label">{aiLabel}</p>
   <p class="lead">{item.data.brief}</p>
-  {item.data.whyItMattersIndia ? (
-    <p class="india-note"><strong>Why it matters for India:</strong> {item.data.whyItMattersIndia}</p>
-  ) : item.data.relevanceToIndia && (
-    <p class="india-note india-note-ai"><strong>Relevance to India (AI-drafted):</strong> {item.data.relevanceToIndia}</p>
+  {item.data.relevanceToIndia && (
+    <p class="india-note"><strong>Relevance to India:</strong> {item.data.relevanceToIndia}</p>
   )}
   <Content />
   <p class="links">
@@ -62,11 +31,11 @@ const aiLabel = item.data.reviewedDate
   </p>
 
   <div class="study-related">
-    <a href="/science/" class="related-card">
+    <a href="/science" class="related-card">
       <h3>Evidence library →</h3>
       <p>The full published research behind AVI's position, browsable by topic.</p>
     </a>
-    <a href="/quit/" class="related-card">
+    <a href="/quit" class="related-card">
       <h3>If you smoke →</h3>
       <p>What this evidence means in practice — the case for switching.</p>
     </a>
@@ -82,29 +51,26 @@ const aiLabel = item.data.reviewedDate
       padding: 0.2rem 0.6rem;
       border-radius: 99px;
       color: #fff;
-      background: var(--green);
+      background: var(--accent);
       margin-bottom: 0.75rem;
     }
     h1 { margin-top: 0.25rem; }
     .byline { color: var(--muted); margin-top: -0.5rem; }
-    .study-share { margin: 0.75rem 0; }
     .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0 1.25rem; }
     .tag {
       font-size: 0.72rem;
       font-weight: 600;
-      color: var(--green-deep);
-      background: var(--paper-2);
+      color: var(--gold-dark);
+      background: var(--paper-alt);
       padding: 0.15rem 0.5rem;
       border-radius: 4px;
     }
-    .ai-label { font-size: 0.8rem; font-style: italic; color: var(--muted); margin: 0 0 1rem; }
     .lead { font-size: 1.05rem; }
     .india-note {
-      background: var(--paper-2);
-      border-left: 3px solid var(--green);
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
       padding: 1rem 1.25rem;
     }
-    .india-note-ai { border-left-color: var(--line); font-size: 0.92rem; color: var(--muted); }
     .links { margin-top: 2rem; font-weight: 600; }
 
     .study-related {
@@ -113,19 +79,19 @@ const aiLabel = item.data.reviewedDate
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

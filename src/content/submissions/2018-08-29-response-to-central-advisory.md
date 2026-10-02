@@ -48,7 +48,7 @@ carcinogens.
 
 **On the legal basis claimed.** The government's position that ENDS fall
 under the Drugs and Cosmetics Act directly contradicted the [RTI replies
-AVI had already obtained](/india/rti-replies/) from the relevant government
+AVI had already obtained](/india/rti-replies) from the relevant government
 departments themselves, which stated ENDS do not come under that Act. Where
 a category is silent in existing law, the conventional position is
 that it is unregulated but permitted, not banned by default — AVI argued
@@ -60,9 +60,3 @@ evidence available, amounted to a serious public health policy error with
 a direct cost in lives — one made harder to justify given the government's
 own acknowledgment of a one-million-deaths-a-year, ₹1-lakh-crore-a-year
 domestic tobacco burden it had yet to seriously act on.
-
----
-
-*This is AVI's own account of the rebuttal's arguments, not a verbatim
-reproduction — the original filing wasn't located in AVI's available
-records for this update.*

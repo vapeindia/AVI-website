@@ -11,19 +11,6 @@ read and write** permission, not Pull requests, since it commits directly
 to `main` rather than opening a PR (see that file's own header comment for
 why that's safe here).
 
-`api/subscribe.js`, `api/confirm-subscription.js` and `api/unsubscribe.js`
-(added docs/tasks/07-mobilisation.md item 1) together run the email-signup
-form embedded via `src/components/NewsletterSignup.astro` on the homepage,
-`/press/`, `/india/law/` and the site footer. They don't use `GITHUB_TOKEN`
-at all — nothing from this flow is ever committed to the repo — and use
-two secrets of their own, see below. Double opt-in is hand-built (Resend's
-Contacts/Segments/Topics API has no built-in equivalent, confirmed against
-resend.com/docs while building this): `subscribe.js` only ever emails a
-signed confirmation link; the contact is created in Resend only once that
-link is actually clicked through on `confirm-subscription.js`. One-click
-unsubscribe is real too (RFC 8058) — see `unsubscribe.js`'s own header
-comment.
-
 ## Required setup before this works live
 
 Cloudflare Pages → your project → **Settings → Environment variables**, add
@@ -46,16 +33,6 @@ environment (and Preview, if you want the form testable on preview deploys):
 
 Both are logged to the Cloudflare Pages Functions log (visible in the
 Cloudflare dashboard) when skipped, so you can tell which secret is missing.
-
-### Additional secrets for the email-signup functions
-
-| Variable | Value |
-|---|---|
-| `SUBSCRIBE_TOKEN_SECRET` | **Required** for `subscribe.js`/`confirm-subscription.js`/`unsubscribe.js` to work at all — a long random string (e.g. `openssl rand -hex 32`) used to HMAC-sign confirm/unsubscribe links. Without it, `subscribe.js` fails closed (returns an error to the visitor rather than silently pretending to work) — see that file's own comment. |
-| `RESEND_SEGMENT_ID` | The id of a Resend **Segment** (what "Audiences" are now called — see Resend's own "Migrating from Audiences to Segments" doc) to add confirmed subscribers to, so they're reachable from a Resend Broadcast. **Create this once in the Resend dashboard** (Contacts → Segments → new segment, e.g. "Website subscribers") and paste its id here. Optional in the sense that signup still works without it — the contact is still created in Resend — but it won't be in any Segment you can actually send a Broadcast to, so set this before the list is useful. |
-
-`RESEND_API_KEY`/`RESEND_FROM` above are shared with these three functions
-too — no separate key needed. `GITHUB_TOKEN` is not used by any of them.
 
 ## Why this design
 

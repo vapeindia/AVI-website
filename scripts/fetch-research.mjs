@@ -18,12 +18,9 @@
  *
  * Run via GitHub Action on a schedule. Requires ANTHROPIC_API_KEY env var.
  * Idempotent: skips any PMID/DOI already present in src/content/research/.
- * A paper the relevance gate rejects is logged to data/rejected-log.json
- * (shared with fetch-news.mjs) rather than written anywhere.
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { logRejected } from './lib/rejected-log.mjs';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content/research');
 const LOOKBACK_DAYS = 8; // slight overlap with weekly schedule to avoid gaps
@@ -60,33 +57,6 @@ function sanitizeBrief(brief) {
     brief: clamp(brief.brief || 'Auto-summary unavailable; see the source directly.', BRIEF_MAX),
     relevanceToIndia: brief.relevanceToIndia ? String(brief.relevanceToIndia).trim() : 'None stated.',
   };
-}
-
-// Relevance gate, added after the library accumulated papers on gambling,
-// cannabis craving, opioid/stimulant use, alcohol in pregnancy, COPD
-// epigenetics and the Trier social stress test — each matched one of the
-// broad PubMed queries below on a tangential mention (nicotine used only as
-// a covariate, a shared study population, etc.), not because the paper is
-// actually about tobacco/nicotine harm reduction. Two independent
-// requirements, both checked against title+abstract: a real product/
-// substance term, AND a harm-reduction-relevant angle. Title/abstract
-// mentioning nicotine in passing is not enough on its own.
-//
-// Verified against the actual research library before finalizing: an
-// earlier draft of these two regexes missed plain "smoking"/"smoker",
-// plural forms (adolescent{s}, regulat{ion/ory/ions}), "quitline" (word-
-// boundary \b doesn't match mid-compound-word), and comparative-risk
-// phrasing that doesn't use the literal string "reduced-risk" (e.g.
-// "exhibit reduced toxicological effects compared to cigarette smoke") —
-// each would have wrongly flagged a genuinely on-topic paper as a removal
-// candidate. Fixed by using \w* stems instead of a fixed set of suffixes
-// wherever a plural/inflection was the actual gap.
-const PRODUCT_TERMS = /\b(nicotine|tobacco|smoking|smoker\w*|cigarette\w*|e-?cigarette\w*|vap\w*|ENDS|smokeless|snus|nicotine pouch\w*|heated tobacco|HTP|cigar\w*|bidi\w*|khaini|gutk?h?a|hookah|waterpipe)\b/i;
-const ANGLE_TERMS = /\b(cessation|quit\w*|abstinen\w*|relative risk|harm reduction|less harmful|safer|reduced|modified[- ]risk|compared (to|with)|versus|vs\.?|youth|young(er)? (people|adults?)|teen\w*|adolescent\w*|minor\w*|underage|regulat\w*|polic\w*|ban\w*|legislat\w*|tax\w*)\b/i;
-
-function isRelevant(paper) {
-  const haystack = `${paper.title} ${paper.abstract || ''}`;
-  return PRODUCT_TERMS.test(haystack) && ANGLE_TERMS.test(haystack);
 }
 
 const QUERIES = [
@@ -128,13 +98,7 @@ async function searchPubMed(query, sinceDate) {
       title: s.title,
       authors: (s.authors ?? []).map((a) => a.name).join(', ') || 'Unknown',
       journal: s.fulljournalname ?? s.source ?? '',
-      // Prefer epubdate (when the article actually went live online) over
-      // pubdate (the print/issue date) — for continuously-published online
-      // journals these can land a full year apart (e.g. an article epub'd
-      // Sept 2026 whose print issue is dated "2027 Jan"), and pubdate alone
-      // produced a visibly-wrong future-dated entry on the live site once
-      // already. Fall back to pubdate, then today, if epubdate is absent.
-      year: parseInt((s.epubdate || s.pubdate || '').slice(0, 4), 10) || new Date().getFullYear(),
+      year: parseInt((s.pubdate ?? '').slice(0, 4), 10) || new Date().getFullYear(),
       doi: (s.elocationid ?? '').replace('doi: ', '') || undefined,
       abstract: abstractsById[id] ?? '',
     };
@@ -189,18 +153,8 @@ Respond ONLY as JSON: {"brief": "...", "relevanceToIndia": "...", "studyType": "
   }
 }
 
-// Breaks at a word boundary rather than a hard character cut — a plain
-// .slice(N) can land mid-word or leave a dangling trailing hyphen (both
-// happened across most of this collection's existing slugs before a
-// fix/pipelines pass renamed them with 301s; see public/_redirects).
 function slugify(title) {
-  let slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  if (slug.length > 60) {
-    slug = slug.slice(0, 60);
-    const lastHyphen = slug.lastIndexOf('-');
-    if (lastHyphen > 0) slug = slug.slice(0, lastHyphen);
-  }
-  return slug.replace(/-+$/, '');
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 80);
 }
 
 function toFrontmatter(paper, brief) {
@@ -233,12 +187,6 @@ async function main() {
     for (const paper of papers) {
       if (seen.has(paper.pubmedId)) continue;
       seen.add(paper.pubmedId);
-      if (!isRelevant(paper)) {
-        const reason = 'no product term + harm-reduction angle together';
-        console.log(`Rejected (${reason}): ${paper.title}`);
-        logRejected({ feed: 'research', title: paper.title, url: paper.doi ? `https://doi.org/${paper.doi}` : `https://pubmed.ncbi.nlm.nih.gov/${paper.pubmedId}/`, reason });
-        continue;
-      }
 
       const rawBrief = await writeBrief(paper);
       const brief = sanitizeBrief(rawBrief);

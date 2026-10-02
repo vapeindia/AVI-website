@@ -84,7 +84,6 @@ const substanceLabel: Record<string, string> = {
 };
 ---
 <Base title="Science" description="A continuously updated library of tobacco harm reduction research relevant to e-cigarettes, nicotine pouches and snus." wide={true}>
-  <link slot="head" rel="alternate" type="application/rss+xml" title="AVI Evidence Library" href="/science/rss.xml" />
   <section class="breakout science-hero">
     <div class="breakout-inner">
       <p class="eyebrow">The evidence base</p>
@@ -134,17 +133,14 @@ const substanceLabel: Record<string, string> = {
     <section class="live-section">
       <div class="section-head">
         <h2>Ongoing research</h2>
-        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}. <a href="/science/rss.xml">Subscribe via RSS →</a></p>
+        <p>Individual studies, added automatically from PubMed and Europe PMC and summarised in plain language by AI. The 3 most recent are shown below{restItems.length > 0 ? ` — ${items.length} in total` : ''}.</p>
       </div>
       <div class="disclaimer">
         <strong>About these briefs:</strong> summaries are AI-generated
-        paraphrases, not verbatim quotes. Most aren't individually
-        fact-checked by AVI staff before publishing — each entry says so
-        plainly, and links to its source (DOI or PubMed) so you can verify
-        anything you plan to rely on against the original&nbsp;paper. A
-        small, growing number do carry an actual AVI check-date, shown on
-        that entry specifically — the per-entry label is always the
-        accurate one if it ever differs from this general note.
+        paraphrases, not verbatim quotes, and aren't individually
+        fact-checked by AVI staff before publishing — each entry links to
+        its source (DOI or PubMed) so you can verify anything you plan to
+        rely on against the original&nbsp;paper.
       </div>
       <div class="science-grid">
       {featuredItems.map((item) => (
@@ -153,13 +149,13 @@ const substanceLabel: Record<string, string> = {
             <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
             <span class="year">{item.data.year}</span>
           </div>
-          <h3><a href={`/science/${item.id}/`}>{item.data.title}</a></h3>
+          <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
           <p class="byline">{item.data.authors} · {item.data.journal}</p>
           <div class="tags">
             {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
           </div>
           <p class="gist">{item.data.brief}</p>
-          <a class="read-link" href={`/science/${item.id}/`}>Full entry →</a>
+          <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
         </article>
       ))}
       </div>
@@ -173,13 +169,13 @@ const substanceLabel: Record<string, string> = {
                 <span class="study-badge">{studyTypeLabel[item.data.studyType] ?? item.data.studyType}</span>
                 <span class="year">{item.data.year}</span>
               </div>
-              <h3><a href={`/science/${item.id}/`}>{item.data.title}</a></h3>
+              <h3><a href={`/science/${item.id}`}>{item.data.title}</a></h3>
               <p class="byline">{item.data.authors} · {item.data.journal}</p>
               <div class="tags">
                 {item.data.substance.map((s) => <span class="tag">{substanceLabel[s] ?? s}</span>)}
               </div>
               <p class="gist">{item.data.brief}</p>
-              <a class="read-link" href={`/science/${item.id}/`}>Full entry →</a>
+              <a class="read-link" href={`/science/${item.id}`}>Full entry →</a>
             </article>
           ))}
           </div>
@@ -188,11 +184,11 @@ const substanceLabel: Record<string, string> = {
     </section>
 
     <section class="science-related">
-      <a href="/quit/" class="related-card">
+      <a href="/quit" class="related-card">
         <h3>If you smoke →</h3>
         <p>What this evidence means in practice — the case for switching, and what's actually available in India.</p>
       </a>
-      <a href="/policy/" class="related-card">
+      <a href="/policy" class="related-card">
         <h3>For policymakers →</h3>
         <p>The regulatory case built on this evidence — what's worked elsewhere, and what hasn't.</p>
       </a>
@@ -205,11 +201,13 @@ const substanceLabel: Record<string, string> = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--green-deep);
+      color: var(--gold-dark);
       margin: 0 0 0.75rem;
     }
     .science-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center 25%;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
@@ -222,9 +220,9 @@ const substanceLabel: Record<string, string> = {
     .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
 
     .disclaimer {
-      background: var(--paper-2);
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--green);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
       border-radius: 6px;
       padding: 1rem 1.25rem;
       font-size: 0.85rem;
@@ -243,21 +241,21 @@ const substanceLabel: Record<string, string> = {
     }
     .topline-card {
       display: block;
-      background: var(--paper-2);
-      border-left: 3px solid var(--green);
+      background: var(--paper-alt);
+      border-left: 3px solid var(--accent);
       border-radius: 4px;
       padding: 1.1rem 1.25rem;
       text-decoration: none;
       color: inherit;
     }
-    .topline-card h3 { margin: 0 0 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--green-deep); }
+    .topline-card h3 { margin: 0 0 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--accent-dark); }
     .topline-card p { margin: 0; font-size: 0.88rem; color: var(--ink); line-height: 1.55; }
     .topline-more { font-size: 0.82rem; color: var(--muted); max-width: 46rem; }
 
     .reading-section { margin-bottom: 3.5rem; }
     .reading-list { max-width: 46rem; padding-left: 1.25rem; margin: 0; }
     .reading-list li { font-size: 0.92rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.6rem; }
-    .reading-list a { color: var(--green-deep); font-weight: 600; }
+    .reading-list a { color: var(--accent-dark); font-weight: 600; }
 
     .science-grid {
       display: grid;
@@ -266,7 +264,7 @@ const substanceLabel: Record<string, string> = {
     }
     .science-card {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.4rem 1.5rem 1.5rem;
       display: flex;
@@ -283,18 +281,18 @@ const substanceLabel: Record<string, string> = {
       padding: 0.2rem 0.55rem;
       border-radius: 99px;
       color: #fff;
-      background: var(--green);
+      background: var(--accent);
     }
     .science-card h3 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
     .science-card h3 a { color: var(--ink); text-decoration: none; }
-    .science-card h3 a:hover { color: var(--green); }
+    .science-card h3 a:hover { color: var(--accent); }
     .byline { margin: 0 0 0.6rem; font-size: 0.8rem; color: var(--muted); }
     .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
     .tag {
       font-size: 0.72rem;
       font-weight: 600;
-      color: var(--green-deep);
-      background: var(--paper-2);
+      color: var(--gold-dark);
+      background: var(--paper-alt);
       padding: 0.15rem 0.5rem;
       border-radius: 4px;
     }
@@ -310,16 +308,16 @@ const substanceLabel: Record<string, string> = {
       gap: 0.5rem;
       font-weight: 600;
       font-size: 0.92rem;
-      color: var(--green-deep);
-      background: var(--paper-2);
-      border: 1px solid var(--line);
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
       border-radius: 999px;
       padding: 0.6rem 1.25rem;
     }
     .science-archive summary::-webkit-details-marker { display: none; }
     .science-archive summary::after { content: '▾'; font-size: 0.75em; display: inline-block; transition: transform 0.15s ease; }
     .science-archive[open] summary::after { transform: rotate(180deg); }
-    .science-archive summary:hover { border-color: var(--green); }
+    .science-archive summary:hover { border-color: var(--accent); }
     .archive-grid { margin-top: 1.5rem; }
 
     .science-related {
@@ -328,19 +326,19 @@ const substanceLabel: Record<string, string> = {
       gap: 1.25rem;
       margin-top: 3rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

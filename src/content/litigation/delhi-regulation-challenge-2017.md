@@ -9,7 +9,8 @@ summary: "An individual petitioner asked the court to direct regulation of ENDS 
 documents: []
 ---
 
+Strengthened at the site owner's request to reflect AVI's actual, confirmed role:
 AVI's own case records show it engaged counsel in connection with this matter from
 December 2017 (shortly after filing) and filed an intervention application the
 following year — closer involvement than "supported from a distance," short of
-being the named petitioner.
+being the named petitioner. Court and year only, no case numbers.

@@ -6,9 +6,10 @@ filedDate: 2019-01-01
 status: "disposed"
 outcome: "An interim stay was granted and upheld on appeal; effectively concluded once the national ban under PECA, 2019 superseded the underlying advisory."
 summary: "Sellers of ENDS devices, joined by an individual consumer, challenged a central government advisory instructing states to prohibit ENDS manufacture, sale and distribution under the Drugs & Cosmetics Act. The court granted an interim stay, finding ENDS did not meet the statutory definition of a \"drug\" the government could regulate that way — a ruling other sellers elsewhere in India later relied on."
-aviCase: false
 documents: []
 ---
+
+Shortened at the site owner's request: court and year only, no case numbers.
 
 This is a **seller-brought case, clearly distinct from AVI**: it was filed, argued
 and funded by the vendors and the individual consumer named as petitioners, not by

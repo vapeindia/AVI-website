@@ -1,10 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import DecorativeRings from '../../components/DecorativeRings.astro';
 import { getCollection, render } from 'astro:content';
-import { getImageSize } from '../../lib/image-size';
 
 const all = (await getCollection('campaigns'))
   .sort((a, b) => b.data.dateStart.valueOf() - a.data.dateStart.valueOf());
@@ -49,18 +47,6 @@ function fmtRange(start: Date, end?: Date) {
   const startStr = start.toLocaleDateString('en-IN', sameYear ? { month: 'short', day: 'numeric' } : opts);
   return `${startStr} – ${end.toLocaleDateString('en-IN', opts)}`;
 }
-
-// Real pixel dimensions for every photo src used below, read once at build
-// time so <Image> can carry accurate width/height (CLS prevention) even
-// though these come from public/ (content-driven, not ESM imports).
-const allPhotoSrcs = [
-  ...withBody.flatMap(({ item }) => item.data.photos.map((p) => p.src)),
-  ...materials.map((m) => m.src),
-];
-const sizeEntries = await Promise.all(
-  [...new Set(allPhotoSrcs)].map(async (src) => [src, await getImageSize(src)] as const)
-);
-const sizeBySrc = new Map(sizeEntries);
 ---
 <Base title="Campaigns" description="World Vape Day, the six-city protest against the ENDS ban, #WarOnTar and other on-the-ground advocacy AVI has organised over the years." wide={true}>
   <section class="breakout camp-hero">
@@ -69,7 +55,7 @@ const sizeBySrc = new Map(sizeEntries);
       <p class="eyebrow">A decade of organising</p>
       <h1>Beyond the courtroom — AVI's public campaigns</h1>
       <p class="camp-sub">
-        <a href="/litigation/">Litigation</a> and <a href="/submissions/">policy letters</a> are
+        <a href="/litigation">Litigation</a> and <a href="/submissions">policy letters</a> are
         one half of AVI's work; the other
         is getting in front of the public and the press directly — protests,
         seminars, delegations to government, and campaigns that turned
@@ -88,7 +74,7 @@ const sizeBySrc = new Map(sizeEntries);
         <div class="feat-photo-grid">
           {featuredItem.data.photos.map((p) => (
             <figure>
-              <Image src={p.src} {...sizeBySrc.get(p.src)!} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
+              <img src={p.src} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
               <figcaption>{p.caption}</figcaption>
             </figure>
           ))}
@@ -120,7 +106,7 @@ const sizeBySrc = new Map(sizeEntries);
             <div class="photo-strip">
               {item.data.photos.map((p) => (
                 <figure>
-                  <Image src={p.src} {...sizeBySrc.get(p.src)!} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
+                  <img src={p.src} alt={p.alt} loading="lazy" style={p.focus ? `object-position: ${p.focus}` : undefined} />
                   {p.caption && <figcaption>{p.caption}</figcaption>}
                 </figure>
               ))}
@@ -147,7 +133,7 @@ const sizeBySrc = new Map(sizeEntries);
       <div class="materials-grid">
         {materials.map((m) => (
           <a class="material-card" href={m.src} download title={`Download: ${m.title}`}>
-            <Image src={m.src} {...sizeBySrc.get(m.src)!} alt={m.title} loading="lazy" />
+            <img src={m.src} alt={m.title} loading="lazy" width="1080" height="1080" />
             <span class="material-download"><Icon name="download" /> Download</span>
           </a>
         ))}
@@ -181,7 +167,7 @@ const sizeBySrc = new Map(sizeEntries);
       </p>
       <a class="btn btn-primary involve-link" href="https://bit.ly/ConnectAVI" target="_blank" rel="noopener">Fill out the form →</a>
       <p class="involve-related">
-        Prefer to support with funds instead? See <a href="/contribute/">Contribute</a>. Already switched to a safer alternative and want to share your experience? <a href="/testimonials/">Share your story</a>.
+        Prefer to support with funds instead? See <a href="/contribute">Contribute</a>. Already switched to a safer alternative and want to share your experience? <a href="/testimonials">Share your story</a>.
       </p>
     </section>
   </div>
@@ -192,11 +178,13 @@ const sizeBySrc = new Map(sizeEntries);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .camp-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 4rem 0 3.5rem;
       position: relative;
@@ -211,17 +199,17 @@ const sizeBySrc = new Map(sizeEntries);
       height: 28rem;
       max-width: 50vw;
       max-height: 50vw;
-      color: var(--paper);
+      color: var(--gold-light);
       opacity: 0.25;
     }
     .camp-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.8vw, 2.7rem); max-width: 44rem; position: relative; }
     .camp-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0; position: relative; }
-    .camp-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .camp-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .camp-sub a:hover { color: #fff; }
 
     /* Featured: the six-city protest, pulled out of the grid */
-    .camp-featured { background: var(--paper-2); padding: 2.5rem 0; }
-    .camp-featured .eyebrow { color: var(--green-deep); }
+    .camp-featured { background: var(--paper-alt); padding: 2.5rem 0; }
+    .camp-featured .eyebrow { color: var(--gold-dark); }
     .camp-featured h2 { margin: 0 0 0.6rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
     .feat-summary { color: var(--muted); max-width: 46rem; margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.55; }
     .feat-photo-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
@@ -253,16 +241,23 @@ const sizeBySrc = new Map(sizeEntries);
     .camp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr)); gap: 1.75rem; }
     .camp-card {
       background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
       padding: 1.6rem 1.7rem 1.75rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      border-top: 4px solid var(--rust);
       scroll-margin-top: 1.5rem;
     }
     .camp-card:target {
-      outline: 2px solid var(--green);
+      outline: 2px solid var(--gold);
       outline-offset: 2px;
     }
+    .type-protest { border-top-color: var(--rust); }
+    .type-seminar { border-top-color: var(--accent); }
+    .type-delegation { border-top-color: var(--gold); }
+    .type-press-conference { border-top-color: var(--accent-light); }
+    .type-digital-mobilisation { border-top-color: var(--gold-dark); }
+    .type-research-drive { border-top-color: var(--accent-dark); }
 
     .card-top { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
     .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--rust); }
@@ -294,7 +289,7 @@ const sizeBySrc = new Map(sizeEntries);
       cursor: pointer;
       font-size: 0.88rem;
       font-weight: 600;
-      color: var(--green-deep);
+      color: var(--accent-dark);
       list-style: none;
     }
     details summary::-webkit-details-marker { display: none; }
@@ -303,7 +298,7 @@ const sizeBySrc = new Map(sizeEntries);
     .full-text {
       margin-top: 1rem;
       padding-top: 1rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
       font-size: 0.9rem;
       line-height: 1.7;
       color: var(--ink);
@@ -313,11 +308,11 @@ const sizeBySrc = new Map(sizeEntries);
 
     .c-section { margin: 0 0 3.5rem; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.1rem; }
-    .section-head :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--green); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.35rem; }
     .lead { font-size: 0.95rem; max-width: 46rem; color: var(--ink); line-height: 1.65; margin: 0 0 1.5rem; }
 
-    .materials-section { padding-top: 2.5rem; border-top: 1px solid var(--line); }
+    .materials-section { padding-top: 2.5rem; border-top: 1px solid var(--border); }
     .materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); gap: 1.25rem; }
     .material-card {
       position: relative;
@@ -341,9 +336,9 @@ const sizeBySrc = new Map(sizeEntries);
     .materials-submit {
       margin-top: 1.75rem;
       max-width: 46rem;
-      background: var(--paper-2);
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--green);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
       border-radius: 6px;
       padding: 1.1rem 1.4rem;
     }
@@ -353,7 +348,7 @@ const sizeBySrc = new Map(sizeEntries);
     .materials-submit li { margin-bottom: 0.35rem; }
     .materials-submit li:last-child { margin-bottom: 0; }
 
-    .involve-section { padding-top: 1rem; border-top: 1px solid var(--line); }
+    .involve-section { padding-top: 1rem; border-top: 1px solid var(--border); }
     .involve-link { display: inline-block; }
     .involve-related { font-size: 0.9rem; margin: 1.5rem 0 0; }
   </style>

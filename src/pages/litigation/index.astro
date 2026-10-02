@@ -44,7 +44,7 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
   <div class="lit-body">
     <div class="lit-grid">
       {cases.map((c) => (
-        <a class={`lit-card status-${c.data.status}`} href={`/litigation/${c.id}/`}>
+        <a class={`lit-card status-${c.data.status}`} href={`/litigation/${c.id}`}>
           <div class="card-top">
             <Icon name="scale" />
             <span class="status-badge">{statusLabel(c.data.status)}</span>
@@ -58,11 +58,11 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
     </div>
 
     <div class="lit-related">
-      <a href="/submissions/" class="related-card">
+      <a href="/submissions" class="related-card">
         <h3>Submissions to policymakers →</h3>
         <p>Letters and formal responses AVI has sent directly to the health ministry, MPs and government advisories.</p>
       </a>
-      <a href="/press/" class="related-card">
+      <a href="/press" class="related-card">
         <h3>Press coverage →</h3>
         <p>How this litigation has been reported — and AVI's own statements on it — in the press.</p>
       </a>
@@ -75,11 +75,13 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .lit-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
@@ -97,15 +99,18 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
       display: flex;
       flex-direction: column;
       background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
       padding: 1.5rem 1.5rem 1.6rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
       text-decoration: none;
       color: inherit;
+      border-top: 4px solid var(--accent);
     }
+    .lit-card.status-pending { border-top-color: var(--gold); }
+    .lit-card.status-superseded-by-peca { border-top-color: var(--muted); }
     .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-    .card-top :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--green); }
+    .card-top :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); }
     .status-badge {
       font-size: 0.7rem;
       font-weight: 700;
@@ -114,16 +119,16 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
       padding: 0.2rem 0.55rem;
       border-radius: 99px;
       color: #fff;
-      background: var(--green);
+      background: var(--accent);
     }
-    .status-pending .status-badge { background: var(--green-deep); }
+    .status-pending .status-badge { background: var(--gold-dark); }
     .status-superseded-by-peca .status-badge { background: var(--muted); }
     .status-withdrawn .status-badge { background: var(--muted); }
 
     .lit-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; line-height: 1.35; color: var(--ink); }
     .court { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .summary { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
-    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--green-deep); margin-top: auto; }
+    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); margin-top: auto; }
 
     .lit-related {
       display: grid;
@@ -131,19 +136,19 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

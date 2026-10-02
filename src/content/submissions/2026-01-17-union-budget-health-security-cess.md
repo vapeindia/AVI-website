@@ -6,57 +6,23 @@ type: "letter"
 summary: "AVI's most recent submission: a request that 5-10% of the new Health Security Cess on tobacco (introduced under the Central Excise Act, 2025) be statutorily earmarked for cessation clinics, harm reduction access, and cancer-care subsidies — rather than vanishing into general revenue."
 ---
 
-Sent by AVI director Samrat Chowdhery to the Finance Minister's Office
-ahead of the Union Budget, CC'd to the Commerce and Health Ministries,
-this letter also enclosed a more detailed representation (not separately
-reproduced here).
+Filed ahead of the Union Budget, this is AVI's newest submission to
+government on record: a response to the new "Health Security Cess" on
+tobacco, introduced to replace lost revenue once the GST
+Compensation Cess expired. AVI welcomed the restructuring in principle —
+but flagged what it called a critical gap: a cess levied explicitly in the
+name of public health, with no statutory provision actually earmarking any
+of it for the tobacco users who pay it. The National Tobacco Control
+Programme, AVI pointed out, currently receives less than ₹20 crore a year —
+a negligible fraction of what the cess collects — leaving low-income users
+with effectively no support to quit.
 
-**Full text of the email:**
-
-Respected Madam,
-
-I am writing on behalf of the Association of Vapers India (AVI), a
-pan-India citizen action group representing tobacco users and harm
-reduction advocates. We are not funded by the tobacco, vaping or
-pharmaceutical industries and do not endorse or promote any products.
-
-We welcome your foresight in restructuring the tax regime to ensure that
-the tax incidence on tobacco products does not fall following the expiry
-of the GST Compensation Cess.
-
-However, we wish to highlight a critical gap: while the new Cess is
-levied in the name of "Public Health", there is no statutory provision
-earmarking funds to help the crores of tobacco users who contribute this
-revenue. Currently, the National Tobacco Control Programme (NTCP)
-receives less than ₹20 crore annually—a negligible fraction of the tax
-collected—leaving poor consumers with zero support to quit.
-
-**Our Submission:** We respectfully request that the Ministry include a
-provision to specifically earmark a fixed percentage (e.g., 5-10%) of the
-new Cess revenue for:
-
-1. **Cessation Infrastructure:** Funding accessible clinics and
-   affordable cessation therapies for the poor.
-2. **Harm Reduction:** Supporting the adoption of less harmful
-   substitutes (like vaping and nicotine pouches) for those unable or
-   unwilling to quit.
-3. **Cancer Care:** Direct subsidies for tobacco-related treatments.
-4. **Transparency:** Annual review of allocation for cessation support
-   and treatment, with performance-linked incentives for States.
-
-Please find attached our detailed representation and formal letter
-outlining these demands. We hope for a positive consideration of this
-request to ensure "Health Security" becomes a reality for India's
-tobacco users.
-
-Sincerely,
-Samrat Chowdhery
-
-Director, Association of Vapers India
-
----
-
-*Source: sent 17 January 2026 from AVI's own email account
-(contact@vapeindia.org) to the Finance Minister's Office; reproduced
-verbatim from that sent copy. The "detailed representation" it refers to
-was sent as a separate attachment not reproduced here.*
+AVI's request was specific: statutorily earmark a fixed 5-10% of the new
+Cess revenue for four things — accessible cessation clinics and affordable
+therapies for the poor; support for switching to lower-harm substitutes
+like vaping and nicotine pouches for those unable or unwilling to quit
+outright; direct subsidies for tobacco-related cancer treatment; and an
+annual, transparent review of how the allocation is spent, with
+performance-linked incentives for states. The letter closed by framing the
+ask plainly: that "Health Security" in the cess's own name should mean
+something concrete for the tobacco users actually funding it.

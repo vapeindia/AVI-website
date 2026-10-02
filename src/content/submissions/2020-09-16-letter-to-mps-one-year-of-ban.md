@@ -60,7 +60,7 @@ AVI wrote to every MP with ten specific objections.
    vaping had fallen 34% by 2020; nearly 100 FCTC signatory nations had
    chosen regulation over the ban the government cited FCTC alignment for;
    and government counsel in a Kolkata court had stated the ban was partly
-   meant to keep foreign vaping brands out of the market.
+   meant to keep Juul out of the market.
 
 8. **The science had only strengthened since the ban.** A January 2020
    *Journal of Hazardous Materials* study compared toxicity on bronchial
@@ -91,9 +91,3 @@ regulations, and approaches from China, New Zealand, the Philippines and
 South Africa — and offered its own expertise in shaping a policy that
 would serve India's 27 crore tobacco users with accurate information and
 safer choices.
-
----
-
-*This is AVI's own account of the letter's ten points, not a verbatim
-reproduction — the original filing wasn't located in AVI's available
-records for this update.*

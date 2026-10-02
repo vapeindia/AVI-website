@@ -25,7 +25,7 @@ import { rtiReplies } from '../../data/rti-replies';
         were, at the time, not covered by the law later cited to restrict
         them. Each card shows what was asked, what was said, and a link to
         the original reply. Several of these replies became direct evidence
-        in AVI's <a href="/litigation/">court challenges</a> to state ENDS bans.
+        in AVI's <a href="/litigation">court challenges</a> to state ENDS bans.
       </p>
     </div>
   </section>
@@ -39,13 +39,6 @@ import { rtiReplies } from '../../data/rti-replies';
           </div>
           <h2>{r.authority}</h2>
           <p class="jurisdiction">{r.jurisdiction}</p>
-          {r.referenceNumber && (
-            <p class="rti-dates">
-              Ref. {r.referenceNumber}
-              {r.filingDate && <> · Filed {r.filingDate}</>}
-              {r.replyDate && <> · Replied {r.replyDate}</>}
-            </p>
-          )}
 
           <div class="qa-block">
             <h3>Asked</h3>
@@ -78,11 +71,11 @@ import { rtiReplies } from '../../data/rti-replies';
     </p>
 
     <div class="rti-related">
-      <a href="/litigation/" class="related-card">
+      <a href="/litigation" class="related-card">
         <h3>Litigation →</h3>
         <p>How these replies became evidence in AVI's court challenges to state ENDS bans.</p>
       </a>
-      <a href="/india/law/" class="related-card">
+      <a href="/india/law" class="related-card">
         <h3>The law today →</h3>
         <p>What's actually banned under PECA, and what isn't — regardless of this history.</p>
       </a>
@@ -95,18 +88,20 @@ import { rtiReplies } from '../../data/rti-replies';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--green-deep);
+      color: var(--gold-dark);
       margin: 0 0 0.75rem;
     }
     .rti-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .rti-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
     .rti-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0 0 1rem; }
     .rti-sub:last-child { margin-bottom: 0; }
-    .rti-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .rti-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .rti-sub a:hover { color: #fff; }
 
     .rti-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 1.5rem; }
@@ -119,15 +114,15 @@ import { rtiReplies } from '../../data/rti-replies';
       display: flex;
       flex-direction: column;
       background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
       padding: 1.5rem 1.5rem 1.6rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      border-top: 4px solid var(--accent);
     }
-    .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--green); margin-bottom: 0.75rem; }
+    .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; }
     .rti-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
     .jurisdiction { margin: 0 0 1.1rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
-    .rti-dates { margin: -0.6rem 0 1.1rem; font-size: 0.76rem; color: var(--muted); }
 
     .qa-block { margin-bottom: 1rem; }
     .qa-block h3 {
@@ -136,7 +131,7 @@ import { rtiReplies } from '../../data/rti-replies';
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--green-deep);
+      color: var(--gold-dark);
       margin: 0 0 0.4rem;
     }
     .qa-block ul { margin: 0; padding-left: 1.1rem; font-size: 0.87rem; line-height: 1.5; }
@@ -145,8 +140,8 @@ import { rtiReplies } from '../../data/rti-replies';
     .findings li { color: var(--ink); }
     .questions li { color: var(--muted); }
 
-    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--green-deep); margin-top: auto; padding-top: 0.5rem; }
-    .read-link.external { color: var(--green-deep); }
+    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); margin-top: auto; padding-top: 0.5rem; }
+    .read-link.external { color: var(--gold-dark); }
 
     .rti-footnote {
       max-width: 44rem;
@@ -154,7 +149,7 @@ import { rtiReplies } from '../../data/rti-replies';
       font-size: 0.82rem;
       color: var(--muted);
       line-height: 1.6;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
       padding-top: 1.5rem;
     }
 
@@ -168,13 +163,13 @@ import { rtiReplies } from '../../data/rti-replies';
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

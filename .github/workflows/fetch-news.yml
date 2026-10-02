@@ -21,24 +21,26 @@ jobs:
       - name: Install dependencies
         run: npm install fast-xml-parser
 
-      # fetch-news.mjs decides everything itself: an item that clears every
-      # filter is written reviewed: true; anything rejected is logged to
-      # data/rejected-log.json and never written. No review gate, so
-      # whatever lands in src/content/news is ready to publish as-is.
       - name: Fetch news and write summaries
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/fetch-news.mjs
 
+      # Fully automated as of 2026-09 (explicit site-owner instruction) — no
+      # PR, no human review gate. Commercial/vendor domains, industry press
+      # releases and off-topic items are screened by fetch-news.mjs itself
+      # (blocklist.json, press-wire-domains.json + title patterns,
+      # keywordFilter); the News index carries a standing disclaimer that
+      # these are auto-generated and don't reflect AVI's views. Scoped to
+      # `news` only — research and testimonials still go through a PR.
       - name: Commit and push new entries
         run: |
           git config user.name "AVI news bot"
           git config user.email "contact@vapeindia.org"
           git add src/content/news
-          [ -f data/rejected-log.json ] && git add data/rejected-log.json
           if git diff --cached --quiet; then
             echo "No new entries."
           else
-            git commit -m "News: auto-fetch"
+            git commit -m "News: add new auto-fetched entries"
             git push
           fi

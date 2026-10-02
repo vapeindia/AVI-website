@@ -4,28 +4,6 @@ This file is read automatically by Claude Code on startup. It exists so you
 don't need to re-explain project context in a fresh session — everything
 below reflects decisions made in prior conversation with the site owner.
 
-## Site rules
-
-How we work
-- Work on main. When a task is done, run `npm run build`. If it passes, commit with a short message and push to main, which publishes it. If it fails, fix it first. Never push a broken build.
-- Save tokens. Find files with grep and read only what the task needs. Don't start a dev server, take screenshots or run Lighthouse unless asked. Don't use subagents. Don't re-read a file after editing it.
-- Finish with five lines at most: what changed, the commit, and anything under "Needs Samrat".
-- Never invent a fact, figure, date, name or quote. If one is missing, leave it out and list it under "Needs Samrat".
-
-Content
-- PECA: AVI never promotes a product. AVI's own copy names no brands, flavours, nicotine strengths, puff counts, prices or sellers, and gives no tips on buying or importing. A brand may appear only inside a quoted headline, court record or government order.
-- Write for adults who smoke or use tobacco, and for people who shape policy. Never show or address anyone under 18.
-- Disclaimers: one line at the end of legal pages only: "This is AVI's reading of the law, not legal advice." The footer line covers the rest. No other disclaimers.
-- Every figure shows its source and year, linked.
-- Internal links end with a slash. Never change a published URL without a 301 in public/_redirects.
-- Never use the Vapers Database folder or anyone's personal data.
-
-Voice
-- Advocacy first. Lead with the answer, then the proof. Paragraphs of three sentences at most. Mix short and long sentences.
-- Plain words. No jargon, no corporate or academic phrasing.
-- No Oxford comma. Avoid dashes; use a full stop, comma or colon.
-- Indian English. India figures in lakh and crore: 10 crore smokers, 13.5 lakh deaths a year.
-
 ## Who this is for
 
 Association of Vapers India (AVI) — a tobacco harm reduction consumer
@@ -179,18 +157,6 @@ access control, keep them apart.
   or surfacing individual moderated reports), re-read this note first —
   the "no PR gate" design only holds as long as nothing identifying is
   ever added to the schema.
-- **Email signups** (added 2026-10-02, docs/tasks/07-mobilisation.md item
-  1) are not a content collection at all — no subscriber data is ever
-  committed to this repo. `src/components/NewsletterSignup.astro` (embedded
-  on the homepage, `/press/`, `/india/law/` and the footer) posts to
-  `functions/api/subscribe.js`, which hand-builds a double opt-in flow on
-  top of Resend's Contacts/Segments API (Resend's own "Audiences" concept
-  is now "Segments" — no built-in double-opt-in, confirmed against their
-  current docs) — see `functions/README.md` for the required
-  `SUBSCRIBE_TOKEN_SECRET`/`RESEND_SEGMENT_ID` secrets and
-  `functions/api/confirm-subscription.js`/`unsubscribe.js` for the rest of
-  the flow. Collects only email + optional city, never imports any
-  existing list.
 
 `testimonials` writes `reviewed: false` drafts only; a human (or Claude, on
 explicit instruction) must flip that flag before anything appears on a
@@ -873,46 +839,6 @@ the card background), resized to 800px wide and converted to JPEG
 (`public/images/delegation-mos-health.jpg`, ~66KB) since no alpha
 channel was needed once the fill was already baked in.
 
-## Query-targeted optimization: "is vaping banned in India" (2026-10-01)
-
-Site-owner ask: rank highly, in both classic Google search and AI answer
-engines, for the specific query "is vaping banned in India." Deliberately
-concentrated every change on **one page** (`/india/law`) rather than
-spreading the phrase across multiple pages — splitting optimization for
-a single exact-match query across several pages just makes them compete
-with each other (keyword cannibalization) instead of each ranking signal
-reinforcing the same URL.
-
-What changed on `/india/law`:
-- `<title>`/`og:title`/`twitter:title` changed from the generic "Current
-  law in India" to **"Is Vaping Banned in India?"** — the exact query,
-  verbatim, in the single highest-weight piece of on-page SEO real estate.
-- Meta description rewritten to open with "No —" and the same phrasing.
-- **H1 changed to the literal question** ("Is vaping banned in India?"),
-  with a new one-line hero subtitle giving the short answer immediately
-  ("Short answer: no — not for personal use...").
-- Added a new **`.direct-answer` callout block** as the very first thing
-  in the page body, before the existing status-grid cards — a short,
-  self-contained, quotable paragraph that states the question and answers
-  it in one place. This is deliberately written as a standalone unit a
-  search snippet or an AI answer engine could lift verbatim, since that's
-  exactly the shape both Google's featured snippets and AI Overviews/
-  ChatGPT/Perplexity-style citation tend to extract.
-- **FAQPage schema**: added "Is vaping banned in India?" as a new,
-  first-listed Q&A (previously only had the inverse phrasing, "Is vaping
-  legal in India?" — kept that one too, immediately after, since real
-  users search both ways).
-- **`llms.txt`**: added a dedicated `## Is vaping banned in India?`
-  section with the same direct answer, right after the existing key-facts
-  list — the GEO-specific file gets the exact-match question treated the
-  same way the page itself does.
-
-Didn't touch the URL/slug (`/india/law` stays as-is — changing it would
-have thrown away whatever indexing history that URL already has) and
-didn't duplicate this treatment onto the India hub page or homepage —
-one strong, unambiguous target page beats several half-hearted ones for
-a single query like this.
-
 ## SEO / GEO pass (2026-09-19)
 
 Site-owner ask: be findable for "tobacco harm reduction advocacy", "vaping
@@ -1436,42 +1362,6 @@ X's embedded timeline is effectively broken for logged-out visitors
 an X timeline. YouTube's RSS/oEmbed is reliable if a "latest video" embed
 is ever wanted.
 
-## public/_redirects has a hard ~107-rule ceiling (2026-10-01) — read this
-## before adding more redirects
-
-Found during a technical-SEO pass: `public/_redirects` does NOT get
-anywhere near Cloudflare's documented "2,000 static / 100 dynamic" rule
-split. In practice, **every rule in the file counts against one ~107-rule
-ceiling, regardless of status code** — confirmed two ways: `wrangler pages
-dev` logs `Parsed 107 valid redirect rules` and `Maximum number of dynamic
-rules supported is 100. Skipping remaining N lines of file`; and, more
-importantly, a binary search directly against the **live production
-site** (not just the local dev emulator) found the exact same boundary —
-rule 107 in file order returns a real 301, rule 108 silently falls through
-to a 200 homepage response instead. Converting a rule from `301` to `200`
-(a same-content rewrite rather than a real redirect) did NOT free up any
-extra headroom — both status codes count against the same ~107 cap, which
-rules out the "static vs dynamic" theory the 2,000/100 split implies for
-a plain `_redirects` file specifically (that split may only apply to
-Cloudflare's separate Bulk Redirects dashboard feature, not this file).
-
-**The missing-404-page bug (fixed in the same PR) was MASKING this** —
-with no `dist/404.html`, Cloudflare Pages serves the homepage with a 200
-for any unmatched path, including a redirect rule silently dropped past
-the cap, so a broken redirect and a working one were indistinguishable by
-status code alone before that fix. If `_redirects` is ever extended again:
-count total rules first (`grep -c '301$\|200$' public/_redirects`-style),
-keep it under ~100 with margin, and verify with a `wrangler pages dev`
-`Parsed N valid redirect rules` check — don't assume the 2,000-rule number
-applies. If more than ~100 real redirects are ever needed, the actual fix
-is Cloudflare Pages' Bulk Redirects feature (dashboard/API-managed,
-separate from this file), not more `_redirects` lines. The 71
-`/science/<slug>` internal redirects added by the slug-rename work in an
-earlier session were removed from this file entirely to make room for the
-historically valuable WordPress-era URLs added in the same pass that
-discovered this limit — see `docs/redirect-map.csv` for the full mapping
-and git history on this file for exactly what was cut and why.
-
 ## Deadline context
 
 Site owner is targeting go-live by Sunday (from whenever this file is
@@ -1481,47 +1371,6 @@ being asked to help hit that date, prioritise the "still open" list above
 in the order given — items 1-2 are bulk content work well suited to a
 long Claude Code session; items 3-4 need the site owner's input first,
 so ask for those early rather than blocking on them at the end.
-
-## Testimonial moderation checklist (2026-10-02, docs/tasks/07-mobilisation.md
-## item 4) — read this before flipping `reviewed: true` on any testimonial
-
-Every testimonial PR (`functions/api/testimonial.js` opens one per
-submission, see that file and `functions/README.md`) already carries a
-short checklist in its own PR body. This is the fuller version a human (or
-Claude, on explicit instruction) should actually work through before
-flipping `reviewed: true` — don't just skim the PR's own summary:
-
-1. **No product brand, flavour, or device names, and no purchase info**
-   (shop, website, price, "how I got mine"). This is the PECA
-   advertising-risk guard (rule 1 above) applied to visitor-submitted
-   content, not just AVI's own copy — redact or ask the submitter to
-   resubmit rather than publish as-is if this shows up. The submission
-   form now asks people not to include this up front, but moderation is
-   the actual backstop, not the honour system.
-2. **Reads as a genuine, specific, first-person account** of moving away
-   from combustible tobacco — not generic praise, not spam, not
-   copy-pasted marketing language.
-3. **Name and location are plausible**, not obviously fake or a placement
-   for something else entirely.
-4. **Nothing that reads as a medical claim** beyond "this helped me quit/
-   cut down" in the person's own words — don't let a submission's
-   phrasing get sharpened into a clinical-sounding claim when editing for
-   length.
-5. **Consent was actually given** — the submission form requires a
-   checkbox agreeing that name + location can be published; this should
-   already be true of everything that reaches a PR, but if a future
-   change to the form or function ever makes that checkbox skippable,
-   this stops being a formality.
-6. **Trim, don't rewrite** — if 1-2 sentences are the only problem (e.g.
-   one stray brand mention), cut just those rather than rewriting the
-   whole testimonial in AVI's voice; it needs to stay the submitter's own
-   words, same principle as the 2026-09-19 Anand M. trim (see above).
-
-If a submission fails (1) in a way that can't be cleanly trimmed, or fails
-(2)/(3), it stays `reviewed: false` / unpublished rather than being force-
-edited into something publishable — same "stays unpublished rather than
-shipping with a caveat" principle as rule 4 above, applied here to quality/
-risk rather than unverified facts.
 
 ---
 

@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { getGitDates, formatDate } from '../../lib/git-dates';
 
 export async function getStaticPaths() {
   const items = await getCollection('litigation');
@@ -13,33 +12,14 @@ const statusLabel = (s: string) => (s === 'pending' ? 'Ongoing' : s === 'superse
 const description = item.data.summary.length > 155
   ? item.data.summary.slice(0, 155).replace(/\s+\S*$/, '') + '…'
   : item.data.summary;
-
-// datePublished uses the case's own filedDate (the event this page is
-// actually about) when known; dateModified comes from real git history,
-// not a guess — both via getGitDates()'s fallback for an undated/new file.
-const gitDates = getGitDates(`src/content/litigation/${item.id}.md`);
-const articleLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: item.data.title,
-  datePublished: item.data.filedDate ? item.data.filedDate.toISOString().slice(0, 10) : gitDates.published,
-  dateModified: gitDates.modified,
-  author: { '@type': 'Organization', name: 'Association of Vapers India' },
-};
 ---
-<Base title={item.data.title} description={description} image={`/og/litigation-${item.id}.png`}>
-  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
-  <p><a href="/litigation/">← Back to litigation</a></p>
+<Base title={item.data.title} description={description}>
+  <p><a href="/litigation">← Back to litigation</a></p>
   <span class={`status-pill status-${item.data.status}`}>{statusLabel(item.data.status)}</span>
   <h1>{item.data.title}</h1>
   <p class="meta"><small>{item.data.court}, {item.data.state}</small></p>
   <p class="lead">{item.data.summary}</p>
-  {item.data.outcome && (
-    <div class="outcome">
-      <p><strong>{item.data.status === 'pending' ? 'Status' : 'Outcome'}:</strong> {item.data.outcome}</p>
-      <p class="outcome-updated">Last updated {formatDate(gitDates.modified)}</p>
-    </div>
-  )}
+  {item.data.outcome && <p class="outcome"><strong>Outcome:</strong> {item.data.outcome}</p>}
   <Content />
   {item.data.documents.length > 0 && (
     <>
@@ -51,11 +31,11 @@ const articleLd = {
   )}
 
   <div class="case-related">
-    <a href="/litigation/" class="related-card">
+    <a href="/litigation" class="related-card">
       <h3>All litigation →</h3>
       <p>Every court case AVI has organised and directed against India's ENDS bans since 2017.</p>
     </a>
-    <a href="/press/" class="related-card">
+    <a href="/press" class="related-card">
       <h3>Press coverage →</h3>
       <p>How this and AVI's other litigation has been reported.</p>
     </a>
@@ -71,24 +51,18 @@ const articleLd = {
       padding: 0.2rem 0.6rem;
       border-radius: 99px;
       color: #fff;
-      background: var(--green);
+      background: var(--accent);
       margin-bottom: 0.75rem;
     }
-    .status-pending { background: var(--green-deep); }
+    .status-pending { background: var(--gold-dark); }
     .status-superseded-by-peca, .status-withdrawn { background: var(--muted); }
     h1 { margin-top: 0.25rem; }
     .meta { color: var(--muted); margin-top: -0.5rem; }
     .lead { font-size: 1.05rem; }
     .outcome {
-      background: var(--paper-2);
-      border-left: 3px solid var(--green);
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
       padding: 1rem 1.25rem;
-    }
-    .outcome p { margin: 0; }
-    .outcome-updated {
-      margin-top: 0.5rem !important;
-      font-size: 0.78rem;
-      color: var(--muted);
     }
 
     .case-related {
@@ -97,19 +71,19 @@ const articleLd = {
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

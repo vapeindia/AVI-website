@@ -2,9 +2,6 @@
 dist/
 # generated types
 .astro/
-# wrangler's local dev cache/state (sqlite DBs, bundled worker output) —
-# machine-local, regenerated on every `wrangler pages dev` run
-.wrangler/
 
 # dependencies
 node_modules/
@@ -25,4 +22,3 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-.claude/worktrees/

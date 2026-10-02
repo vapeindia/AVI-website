@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 ---
-<Base title="Search" description="Search across AVI's news, press coverage, science library, litigation record, campaigns and testimonials." wide={true} noindex={true}>
+<Base title="Search" description="Search across AVI's news, press coverage, science library, litigation record, campaigns and testimonials." wide={true}>
   <section class="breakout search-hero">
     <div class="breakout-inner">
       <p class="eyebrow">Search everything</p>
@@ -130,11 +130,13 @@ import Icon from '../components/Icon.astro';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .search-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
@@ -168,14 +170,14 @@ import Icon from '../components/Icon.astro';
     .result-card {
       display: block;
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.1rem 1.4rem;
       text-decoration: none;
       color: inherit;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
     }
-    .result-card:hover { border-color: var(--green-deep); }
+    .result-card:hover { border-color: var(--gold-dark); }
     .result-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; }
     .result-type {
       font-size: 0.7rem;
@@ -185,7 +187,7 @@ import Icon from '../components/Icon.astro';
       padding: 0.15rem 0.55rem;
       border-radius: 99px;
       color: #fff;
-      background: var(--green);
+      background: var(--accent);
     }
     .result-date { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
     .result-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; color: var(--ink); text-decoration: none; }

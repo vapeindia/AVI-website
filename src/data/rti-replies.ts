@@ -19,14 +19,6 @@ export type RtiReply = {
   findings: string[];   // the substantive answers given
   localFile?: string;   // path under /public/archive/rti
   driveUrl?: string;    // fallback external link where no local copy exists
-  // Read directly off each reply document's own letterhead/portal record —
-  // only set where the source document is actually available (all 5
-  // localFile entries); left unset for the 3 driveUrl-only entries rather
-  // than guessed, since the underlying documents weren't retrievable this
-  // pass (content/legal-authority task, item 5).
-  filingDate?: string;
-  replyDate?: string;
-  referenceNumber?: string;
 };
 
 export const rtiReplies: RtiReply[] = [
@@ -44,13 +36,6 @@ export const rtiReplies: RtiReply[] = [
       'Nil spend, no researchers assigned — "None" on every count.',
     ],
     localFile: '/archive/rti/rti-1-icmr.jpg',
-    // Reply letterhead is NICPR (ICMR's cancer-prevention institute,
-    // answering on the parent body's behalf — CC'd back to ICMR HQ,
-    // Ansari Nagar, referencing ICMR's own forwarding letter), not ICMR
-    // headquarters directly; routing, not a different authority.
-    filingDate: '2018-02-22',
-    replyDate: '2018-03-20',
-    referenceNumber: 'F.No. NICPR/RTI/2018/3880',
   },
   {
     authority: 'Ministry of Health & Family Welfare — Tobacco Control Division',
@@ -78,9 +63,6 @@ export const rtiReplies: RtiReply[] = [
       '"E-cigarettes are not regulated under the provisions of Drugs and Cosmetics Act, 1940 and Rules 1945 there under" — stated identically across all three questions.',
     ],
     localFile: '/archive/rti/rti-6-cdsco-import.png',
-    filingDate: '2018-04-07',
-    replyDate: '2018-04-16',
-    referenceNumber: 'CDSCO/R/2018/50003',
   },
   {
     authority: 'Drugs Controller General of India (DCGI)',
@@ -88,9 +70,6 @@ export const rtiReplies: RtiReply[] = [
     questions: ['Are e-cigarettes for smoking covered under the Drugs & Cosmetics Act, 1940 and its Rules?'],
     findings: ['"E-Cigarettes for smoking are not covered under the provisions of Drugs & Cosmetics Act, 1940 and Rules, 1945 there under."'],
     localFile: '/archive/rti/rti-7-dcgi.jpg',
-    filingDate: '2017-08-04',
-    replyDate: '2017-08-29',
-    referenceNumber: 'Z-28020/388/2017-DC',
   },
   {
     authority: 'JIPMER, Department of Preventive & Social Medicine, Pondicherry',
@@ -100,9 +79,6 @@ export const rtiReplies: RtiReply[] = [
     ],
     findings: ['"Not worked in E-Cigarettes/ENDS aspects" — on every research, funding and personnel question asked.'],
     localFile: '/archive/rti/rti-8-jipmer.jpg',
-    filingDate: '2018-02-05',
-    replyDate: '2018-02-16',
-    referenceNumber: 'No. JIP/PSM/Depart.Corres/17',
   },
   {
     authority: 'National Institute of Cancer Prevention & Research (NICPR)',
@@ -126,9 +102,6 @@ export const rtiReplies: RtiReply[] = [
       'No circular banning import of e-cigarette or vaping accessories had been issued — import was governed only by the general EXIM policy, DGFT circulars and Ministry of Health advisories then in force.',
     ],
     localFile: '/archive/rti/rti-11-customs-delhi.pdf',
-    filingDate: '2018-04-13',
-    replyDate: '2018-05-10',
-    referenceNumber: 'VIII(NCH) CPIO/RTI/Import/04/2018-19',
   },
   {
     authority: 'Principal Commissioner of Customs (Airport & Admin), Kolkata',

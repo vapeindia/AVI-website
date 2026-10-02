@@ -1,73 +1,35 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import ShareButtons from '../components/ShareButtons.astro';
 import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
-import logo from '../assets/images/avi-logo.png';
-import heroPhoto from '../assets/images/bangalore-protest-hero.jpg';
-import { PECA_BANNED, PECA_NOT_BANNED } from '../data/peca';
 
 const hStats = await getHarassmentStats();
 
-// "In the news" (item 4) — three approved items, title + publisher name
-// only, no AI-paraphrased summary shown alongside.
 const latestNews = (await getCollection('news', ({ data }) => data.reviewed))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const latestResearch = (await getCollection('research', ({ data }) => data.reviewed))
+  .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
 const videoData = (await getCollection('videos'))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
   .map((v) => ({
-    videoId: v.data.videoId,
     title: v.data.title,
     summary: v.data.summary,
     thumb: v.data.thumbnailUrl,
     url: `https://www.youtube.com/watch?v=${v.data.videoId}`,
   }));
-// docs/tasks/08-homepage.md item 6: the newest upload (June 2024) is a
-// dated one-off, not a steady drumbeat — don't just show "whatever's
-// newest" (that would keep surfacing dated event recaps as new videos get
-// pulled in weekly) or display a publish date here. Pin the strongest
-// evergreen explainer instead: a plain, undated "is nicotine addictive"
-// answer that stays accurate regardless of when a visitor finds it. If
-// this video is ever removed from the channel, falls back to whatever's
-// newest rather than breaking.
-const FEATURED_VIDEO_ID = 'dqHWiP5rGtE'; // "Is Nicotine Addictive?"
-const featuredIndex = videoData.findIndex((v) => v.videoId === FEATURED_VIDEO_ID);
-const orderedVideos = featuredIndex > 0
-  ? [videoData[featuredIndex], ...videoData.slice(0, featuredIndex), ...videoData.slice(featuredIndex + 1)]
-  : videoData;
-const latestVideo = orderedVideos[0];
+const latestVideo = videoData[0];
 
 const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
-
-// AVI's own voice only (press-release/quote), excluding anything still
-// reviewed: false — see content.config.ts and src/pages/press/index.astro.
-// Newest three, for the homepage "Latest from AVI" strip.
-const latestStatements = (await getCollection('press', ({ data }) =>
-  data.reviewed && (data.type === 'press-release' || data.type === 'quote')
-))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
-function displayStatementDate(d: Date): string {
-  if (d.getUTCMonth() === 0 && d.getUTCDate() === 1) return String(d.getUTCFullYear());
-  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
-}
-
-// Item 7's WhatsApp button on the "Know your rights" card — a plain
-// wa.me share-intent link, same convention as ShareButtons.astro.
-const kyrShareUrl = new URL('/india/police/', Astro.site).toString();
-const kyrWaText = "Know your rights: possession of an e-cigarette is not banned under India's PECA law.";
-const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrShareUrl}`)}`;
 ---
-<Base title="Association of Vapers India (AVI) · Tobacco harm reduction advocacy" rawTitle={true} description="India's leading consumer advocacy group for tobacco harm reduction: evidence, litigation and policy work for safer nicotine alternatives." wide={true}>
-  <link slot="head" rel="alternate" type="application/rss+xml" title="AVI statements" href="/press/statements.rss.xml" />
+<Base title="Tobacco Harm Reduction Advocacy" description="India's leading consumer advocacy group for tobacco harm reduction: evidence, litigation and policy work for safer nicotine alternatives." wide={true}>
   <section class="breakout hero-v2">
     <div class="breakout-inner hero-v2-inner">
       <div class="hero-copy">
-        <p class="hero-org-line">Association of Vapers India</p>
         <h1>Still smoking? There's a <em>safer path forward.</em></h1>
         <p class="hero-sub">
           If nicotine gums and patches haven't worked for you, or you're not
@@ -75,36 +37,27 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
           consuming it. We've spent a decade reviewing the evidence and
           fighting in court for your right to know about them.
         </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="/science">See the evidence →</a>
+          <a class="btn btn-outline" href="/india/law">What the law says →</a>
+        </div>
         <div class="hero-bottom">
-          <div class="hero-stats-group">
-            <p class="hero-stats-label">Worldwide</p>
-            <div class="hero-stats">
-              <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
-              <div><strong>7M+</strong><span>deaths/year</span></div>
-              <div><strong>200M+</strong><span>use safer nicotine products</span></div>
-            </div>
-            <p class="hero-stats-source">
-              Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
-            </p>
+          <div class="hero-stats">
+            <div><strong>1.2B</strong><span>tobacco users worldwide</span></div>
+            <div><strong>7M+</strong><span>deaths/year</span></div>
+            <div><strong>200M+</strong><span>switched to safer alternatives</span></div>
           </div>
-          <div class="hero-stats-group">
-            <p class="hero-stats-label">In India</p>
-            <div class="hero-stats hero-stats-india">
-              <div><strong>100M</strong><span>smokers</span></div>
-              <div><strong>200M</strong><span>smokeless tobacco users</span></div>
-            </div>
-            <p class="hero-stats-source">
-              Source: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">GATS-2, 2016-17</a> — same figures as <a href="/india/">/india/</a>
-            </p>
-          </div>
+          <p class="hero-stats-source">
+            Sources: <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">GSTHR, 2026</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/tobacco" target="_blank" rel="noopener">WHO, 2026</a>
+          </p>
         </div>
       </div>
       <div class="hero-photo-wrap">
         <figure>
-          <Image src={heroPhoto} width={1000} height={750} alt="Vapers protesting the e-cigarette ban in Bengaluru, at AVI's nationwide six-city protest, 28 September 2019" loading="eager" />
+          <img src="/images/campaigns/bengaluru-protest-toi.jpg" alt="A vaper holding a 'Vaping Ends Smoking' placard at AVI's nationwide protest against the e-cigarette ban, Bengaluru, 28 September 2019" />
           <figcaption class="photo-tag">India Vape Ban Protest — six cities, 2019</figcaption>
         </figure>
-        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="/campaigns/#2019-09-28-six-city-vape-ban-protest">More from that day →</a></p>
+        <p class="hero-photo-caption">A consumer movement: former smokers who organised, litigated and kept showing up. <a href="https://timesofindia.indiatimes.com/india/vapers-hold-nationwide-protest-against-ban-on-e-cigarettes/articleshow/71351824.cms" target="_blank" rel="noopener">Photo: Times of India →</a></p>
       </div>
     </div>
   </section>
@@ -116,66 +69,21 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
           <Icon name="heart" />
           <h3>If you smoke, or use toxic SLT</h3>
           <p>See the evidence on lower-risk ways to keep using nicotine, and how people have quit combustible tobacco successfully with them.</p>
-          <a class="btn path-btn" href="/quit/">I want to quit smoking →</a>
+          <a href="/quit">How to quit with safer alternatives →</a>
         </div>
         <div class="path-card path-gold">
           <Icon name="scale" />
           <h3>Policymakers</h3>
           <p>The global policy case for tobacco harm reduction — what's working elsewhere, what isn't, and what it means for India.</p>
-          <a class="btn path-btn" href="/policy/">Policy data →</a>
+          <a href="/policy">See the policy case →</a>
         </div>
         <div class="path-card path-rust">
           <Icon name="megaphone" />
           <h3>Media</h3>
           <p>AVI has been quoted, interviewed and bylined on tobacco harm reduction in India for over a decade. We're always available for comment.</p>
-          <a class="btn path-btn" href="/press/">Press resources →</a>
+          <a href="/press">Press coverage &amp; contact →</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="kyr-wrap">
-    <div class="kyr-card" id="kyr-card">
-      <div class="kyr-head">
-        <Image src={logo} width={56} height={56} alt="" class="kyr-logo" />
-        <span class="kyr-brand">Association of Vapers India</span>
-      </div>
-      <p class="kyr-eyebrow">Know your rights under PECA, 2019</p>
-      <p class="kyr-headline">Personal possession is <strong>NOT banned.</strong></p>
-      <div class="kyr-split">
-        <div class="kyr-col kyr-banned">
-          <span class="kyr-col-label">Banned</span>
-          <ul>
-            {PECA_BANNED.map((item) => <li>{item.label} <small>(s.{item.section})</small></li>)}
-          </ul>
-        </div>
-        <div class="kyr-col kyr-notbanned">
-          <span class="kyr-col-label">Not banned</span>
-          <ul>
-            {PECA_NOT_BANNED.map((item) => <li>{item}</li>)}
-          </ul>
-        </div>
-      </div>
-      <p class="kyr-foot">No provision in PECA makes personal use or possession an offence. Penalties apply only to the commercial acts above. · <strong>vapeindia.org/india/law</strong></p>
-    </div>
-    <div class="kyr-actions">
-      <a class="btn btn-primary" href="/india/police/">Read the full legal breakdown →</a>
-      <a class="btn btn-secondary" href="/report-harassment/">Report an incident →</a>
-    </div>
-    {/* docs/tasks/08-homepage.md item 7 — a WhatsApp share button for this
-        card specifically (this is the content people actually screenshot
-        and forward), plus the email signup so a visitor who came for the
-        legal answer has an easy next step besides leaving. Plain wa.me
-        share-intent URL, same convention as ShareButtons.astro — no
-        third-party script. */}
-    <div class="kyr-extra">
-      <a class="kyr-whatsapp" href={kyrWaHref} target="_blank" rel="noopener" aria-label="Share this on WhatsApp">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3a9 9 0 0 0-7.8 13.4L3 21l4.7-1.2A9 9 0 1 0 12 3z" />
-          <path d="M8.3 9.8c.4 2.6 2.4 4.6 5 5" />
-        </svg>
-        Share on WhatsApp
-      </a>
     </div>
   </section>
 
@@ -186,23 +94,15 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         <h2>Stopped by police over your vape? Use and possession are not banned.</h2>
         <p>PECA bans the sale of e-cigarettes, not carrying or using one. If an officer tells you otherwise, this page has the receipts — and a place to report what happened.</p>
         <div class="rights-cta-links">
-          <a class="btn btn-primary" href="/india/police/">Know your rights →</a>
-          <a class="btn btn-secondary" href="/report-harassment/">Report an incident →</a>
+          <a class="btn btn-primary" href="/india/law#know-your-rights">Know your rights →</a>
+          <a class="btn btn-outline" href="/report-harassment">Report an incident →</a>
         </div>
       </div>
-      {hStats.visible ? (
-        <a class="rights-cta-stat" href="/report-harassment/">
-          <strong>{hStats.total}</strong>
-          <span>harassment report{hStats.total === 1 ? '' : 's'} logged</span>
-          <em>Tracker live since October 2026</em>
-        </a>
-      ) : (
-        <a class="rights-cta-stat" href="/campaigns/#2020-2023-airport-confiscation-reports">
-          <strong>60</strong>
-          <span>airport confiscations AVI documented, 2020–23</span>
-          <em>New tracker launched October 2026 — report yours →</em>
-        </a>
-      )}
+      <a class="rights-cta-stat" href="/report-harassment">
+        <strong>{hStats.total}</strong>
+        <span>{hStats.total > 0 ? `harassment report${hStats.total === 1 ? '' : 's'} logged` : 'reports logged — be the first'}</span>
+        <em>Tracker live since October 2026</em>
+      </a>
     </div>
   </section>
 
@@ -217,101 +117,92 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         press — all funded by individual contributions, not industry.
       </p>
       <nav class="wwd-tabs" aria-label="AVI's work">
-        <a href="/science/">Evidence →</a>
-        <a href="/litigation/">Litigation →</a>
-        <a href="/press/">Press →</a>
-        <a href="/submissions/">Submissions →</a>
-        <a href="/campaigns/">Campaigns →</a>
+        <a href="/science">Evidence →</a>
+        <a href="/litigation">Litigation →</a>
+        <a href="/press">Press →</a>
+        <a href="/submissions">Submissions →</a>
+        <a href="/campaigns">Campaigns →</a>
       </nav>
     </div>
   </section>
 
-  {/* docs/tasks/08-homepage.md item 5: a short teaser strip linking to the
-      full chronological record at /about/timeline/, built from the site's
-      own dated litigation/submissions/campaigns/press entries. */}
-  <section class="breakout timeline-strip">
-    <div class="breakout-inner timeline-strip-inner">
-      <div>
-        <Icon name="clock" />
-        <h2>Ten years of AVI, 2016–2026</h2>
-        <p>Every court filing, submission, campaign and statement AVI's public record carries a date for, in one place.</p>
+  <section class="feed-section">
+    <div class="feed-tabbar">
+      <div class="feed-tabs" role="tablist" aria-label="Latest updates">
+        <button type="button" class="feed-tab active" role="tab" aria-selected="true" aria-controls="feed-panel-news" id="feed-tab-news" data-target="news">Latest news</button>
+        <button type="button" class="feed-tab" role="tab" aria-selected="false" aria-controls="feed-panel-research" id="feed-tab-research" data-target="research">Evidence library</button>
       </div>
-      <a class="btn btn-secondary" href="/about/timeline/">See the full timeline →</a>
+      <a class="feed-all" id="feed-all-link" href="/news">All news →</a>
+    </div>
+    <div class="feed-panels">
+      <ul class="feed-list feed-news" id="feed-panel-news" role="tabpanel" aria-labelledby="feed-tab-news">
+        {latestNews.map((item) => (
+          <li>
+            <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
+            <span>{item.data.sourceName}</span>
+          </li>
+        ))}
+      </ul>
+      <ul class="feed-list feed-research" id="feed-panel-research" role="tabpanel" aria-labelledby="feed-tab-research" hidden>
+        {latestResearch.map((item) => (
+          <li>
+            <a href={`/science/${item.id}`}>{item.data.title}</a>
+            <span>{item.data.journal}, {item.data.year}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  {/* docs/tasks/08-homepage.md item 4: the external aggregated "Latest
-      news"/"Evidence library" tabbed block (the old .feed-section, two
-      third-party feeds switched between with no AVI voice in either) is
-      replaced outright by AVI's own "Latest from AVI" statements, promoted
-      to this position. A short "In the news" list keeps the three most
-      recent approved third-party items visible underneath it — title and
-      publisher name only, same as the old feed list rendered, just not
-      behind a tab anymore. */}
-  {(latestStatements.length > 0 || latestNews.length > 0) && (
-    <section class="breakout latest-avi">
-      <div class="breakout-inner">
-        {latestStatements.length > 0 && (
-          <>
-            <div class="latest-avi-head">
-              <div>
-                <p class="eyebrow">In AVI's own words</p>
-                <h2>Latest from AVI</h2>
-              </div>
-              <a class="latest-avi-all" href="/press/">All statements →</a>
-            </div>
-            <div class="latest-avi-grid">
-              {latestStatements.map((item) => (
-                <a class="latest-avi-card" href={`/press/${item.id}/`}>
-                  <time datetime={item.data.date.toISOString()}>{displayStatementDate(item.data.date)}</time>
-                  <h3>{item.data.title}</h3>
-                  <span class="latest-avi-link">Read the statement →</span>
-                </a>
-              ))}
-            </div>
-          </>
-        )}
-        {latestNews.length > 0 && (
-          <div class="in-the-news">
-            <div class="itn-head">
-              <p class="itn-label">In the news</p>
-              <a class="itn-all" href="/news/">All news →</a>
-            </div>
-            <ul class="itn-list">
-              {latestNews.map((item) => (
-                <li>
-                  <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
-                  <span>{item.data.sourceName}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </section>
-  )}
+  <script>
+    const feedTabs = document.querySelectorAll('.feed-tab');
+    const feedAllLink = document.getElementById('feed-all-link');
+    const feedTargets: Record<string, { panel: string; href: string; label: string }> = {
+      news: { panel: 'feed-panel-news', href: '/news', label: 'All news →' },
+      research: { panel: 'feed-panel-research', href: '/science', label: 'Full library →' },
+    };
+    feedTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = (tab as HTMLElement).dataset.target;
+        if (!target) return;
+        feedTabs.forEach((t) => {
+          const active = t === tab;
+          t.classList.toggle('active', active);
+          t.setAttribute('aria-selected', String(active));
+        });
+        Object.entries(feedTargets).forEach(([key, { panel }]) => {
+          document.getElementById(panel)?.toggleAttribute('hidden', key !== target);
+        });
+        const info = feedTargets[target];
+        if (info && feedAllLink) {
+          feedAllLink.setAttribute('href', info.href);
+          feedAllLink.textContent = info.label;
+        }
+      });
+    });
+  </script>
 
   {latestVideo && (
     <section class="watch-strip" id="watch-strip">
       <p class="eyebrow watch-eyebrow">From our YouTube channel</p>
       <div class="watch-inner">
         <a class="watch-thumb" id="watch-link" href={latestVideo.url} target="_blank" rel="noopener">
-          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" width="480" height="360" />
+          <img id="watch-img" src={latestVideo.thumb} alt={latestVideo.title} loading="lazy" />
           <span class="play-badge" aria-hidden="true">▶</span>
         </a>
         <div class="watch-copy">
           <h2 id="watch-title">{latestVideo.title}</h2>
           <p id="watch-summary">{latestVideo.summary}</p>
           <div class="watch-links">
-            <a class="btn btn-secondary" id="watch-cta" href={latestVideo.url} target="_blank" rel="noopener">Watch on YouTube →</a>
-            <a href="/media/">More videos →</a>
+            <a class="btn btn-outline" id="watch-cta" href={latestVideo.url} target="_blank" rel="noopener">Watch on YouTube →</a>
+            <a href="/media">More videos →</a>
           </div>
         </div>
       </div>
     </section>
   )}
 
-  <script type="application/json" id="watch-video-data" set:html={JSON.stringify(orderedVideos).replace(/</g, '\\u003c')} />
+  <script type="application/json" id="watch-video-data" set:html={JSON.stringify(videoData).replace(/</g, '\\u003c')} />
   <script>
     const videos = JSON.parse(document.getElementById('watch-video-data')?.textContent || '[]');
     const strip = document.getElementById('watch-strip');
@@ -324,7 +215,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     if (strip && videos.length > 1) {
       const ROTATE_MS = 9000;
       const FADE_MS = 250;
-      let currentIndex = 0; // matches the server-rendered featured video
+      let currentIndex = 0; // matches the server-rendered latest video
       let paused = false;
       let timer;
 
@@ -382,20 +273,11 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         want it available to the millions still smoking. This work — litigation,
         evidence review, correcting misinformation — is funded entirely by
         individual contributions, not industry.{' '}
-        {testimonialCount >= 10
-          ? <a href="/testimonials/">Read {testimonialCount}+ stories from people it's helped →</a>
-          : <a href="/testimonials/">Read their stories →</a>}
+        {testimonialCount > 0
+          ? <a href="/testimonials">Read {testimonialCount}+ stories from people it's helped →</a>
+          : <a href="/testimonials">Read stories from people it's helped →</a>}
       </p>
-      <a class="btn btn-primary" href="/contribute/">Support this work →</a>
-    </div>
-  </section>
-
-  <section class="breakout stay-connected">
-    <div class="breakout-inner stay-connected-inner">
-      <div class="stay-connected-share">
-        <p class="sc-share-label">Know someone who should see this?</p>
-        <ShareButtons title="Association of Vapers India — tobacco harm reduction advocacy for India" />
-      </div>
+      <a class="btn btn-gold" href="/contribute">Support this work →</a>
     </div>
   </section>
 
@@ -405,10 +287,10 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--green-deep);
+      color: var(--gold-dark);
       margin: 0 0 0.75rem;
     }
-    .eyebrow-light { color: var(--paper); }
+    .eyebrow-light { color: var(--gold-light); }
 
     /* Hero */
     .hero-v2 { background: var(--paper); padding: 2.25rem 0 1.75rem; }
@@ -422,16 +304,8 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     }
     .hero-copy { display: flex; flex-direction: column; min-width: 0; }
     .hero-bottom { margin-top: auto; }
-    .hero-org-line {
-      margin: 0 0 0.5rem;
-      font-size: 0.95rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--green-deep);
-    }
     .hero-v2 h1 {
-      color: var(--ink);
+      color: var(--ink-black);
       font-size: clamp(2.1rem, 3.8vw, 3rem);
       margin: 0 0 1.25rem;
     }
@@ -444,30 +318,18 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     }
     .hero-v2 .hero-ctas { display: flex; gap: 0.6rem; flex-wrap: nowrap; margin-bottom: 1.5rem; }
     .hero-v2 .hero-ctas .btn { flex: 1 1 auto; text-align: center; white-space: nowrap; }
-    /* India's figures (item 3) sit beside the global ones, each group with
-       its own label and source line, rather than merged into one
-       undifferentiated row of five numbers. */
-    .hero-stats-group { padding-top: 1.1rem; border-top: 1px solid var(--line); }
-    .hero-stats-group + .hero-stats-group { padding-top: 0.9rem; border-top: none; }
-    .hero-stats-label {
-      margin: 0 0 0.5rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-    }
     .hero-v2 .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.75rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--border);
     }
-    .hero-v2 .hero-stats.hero-stats-india { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 20rem; }
     .hero-v2 .hero-stats strong {
       display: block;
       font-family: var(--font-serif);
       font-size: 1.7rem;
-      color: var(--green-deep);
+      color: var(--gold-dark);
       line-height: 1;
       white-space: nowrap;
     }
@@ -475,8 +337,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     @media (max-width: 480px) {
       .hero-v2 .hero-ctas { margin-bottom: 1.25rem; }
       .hero-v2 .hero-ctas .btn { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
-      .hero-stats-group { padding-top: 0.85rem; }
-      .hero-v2 .hero-stats { gap: 0.4rem; }
+      .hero-v2 .hero-stats { gap: 0.4rem; padding-top: 1rem; }
       .hero-v2 .hero-stats strong { font-size: 1.3rem; }
       .hero-v2 .hero-stats span { font-size: 0.7rem; line-height: 1.15; margin-top: 0.1rem; }
       .hero-v2 .hero-stats-source { margin-top: 0.5rem; }
@@ -503,12 +364,13 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       .hero-photo-wrap figure { flex: 1 1 auto; min-height: 0; }
       .hero-photo-wrap img { height: 100%; aspect-ratio: auto; }
     }
-    /* Caption sits below the photo, not laid over it. */
     .hero-photo-wrap .photo-tag {
-      display: block;
-      color: var(--muted);
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      background: rgba(18,19,15,0.72);
+      color: #fff;
       font-size: 0.8rem;
-      padding: 0.5rem 0 0;
+      padding: 0.55rem 0.9rem;
       margin: 0;
     }
     .hero-photo-caption { margin: 0.85rem 0 0; font-size: 0.88rem; color: var(--muted); font-style: italic; }
@@ -531,111 +393,33 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .path-card {
       background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 6px;
       padding: 1.4rem 1.3rem;
+      border-top: 4px solid;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
     }
     .path-card :global(svg) { width: 1.75rem; height: 1.75rem; margin-bottom: 0.75rem; }
     .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
-    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.1rem; }
-    /* Same button everywhere (per Samrat, 2026-10-02) — this is a .btn
-       .btn-primary, just block-width to fill the card. Icon colour below
-       is emphasis on the card itself, not a button colour. */
-    .path-btn {
-      display: block;
-      width: 100%;
-      text-align: center;
-      box-sizing: border-box;
-      background: var(--green);
-      color: #fff !important;
-    }
-    .path-btn:hover { background: var(--green-deep); }
-    .path-green :global(svg) { color: var(--green); }
-    .path-gold :global(svg) { color: var(--green); }
+    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
+    .path-card a { font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .path-green { border-color: var(--accent); }
+    .path-green :global(svg) { color: var(--accent); }
+    .path-green a { color: var(--accent-dark); }
+    .path-gold { border-color: var(--gold); }
+    .path-gold :global(svg) { color: var(--gold); }
+    .path-gold a { color: var(--gold-dark); }
+    .path-rust { border-color: var(--rust); }
     .path-rust :global(svg) { color: var(--rust); }
+    .path-rust a { color: var(--rust-dark); }
     @media (max-width: 780px) {
       .path-grid { grid-template-columns: 1fr; }
     }
 
-    /* Shareable "Know your rights" card — a self-contained visual unit
-       designed to read correctly in isolation (no surrounding page chrome
-       needed), since its purpose is to look right in a phone screenshot. */
-    .kyr-wrap {
-      max-width: var(--max-w-wide);
-      margin: 0 auto;
-      padding: 0.5rem 1.5rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .kyr-card {
-      width: 100%;
-      max-width: 26rem;
-      background: var(--ink);
-      color: #fff;
-      border-radius: 18px;
-      padding: 1.75rem 1.6rem;
-      box-shadow: 0 10px 30px rgba(20,25,20,0.18);
-    }
-    .kyr-head { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.5rem; }
-    .kyr-logo { height: 28px; width: auto; }
-    .kyr-brand { font-size: 0.82rem; font-weight: 700; color: #cfe0d8; }
-    .kyr-eyebrow {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--paper);
-      margin: 0 0 0.6rem;
-    }
-    .kyr-headline { font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.3; margin: 0 0 1.5rem; }
-    .kyr-headline strong { color: var(--paper); }
-    .kyr-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1.5rem; }
-    .kyr-col { border-radius: 10px; padding: 0.9rem 1rem; }
-    .kyr-banned { background: rgba(179,85,46,0.18); border: 1px solid rgba(179,85,46,0.4); }
-    .kyr-notbanned { background: rgba(47,138,114,0.2); border: 1px solid rgba(47,138,114,0.45); }
-    .kyr-col-label { display: block; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
-    .kyr-banned .kyr-col-label { color: #f0b48f; }
-    .kyr-notbanned .kyr-col-label { color: var(--paper); }
-    .kyr-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
-    .kyr-col li { font-size: 0.84rem; line-height: 1.4; }
-    .kyr-col li small { opacity: 0.7; font-size: 0.78em; }
-    .kyr-foot { font-size: 0.72rem; line-height: 1.5; color: #b9c2bc; margin: 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.15); }
-    .kyr-foot strong { color: #fff; }
-    .kyr-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
-    .kyr-extra {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--line);
-      width: 100%;
-      max-width: 26rem;
-    }
-    .kyr-whatsapp {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.86rem;
-      font-weight: 600;
-      color: #fff;
-      background: #25963f;
-      padding: 0.55rem 1.15rem;
-      border-radius: 999px;
-      text-decoration: none;
-    }
-    .kyr-whatsapp:hover { background: #1f7d35; color: #fff; }
-    .kyr-whatsapp svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
-    @media (max-width: 480px) {
-      .kyr-card { padding: 1.4rem 1.25rem; border-radius: 14px; }
-      .kyr-headline { font-size: 1.3rem; }
-    }
-
     /* Know your rights CTA */
     .rights-cta {
-      background: var(--green-deep);
+      background: linear-gradient(160deg, rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f7ede6;
       padding: 2rem 0;
     }
@@ -650,8 +434,8 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .rights-cta-copy h2 { color: #fff; margin: 0 0 0.65rem; font-size: clamp(1.3rem, 2.8vw, 1.7rem); line-height: 1.3; }
     .rights-cta-copy p { color: #f0e3da; font-size: 0.95rem; line-height: 1.55; max-width: 34rem; margin: 0 0 1.25rem; }
     .rights-cta-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .rights-cta .btn-secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
-    .rights-cta .btn-secondary:hover { border-color: #fff; color: #fff; }
+    .rights-cta .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+    .rights-cta .btn-outline:hover { border-color: #fff; color: #fff; }
     .rights-cta-stat {
       display: flex;
       flex-direction: column;
@@ -677,7 +461,9 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
 
     /* What does AVI do */
     .what-we-do {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,60,49,0.92), rgba(18,60,49,0.92)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
       color: #fff;
       padding: 2.25rem 0;
     }
@@ -696,36 +482,37 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     }
     .wwd-tabs a:hover { background: rgba(255,255,255,0.22); color: #fff; }
 
-    /* Ten years of AVI — teaser strip, item 5 */
-    .timeline-strip { background: var(--paper-2); padding: 1.75rem 0; margin-top: 1.5rem; }
-    .timeline-strip-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+    /* Feed section — tabbed so News and Evidence share one compact slot
+       instead of two full-height stacked/side-by-side lists. */
+    .feed-section { max-width: var(--max-w-wide); margin: 1.5rem auto 0; padding: 0 1.5rem; }
+    .feed-tabbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+    .feed-tabs { display: flex; gap: 0.5rem; }
+    .feed-tab {
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--paper-alt);
+      border: none;
+      border-radius: 99px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
     }
-    .timeline-strip :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green-deep); margin-bottom: 0.5rem; }
-    .timeline-strip h2 { margin: 0 0 0.35rem; font-size: 1.25rem; }
-    .timeline-strip p { margin: 0; max-width: 32rem; color: var(--muted); font-size: 0.92rem; }
-    .timeline-strip .btn { flex-shrink: 0; }
-
-    /* In the news — a short, title+publisher-only list of third-party
-       coverage (item 4), nested under "Latest from AVI" rather than its
-       own tabbed block. */
-    .in-the-news { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
-    .itn-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
-    .itn-label { margin: 0; font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-    .itn-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
-    .itn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
-    .itn-list li {
+    .feed-tab:hover { color: var(--ink); }
+    .feed-tab.active { background: var(--accent-dark); color: #fff; }
+    .feed-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .feed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+    .feed-list[hidden] { display: none; }
+    .feed-list li {
       background: #fff;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--green);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border);
       border-radius: 6px;
       padding: 0.55rem 0.9rem;
     }
-    .itn-list a {
+    .feed-news li { border-left-color: var(--gold); }
+    .feed-research li { border-left-color: var(--accent); }
+    .feed-list a {
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
@@ -737,45 +524,8 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       color: var(--ink);
       margin-bottom: 0.15rem;
     }
-    .itn-list a:hover { color: var(--green); }
-    .itn-list span { font-size: 0.78rem; color: var(--muted); }
-
-    /* Latest from AVI — AVI's own statements, now the primary homepage
-       update block (item 4) in place of the old external "Latest news"
-       tabbed feed. */
-    .latest-avi { max-width: var(--max-w-wide); margin: 2.5rem auto 0; padding: 0 1.5rem; }
-    .latest-avi-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-    .latest-avi-head h2 { margin: 0; font-size: 1.4rem; }
-    .latest-avi-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
-    .latest-avi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
-      gap: 1.25rem;
-    }
-    .latest-avi-card {
-      display: block;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 1.1rem 1.25rem 1.25rem;
-      text-decoration: none;
-      color: inherit;
-      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
-      transition: transform 0.15s ease;
-    }
-    .latest-avi-card:hover { transform: translateY(-2px); }
-    .latest-avi-card time { font-size: 0.78rem; color: var(--muted); }
-    .latest-avi-card h3 {
-      margin: 0.4rem 0 0.75rem;
-      font-size: 1.02rem;
-      line-height: 1.4;
-      color: var(--ink);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .latest-avi-link { font-size: 0.85rem; font-weight: 600; color: var(--green-deep); }
+    .feed-list a:hover { color: var(--accent); }
+    .feed-list span { font-size: 0.78rem; color: var(--muted); }
 
     /* Watch strip */
     .watch-strip { max-width: var(--max-w-wide); margin: 1.5rem auto 0; padding: 0 1.5rem; }
@@ -785,7 +535,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       gap: 1.5rem;
       align-items: center;
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.15rem;
     }
@@ -809,7 +559,9 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
 
     /* Donate */
     .donate-pitch {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(125,58,31,0.88), rgba(179,85,46,0.92)), url('/images/campaigns/chennai-protest.jpg');
+      background-size: cover;
+      background-position: center;
       color: #fff;
       padding: 1.5rem 0;
       margin-top: 1.5rem;
@@ -818,19 +570,5 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .donate-pitch h2 { color: #fff; margin: 0 0 0.65rem; font-size: clamp(1.5rem, 4.5vw, 1.9rem); line-height: 1.25; }
     .donate-pitch p { color: #fbe6db; line-height: 1.5; margin: 0 0 1.1rem; }
     .donate-pitch a:not(.btn) { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
-
-    /* Stay connected: email signup + share, item 1 and item 5 */
-    .stay-connected { background: var(--paper-2); padding: 2.25rem 0; margin-top: 1.5rem; }
-    .stay-connected-inner {
-      display: grid;
-      grid-template-columns: 1.2fr auto;
-      gap: 2.5rem;
-      align-items: start;
-    }
-    .stay-connected-share { padding-top: 0.25rem; }
-    .sc-share-label { margin: 0 0 0.6rem; font-size: 0.88rem; font-weight: 600; color: var(--muted); }
-    @media (max-width: 780px) {
-      .stay-connected-inner { grid-template-columns: 1fr; }
-    }
   </style>
 </Base>

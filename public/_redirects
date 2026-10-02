@@ -8,67 +8,64 @@
 # it's an advocacy tactic (nav-grouped under Our Advocacy), not India-law
 # content, so it didn't belong nested under /india/. Redirect in case the
 # old path got indexed or bookmarked from the .pages.dev preview.
-/india/submissions/    /submissions/                    301
-/india/submissions     /submissions/                    301
-/about-us/            /about/                          301
-/research/             /science/                        301
-/india/overview/       /india/                          301
-/india/govt/           /india/law/                      301
-/india/legal/          /litigation/                     301
+/india/submissions/    /submissions                    301
+/india/submissions     /submissions                    301
+/about-us/            /about                          301
+/research/             /science                        301
+/india/overview/       /india                          301
+/india/govt/           /india/law                      301
+/india/legal/          /litigation                     301
 /india/litigation/*    /litigation/:splat              301
-/india/action/         /india/law/                      301
-# Nicotine pouches got their own section 2026-10-02 — legal status moved
-# out from under /india/ to /nicotine-pouches/legal-status/.
-/india/nicotine-pouches/ /nicotine-pouches/legal-status/ 301
-/contact-us/           /press/                          301
-/join-us/              /contribute/                     301
-/donate/               /contribute/                     301
-/news-events/          /press/                          301
+/india/action/         /india/law                      301
+/contact-us/           /press                          301
+/join-us/              /contribute                     301
+/donate/               /contribute                     301
+/news-events/          /press                          301
 
 # --- Individual old posts/pages with a confident specific match ---
-/pil-karnataka/                          /litigation/karnataka-ends-circular-challenge/   301
-/share-your-vaping-experience/           /testimonials/                                    301
-/mission-vision-and-goal/                /about/                                            301
-/donate-bk/                              /contribute/                                       301
-/joinus/                                 /contribute/                                       301
-/join-avi/                               /contribute/                                       301
-/subscribe-now/                          /contribute/                                       301
-/thanks-for-payment/                     /contribute/                                       301
-/enquiry-form/                           /press/                                            301
+/pil-karnataka/                          /litigation/karnataka-ends-circular-challenge   301
+/share-your-vaping-experience/           /testimonials                                    301
+/mission-vision-and-goal/                /about                                            301
+/donate-bk/                              /contribute                                       301
+/joinus/                                 /contribute                                       301
+/join-avi/                               /contribute                                       301
+/subscribe-now/                          /contribute                                       301
+/thanks-for-payment/                     /contribute                                       301
+/enquiry-form/                           /press                                            301
 
 # --- Old press/news posts — no per-article page exists on the new site
 # (the press collection renders as one index, not individual pages), so
 # these land on the section index rather than a specific article. Still
 # beats a 404 for anyone following a 2016-2020 citation. ---
-/hindu-rebuttal/                                                                                                                 /press/   301
-/delhi-high-court-hearing-on-21st-august/                                                                                        /press/   301
-/avi-counters-on-e-cig-ban/                                                                                                      /press/   301
-/avi-requests-rajasthan-govt-to-regulate-vaping/                                                                                 /press/   301
-/rajasthan-courts-verdict-welocmed-by-consumers/                                                                                 /press/   301
-/rajasthan-courts-verdict-welocmed-by-consumers-2/                                                                               /press/   301
-/rajasthan-courts-verdict-welocmed-by-consumer-group/                                                                            /press/   301
-/rajasthan-courts-verdict-welocmed-by-consumer-group-2/                                                                          /press/   301
-/nicotine-not-to-be-blamed-for-smoking-related-death/                                                                            /press/   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-2/                                                                          /press/   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press/   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press/   301
-/nicotine-not-to-be-blamed-for-smoking/                                                                                          /press/   301
-/centraladvisory/                                                                                                                /submissions/   301
-/all-coverages/                                                                                                                  /press/   301
-/skarora/                                                                                                                        /press/   301
-/letter-to-union-health-minister-india/                                                                                          /submissions/   301
-/you-ken-rebuttal/                                                                                                               /press/   301
-/protest/                                                                                                                        /campaigns/   301
-/worldvapeday/                                                                                                                   /campaigns/   301
-/mpletter/                                                                                                                       /submissions/   301
-/shadowreport/                                                                                                                   /press/   301
-/warontar/                                                                                                                       /campaigns/   301
-/resist/                                                                                                                         /submissions/   301
+/hindu-rebuttal/                                                                                                                 /press   301
+/delhi-high-court-hearing-on-21st-august/                                                                                        /press   301
+/avi-counters-on-e-cig-ban/                                                                                                      /press   301
+/avi-requests-rajasthan-govt-to-regulate-vaping/                                                                                 /press   301
+/rajasthan-courts-verdict-welocmed-by-consumers/                                                                                 /press   301
+/rajasthan-courts-verdict-welocmed-by-consumers-2/                                                                               /press   301
+/rajasthan-courts-verdict-welocmed-by-consumer-group/                                                                            /press   301
+/rajasthan-courts-verdict-welocmed-by-consumer-group-2/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death/                                                                            /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-2/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press   301
+/nicotine-not-to-be-blamed-for-smoking/                                                                                          /press   301
+/centraladvisory/                                                                                                                /submissions   301
+/all-coverages/                                                                                                                  /press   301
+/skarora/                                                                                                                        /press   301
+/letter-to-union-health-minister-india/                                                                                          /submissions   301
+/you-ken-rebuttal/                                                                                                               /press   301
+/protest/                                                                                                                        /campaigns   301
+/worldvapeday/                                                                                                                   /campaigns   301
+/mpletter/                                                                                                                       /submissions   301
+/shadowreport/                                                                                                                   /press   301
+/warontar/                                                                                                                       /campaigns   301
+/resist/                                                                                                                         /submissions   301
 # Four near-duplicate Hindi-slug press-conference posts (same rendered title):
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press/   301
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press/   301
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8/    /press/   301
-/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%aa%e0%a4%a1/    /press/   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8-%e0%a4%b2%e0%a4%97/     /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8-2/  /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%9c%e0%a4%a8/    /press   301
+/%e0%a4%88-%e0%a4%b8%e0%a4%bf%e0%a4%97%e0%a4%b0%e0%a5%87%e0%a4%9f-%e0%a4%aa%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b8%e0%a5%87-%e0%a4%aa%e0%a4%a1/    /press   301
 
 # --- Pages with no equivalent content on the new site — sent home rather
 # than to a section that would misrepresent what's there. Worth a look
@@ -94,48 +91,3 @@
 # already the same path on the new site, so no redirect needed for those
 # either — a bare "/india/ -> /india" rule was here briefly and caused a
 # redirect loop that took the whole India section down; fixed 2026-09-09.
-
-# --- Historical URLs from the Wayback Machine CDX index (fix/technical-seo)
-# — the prior 66-URL pass only covered what was in the LIVE sitemap at
-# migration time; the full Wayback crawl history surfaces older posts,
-# category/tag archives and author pages never in that final sitemap.
-# Full source data, confidence levels and the "no good destination" list
-# are in docs/redirect-map.csv. ---
-/my-account/lost-password/               /                                301
-/feeds/news/                             /news/                           301
-/newsfeeds/                               /news/                           301
-/author/vishalgupta/page/2/              /press/                          301
-/category/news/page/2/                   /news/                           301
-/news-events/page/2/                     /news/                           301
-/author/avi/                             /press/                          301
-/author/aviteam/                         /press/                          301
-/author/editor/                          /press/                          301
-/author/samrat/                          /press/                          301
-/author/vishalgupta/                     /press/                          301
-/category/general/                       /news/                           301
-/category/latest-news/                   /news/                           301
-/category/news/                          /news/                           301
-/news-category/avi-in-news/              /press/                          301
-/news-category/vape-news/                /news/                           301
-/tag/delhi-high-court/                   /litigation/                     301
-/tag/e-cigarettes-policy/                /policy/                         301
-/tag/india/                              /india/                          301
-/a-history-of-tobacco/                   /india/                          301
-/avi-events/                             /campaigns/                      301
-/bill/                                   /india/law/                      301
-/blog/                                   /news/                           301
-/contact/                                /press/                          301
-/delhihc/                                /litigation/                     301
-/history-of-avi/                         /about/                          301
-/information-for-govt/                   /policy/                         301
-/legal/                                  /litigation/                     301
-/mythbusters/                            /science/                       301
-/publications/                           /science/                       301
-/research-studies-e-cigarettes/          /science/                       301
-/situation-in-india/                     /india/                          301
-/smokers/                                /quit/                          301
-/surveys/                                /science/                       301
-/vapers/                                 /testimonials/                  301
-/vapers-stories/                         /testimonials/                  301
-/wvd/                                    /campaigns/                     301
-/terms-and-conditions/                   /                                301

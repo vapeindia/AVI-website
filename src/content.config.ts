@@ -86,29 +86,12 @@ const research = defineCollection({
     ]),
     substance: z.array(z.enum(['e-cigarette', 'nicotine-pouch', 'snus', 'combustible', 'general'])).default(['general']),
     brief: z.string().max(500),   // plain-language AI summary, paraphrased not quoted
-    relevanceToIndia: z.string().optional(), // AI-written, often "None stated." — see whyItMattersIndia below for the human-written counterpart
-    whyItMattersIndia: z.string().optional(), // human-written only — fetch-research.mjs never sets this. Its presence/absence drives noindex (see science/[...slug].astro) and the detail-page section.
-    reviewedDate: z.coerce.date().optional(), // set only when a human has actually read and checked this entry — drives the AI-disclosure label on the detail page. Never set by fetch-research.mjs.
-    reviewed: z.boolean().default(true), // passed the script's own validation — see comment above. Distinct from reviewedDate: this means "passed automated filters," not "a person checked it."
+    relevanceToIndia: z.string().optional(),
+    reviewed: z.boolean().default(true), // passed the script's own validation — see comment above
   }),
 });
 
-// Press coverage OF AVI (distinct from `news`, which is coverage of the topic generally),
-// plus AVI's own issued statements/press-releases — each now gets a stable
-// detail page at /press/<id>/ (src/pages/press/[...slug].astro), so a
-// journalist or AI answer engine has a citable, permanent URL for an AVI
-// statement rather than only a third-party distribution link.
-//
-// `reviewed` (added content/newsroom, 2026-10) follows the same gate as
-// `testimonials`: defaults to true so all pre-existing entries (migrated
-// from the Drive archive, already vetted) are unaffected, but a new draft
-// statement can be committed as `reviewed: false` to hold it out of the
-// public index, the statements RSS feed, the homepage "Latest from AVI"
-// component and the /press/media-kit "AVI at a glance" counts, and out of
-// the static paths this collection's own detail route builds — an
-// unreviewed entry gets no live page at all. A human must flip the flag
-// before it's public, same human-in-the-loop rule as everywhere else in
-// this file (see CLAUDE.md).
+// Press coverage OF AVI (distinct from `news`, which is coverage of the topic generally).
 const press = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/press' }),
   schema: z.object({
@@ -118,7 +101,6 @@ const press = defineCollection({
     url: z.string().url().optional(),   // optional: some archive items are scans, no live URL
     type: z.enum(['coverage', 'op-ed', 'quote', 'interview', 'press-release']),
     archivePdf: z.string().optional(),  // path under /public/archive if the live link is dead
-    reviewed: z.boolean().default(true),
   }),
 });
 
@@ -135,13 +117,6 @@ const litigation = defineCollection({
     status: z.enum(['pending', 'disposed', 'withdrawn', 'superseded-by-peca']),
     outcome: z.string().optional(),
     summary: z.string(),
-    // False for the 3 entries explicitly marked in their own body text as
-    // seller/importer-brought cases AVI didn't file, fund or direct — so
-    // /about/'s "cases fought" count (and any future stat like it) doesn't
-    // claim credit for litigation that wasn't AVI's own. See the
-    // content/legal-authority task: the count used to include all 8
-    // entries regardless of who actually brought the case.
-    aviCase: z.boolean().default(true),
     documents: z.array(z.object({
       label: z.string(),
       path: z.string(),

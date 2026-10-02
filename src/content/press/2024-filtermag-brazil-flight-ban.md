@@ -11,5 +11,5 @@ mid-2024, then reversing the ban within months after a consumer advocacy
 campaign and formal complaints. Frames the reversal as a rare consumer
 win against internationally coordinated prohibitionist tobacco-control
 funding active across the Global South — notably relevant given AVI is
-running a comparable [flight-ban case](/litigation/delhi-bcas-flight-ban/)
+running a comparable [flight-ban case](/litigation/delhi-bcas-flight-ban)
 of its own against India's BCAS.

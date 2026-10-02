@@ -1,6 +1,6 @@
 ---
 title: "How to give up tobacco and look towards harm reduction or prevention"
-date: 2020-01-01
+date: 2020-06-15
 outlet: "Authored op-ed by Dhaval Gogate, for Pinkvilla"
 type: "op-ed"
 archivePdf: "/archive/press/2020-gogate-pinkvilla-op-ed.docx"
@@ -8,4 +8,5 @@ archivePdf: "/archive/press/2020-gogate-pinkvilla-op-ed.docx"
 
 Practical, personal-advice-styled op-ed on quit pathways (abstinence, NRTs,
 snus, vaping), noting the US FDA's October 2019 modified-risk approval for
-Swedish snus and referencing the coronavirus lockdown period.
+Swedish snus and referencing the coronavirus lockdown period. **Date is
+approximate** — the source has no exact dateline.

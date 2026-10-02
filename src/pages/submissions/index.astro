@@ -1,10 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const all = (await getCollection('submissions'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const withBody = await Promise.all(all.map(async (item) => ({ item, Content: (await render(item)).Content })));
 
 const typeLabel: Record<string, string> = {
   letter: 'Letter',
@@ -18,20 +20,19 @@ const typeLabel: Record<string, string> = {
       <p class="eyebrow">Direct advocacy</p>
       <h1>What AVI has actually told India's policymakers</h1>
       <p class="sub-sub">
-        Beyond <a href="/litigation/">litigation</a> and <a href="/campaigns/">public campaigning</a>, AVI has repeatedly written
+        Beyond <a href="/litigation">litigation</a> and <a href="/campaigns">public campaigning</a>, AVI has repeatedly written
         directly to the people making this policy — the health ministry,
         every sitting MP, and in response to specific government advisories —
-        making the evidence-based case for regulation over prohibition. Each
-        one has its own page with the original letter where AVI's own copy
-        could be located, and a close account of its arguments otherwise —
-        marked either way, so it's clear which is which.
+        making the evidence-based case for regulation over prohibition. These
+        are reproduced here close to their original text, not summarised
+        away, so the actual arguments made are on the record.
       </p>
     </div>
   </section>
 
   <div class="sub-body">
     <div class="sub-grid">
-      {all.map((item) => (
+      {withBody.map(({ item, Content }) => (
         <article class={`sub-card type-${item.data.type}`}>
           <div class="card-top">
             <span class="type-badge">{typeLabel[item.data.type]}</span>
@@ -42,17 +43,23 @@ const typeLabel: Record<string, string> = {
           <h2>{item.data.title}</h2>
           <p class="recipient">To: {item.data.recipient}</p>
           <p class="summary">{item.data.summary}</p>
-          <a class="read-link" href={`/submissions/${item.id}/`}>Read the full text →</a>
+          <details>
+            <summary>Read the full text</summary>
+            <div class="full-text"><Content /></div>
+          </details>
+          {item.data.archivePdf && (
+            <a class="pdf-link" href={item.data.archivePdf} target="_blank" rel="noopener">View the original filing (PDF) →</a>
+          )}
         </article>
       ))}
     </div>
 
     <div class="sub-related">
-      <a href="/litigation/" class="related-card">
+      <a href="/litigation" class="related-card">
         <h3>Litigation →</h3>
         <p>Where the letters didn't work — court cases AVI has organised and directed since 2017.</p>
       </a>
-      <a href="/press/" class="related-card">
+      <a href="/press" class="related-card">
         <h3>Press coverage →</h3>
         <p>How AVI's submissions and rebuttals have been reported, and AVI's own public statements.</p>
       </a>
@@ -65,24 +72,26 @@ const typeLabel: Record<string, string> = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .sub-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .sub-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
     .sub-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0; }
-    .sub-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .sub-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .sub-sub a:hover { color: #fff; }
 
     .sub-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(24rem, 100%), 1fr)); gap: 1.5rem; }
     .sub-card {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.5rem 1.6rem 1.6rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
@@ -98,15 +107,36 @@ const typeLabel: Record<string, string> = {
       border-radius: 99px;
       color: #fff;
     }
-    .type-letter .type-badge { background: var(--green); }
+    .type-letter .type-badge { background: var(--accent); }
     .type-rebuttal .type-badge { background: var(--rust); }
-    .type-call-to-action .type-badge { background: var(--green-deep); }
+    .type-call-to-action .type-badge { background: var(--gold-dark); }
 
     .sub-card h2 { margin: 0 0 0.3rem; font-size: 1.12rem; line-height: 1.35; }
     .recipient { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .summary { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; }
 
-    .read-link { display: inline-block; margin-top: 0.25rem; font-size: 0.88rem; font-weight: 600; color: var(--green-deep); }
+    details summary {
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      list-style: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::before { content: '+ '; }
+    details[open] summary::before { content: '– '; }
+    .full-text {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .full-text :global(p) { margin: 0 0 0.9rem; }
+    .full-text :global(p:last-child) { margin-bottom: 0; }
+    .full-text :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
+    .pdf-link { display: block; margin-top: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); }
 
     .sub-related {
       display: grid;
@@ -114,19 +144,19 @@ const typeLabel: Record<string, string> = {
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

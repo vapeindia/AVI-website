@@ -21,7 +21,7 @@ const CITIES = [
       <p class="eyebrow"><Icon name="scale" /> Report it</p>
       <h1>Stopped, threatened, or shaken down over a vape?</h1>
       <p class="rh-sub">
-        AVI has done this before: a 2020 crowdsourced <a href="/campaigns/#2020-2023-airport-confiscation-reports">confiscation-report form</a> logged 60 incidents and directly produced the petitioners in AVI's ongoing flight-ban case. This is the same idea, for street-level police harassment — the more reports, the stronger the evidence for the next legal or policy fight.
+        AVI has done this before: a 2020 crowdsourced <a href="/campaigns#2020-2023-airport-confiscation-reports">confiscation-report form</a> logged 60 incidents and directly produced the petitioners in AVI's ongoing flight-ban case. This is the same idea, for street-level police harassment — the more reports, the stronger the evidence for the next legal or policy fight.
       </p>
     </div>
   </section>
@@ -32,22 +32,14 @@ const CITIES = [
         <Icon name="chart" />
         <h2>What's been reported so far</h2>
       </div>
-      {!stats.visible ? (
-        <p class="stats-empty">
-          Tracker launched October 2026 — numbers will show here once enough
-          reports have come in to be meaningful, rather than a count in the
-          single digits. Be among the first: every field below except the
-          incident details is used only as an anonymous number in this
-          count. AVI has done this before at real scale — a <a href="/campaigns/#2020-2023-airport-confiscation-reports">2020–23 crowdsourced form</a> documented
-          60 airport confiscations nationwide and directly produced the
-          petitioners in AVI's ongoing flight-ban case.
-        </p>
+      {stats.total === 0 ? (
+        <p class="stats-empty">No reports yet — be the first. Every field below except the incident details is used only as an anonymous number in this count.</p>
       ) : (
         <>
           <div class="stats-grid">
-            <div class="stat-card"><strong>{stats.total}</strong><span>report{stats.total === 1 ? '' : 's'} logged</span></div>
+            <div class="stat-card"><strong>{stats.total}</strong><span>reports logged</span></div>
             <div class="stat-card"><strong>₹{stats.totalAmount.toLocaleString('en-IN')}</strong><span>total demanded or paid</span></div>
-            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>device{stats.notReturnedCount === 1 ? '' : 's'} never returned</span></div>
+            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>devices never returned</span></div>
           </div>
           {stats.topCities.length > 0 && (
             <div class="city-breakdown">
@@ -63,45 +55,9 @@ const CITIES = [
               </ul>
             </div>
           )}
-          <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
         </>
       )}
-    </section>
-
-    <section class="proof-section">
-      <div class="section-head">
-        <Icon name="megaphone" />
-        <h2>You're not the only one</h2>
-      </div>
-      <p class="proof-note">
-        A small sample of accounts other vapers have already shared publicly, on Reddit — not part of the count above, since this tracker only counts reports submitted directly through the form below. If any of this sounds familiar, add your own — it's what turns "someone online said" into evidence AVI can actually use.
-      </p>
-      <div class="proof-grid">
-        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1m2yc0b/vaped_near_office_at_malad_mindspace_cop_demanded/" target="_blank" rel="noopener">
-          <span class="proof-city">Mumbai</span>
-          <span class="proof-desc">Vaping near a Malad office, an officer demanded ₹25,000 and took ₹2,000 cash after checking the poster's phone and bank balance.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/xyqk9q/the_police_did_this_to_me_and_a_friend_last_night/" target="_blank" rel="noopener">
-          <span class="proof-city">Bangalore</span>
-          <span class="proof-desc">Two friends paid ₹20,000 after officers found photos on their phones and used them as leverage.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/12j3nkr/got_slapped_by_a_cop_for_vape_in_indiranagar/" target="_blank" rel="noopener">
-          <span class="proof-city">Bangalore</span>
-          <span class="proof-desc">Stopped and slapped by an officer over a vape in Indiranagar — the thread went on to draw a 3,400-vote poll on India's vaping ban.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/delhi/comments/1jka9ai/police_action_on_carrying_vape_in_delhi_metro/" target="_blank" rel="noopener">
-          <span class="proof-city">Delhi</span>
-          <span class="proof-desc">A vape found in a passenger's purse by CISF on the Delhi Metro was handed over to Delhi Police.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1vkf1re/felt_scammed_by_lonavala_police_over_a_quarter_of/" target="_blank" rel="noopener">
-          <span class="proof-city">Lonavala</span>
-          <span class="proof-desc">A bribe was demanded by police over a vape and a small hookah found in a car boot, late at night.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1g3fl3x/encounter_with_a_suspicious_cop_over_a_vape_in/" target="_blank" rel="noopener">
-          <span class="proof-city">Mumbai</span>
-          <span class="proof-desc">A separate stop by a "suspicious cop" over a vape, recounted in detail on r/mumbai.</span>
-        </a>
-      </div>
+      <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
     </section>
 
     <section class="form-section">
@@ -110,17 +66,8 @@ const CITIES = [
         <h2>Report an incident</h2>
       </div>
       <p class="form-note">
-        City, date and what happened are published only as anonymous numbers above — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note. <strong>You don't need to give an email address to submit a report</strong> — it's entirely optional.
+        City, date and what happened are published only as anonymous numbers above — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note.
       </p>
-
-      <details class="rh-privacy">
-        <summary>Full privacy notice — what's stored, where, and who sees it</summary>
-        <div class="rh-privacy-body">
-          <p><strong>What's public:</strong> city, date, what happened, the amount (if any), whether the device was returned and whether the officer identified themselves are committed to AVI's public code repository as anonymous, aggregated data — that's what powers the counts on this page and on <a href="/india/police/">/india/police</a>. None of those fields can identify you.</p>
-          <p><strong>What's private:</strong> an email address and anything you write in "Anything else you want to tell us?" are never committed to that repository or shown anywhere on this site. They are sent only in a private message to AVI's small team, and only used to follow up with you — for example if you asked to be contacted about legal support. They're kept only for as long as it takes to do that, then deleted — never added to a mailing list or kept indefinitely.</p>
-          <p><strong>Who sees it:</strong> only AVI's own team sees the email/details above. <strong>Nothing you submit is passed to police, a lawyer, a journalist or anyone else without asking you first</strong> — ticking "willing to help" means we might reach out to ask, not that we act on your behalf automatically.</p>
-        </div>
-      </details>
 
       <form id="rh-form" class="rh-form">
         <div class="field">
@@ -150,14 +97,10 @@ const CITIES = [
           <label class="check-row"><input type="checkbox" name="whatHappened" value="other" /> Something else</label>
         </fieldset>
 
-        <fieldset class="field">
-          <legend>Amount demanded or paid</legend>
-          <label class="check-row"><input type="checkbox" id="noMoneyDemanded" name="noMoneyDemanded" checked /> No money was demanded or paid</label>
-          <div class="field amount-field" id="amount-field" hidden>
-            <label for="amount">How much? <small>(₹)</small></label>
-            <input id="amount" name="amount" type="number" min="0" max="1000000" step="1" value="" />
-          </div>
-        </fieldset>
+        <div class="field">
+          <label for="amount">Amount demanded or paid <small>(₹, leave as 0 if none)</small></label>
+          <input id="amount" name="amount" type="number" min="0" max="1000000" step="1" value="0" />
+        </div>
 
         <div class="field-row">
           <div class="field">
@@ -210,11 +153,11 @@ const CITIES = [
     </section>
 
     <section class="rh-related">
-      <a href="/india/police/" class="related-card">
+      <a href="/india/law#know-your-rights" class="related-card">
         <h3>Know your rights →</h3>
         <p>The law, in one place — what to say and do if you're stopped, right now.</p>
       </a>
-      <a href="/litigation/" class="related-card">
+      <a href="/litigation" class="related-card">
         <h3>How reports become cases →</h3>
         <p>See the flight-ban case this same crowdsourcing approach already built.</p>
       </a>
@@ -230,23 +173,25 @@ const CITIES = [
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .eyebrow :global(svg) { width: 1.05rem; height: 1.05rem; }
     .rh-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .rh-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .rh-sub { color: #f0e3da; max-width: 46rem; font-size: 1.03rem; line-height: 1.6; margin: 0; }
-    .rh-sub a { color: var(--paper); text-decoration: underline; }
+    .rh-sub a { color: var(--gold-light); text-decoration: underline; }
     .rh-sub a:hover { color: #fff; }
 
     .rh-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
 
     .stats-section { margin-bottom: 3.5rem; }
@@ -259,12 +204,12 @@ const CITIES = [
     }
     .stat-card {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       text-align: center;
     }
-    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 1.9rem; color: var(--rust); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 1.9rem; color: var(--rust-dark); line-height: 1; margin-bottom: 0.4rem; }
     .stat-card span { font-size: 0.82rem; color: var(--muted); }
     @media (max-width: 780px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -275,54 +220,18 @@ const CITIES = [
     .city-list { list-style: none; margin: 0; padding: 0; }
     .city-list li { display: grid; grid-template-columns: 6rem 1fr 2rem; align-items: center; gap: 0.6rem; margin-bottom: 0.45rem; font-size: 0.85rem; }
     .city-name { color: var(--ink); }
-    .city-bar { display: block; height: 0.55rem; background: var(--paper-2); border-radius: 999px; overflow: hidden; }
+    .city-bar { display: block; height: 0.55rem; background: var(--paper-alt); border-radius: 999px; overflow: hidden; }
     .city-bar-fill { display: block; height: 100%; background: var(--rust); border-radius: 999px; }
     .city-count { text-align: right; color: var(--muted); font-weight: 600; }
 
     .stats-note { max-width: 40rem; color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }
 
-    .proof-section { margin-bottom: 3.5rem; }
-    .proof-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
-    .proof-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
-      gap: 1.1rem;
-    }
-    .proof-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 1.1rem 1.25rem;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-    .proof-card:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(20,25,20,0.08); }
-    .proof-city {
-      font-weight: 700;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: var(--green-deep);
-    }
-    .proof-desc { font-size: 0.88rem; line-height: 1.5; color: var(--ink); }
-
     .form-section { margin-bottom: 3.5rem; }
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
 
-    .rh-privacy { max-width: 46rem; margin: 0 0 1.75rem; font-size: 0.88rem; }
-    .rh-privacy summary { cursor: pointer; font-weight: 600; color: var(--green-deep); }
-    .rh-privacy-body { margin-top: 0.75rem; display: grid; gap: 0.75rem; }
-    .rh-privacy-body p { margin: 0; color: var(--muted); line-height: 1.6; }
-
-    .amount-field { margin-top: 0.75rem; max-width: 12rem; }
-
     .rh-form {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.75rem 2rem;
       max-width: 40rem;
@@ -335,8 +244,8 @@ const CITIES = [
     fieldset.field { border: none; padding: 0; margin: 0 0 1.1rem; }
     .check-row { display: flex; align-items: flex-start; gap: 0.5rem; font-weight: 400 !important; font-size: 0.9rem; margin-bottom: 0.5rem; }
     .check-row input { margin-top: 0.2rem; }
-    .willing-row { background: var(--paper-2); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.1rem; }
-    .form-divider { border: none; border-top: 1px solid var(--line); margin: 1.5rem 0; }
+    .willing-row { background: var(--paper-alt); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.1rem; }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
     .hp { position: absolute; left: -9999px; }
     textarea, input[type="text"], input[type="email"], input[type="number"], input[type="date"], select {
       width: 100%;
@@ -344,15 +253,15 @@ const CITIES = [
       font: inherit;
       font-size: 0.95rem;
       padding: 0.6rem 0.7rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 4px;
       background: var(--paper);
     }
-    textarea:focus, input:focus, select:focus { outline: 2px solid var(--green); outline-offset: 1px; }
+    textarea:focus, input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
     .rh-form button[type="submit"] { margin-top: 0.25rem; border: none; cursor: pointer; }
     .rh-form button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
     #rh-status { margin: 0.85rem 0 0; font-size: 0.88rem; }
-    #rh-status[data-state="ok"] { color: var(--green-deep); }
+    #rh-status[data-state="ok"] { color: var(--accent-dark); }
     #rh-status[data-state="err"] { color: #a3342a; }
 
     .rh-related {
@@ -360,19 +269,19 @@ const CITIES = [
       grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 
@@ -382,23 +291,12 @@ const CITIES = [
     const citySelect = document.getElementById('city') as HTMLSelectElement | null;
     const otherCityField = document.getElementById('other-city-field');
     const otherCityInput = document.getElementById('otherCity') as HTMLInputElement | null;
-    const noMoneyCheckbox = document.getElementById('noMoneyDemanded') as HTMLInputElement | null;
-    const amountField = document.getElementById('amount-field');
-    const amountInput = document.getElementById('amount') as HTMLInputElement | null;
 
     citySelect?.addEventListener('change', () => {
       const isOther = citySelect.value === 'Other';
       if (otherCityField) otherCityField.hidden = !isOther;
       if (otherCityInput) otherCityInput.required = isOther;
     });
-
-    function syncAmountField() {
-      const noMoney = noMoneyCheckbox?.checked ?? true;
-      if (amountField) amountField.hidden = noMoney;
-      if (noMoney && amountInput) amountInput.value = '';
-    }
-    noMoneyCheckbox?.addEventListener('change', syncAmountField);
-    syncAmountField();
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -415,7 +313,6 @@ const CITIES = [
 
       const city = data.get('city') === 'Other' ? String(data.get('otherCity') || '').trim() : String(data.get('city') || '');
       const whatHappened = data.getAll('whatHappened').map(String);
-      const amount = data.get('noMoneyDemanded') === 'on' ? 0 : Number(data.get('amount') || 0);
 
       const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
       if (submitButton) submitButton.disabled = true;
@@ -430,7 +327,7 @@ const CITIES = [
             date: data.get('date'),
             city,
             whatHappened,
-            amount,
+            amount: Number(data.get('amount') || 0),
             deviceReturned: data.get('deviceReturned'),
             officerIdentified: data.get('officerIdentified'),
             willingToHelp: data.get('willingToHelp') === 'on',
@@ -444,7 +341,6 @@ const CITIES = [
         status.dataset.state = 'ok';
         form.reset();
         if (otherCityField) otherCityField.hidden = true;
-        syncAmountField();
       } catch {
         status.textContent =
           "Something went wrong submitting this. Please try again, or email details directly to contact@vapeindia.org.";

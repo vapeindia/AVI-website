@@ -1,21 +1,11 @@
 import { getCollection } from 'astro:content';
 
-// Public totals (count, amount, city breakdown) stay hidden below this many
-// reports — a handful of submissions reads as "nobody's using this" and,
-// worse, a literal ₹0 total undercuts the case the tracker exists to make.
-// Single source of truth: both /report-harassment and the homepage's
-// "Know your rights" section read `visible` from this module rather than
-// each re-implementing the threshold check.
-export const HARASSMENT_STATS_PUBLISH_THRESHOLD = 10;
-
 export interface HarassmentStats {
   total: number;
   totalAmount: number;
   cashDemandedCount: number;
   notReturnedCount: number;
   topCities: { city: string; count: number }[];
-  /** True once `total` has reached HARASSMENT_STATS_PUBLISH_THRESHOLD. */
-  visible: boolean;
 }
 
 // Shared by /report-harassment and the "Know your rights" section of
@@ -41,12 +31,5 @@ export async function getHarassmentStats(): Promise<HarassmentStats> {
     .slice(0, 8)
     .map(([city, count]) => ({ city, count }));
 
-  return {
-    total,
-    totalAmount,
-    cashDemandedCount,
-    notReturnedCount,
-    topCities,
-    visible: total >= HARASSMENT_STATS_PUBLISH_THRESHOLD,
-  };
+  return { total, totalAmount, cashDemandedCount, notReturnedCount, topCities };
 }

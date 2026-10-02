@@ -17,7 +17,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       <h1>Real stories, not just research</h1>
       <p class="test-sub">
         Behind every court filing and research brief on this site is a
-        simple fact: <a href="/quit/">switching to a lower-risk alternative</a> has
+        simple fact: <a href="/quit">switching to a lower-risk alternative</a> has
         helped real people in India walk away from combustible tobacco for
         good. If a safer nicotine alternative did this for you, telling that
         story in your own words is one of the most persuasive things you
@@ -33,13 +33,6 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
         <Icon name="quote" />
         <h2>Share your story</h2>
       </div>
-      <p class="form-prompt">
-        Tell us how you quit smoking or other tobacco use — what you
-        switched to, what helped, what surprised you. <strong>Please don't
-        name brands, specific formulations, devices or where you bought anything</strong> —
-        we can't publish those details, so a story that includes them has to
-        be trimmed or held back rather than posted as written.
-      </p>
       <p class="form-note">
         Your name and location (city or state) are published with your
         testimonial so readers know these are real people, not anonymous
@@ -59,7 +52,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
             rows="6"
             maxlength="2000"
             required
-            placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco? (No brand, formulation, device or purchase-location names, please.)"
+            placeholder="How did vaping or nicotine pouches help you move away from cigarettes or other combustible tobacco?"
           ></textarea>
         </div>
         <div class="field-row">
@@ -76,10 +69,6 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
           <label for="email">Email <small>(kept private — never published)</small></label>
           <input id="email" name="email" type="email" required maxlength="200" />
         </div>
-        <label class="consent-row">
-          <input type="checkbox" id="publishConsent" name="publishConsent" required />
-          I agree that my name and location (as entered above) may be published alongside my testimonial on vapeindia.org.
-        </label>
         <!-- Honeypot: real visitors never see or fill this in. Bots that fill every
              field on a form typically will. Any submission with this non-empty is
              silently dropped by the function. -->
@@ -113,11 +102,11 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     </section>
 
     <section class="test-related">
-      <a href="/contribute/" class="related-card">
+      <a href="/contribute" class="related-card">
         <h3>What funds this →</h3>
         <p>Stories like these are what this work is for. See how to support AVI's litigation, campaigns and advocacy.</p>
       </a>
-      <a href="/quit/" class="related-card">
+      <a href="/quit" class="related-card">
         <h3>Thinking about switching? →</h3>
         <p>The evidence on whether switching works, and what to keep in mind if you do.</p>
       </a>
@@ -130,42 +119,33 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .test-hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .test-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .test-sub { color: #cdd6cf; max-width: 44rem; font-size: 1.03rem; margin: 0; }
-    .test-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .test-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .test-sub a:hover { color: #fff; }
 
     .test-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .section-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.65rem; margin-bottom: 1.25rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
     .section-head p { margin: 0.15rem 0 0; flex-basis: 100%; font-size: 0.8rem; color: var(--muted); }
 
     .form-section { margin-bottom: 3.5rem; }
-    .form-prompt { max-width: 46rem; color: var(--ink); font-size: 0.95rem; line-height: 1.6; margin: 0 0 1rem; }
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
-    .consent-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      font-weight: 400;
-      font-size: 0.86rem;
-      color: var(--muted);
-      margin: 0 0 1.1rem;
-    }
-    .consent-row input { margin-top: 0.2rem; }
 
     .test-form {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.75rem 2rem;
       max-width: 40rem;
@@ -182,15 +162,15 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       font: inherit;
       font-size: 0.95rem;
       padding: 0.6rem 0.7rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 4px;
       background: var(--paper);
     }
-    textarea:focus, input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
+    textarea:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
     .test-form button[type="submit"] { margin-top: 0.25rem; border: none; cursor: pointer; }
     .test-form button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
     #testimonial-status { margin: 0.85rem 0 0; font-size: 0.88rem; }
-    #testimonial-status[data-state="ok"] { color: var(--green-deep); }
+    #testimonial-status[data-state="ok"] { color: var(--accent-dark); }
     #testimonial-status[data-state="err"] { color: #a3342a; }
 
     .quotes-section { margin-bottom: 3.5rem; }
@@ -201,8 +181,8 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     }
     .quote-card {
       background: #fff;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--green);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
       border-radius: 8px;
       padding: 1.4rem 1.5rem;
       margin: 0;
@@ -217,19 +197,19 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 

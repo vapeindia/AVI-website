@@ -1,50 +1,18 @@
 ---
-import { Image } from 'astro:assets';
 import SocialIcon from '../components/SocialIcon.astro';
 import Icon from '../components/Icon.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
-import logo from '../assets/images/avi-logo.png';
-// ShareButtons is used directly on the few pages that still render it
-// inline (not in the header — removed per Samrat, 2026-10-02).
-
-// Self-hosted, Latin-subset only (per Samrat, 2026-10-02) — replaces the
-// Google Fonts <link> this file used to load. Newsreader 500 (+ its
-// italic) for headings, Public Sans 400/600/700 for body text/emphasis/
-// buttons. publicSans400Url/newsreader500Url below are the two most-used
-// files, preloaded in <head>.
-import '@fontsource/newsreader/latin-500.css';
-import '@fontsource/newsreader/latin-500-italic.css';
-import '@fontsource/public-sans/latin-400.css';
-import '@fontsource/public-sans/latin-600.css';
-import '@fontsource/public-sans/latin-700.css';
-import publicSans400Url from '@fontsource/public-sans/files/public-sans-latin-400-normal.woff2?url';
-import newsreader500Url from '@fontsource/newsreader/files/newsreader-latin-500-normal.woff2?url';
 
 interface Props {
   title: string;
   description?: string;
   wide?: boolean;
   image?: string;
-  noindex?: boolean;
-  /** Use `title` exactly as given, skipping the automatic "· AVI" suffix —
-   * for the one page (the homepage) where the full org name belongs in the
-   * title itself rather than as a generic suffix. See the comment below on
-   * why every other page keeps the short suffix form instead. */
-  rawTitle?: boolean;
-  /** `<html lang>`. Defaults to 'en' — only the Hindi draft at
-   * /hi/india/law/ (content/faq-and-guides, item 6) passes 'hi' today.
-   * The nav/footer stay in English regardless, since only two sections of
-   * that one page are translated, not the whole site chrome. */
-  lang?: string;
 }
 const {
   title,
   description = "Tobacco harm reduction advocacy and evidence for India.",
   wide = false,
   image = '/images/og-default.jpg',
-  noindex = false,
-  rawTitle = false,
-  lang = 'en',
 } = Astro.props;
 
 // Kept short deliberately — the full "Association of Vapers India" name
@@ -55,12 +23,7 @@ const {
 // the visible header/logo, and most pages' own descriptions — this is
 // just the <title>/og:title/twitter:title suffix, which every platform
 // pairs with the vapeindia.org domain shown alongside it anyway.
-//
-// The homepage is the deliberate exception (rawTitle=true): it's the page
-// most likely to be the branded-search landing result for "Association of
-// Vapers India" itself, so the full name belongs in the title verbatim
-// rather than behind "· AVI" — see index.astro's own Base call.
-const pageTitle = rawTitle ? title : `${title} · AVI`;
+const pageTitle = `${title} · AVI`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
 
@@ -73,41 +36,30 @@ const ogImageURL = new URL(image, Astro.site);
 // below for e.g. /india/rti-replies vs /india/rti-replies/.
 const rawPath = Astro.url.pathname;
 const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
-// Five groups (docs/tasks/08-homepage.md item 1, 2026-10): About · Evidence
-// (Science, If you smoke, FAQ) · India (Law, Nicotine pouches, Litigation,
-// RTI replies, Policy) · Advocacy (Campaigns, Submissions, Press) · Act
-// (Report harassment, Share your story, Contribute — rendered as the
-// existing standalone buttons/link, not a dropdown, per the task's own
-// explicit exception for those three). Daily News and Our Media move out
-// of the nav entirely (footer only); Litigation and Policy move out of the
-// old "Our Advocacy"/"Get Started" groups into India, since the law that
-// governs them is India-specific.
-function activeGroup(p: string): 'evidence' | 'india' | 'advocacy' | null {
-  if (p === '/quit' || p === '/faq' || p.startsWith('/science')) return 'evidence';
-  if (p.startsWith('/india') || p.startsWith('/nicotine-pouches') || p === '/policy' || p.startsWith('/litigation')) return 'india';
-  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press')) return 'advocacy';
+function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
+  if (p === '/quit' || p === '/policy') return 'start';
+  if (p.startsWith('/science') || p === '/india' || p === '/india/law') return 'evidence';
+  if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation') || p === '/report-harassment') return 'advocacy';
+  if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
   return null;
 }
 const group = activeGroup(path);
 ---
 <!doctype html>
-<html lang={lang}>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
-  {noindex && <meta name="robots" content="noindex,follow" />}
   <title>{pageTitle}</title>
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  {/* Self-hosted fonts (@fontsource, imported above) — preload the two
-      most-used weight files: Public Sans 400 for body text, Newsreader
-      500 for headings. */}
-  <link rel="preload" as="font" type="font/woff2" href={publicSans400Url} crossorigin />
-  <link rel="preload" as="font" type="font/woff2" href={newsreader500Url} crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Association of Vapers India" />
@@ -135,8 +87,6 @@ const group = activeGroup(path);
     url: 'https://vapeindia.org',
     logo: new URL('/images/avi-logo.png', Astro.site).toString(),
     foundingDate: '2016',
-    founder: { '@type': 'Person', name: 'Samrat Chowdhery' },
-    email: 'contact@vapeindia.org',
     description: "A tobacco harm reduction consumer advocacy group in India, working for the right of Indian tobacco users to access lower-risk alternatives to combustible tobacco.",
     slogan: 'Reducing risk, saving lives since 2016',
     knowsAbout: [
@@ -194,30 +144,34 @@ const group = activeGroup(path);
   })()}
   <style is:global>
     :root {
-      /* Eight tokens, full stop (per Samrat, 2026-10-02) — every colour on
-         the site maps to one of these. Don't add a ninth without his say. */
       --ink: #1a211d;
-      --muted: #5c6660;
       --paper: #faf6ec;
-      --paper-2: #f2ead9;
-      --line: #e2dcc7;
-      --green: #1f6f5c;
-      --green-deep: #123c31;
+      --paper-alt: #f2ead9;
+      --accent: #1f6f5c;
+      --accent-dark: #123c31;
+      --accent-light: #2f8a72;
+      /* Was a warm gold/brown family; retargeted to green (2026-09-16) to
+         match the dark green AVI logo (#056561) and make green the site's
+         dominant accent rather than one color among several — --gold is
+         used far more pervasively than --accent across the individual
+         page files (every eyebrow label, most badges, the "gold" button
+         variant), so retargeting it here cascades that shift site-wide
+         without touching each page. Kept as its own shade distinct from
+         --accent/--accent-dark rather than reusing them outright, so
+         elements that pair the two (e.g. a gold-bordered badge next to
+         accent-colored body text) don't go flat/monochrome. */
+      --gold: #3a8a6c;
+      --gold-dark: #2d5f48;
+      --gold-light: #7fc4a8;
       --rust: #b3552e;
-
+      --rust-dark: #7d3a1f;
+      --ink-black: #12130f;
+      --muted: #5c6660;
+      --border: #e2dcc7;
       --max-w: 42rem;
       --max-w-wide: 72rem;
       --font-serif: 'Newsreader', Georgia, serif;
       --font-sans: 'Public Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-      /* 8px spacing scale — use these, not an arbitrary rem value, for
-         any new margin/padding/gap. */
-      --sp-1: 0.5rem;  /* 8px */
-      --sp-2: 1rem;    /* 16px */
-      --sp-3: 1.5rem;  /* 24px */
-      --sp-4: 2rem;    /* 32px */
-      --sp-5: 3rem;    /* 48px */
-      --sp-6: 4rem;    /* 64px */
     }
     * { box-sizing: border-box; }
     html { overflow-x: hidden; }
@@ -227,35 +181,17 @@ const group = activeGroup(path);
       background: var(--paper);
       color: var(--ink);
       font-family: var(--font-sans);
-      font-size: 1.0625rem; /* 17px on phones */
-      line-height: 1.6;
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
-    @media (min-width: 640px) {
-      body { font-size: 1.125rem; } /* 18px on desktop */
-    }
-    p, li, dd { max-width: 68ch; }
     h1, h2, h3, h4 {
       font-family: var(--font-serif);
       line-height: 1.2;
       font-weight: 500;
       letter-spacing: -0.01em;
     }
-    h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
-    a { color: var(--green); }
-    a:hover { color: var(--green-deep); }
-
-    /* Visible focus for every link/button/form control — keyboard nav
-       must always show where focus is, not just rely on a hover color. */
-    a:focus-visible,
-    button:focus-visible,
-    .btn:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible,
-    summary:focus-visible {
-      outline: 2px solid var(--green);
-      outline-offset: 2px;
-    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-dark); }
 
     /* Escapes the constrained <main> width for full-bleed sections. */
     .breakout {
@@ -274,48 +210,57 @@ const group = activeGroup(path);
     }
 
     header.site {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-      height: 60px;
-      padding: 0 1rem;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: var(--sp-2);
-      transition: box-shadow 0.15s ease;
-    }
-    header.site.scrolled { box-shadow: 0 2px 10px rgba(18,19,15,0.08); }
-    @media (min-width: 860px) {
-      header.site { height: 72px; padding: 0 var(--sp-3); }
+      flex-wrap: wrap;
+      gap: 1rem;
     }
     header.site .brand {
       display: flex;
-      align-items: center;
-      gap: var(--sp-1);
+      align-items: flex-start;
+      gap: 0.7rem;
       text-decoration: none;
       color: var(--ink);
+      max-width: 12rem;
       min-width: 0;
-      flex-shrink: 0;
     }
-    header.site .brand img { height: 40px; width: 40px; flex-shrink: 0; }
+    /* The logo (56px) is taller than the two-line name+tagline text block
+       at any font size, so flex-start alone still lets it hang below the
+       tagline — pull it up to balance that overhang. */
+    header.site .brand img { height: 56px; width: auto; flex-shrink: 0; margin-top: -8px; }
+    /* This wrapper — not .brand itself — is what actually shrinks and
+       truncates. .brand also contains the logo <img>, which must never
+       be allowed to shrink or get an ellipsis; only the text column can. */
+    header.site .brand .brand-text { min-width: 0; overflow: hidden; }
     header.site .brand .brand-name {
       display: block;
       font-family: var(--font-serif);
-      font-weight: 500;
-      font-size: 1.05rem;
+      font-weight: 600;
+      font-size: 1.2rem;
       line-height: 1.15;
       letter-spacing: -0.01em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    @media (max-width: 500px) {
-      /* Name stays, but yields width to the hamburger on the narrowest
-         phones rather than overlapping it. */
-      header.site .brand .brand-name { max-width: 9rem; }
+    header.site .brand .brand-tagline {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @media (min-width: 640px) {
+      header.site .brand { max-width: none; }
+      header.site .brand .brand-name { font-size: 1.4rem; }
+      header.site .brand .brand-tagline { font-size: 0.92rem; }
     }
 
     /* Hamburger toggle — hidden on desktop, shown below the nav breakpoint. */
@@ -326,7 +271,7 @@ const group = activeGroup(path);
       width: 2.5rem;
       height: 2.5rem;
       flex-shrink: 0;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 6px;
       background: #fff;
       color: var(--ink);
@@ -339,18 +284,23 @@ const group = activeGroup(path);
     .nav-toggle.open .icon-close { display: block; }
     .nav-search-label { display: none; }
 
-    /* The header's two action buttons share .btn so they can never drift
-       from the one button system — .nav-report additionally opts into the
-       small size, and is the one place outside --green that --rust is
-       allowed to colour a button at all. */
-    .nav-report {
-      gap: 0.35rem;
+    .nav-contribute {
+      display: inline-block;
+      margin-left: 1.5rem;
+      background: var(--accent-dark);
+      color: #fff !important;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      border-bottom: none !important;
     }
-    .nav-report :global(svg) { width: 1em; height: 1em; flex-shrink: 0; }
+    .nav-contribute:hover { background: var(--accent); color: #fff; }
     nav.site a {
       color: var(--muted);
       text-decoration: none;
-      margin-left: var(--sp-3);
+      margin-left: 1.25rem;
       font-size: 0.92rem;
       font-weight: 500;
     }
@@ -358,20 +308,20 @@ const group = activeGroup(path);
     nav.site > a.active {
       color: var(--ink);
       font-weight: 700;
-      border-bottom: 2px solid var(--green);
+      border-bottom: 2px solid var(--gold);
     }
     nav.site a.nav-search {
       display: inline-flex;
       align-items: center;
-      margin-left: var(--sp-2);
+      margin-left: 1.1rem;
     }
     nav.site a.nav-search svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
-    nav.site a.nav-search.active { border-bottom-color: transparent; color: var(--green-deep); }
+    nav.site a.nav-search.active { border-bottom-color: transparent; color: var(--gold-dark); }
 
     .nav-dropdown { position: relative; display: inline-block; }
     .nav-dropdown summary {
       color: var(--muted);
-      margin-left: var(--sp-3);
+      margin-left: 1.25rem;
       font-size: 0.92rem;
       font-weight: 500;
       cursor: pointer;
@@ -389,24 +339,24 @@ const group = activeGroup(path);
     .nav-dropdown.active summary {
       color: var(--ink);
       font-weight: 700;
-      border-bottom: 2px solid var(--green);
+      border-bottom: 2px solid var(--gold);
     }
     .dropdown-menu a.active {
-      background: var(--paper-2);
+      background: var(--paper-alt);
       color: var(--ink);
       font-weight: 600;
-      border-left: 3px solid var(--green);
+      border-left: 3px solid var(--gold);
       padding-left: calc(0.6rem - 3px);
     }
     .dropdown-menu {
       position: absolute;
       top: calc(100% + 0.75rem);
-      left: var(--sp-3);
+      left: 1.25rem;
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 6px;
       box-shadow: 0 6px 16px rgba(20,25,20,0.12);
-      padding: var(--sp-1);
+      padding: 0.5rem;
       min-width: 13rem;
       display: flex;
       flex-direction: column;
@@ -418,240 +368,200 @@ const group = activeGroup(path);
       border-radius: 4px;
       white-space: nowrap;
     }
-    .dropdown-menu a:hover { background: var(--paper-2); color: var(--ink); }
+    .dropdown-menu a:hover { background: var(--paper-alt); color: var(--ink); }
 
-    /* Below this width the nav collapses into a full-screen panel behind
-       the hamburger toggle, rather than trying to wrap a row that can't
-       fit About/Evidence/India/Advocacy/Search plus two buttons. The nav
-       groups (Evidence/India/Advocacy) are plain <details> already, so
-       they work as accordions here with no extra markup. Placed after
-       the base nav/dropdown rules above so these overrides win the
-       cascade at matching specificity. */
+    /* Below this width the nav can't fit the header in one row without
+       wrapping into a multi-line mess (confirmed on a real device) — so
+       instead of wrapping, collapse the whole nav (Search and Contribute
+       included) behind a hamburger toggle, and let the brand drop its
+       tagline so the logo + name stay on one line. Placed after the base
+       nav/dropdown rules above so these overrides actually win the
+       cascade at matching specificity — a media query earlier in the
+       file loses to a later plain rule of the same specificity. */
     @media (max-width: 860px) {
-      header.site { padding-left: 0.85rem; padding-right: 0.85rem; gap: 0.5rem; }
+      header.site { flex-wrap: nowrap; padding-left: 0.85rem; padding-right: 0.85rem; gap: 0.5rem; }
+      header.site .brand { max-width: none; gap: 0.5rem; }
+      header.site .brand img { height: 44px; }
+      header.site .brand .brand-tagline { font-size: 0.78rem; }
       .nav-toggle { display: inline-flex; width: 2.25rem; height: 2.25rem; }
       .nav-toggle svg { width: 1.15rem; height: 1.15rem; }
       nav.site {
         display: none;
-        position: fixed;
-        top: 60px;
+        position: absolute;
+        top: 100%;
         left: 0;
         right: 0;
-        bottom: 0;
         flex-direction: column;
         align-items: stretch;
         background: #fff;
-        padding: var(--sp-2) var(--sp-3) var(--sp-4);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 10px 24px rgba(20,25,20,0.12);
+        padding: 0.25rem 1.5rem 1.25rem;
         z-index: 40;
+        max-height: calc(100vh - 4.5rem);
         overflow-y: auto;
       }
       nav.site.open { display: flex; }
-      nav.site a { margin-left: 0; padding: var(--sp-2) 0; font-size: 1.05rem; border-bottom: 1px solid var(--paper-2); }
+      nav.site a { margin-left: 0; padding: 0.85rem 0; border-bottom: 1px solid var(--paper-alt); }
       nav.site a.nav-search { margin-left: 0; }
       .nav-search-label { display: inline; margin-left: 0.6rem; }
       .nav-dropdown { position: static; width: 100%; }
-      .nav-dropdown summary { margin-left: 0; padding: var(--sp-2) 0; font-size: 1.05rem; border-bottom: 1px solid var(--paper-2); }
+      .nav-dropdown summary { margin-left: 0; padding: 0.85rem 0; border-bottom: 1px solid var(--paper-alt); }
       .dropdown-menu {
         position: static;
         border: none;
         box-shadow: none;
-        padding: 0 0 var(--sp-1) var(--sp-2);
+        padding: 0 0 0.25rem 1rem;
         min-width: 0;
       }
-      .dropdown-menu a { border-bottom: none; padding: var(--sp-1) 0; font-size: 1rem; }
-      /* The two action buttons render last in the nav's DOM order already
-         (see the markup below) — in this column layout that puts them at
-         the bottom of the panel automatically. "Normal size" here means
-         the plain, full .btn sizing: these two specifically opt out of
-         the small-header-button rule that applies above 860px. */
-      nav.site .btn { margin: 0.4rem 0 0; width: 100%; text-align: center; font-size: 1rem; padding: 0.8rem 1.5rem; }
-      nav.site .nav-report { margin-top: var(--sp-2); }
+      .dropdown-menu a { border-bottom: none; padding: 0.6rem 0; }
+      .nav-contribute {
+        margin-left: 0;
+        margin-top: 1rem;
+        text-align: center;
+      }
     }
 
     main {
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: var(--sp-5) var(--sp-3) var(--sp-6);
+      padding: 2.5rem 1.5rem 4rem;
     }
     main.wide { max-width: none; padding: 0; }
     main.wide > :not(.breakout) {
       max-width: var(--max-w);
       margin-left: auto;
       margin-right: auto;
-      padding-left: var(--sp-3);
-      padding-right: var(--sp-3);
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
     }
 
-    /* The one button system: primary (solid green), secondary (green
-       outline), and — only for the header's harassment-report link — a
-       small rust outline. Every button is a pill at least 44px tall. */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      min-height: 44px;
-      font-family: var(--font-sans);
+      display: inline-block;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.86rem;
       text-decoration: none;
-      padding: 0.6rem 1.3rem;
+      padding: 0.55rem 1.15rem;
       border-radius: 999px;
-      border: 1.5px solid transparent;
-      cursor: pointer;
-      line-height: 1.2;
+      border: 1px solid transparent;
     }
-    .btn-primary { background: var(--green); color: #fff; border-color: var(--green); }
-    .btn-primary:hover { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
-    .btn-secondary { background: transparent; color: var(--green); border-color: var(--green); }
-    .btn-secondary:hover { background: var(--green); color: #fff; }
-    /* Small = header-only sizing (still ≥44px tall); rust is reserved for
-       emphasis and this one button, never a general button colour. */
-    .btn-small { min-height: 44px; padding: 0.45rem 1rem; font-size: 0.85rem; }
-    .btn-rust-outline { background: transparent; color: var(--rust); border-color: var(--rust); }
-    .btn-rust-outline:hover { background: var(--rust); color: #fff; }
-    /* A plain arrow text-link — no box, no border, just the one link
-       colour and an underline on hover. Used as `<a class="btn-text">
-       Label →</a>`. */
-    .btn-text { color: var(--green); font-weight: 600; text-decoration: none; }
-    .btn-text:hover { color: var(--green-deep); text-decoration: underline; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-dark); color: #fff; }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: var(--gold-dark); color: #fff; }
+    .btn-outline { background: transparent; color: var(--ink); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
 
+    /* Flat footer — one wrapping row of links instead of four headed
+       column-groups. The old grid's per-column "GET STARTED"/"THE
+       EVIDENCE"/etc. headers, and having to align row heights across a
+       2-column mobile grid where one column had 5-6 links, were the real
+       space cost; dropping the headers and letting every link wrap in a
+       single flow cuts the footer to a fraction of that height on both
+       mobile and desktop. */
     footer.site {
-      background: var(--green-deep);
-      color: var(--paper);
-      padding: var(--sp-5) var(--sp-3) var(--sp-3);
-      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 1.5rem 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
     }
     .footer-inner { max-width: var(--max-w-wide, 72rem); margin: 0 auto; text-align: left; }
-    .footer-brand-row { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3); }
-    .footer-brand-row img.mark { height: 32px; width: 32px; flex-shrink: 0; }
-    .footer-name { display: block; font-size: 1rem; font-weight: 600; color: #fff; }
-    .footer-tagline { display: block; font-size: 0.85rem; color: var(--paper-2); }
-    .footer-newsletter {
-      padding: var(--sp-3) 0;
-      margin-bottom: var(--sp-3);
-      border-top: 1px solid rgba(250,246,236,0.2);
-      border-bottom: 1px solid rgba(250,246,236,0.2);
+    .footer-brand-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
+    .footer-brand-row img.mark { height: 26px; width: auto; opacity: 0.85; flex-shrink: 0; }
+    .footer-name { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+    .footer-tagline { display: block; font-size: 0.78rem; color: var(--muted); }
+    .footer-links-flat {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.9rem;
+      margin: 0 0 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
     }
-    .footer-columns {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-      gap: var(--sp-3);
-      margin: 0 0 var(--sp-3);
-    }
-    .footer-columns h3 {
-      font-family: var(--font-sans);
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--paper-2);
-      margin: 0 0 var(--sp-1);
-    }
-    .footer-columns ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-    .footer-columns a { color: var(--paper); text-decoration: none; font-size: 0.88rem; }
-    .footer-columns a:hover { color: #fff; text-decoration: underline; }
-    .footer-disclaimer {
-      font-size: 0.85rem;
-      color: var(--paper-2);
-      max-width: 60ch;
-      margin: 0 0 var(--sp-3);
-      padding-top: var(--sp-3);
-      border-top: 1px solid rgba(250,246,236,0.2);
-    }
+    .footer-links-flat a { color: var(--muted); text-decoration: none; font-size: 0.8rem; line-height: 1.2; }
+    .footer-links-flat a:hover { color: var(--ink); text-decoration: underline; }
     .footer-bottom-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: var(--sp-2);
-      padding-top: var(--sp-3);
-      border-top: 1px solid rgba(250,246,236,0.2);
+      gap: 0.6rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
     }
-    .footer-bottom-row .social { display: flex; align-items: center; gap: 0.5rem; }
+    .footer-bottom-row .social { display: flex; align-items: center; gap: 0.45rem; }
     .footer-bottom-row .social a {
-      color: var(--green-deep);
-      background: var(--paper);
+      color: #fff;
+      background: var(--accent-dark);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
+      width: 1.8rem;
+      height: 1.8rem;
       border-radius: 50%;
-      transition: opacity 0.15s ease, transform 0.15s ease;
+      transition: background-color 0.15s ease, transform 0.15s ease;
     }
-    .footer-bottom-row .social a:hover { opacity: 0.85; transform: translateY(-2px); }
-    .footer-bottom-row .social svg { width: 1rem; height: 1rem; }
-    .footer-copyright { margin: 0; font-size: 0.8rem; color: var(--paper-2); }
+    .footer-bottom-row .social a:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+    }
+    .footer-bottom-row .social svg { width: 0.9rem; height: 0.9rem; }
+    .footer-copyright { margin: 0; font-size: 0.76rem; }
     @media (max-width: 480px) {
       .footer-bottom-row { flex-direction: column; align-items: flex-start; }
     }
-
-    /* The one "short answer" box — used at the top of FAQ/legal-style
-       pages to state the direct answer before the supporting detail. */
-    .short-answer {
-      background: var(--paper-2);
-      border-radius: 12px;
-      padding: var(--sp-3);
-      margin: 0 0 var(--sp-4);
-    }
-    .short-answer p { margin: 0; max-width: 68ch; }
-    .short-answer .short-answer-label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--green-deep);
-      margin: 0 0 0.4rem;
-    }
   </style>
-  <slot name="head" />
 </head>
 <body>
   <header class="site">
     <a class="brand" href="/">
-      <Image src={logo} width={80} height={80} alt="Association of Vapers India" loading="eager" />
-      <span class="brand-name">Association of Vapers India</span>
+      <img src="/images/avi-logo.png" alt="Association of Vapers India" />
+      <span class="brand-text">
+        <span class="brand-name">Association of Vapers India</span>
+        <span class="brand-tagline">Reducing risk, saving lives since 2016</span>
+      </span>
     </a>
     <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
       <Icon name="menu" class="icon-menu" />
       <Icon name="close" class="icon-close" />
     </button>
     <nav class="site" id="site-nav">
-      <a href="/about/" class:list={{ active: path === '/about' }}>About</a>
-      <details class="nav-dropdown" class:list={{ active: group === 'evidence' }}>
-        <summary>Evidence</summary>
+      <a href="/about" class:list={{ active: path === '/about' }}>About</a>
+      <details class="nav-dropdown" class:list={{ active: group === 'start' }}>
+        <summary>Get Started</summary>
         <div class="dropdown-menu">
-          <a href="/science/" class:list={{ active: path.startsWith('/science') }}>Science</a>
-          <a href="/quit/" class:list={{ active: path === '/quit' }}>If You Smoke</a>
-          <a href="/faq/" class:list={{ active: path === '/faq' }}>FAQ</a>
+          <a href="/quit" class:list={{ active: path === '/quit' }}>If You Smoke</a>
+          <a href="/policy" class:list={{ active: path === '/policy' }}>For Policymakers</a>
         </div>
       </details>
-      <details class="nav-dropdown" class:list={{ active: group === 'india' }}>
-        <summary>India</summary>
+      <details class="nav-dropdown" class:list={{ active: group === 'evidence' }}>
+        <summary>The Evidence</summary>
         <div class="dropdown-menu">
-          <a href="/india/" class:list={{ active: path === '/india' }}>Overview</a>
-          <a href="/india/law/" class:list={{ active: path === '/india/law' }}>Law</a>
-          <a href="/india/police/" class:list={{ active: path === '/india/police' }}>Police &amp; Your Rights</a>
-          <a href="/india/flights/" class:list={{ active: path === '/india/flights' }}>Flights</a>
-          <a href="/nicotine-pouches/" class:list={{ active: path.startsWith('/nicotine-pouches') }}>Nicotine Pouches</a>
-          <a href="/litigation/" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
-          <a href="/india/rti-replies/" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
-          <a href="/policy/" class:list={{ active: path === '/policy' }}>Policy</a>
+          <a href="/science" class:list={{ active: path.startsWith('/science') }}>Science</a>
+          <a href="/india" class:list={{ active: path === '/india' || path === '/india/law' }}>India</a>
         </div>
       </details>
       <details class="nav-dropdown" class:list={{ active: group === 'advocacy' }}>
-        <summary>Advocacy</summary>
+        <summary>Our Advocacy</summary>
         <div class="dropdown-menu">
-          <a href="/campaigns/" class:list={{ active: path.startsWith('/campaigns') }}>Campaigns</a>
-          <a href="/submissions/" class:list={{ active: path === '/submissions' }}>Submissions</a>
-          <a href="/press/" class:list={{ active: path.startsWith('/press') }}>Press</a>
+          <a href="/campaigns" class:list={{ active: path.startsWith('/campaigns') }}>Campaigns</a>
+          <a href="/submissions" class:list={{ active: path === '/submissions' }}>Submissions to Policymakers</a>
+          <a href="/litigation" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
+          <a href="/press" class:list={{ active: path.startsWith('/press') }}>Press</a>
+          <a href="/india/rti-replies" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
+          <a href="/report-harassment" class:list={{ active: path === '/report-harassment' }}>Report Harassment</a>
         </div>
       </details>
-      <a href="/search/" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /><span class="nav-search-label">Search</span></a>
-      <a href="/report-harassment/" class="btn btn-rust-outline btn-small nav-report"><Icon name="scale" />Report harassment</a>
-      <a href="/contribute/" class="btn btn-primary btn-small">Support us</a>
+      <details class="nav-dropdown" class:list={{ active: group === 'updates' }}>
+        <summary>Updates</summary>
+        <div class="dropdown-menu">
+          <a href="/news" class:list={{ active: path.startsWith('/news') }}>Daily News</a>
+          <a href="/media" class:list={{ active: path.startsWith('/media') }}>Our Media</a>
+        </div>
+      </details>
+      <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
+      <a href="/search" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /><span class="nav-search-label">Search</span></a>
+      <a href="/contribute" class="nav-contribute">Contribute</a>
     </nav>
   </header>
   <script>
@@ -706,15 +616,6 @@ const group = activeGroup(path);
         closeMobileNav();
       }
     });
-
-    // Light shadow once the page has scrolled, so the sticky header reads
-    // as "above" the content instead of blending into it.
-    const siteHeader = document.querySelector('header.site');
-    function updateHeaderShadow() {
-      siteHeader?.classList.toggle('scrolled', window.scrollY > 0);
-    }
-    updateHeaderShadow();
-    window.addEventListener('scroll', updateHeaderShadow, { passive: true });
   </script>
   <main class={wide ? 'wide' : ''}>
     <slot />
@@ -722,55 +623,30 @@ const group = activeGroup(path);
   <footer class="site">
     <div class="footer-inner">
       <div class="footer-brand-row">
-        <Image class="mark" src={logo} width={64} height={64} alt="Association of Vapers India — Est. 2016" />
+        <img class="mark" src="/images/avi-logo.png" alt="Association of Vapers India — Est. 2016" />
         <div>
           <span class="footer-name">Association of Vapers India</span>
           <span class="footer-tagline">Tobacco harm reduction advocacy for India, since 2016.</span>
         </div>
       </div>
-      <div class="footer-newsletter">
-        <NewsletterSignup id="footer" compact={true} />
-      </div>
-      <nav class="footer-columns" aria-label="Footer">
-        <div>
-          <h3>About</h3>
-          <ul>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/testimonials/">Testimonials</a></li>
-            <li><a href="/contribute/">Contribute</a></li>
-            <li><a href="/search/">Search</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Evidence</h3>
-          <ul>
-            <li><a href="/science/">Science</a></li>
-            <li><a href="/quit/">If You Smoke</a></li>
-            <li><a href="/faq/">FAQ</a></li>
-            <li><a href="/policy/">For Policymakers</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>India</h3>
-          <ul>
-            <li><a href="/india/">India</a></li>
-            <li><a href="/litigation/">Litigation</a></li>
-            <li><a href="/india/rti-replies/">RTI Replies</a></li>
-            <li><a href="/report-harassment/">Report Harassment</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Advocacy</h3>
-          <ul>
-            <li><a href="/campaigns/">Campaigns</a></li>
-            <li><a href="/submissions/">Submissions to Policymakers</a></li>
-            <li><a href="/press/">Press</a></li>
-            <li><a href="/news/">Daily News</a></li>
-            <li><a href="/media/">Our Media</a></li>
-          </ul>
-        </div>
+      <nav class="footer-links-flat" aria-label="Footer">
+        <a href="/about">About</a>
+        <a href="/quit">If You Smoke</a>
+        <a href="/policy">For Policymakers</a>
+        <a href="/science">Science</a>
+        <a href="/india">India</a>
+        <a href="/campaigns">Campaigns</a>
+        <a href="/submissions">Submissions to Policymakers</a>
+        <a href="/litigation">Litigation</a>
+        <a href="/press">Press</a>
+        <a href="/india/rti-replies">RTI Replies</a>
+        <a href="/report-harassment">Report Harassment</a>
+        <a href="/news">Daily News</a>
+        <a href="/media">Our Media</a>
+        <a href="/testimonials">Testimonials</a>
+        <a href="/contribute">Contribute</a>
+        <a href="/search">Search</a>
       </nav>
-      <p class="footer-disclaimer">AVI is a consumer group. We don't sell or promote any product. For adults who smoke or use tobacco.</p>
       <div class="footer-bottom-row">
         <div class="social">
           <a href="https://x.com/vapeindia" target="_blank" rel="noopener" aria-label="AVI on X" title="X"><SocialIcon name="x" /></a>

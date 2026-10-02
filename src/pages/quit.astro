@@ -1,48 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-
-const faqLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Is vaping safer than smoking?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "Yes. Major health bodies agree it is the burning of tobacco — not the nicotine — that causes most smoking-related disease, and vaping involves no combustion. Cochrane's living review found nicotine e-cigarettes help more smokers quit than nicotine replacement therapy (about 8–10 per 100 vs. 6 per 100).",
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does vaping actually help people quit smoking?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "The best available evidence says yes. Cochrane's 2025 living review found about 8–10 smokers per 100 quit using nicotine e-cigarettes, versus 6 with nicotine replacement therapy (gums, patches) and 4 with no support — making e-cigarettes the most effective aid studied head-to-head.",
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is nicotine itself the dangerous part of smoking?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "No. The overwhelming evidence, summarised by bodies including the UK's Royal College of Physicians, is that it is burning tobacco — the tar and thousands of combustion byproducts — that causes most smoking-related disease, not the nicotine itself.",
-      },
-    },
-  ],
-};
 ---
-<Base title="Is Vaping Safer Than Smoking? The Evidence" description="Yes — per Cochrane's living review, e-cigarettes help more smokers quit than nicotine replacement therapy, and it's combustion, not nicotine, that drives most smoking-related disease. The full evidence on switching, for India." wide={true}>
-  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+<Base title="Quitting with Safer Alternatives" description="The evidence on quitting smoking or smokeless tobacco with vaping, nicotine pouches and snus — and why India's current law keeps this option out of reach." wide={true}>
   <section class="breakout hero">
     <div class="breakout-inner hero-inner">
       <p class="eyebrow">For those ready to switch</p>
       <h1>If you smoke, or use gutka, khaini or other toxic SLT — this is what the evidence says about switching</h1>
       <p class="hero-sub">
-        You would not be the first. An estimated <strong>200 million people worldwide</strong> already use a
+        You would not be the first. An estimated <strong>200 million people worldwide</strong> have already replaced combustible tobacco or toxic smokeless tobacco with a
         lower-risk nicotine alternative — vaping, heated tobacco, nicotine pouches or
-        snus — according to the <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">2026 Global State of Tobacco Harm Reduction report</a>, which counts current users of these products, not confirmed switches from smoking.
+        snus — according to the <a href="https://gsthr.org/resources/thr-reports/the-global-state-of-tobacco-harm-reduction-2026-a-situation-report/" target="_blank" rel="noopener">2026 Global State of Tobacco Harm Reduction report</a>.
         This page sets out what the evidence says about whether switching works,
         not how to obtain anything — see the legal note below for why.
       </p>
@@ -50,23 +18,10 @@ const faqLd = {
   </section>
 
   <div class="quit-body">
-    <p class="short-answer">
-      <strong>Is vaping safer than smoking? Yes.</strong> It is the burning of
-      tobacco — not the nicotine — that causes most smoking-related disease,
-      and vaping involves no combustion. Cochrane's living review found
-      nicotine e-cigarettes help more smokers quit than nicotine replacement
-      therapy. The evidence behind both claims is below.
-    </p>
-    <p class="adults-note">
-      This page is written for adults who already smoke or use tobacco and
-      are weighing a lower-risk alternative. If you don't use tobacco or
-      nicotine in any form, nothing here is a reason to start.
-    </p>
     <nav class="page-toc" aria-label="On this page">
       <span class="toc-label">On this page:</span>
       <a href="#does-it-work">Does it work?</a>
       <a href="#what-matters">What matters, if you switch</a>
-      <a href="#quit-entirely">Want to quit entirely?</a>
       <a href="#resources">Further reading</a>
       <a href="#legal-reality">The legal reality</a>
     </nav>
@@ -89,7 +44,7 @@ const faqLd = {
         </div>
         <div class="evidence-card">
           <h3>India-specific: 3,000-vaper survey, 2020</h3>
-          <p>The largest India-specific study found: <strong>71.3% of surveyed smokers quit (30.0%) or reduced (41.3%)</strong> smoking with e-cigarettes, with similar results for SLT users — see <a href="/india/smokeless-tobacco/">the harm reduction case for India's ~200 million smokeless-tobacco users →</a>. A self-selected sample of vapers, not population-representative — but the largest evidence India has.</p>
+          <p>The largest India-specific study found: <strong>71.3% of surveyed smokers quit (30.0%) or reduced (41.3%)</strong> smoking with e-cigarettes, with similar results for SLT users. A self-selected sample of vapers, not population-representative — but the largest evidence India has.</p>
           <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7106589/" target="_blank" rel="noopener">Read the study →</a>
         </div>
         <div class="evidence-card">
@@ -108,7 +63,7 @@ const faqLd = {
           <a href="https://www.fda.gov/tobacco-products/advertising-and-promotion/modified-risk-granted-orders" target="_blank" rel="noopener">See FDA's orders →</a>
         </div>
       </div>
-      <p class="see-more"><a href="/science/">See the full evidence library →</a></p>
+      <p class="see-more"><a href="/science">See the full evidence library →</a></p>
     </section>
 
     <section class="q-section principles-section" id="what-matters">
@@ -122,31 +77,6 @@ const faqLd = {
         <li><strong>Behavioural support helps, whichever method you use.</strong> Every body cited on this page that studied it found combining a lower-risk alternative with some form of counselling or structured support improved quit outcomes further.</li>
         <li><strong>"Less harmful" is not "harmless."</strong> Every major body cited here is explicit about this. The comparison that matters for an existing smoker or SLT user is against continuing to smoke or chew — not against using nothing at all.</li>
       </ul>
-    </section>
-
-    <section class="q-section quitline-section" id="quit-entirely">
-      <div class="section-head">
-        <Icon name="heart" />
-        <h2>Want to stop using nicotine altogether?</h2>
-      </div>
-      <p>
-        Switching to a lower-risk alternative is one option for adults who
-        already smoke or use tobacco — quitting nicotine entirely is
-        another, and India has free, government-run support for that too:
-      </p>
-      <ul class="quitline-list">
-        <li>
-          <strong>National Tobacco Quitline</strong> — call <a href="tel:+911800112356">1800-11-2356</a>, free, for counselling on quitting any form of tobacco.
-        </li>
-        <li>
-          <strong>mCessation programme</strong> — a free SMS-based quit-support service from the Ministry of Health and Family Welfare's National Tobacco Control Programme. <a href="https://ntcp.mohfw.gov.in/mcessation" target="_blank" rel="noopener">Sign up at ntcp.mohfw.gov.in/mcessation →</a>
-        </li>
-      </ul>
-      <p>
-        Whichever route you're considering, talk to a doctor — they can
-        help you weigh cessation support, nicotine replacement therapy and
-        other options against your own health and circumstances.
-      </p>
     </section>
 
     <section class="q-section resources-section" id="resources">
@@ -178,21 +108,21 @@ const faqLd = {
       </div>
       <p>
         Sale, import and advertisement of e-cigarettes is banned under PECA,
-        2019 — personal use and possession are not (see <a href="/india/police/">Know your rights</a> if you've been told otherwise). Pouches and
+        2019 — personal use and possession are not (see <a href="/india/law#know-your-rights">Know your rights</a> if you've been told otherwise). Pouches and
         snus have no lawful sale pathway either, via a different mechanism.
         This page doesn't sell, advertise or facilitate access to anything —
         AVI's advocacy is aimed at winning <em>legal, regulated</em> access
         through evidence and litigation, not circumventing the law.
       </p>
-      <a class="btn btn-secondary" href="/india/law/">Read the full legal position →</a>
+      <a class="btn btn-outline" href="/india/law">Read the full legal position →</a>
     </section>
 
     <div class="quit-related">
-      <a href="/testimonials/" class="related-card">
+      <a href="/testimonials" class="related-card">
         <h3>Real stories →</h3>
         <p>Accounts from Indians who've already made this switch, in their own words.</p>
       </a>
-      <a href="/report-harassment/" class="related-card">
+      <a href="/report-harassment" class="related-card">
         <h3>Report harassment →</h3>
         <p>Stopped or shaken down over vaping, even though it's not banned? Log it.</p>
       </a>
@@ -205,37 +135,22 @@ const faqLd = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--paper);
+      color: var(--gold-light);
       margin: 0 0 0.75rem;
     }
     .hero {
-      background: var(--green-deep);
+      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
+      background-size: cover;
+      background-position: center 70%;
       color: #f4f1e6;
       padding: 4rem 0 3.5rem;
     }
     .hero-inner { max-width: 48rem; }
     .hero h1 { color: #fff; font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin: 0 0 1.1rem; }
     .hero-sub { color: #cdd6cf; font-size: 1.05rem; margin: 0; }
-    .hero-sub a { color: var(--paper); }
+    .hero-sub a { color: var(--gold-light); }
 
-    .quit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }    .adults-note {
-      max-width: 46rem;
-      font-size: 0.88rem;
-      font-style: italic;
-      color: var(--muted);
-      border-left: 3px solid var(--green);
-      padding-left: 1rem;
-      margin: 0 0 2rem;
-    }
-    .quitline-list { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 1rem; max-width: 46rem; }
-    .quitline-list li {
-      padding: 1rem 1.25rem;
-      background: var(--paper-2);
-      border-left: 3px solid var(--green);
-      font-size: 0.94rem;
-      line-height: 1.6;
-    }
-    .quitline-section p { max-width: 46rem; }
+    .quit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .page-toc {
       display: flex;
       flex-wrap: wrap;
@@ -243,24 +158,24 @@ const faqLd = {
       gap: 0.5rem 0.75rem;
       margin-bottom: 3rem;
       padding-bottom: 1.75rem;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--border);
     }
     .toc-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-right: 0.25rem; }
     .page-toc a {
       font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
-      color: var(--green-deep);
-      background: var(--paper-2);
+      color: var(--accent-dark);
+      background: var(--paper-alt);
       padding: 0.4rem 0.85rem;
       border-radius: 99px;
       white-space: nowrap;
     }
-    .page-toc a:hover { background: var(--paper); color: var(--ink); }
+    .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
     .q-section { margin-bottom: 3.5rem; scroll-margin-top: 1.5rem; }
     .q-section:last-child { margin-bottom: 0; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
 
     .evidence-grid {
@@ -271,7 +186,7 @@ const faqLd = {
     }
     .evidence-card {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.4rem 1.5rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
@@ -284,8 +199,8 @@ const faqLd = {
     .principles-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; max-width: 46rem; }
     .principles-list li {
       padding: 1rem 1.25rem;
-      background: var(--paper-2);
-      border-left: 3px solid var(--green);
+      background: var(--paper-alt);
+      border-left: 3px solid var(--gold);
       font-size: 0.94rem;
       line-height: 1.6;
     }
@@ -302,19 +217,19 @@ const faqLd = {
       gap: 1.25rem;
       margin-top: 1rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--border);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-2);
+      background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>
