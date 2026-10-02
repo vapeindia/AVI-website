@@ -88,22 +88,29 @@ const FUND_USES = [
           <h3>Accounting</h3>
           <p>Received through <strong>Harm Reduction Policy &amp; Research (HRPR)</strong>, an MCA-registered company — recorded as company income, audited and taxed accordingly.</p>
         </div>
-        <div class="note note-wide">
+        <div class="note">
           <h3>Where it goes</h3>
           <p>No AVI functionary draws a salary — every contribution funds:</p>
           <div class="funds-related">
             {FUND_USES.map((f) => (
-              <a href={f.href} class="related-card">{f.label} →</a>
+              <a href={f.href} class="fund-chip">{f.label} →</a>
             ))}
           </div>
         </div>
       </div>
-      <p class="testimonials-link">
-        <a href="/testimonials/">Read stories this work has helped →</a>
-      </p>
-      <p class="testimonials-link">
-        <a href="/campaigns/#get-involved">Can't give funds? See other ways to help →</a>
-      </p>
+    </section>
+
+    <section class="c-section">
+      <div class="cta-grid">
+        <a href="/testimonials/" class="cta-card">
+          <h3>Read the stories →</h3>
+          <p>See how this work has already helped people.</p>
+        </a>
+        <a href="/campaigns/#get-involved" class="cta-card">
+          <h3>Other ways to help →</h3>
+          <p>Can't give funds? There's more than one way to support this.</p>
+        </a>
+      </div>
     </section>
 
   </div>
@@ -171,20 +178,20 @@ const FUND_USES = [
 
     .notes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
       gap: 1.25rem;
+      max-width: 42rem;
     }
     .note {
       background: var(--paper-alt);
       border-radius: 8px;
       padding: 1.1rem 1.25rem;
     }
-    .note-wide { grid-column: 1 / -1; }
     .note h3 { margin: 0 0 0.4rem; font-size: 0.92rem; color: var(--accent-dark); }
     .note p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
     .funds-related { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.75rem; }
-    .related-card {
+    .fund-chip {
       display: inline-block;
       text-decoration: none;
       color: var(--accent-dark);
@@ -195,7 +202,25 @@ const FUND_USES = [
       font-size: 0.82rem;
       font-weight: 600;
     }
-    .testimonials-link { font-weight: 600; font-size: 0.95rem; margin: 1.25rem 0 0; }
+
+    .cta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      max-width: 42rem;
+    }
+    .cta-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .cta-card:hover { transform: translateY(-2px); }
+    .cta-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .cta-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 
   <script>
