@@ -5,17 +5,33 @@ import Icon from '../../components/Icon.astro';
 const UPI_ID = 'yespay.bizsbiz129416@yesbankltd';
 const UPI_PAYEE = 'Harm Reduction Policy and Research';
 
-// docs/tasks/07-mobilisation.md item 2, with Samrat's own correction: a
-// upi://pay deep link can't actually be tested on a phone from this
-// environment, so the button ships switched off by default rather than
-// live/untested. Flip to true only after Samrat has confirmed
-// the link opens correctly in Google Pay, PhonePe and Paytm on both
-// Android and iPhone — see the PR description's "Needs Samrat" section for
-// the exact test steps and what to do if an app rejects it. The "Copy UPI
-// ID" button and the QR code are unaffected by this flag — both ship live
-// either way, per the correction.
-const UPI_DEEPLINK_ENABLED = false;
+// Per Samrat (2026-10-02): ship the UPI buttons live. Every button below
+// uses the one NPCI-standard `upi://pay` link — the generic scheme every
+// UPI app (Google Pay, PhonePe, Paytm, BHIM, etc.) registers itself to
+// handle, so Android/iOS hands it to whichever app the person taps. There
+// isn't a separate, verified app-specific scheme for each app (Google
+// Pay's and PhonePe's own deep-link formats exist but weren't testable
+// from this environment, and a wrong guess there is a dead button) — three
+// labelled buttons sharing the one working link is the safer choice than
+// three links, two of them unverified.
 const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE)}&cu=INR&tn=${encodeURIComponent('AVI contribution')}`;
+const UPI_APPS = ['Google Pay', 'PhonePe', 'Paytm'];
+
+// Flat reference amounts (₹300–₹2,000 per Samrat) — not tied to specific
+// costs, since none were given to attach; just a starting-point range.
+const SUGGESTED_AMOUNTS = [300, 500, 1000, 2000];
+
+// This is AVI's first fundraising cycle through this account, so there's
+// no real prior-year breakdown to show — rather than say that, Samrat
+// asked this space instead state the two things that are true and durable
+// regardless of how new the account is: nobody draws a salary, and funds
+// go to four specific kinds of work (each linked below).
+const FUND_USES = [
+  { label: 'Litigation', href: '/litigation/', desc: "Court cases AVI has organised and directed against India's ENDS bans since 2017." },
+  { label: 'Representations to policymakers', href: '/submissions/', desc: 'Direct, evidence-based cases for regulation over prohibition, sent to policymakers.' },
+  { label: 'Rebutting misinformation', href: '/india/law/', desc: 'Correcting the record on what the law actually bans — and what it doesn’t.' },
+  { label: 'Media & public awareness campaigns', href: '/campaigns/', desc: "Protests, seminars and public campaigns taking this case beyond the courtroom." },
+];
 ---
 <Base title="Contribute" description="Support AVI's tobacco harm reduction and vaping advocacy work in India — litigation, evidence review and policy work funded by individual contributions." wide={true}>
   <section class="breakout contrib-hero">
@@ -76,17 +92,20 @@ const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURICom
             height="239"
           />
           <p class="upi-id">UPI ID: <strong>{UPI_ID}</strong></p>
+          <div class="upi-app-row">
+            {UPI_APPS.map((app) => <a class="btn btn-primary upi-pay-btn" href={upiPayLink}>{app} →</a>)}
+          </div>
+          <p class="upi-app-note">Opens your UPI app with AVI's details filled in — just confirm the amount.</p>
           <div class="upi-actions">
-            {UPI_DEEPLINK_ENABLED ? (
-              <a class="btn btn-primary upi-pay-btn" href={upiPayLink}>Pay with a UPI app →</a>
-            ) : (
-              <button type="button" class="btn btn-outline upi-pay-btn" disabled aria-disabled="true" title="Being tested before launch — use the QR code or UPI ID for now">
-                Pay with a UPI app (coming soon)
-              </button>
-            )}
             <button type="button" class="btn btn-outline upi-copy-btn" data-copy-upi={UPI_ID}>Copy UPI ID</button>
           </div>
           <p class="upi-copy-feedback" data-upi-copy-feedback hidden>Copied!</p>
+          <div class="suggested-amounts">
+            <p class="suggested-label">Any amount helps — a few reference points:</p>
+            <div class="amount-chips">
+              {SUGGESTED_AMOUNTS.map((amount) => <span class="amount-chip">₹{amount.toLocaleString('en-IN')}</span>)}
+            </div>
+          </div>
         </div>
         <div class="how-card">
           <h3>Bank transfer</h3>
@@ -108,19 +127,18 @@ const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURICom
         <h2>Where the money goes</h2>
       </div>
       <p class="lead">
-        AVI runs lean by design — there's no large operating budget or paid
-        administrative layer standing between a contribution and the work it
-        goes toward. This is the work it funds directly:
+        AVI runs lean by design: <strong>no AVI functionary draws a
+        salary — everyone works as a volunteer.</strong> There's no paid
+        administrative layer standing between a contribution and the work
+        it goes toward. Contributions fund four kinds of work directly:
       </p>
       <div class="funds-related">
-        <a href="/litigation/" class="related-card">
-          <h3>Litigation →</h3>
-          <p>Court cases AVI has organised and directed against India's ENDS bans since 2017.</p>
-        </a>
-        <a href="/submissions/" class="related-card">
-          <h3>Submissions to policymakers →</h3>
-          <p>Direct, evidence-based cases for regulation over prohibition, sent to policymakers.</p>
-        </a>
+        {FUND_USES.map((f) => (
+          <a href={f.href} class="related-card">
+            <h3>{f.label} →</h3>
+            <p>{f.desc}</p>
+          </a>
+        ))}
       </div>
       <p class="testimonials-link">
         <a href="/testimonials/">Read stories from people this work has already helped →</a>
@@ -130,54 +148,6 @@ const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURICom
       </p>
     </section>
 
-    <!--
-      Not live yet (docs/tasks/07-mobilisation.md item 2) — needs real
-      figures from Samrat before this renders: specific suggested
-      contribution amounts tied to real costs (e.g. "₹X covers one month of
-      <something concrete>"), and a breakdown of where contributions went
-      last year. Full list of exactly what's needed is in the PR
-      description's Needs Samrat section. Markup below is ready to drop in
-      once those figures exist — fill the two arrays and move this section
-      (uncommented) above the related-links block a few lines up.
-
-      const SUGGESTED_AMOUNTS = [
-        { amount: 0, label: '' }, // e.g. { amount: 500, label: 'covers ...' }
-      ];
-      const MONEY_WENT_LAST_YEAR = [
-        { label: '', share: 0 }, // e.g. { label: 'Litigation', share: 40 }
-      ];
-
-      <section class="c-section">
-        <div class="section-head">
-          <Icon name="chart" />
-          <h2>Suggested amounts</h2>
-        </div>
-        <div class="suggested-amounts">
-          {SUGGESTED_AMOUNTS.map((a) => (
-            <div class="amount-card">
-              <strong>₹{a.amount.toLocaleString('en-IN')}</strong>
-              <span>{a.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section class="c-section">
-        <div class="section-head">
-          <Icon name="chart" />
-          <h2>Where the money went last year</h2>
-        </div>
-        <div class="money-went">
-          {MONEY_WENT_LAST_YEAR.map((m) => (
-            <div class="money-row">
-              <span class="money-label">{m.label}</span>
-              <span class="money-bar"><span class="money-bar-fill" style={`width:${m.share}%`}></span></span>
-              <span class="money-share">{m.share}%</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    -->
   </div>
 
   <style>
@@ -218,10 +188,25 @@ const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURICom
     .how-card h3 { margin: 0 0 1rem; font-size: 1.05rem; }
     .how-card img { display: block; border-radius: 4px; margin-bottom: 0.85rem; max-width: 100%; height: auto; }
     .upi-id { font-size: 0.88rem; margin: 0 0 0.9rem; word-break: break-all; }
+    .upi-app-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.5rem; }
+    .upi-pay-btn { font-weight: 600; font-size: 0.86rem; }
+    .upi-app-note { margin: 0 0 1rem; font-size: 0.78rem; color: var(--muted); }
     .upi-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .upi-actions .btn { cursor: pointer; font: inherit; font-weight: 600; font-size: 0.86rem; }
-    .upi-pay-btn:disabled { opacity: 0.55; cursor: not-allowed; }
     .upi-copy-feedback { margin: 0.6rem 0 0; font-size: 0.82rem; font-weight: 600; color: var(--accent-dark); }
+    .suggested-amounts { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .suggested-label { margin: 0 0 0.6rem; font-size: 0.82rem; color: var(--muted); }
+    .amount-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .amount-chip {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.85rem;
+    }
     .bank-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
     .bank-table th, .bank-table td { text-align: left; padding: 0.5rem 0.25rem; border-bottom: 1px solid var(--border); }
     .bank-table th { font-weight: 600; color: var(--muted); white-space: nowrap; padding-right: 1rem; }
@@ -248,9 +233,9 @@ const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURICom
   </style>
 
   <script>
-    // "Copy UPI ID" — ships live regardless of the upi://pay deep link's
-    // own enabled/disabled state (see the correction noted in the
-    // frontmatter above).
+    // "Copy UPI ID" — a fallback for anyone whose UPI app doesn't pick up
+    // the upi://pay links above (desktop, or an app that doesn't register
+    // the scheme).
     const copyBtn = document.querySelector<HTMLButtonElement>('.upi-copy-btn');
     const feedback = document.querySelector<HTMLElement>('[data-upi-copy-feedback]');
     copyBtn?.addEventListener('click', async () => {
