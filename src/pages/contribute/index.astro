@@ -5,21 +5,16 @@ import Icon from '../../components/Icon.astro';
 const UPI_ID = 'yespay.bizsbiz129416@yesbankltd';
 const UPI_PAYEE = 'Harm Reduction Policy and Research';
 
-// Per Samrat (2026-10-02): ship the UPI buttons live. Every button below
-// uses the one NPCI-standard `upi://pay` link — the generic scheme every
-// UPI app (Google Pay, PhonePe, Paytm, BHIM, etc.) registers itself to
-// handle, so Android/iOS hands it to whichever app the person taps. There
-// isn't a separate, verified app-specific scheme for each app (Google
-// Pay's and PhonePe's own deep-link formats exist but weren't testable
-// from this environment, and a wrong guess there is a dead button) — three
-// labelled buttons sharing the one working link is the safer choice than
-// three links, two of them unverified.
+// Per Samrat (2026-10-02, then narrowed 2026-10-02): just the one Google
+// Pay button, using the NPCI-standard `upi://pay` link — Google Pay
+// registers itself to handle this scheme, so it opens directly.
 const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE)}&cu=INR&tn=${encodeURIComponent('AVI contribution')}`;
-const UPI_APPS = ['Google Pay', 'PhonePe', 'Paytm'];
 
-// Flat reference amounts (₹300–₹2,000 per Samrat) — not tied to specific
-// costs, since none were given to attach; just a starting-point range.
+// Reference amounts (₹300–₹2,000 per Samrat) — not tied to specific costs,
+// since none were given to attach; mentioned in plain text only, not as
+// separate buttons/chips (per Samrat's follow-up).
 const SUGGESTED_AMOUNTS = [300, 500, 1000, 2000];
+const suggestedAmountsText = SUGGESTED_AMOUNTS.map((a) => `₹${a.toLocaleString('en-IN')}`).join(', ');
 
 // This is AVI's first fundraising cycle through this account, so there's
 // no real prior-year breakdown to show — rather than say that, Samrat
@@ -93,19 +88,13 @@ const FUND_USES = [
           />
           <p class="upi-id">UPI ID: <strong>{UPI_ID}</strong></p>
           <div class="upi-app-row">
-            {UPI_APPS.map((app) => <a class="btn btn-primary upi-pay-btn" href={upiPayLink}>{app} →</a>)}
+            <a class="btn btn-primary upi-pay-btn" href={upiPayLink}>Pay with Google Pay →</a>
           </div>
-          <p class="upi-app-note">Opens your UPI app with AVI's details filled in — just confirm the amount.</p>
+          <p class="upi-app-note">Opens Google Pay with AVI's details filled in — just confirm the amount. Any amount helps; {suggestedAmountsText} are a few reference points.</p>
           <div class="upi-actions">
             <button type="button" class="btn btn-outline upi-copy-btn" data-copy-upi={UPI_ID}>Copy UPI ID</button>
           </div>
           <p class="upi-copy-feedback" data-upi-copy-feedback hidden>Copied!</p>
-          <div class="suggested-amounts">
-            <p class="suggested-label">Any amount helps — a few reference points:</p>
-            <div class="amount-chips">
-              {SUGGESTED_AMOUNTS.map((amount) => <span class="amount-chip">₹{amount.toLocaleString('en-IN')}</span>)}
-            </div>
-          </div>
         </div>
         <div class="how-card">
           <h3>Bank transfer</h3>
@@ -194,19 +183,6 @@ const FUND_USES = [
     .upi-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .upi-actions .btn { cursor: pointer; font: inherit; font-weight: 600; font-size: 0.86rem; }
     .upi-copy-feedback { margin: 0.6rem 0 0; font-size: 0.82rem; font-weight: 600; color: var(--accent-dark); }
-    .suggested-amounts { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-    .suggested-label { margin: 0 0 0.6rem; font-size: 0.82rem; color: var(--muted); }
-    .amount-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .amount-chip {
-      display: inline-block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--accent-dark);
-      background: var(--paper-alt);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.3rem 0.85rem;
-    }
     .bank-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
     .bank-table th, .bank-table td { text-align: left; padding: 0.5rem 0.25rem; border-bottom: 1px solid var(--border); }
     .bank-table th { font-weight: 600; color: var(--muted); white-space: nowrap; padding-right: 1rem; }
