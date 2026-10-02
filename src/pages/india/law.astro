@@ -6,6 +6,8 @@ import { getHarassmentStats } from '../../lib/harassment-stats';
 
 const hStats = await getHarassmentStats();
 
+const QUICK_SUMMARY = "Vaping is legal to use and possess in India. The Prohibition of Electronic Cigarettes Act, 2019 bans only the sale, import, manufacture and advertisement of e-cigarettes — not personal use. Nicotine pouches aren't named in any ban, but have no lawful route to sale either, blocked by food and import rules rather than a specific law.";
+
 const faqLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -28,6 +30,14 @@ const faqLd = {
     },
     {
       '@type': 'Question',
+      name: 'Does PECA\'s ban on "transport" stop me carrying my own vape?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AVI\'s reading is no — "transport" appears in a list of business activities (produce, manufacture, import, export, sell, distribute), so it should mean moving stock for a business, not carrying a personal device. This is AVI\'s argument in an ongoing court case, not yet a settled ruling.',
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'Are nicotine pouches or snus legal in India?',
       acceptedAnswer: {
         '@type': 'Answer',
@@ -44,9 +54,18 @@ const faqLd = {
     },
   ],
 };
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'The Law in India, as it Stands: Vaping and Nicotine Pouches',
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+  publisher: { '@type': 'Organization', name: 'Association of Vapers India' },
+};
 ---
 <Base title="Current law in India" description="Is vaping legal in India? What PECA actually bans (sale, import, advertisement) and doesn't ban (personal use and possession) — the law, as of today." wide={true}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <section class="breakout law-hero">
     <div class="breakout-inner">
       <p class="eyebrow">As of today</p>
@@ -55,6 +74,25 @@ const faqLd = {
   </section>
 
   <div class="law-body">
+    <nav class="page-toc" aria-label="On this page">
+      <span class="toc-label">On this page:</span>
+      <a href="#quick-summary">Quick summary</a>
+      <a href="#e-cigarettes">E-cigarettes &amp; vaping</a>
+      <a href="#transport">"Transport," explained</a>
+      <a href="#nicotine-pouches">Nicotine pouches</a>
+      <a href="#nrt">NRT, for contrast</a>
+      <a href="#know-your-rights">Know your rights</a>
+    </nav>
+
+    <blockquote class="quote-box" id="quick-summary">
+      <p class="quote-label">Quotable summary</p>
+      <p class="quote-text">{QUICK_SUMMARY}</p>
+      <footer>
+        <cite>— Association of Vapers India</cite>
+        <button type="button" class="btn btn-outline quote-copy-btn" data-copy-text={QUICK_SUMMARY} data-default-label="Copy quote">Copy quote</button>
+      </footer>
+    </blockquote>
+
     <div class="status-grid">
       <div class="status-card status-banned">
         <Icon name="shield" />
@@ -77,7 +115,7 @@ const faqLd = {
     </div>
 
     <div class="law-prose">
-      <h2><Icon name="shield" /> E-cigarettes and ENDS</h2>
+      <h2 id="e-cigarettes"><Icon name="shield" /> E-cigarettes and ENDS</h2>
       <p>
         E-cigarettes and all Electronic Nicotine Delivery Systems (ENDS —
         vapes, heat-not-burn devices, e-hookah) are covered by the <a href="https://www.indiacode.nic.in/handle/123456789/13078" target="_blank" rel="noopener">Prohibition of Electronic Cigarettes Act, 2019 (PECA)</a>, passed by Parliament on 5 December 2019. In short: PECA bans the <em>business</em> of e-cigarettes, not the act of using one.
@@ -112,49 +150,37 @@ const faqLd = {
 
       <h3>Where the "it's banned" claim comes from — and why it's wrong</h3>
       <p>
-        In late 2023 the Union Health Ministry told a court, in a case
-        brought by AVI members against the flight ban, that because sale and
-        import are banned, this <em>implies</em> use is banned too. Here's
-        why that doesn't hold up:
+        In late 2023 the Union Health Ministry told a court that because
+        sale and import are banned, personal use must be banned too. That's
+        not how law works — an act is only an offence if a specific
+        provision creates it and a specific penalty attaches to it, and
+        neither exists for personal use or possession anywhere in PECA. The
+        government has said as much itself, more than once, including to
+        Parliament. <a href="#evidence">See the evidence →</a>
       </p>
-      <ol class="rebuttal-timeline">
-        <li><strong>That's not how law works.</strong> An act only becomes an offence when a specific provision creates it and a specific penalty attaches to it. Neither exists for personal use or possession anywhere in PECA.</li>
-        <li><strong>Parliament was told the opposite.</strong> The then Health Minister, Dr Harsh Vardhan, <a href="https://twitter.com/vapeindia/status/1200639227425366017?t=UZhVQ7iMF4hDjVOPfSiiZw&s=19" target="_blank" rel="noopener">assured Parliament</a> during the ENDS bill debate that use and possession would not be banned, since that would violate personal liberties.</li>
-        <li><strong>The Ministry's own earlier position.</strong> Months before PECA passed, its <a href="https://twitter.com/MoHFW_INDIA/status/1174325122993278977?t=6X-kwOEHGvSL3ndHKTj9uQ&s=19" target="_blank" rel="noopener">official Twitter account stated</a> plainly that use and possession are not banned.</li>
-        <li><strong>The Home Ministry agrees.</strong> A separate <a href="https://www.mha.gov.in/sites/default/files/CSDiv_ecigerete_12122019.pdf" target="_blank" rel="noopener">circular (point C)</a> confirms personal use and possession is not a crime.</li>
-        <li><strong>Legal experts concur.</strong> Independent lawyers have reached the <a href="https://www.instagram.com/reel/DZ7MCllo4KJ/?igsh=MXc2aHZmMW53Zm5lMg==" target="_blank" rel="noopener">same conclusion</a>.</li>
-      </ol>
       <p>
         See <a href="/litigation">AVI's litigation page</a> for the ongoing flight-ban case, and our <a href="https://x.com/vapeindia/status/1848254084572172776?s=20" target="_blank" rel="noopener">full commentary</a> on this issue.
       </p>
 
       <h3 id="transport">What about "transport"?</h3>
       <p>
-        Section 4 of PECA bans "transport" in the same breath as produce,
-        manufacture, import, export, sell and distribute — none of them
-        qualified by the words "for sale" in the Act's own text (that
-        qualifier only shows up in Section 5, about disposing of stock that
-        already existed when the Act commenced). Read on its own, "transport"
-        could be stretched to mean a vaper simply carrying their own device.
+        PECA's list of banned business activities also includes the word
+        "transport." Taken on its own, that word could be stretched to mean
+        carrying your own vape counts as a crime too.
       </p>
       <p>
-        AVI doesn't read it that way, and has made this argument directly to
-        the Delhi High Court in its ongoing case over the flight ban: every
-        other word in that same list describes a step in a commercial supply
-        chain, so "transport" should be read the same way — a word is known
-        by the company it keeps. That reading also lines up with what the
-        Health Ministry and Home Ministry have themselves said elsewhere, in
-        the statements cited above, confirming personal use and possession
+        AVI doesn't read it that way. "Transport" sits in a list of business
+        words — produce, manufacture, import, export, sell, distribute — so
+        it should mean moving stock for a business, the same way a law
+        banning "the transport of goods for sale" wouldn't stop you carrying
+        your own shopping home. AVI has made this argument to the Delhi High
+        Court in its case over the flight ban, and it matches what the
+        government has itself said elsewhere: personal use and possession
         aren't offences under PECA.
       </p>
       <p class="split-note">
-        This is AVI's litigation position in a case still before the court,
-        not a judge's ruling — no court has yet decided this specific
-        question. It's also why the list above says "Storage &amp;
-        transport <em>for sale</em>" rather than an unqualified ban: nothing
-        in the Act's text, or in what the government has told Parliament and
-        the public, supports reading "transport" to cover carrying your own
-        device.
+        This is AVI's argument in a case still before the court, not a
+        judge's ruling — no court has decided this specific point yet.
       </p>
 
     </div>
@@ -179,7 +205,7 @@ const faqLd = {
           <p class="share-hint">Bookmark it, or send the link to a friend — it opens straight to this section.</p>
         </div>
 
-        <h3>The evidence, in one place</h3>
+        <h3 id="evidence">The evidence, in one place</h3>
         <div class="evidence-grid">
           <a class="evidence-card" href="https://twitter.com/MoHFW_INDIA/status/1174325122993278977?t=6X-kwOEHGvSL3ndHKTj9uQ&s=19" target="_blank" rel="noopener">
             <Icon name="quote" />
@@ -229,9 +255,7 @@ const faqLd = {
           <li>If they push to confiscate your device or detain you, ask to go to the station and for a written seizure memo.</li>
           <li>Pull up the <a href="https://www.mha.gov.in/sites/default/files/CSDiv_ecigerete_12122019.pdf" target="_blank" rel="noopener">Home Ministry circular</a> on your phone — point C says it plainly.</li>
           <li>Record audio or video if you can safely do so. Just asking "do you mind if I record this?" often de-escalates it on its own.</li>
-          <li>Note the time, location, vehicle number and any badge numbers you can see.</li>
-          <li>Afterwards, report it — to your state's police complaints authority or DGP portal, and the Anti-Corruption Bureau if money changed hands.</li>
-          <li><a href="/report-harassment">Report what happened</a> — two minutes, anonymous by default, and it feeds the count above and AVI's advocacy and litigation.</li>
+          <li>Afterwards, note the time, location and any badge numbers, then <a href="/report-harassment">report what happened</a> — to your state's police complaints authority or DGP portal (and the Anti-Corruption Bureau if money changed hands), and to AVI. It takes two minutes, is anonymous by default, and feeds both the count above and AVI's advocacy and litigation.</li>
         </ol>
 
         <p class="rights-note">
@@ -268,11 +292,31 @@ const faqLd = {
         setTimeout(() => { shareLabel.textContent = defaultLabel; }, 2500);
       });
     }
+
+    // Shared helper for the two "copy quote/citation" buttons below — both
+    // just copy a fixed string and flash the button label.
+    function bindCopyButton(btn, getText) {
+      if (!btn) return;
+      const defaultLabel = btn.dataset.defaultLabel || btn.textContent;
+      btn.addEventListener('click', async () => {
+        const text = getText();
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied!';
+        } catch (err) {
+          btn.textContent = 'Could not copy';
+        }
+        setTimeout(() => { btn.textContent = defaultLabel; }, 2000);
+      });
+    }
+    const quoteCopyBtn = document.querySelector('.quote-copy-btn');
+    bindCopyButton(quoteCopyBtn, () => quoteCopyBtn?.dataset.copyText ?? '');
+    bindCopyButton(document.querySelector('.cite-copy-btn'), () => document.getElementById('cite-text')?.textContent ?? '');
   </script>
 
   <div class="law-body">
     <div class="law-prose">
-      <h2><Icon name="leaf" /> Nicotine pouches and snus</h2>
+      <h2 id="nicotine-pouches"><Icon name="leaf" /> Nicotine pouches and snus</h2>
       <p>
         Pouches and snus involve no vapour or heating element, so they fall
         outside PECA entirely — but they're still not lawfully available,
@@ -317,7 +361,7 @@ const faqLd = {
         not an offer to sell, supply or facilitate access to anything.
       </p>
 
-      <h2><Icon name="heart" /> NRT, for contrast</h2>
+      <h2 id="nrt"><Icon name="heart" /> NRT, for contrast</h2>
       <p>
         Gums and patches are legal, regulated as medicines, and government-
         backed as cessation aids. AVI isn't arguing NRT should be restricted —
@@ -333,6 +377,12 @@ const faqLd = {
         cases AVI has fought against state-level bans and the flight ban PECA
         doesn't touch.
       </p>
+    </div>
+
+    <div class="cite-box">
+      <p class="cite-label">Cite this page</p>
+      <p class="cite-text" id="cite-text">Association of Vapers India, "The Law in India, as it Stands," vapeindia.org/india/law.</p>
+      <button type="button" class="btn btn-outline cite-copy-btn" data-copy-target="cite-text" data-default-label="Copy citation">Copy citation</button>
     </div>
 
     <div class="law-related">
@@ -365,6 +415,68 @@ const faqLd = {
     .law-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
 
     .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+
+    .page-toc {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.75rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .toc-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-right: 0.25rem; }
+    .page-toc a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--accent-dark);
+      background: var(--paper-alt);
+      padding: 0.4rem 0.85rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
+
+    /* Short, lift-able summary with a copy button — for anyone (a
+       journalist, a researcher) who wants an exact, attributable sentence
+       rather than having to paraphrase the page themselves. */
+    .quote-box {
+      max-width: var(--max-w);
+      margin: 0 0 2.5rem;
+      padding: 1.5rem 1.75rem;
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+    .quote-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent-dark);
+      margin: 0 0 0.6rem;
+    }
+    .quote-text { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.5; margin: 0 0 1rem; color: var(--ink); }
+    .quote-box footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .quote-box cite { font-size: 0.85rem; color: var(--muted); font-style: normal; }
+    .quote-copy-btn, .cite-copy-btn { font-size: 0.82rem; padding: 0.45rem 1rem; flex-shrink: 0; }
+
+    .cite-box {
+      max-width: var(--max-w);
+      margin: 2.5rem 0 0;
+      padding: 1.1rem 1.4rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .cite-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin: 0; flex: 1 1 100%; }
+    .cite-text { font-size: 0.9rem; color: var(--ink); margin: 0; flex: 1 1 auto; }
 
     .status-grid {
       display: grid;
@@ -485,44 +597,6 @@ const faqLd = {
     @media (max-width: 640px) {
       .pouch-compare { grid-template-columns: 1fr; }
     }
-
-    /* Rebuttal timeline — each claim gets its own card instead of one
-       run-on paragraph, so the chain of evidence is easy to skim. */
-    .rebuttal-timeline {
-      list-style: none;
-      counter-reset: rebuttal;
-      margin: 0 0 1.5rem;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .rebuttal-timeline li {
-      counter-increment: rebuttal;
-      position: relative;
-      background: var(--paper-alt);
-      border-radius: 8px;
-      padding: 0.9rem 1.1rem 0.9rem 3rem;
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-    .rebuttal-timeline li::before {
-      content: counter(rebuttal);
-      position: absolute;
-      left: 0.9rem;
-      top: 0.9rem;
-      width: 1.4rem;
-      height: 1.4rem;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .rebuttal-timeline strong { display: block; margin-bottom: 0.2rem; }
 
     /* Know your rights — deliberately loud: full-bleed, photo band with a
        dark overlay, so it reads as a distinct reference, not more prose. */
