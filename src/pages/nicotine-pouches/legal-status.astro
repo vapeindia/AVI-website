@@ -4,40 +4,48 @@ import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
 import { getGitDates, formatDate } from '../../lib/git-dates';
 
-// New page, content/faq-and-guides item 2. Brings together, on one
-// citable URL, the three pieces of the pouches mechanism that /india/law/
-// already covers but spreads across one section among several — the
-// FSSAI food-rule bar (Regulation 2.3.4), the DTAB's 27 August 2026
-// drug-approval freeze, and the Health Ministry's 19 September 2026 order
-// to states. All three facts, and their sourcing, are drawn from
-// /india/law/#nicotine-pouches-and-snus and src/data/peca.ts — nothing
-// new asserted here. The 19 September order itself isn't quoted directly
-// (AVI hasn't seen its full text — see the unreviewed draft statements in
-// src/content/press/), only the fact of it and its public reporting.
-const pageDates = getGitDates('src/pages/india/nicotine-pouches.astro');
+// Moved from /india/nicotine-pouches/ (legal rework, 2026-10-02) — this is
+// now the "legal status" leaf under the new /nicotine-pouches/ section
+// (see that section's index and /nicotine-pouches/safety/). 301 in
+// public/_redirects covers the old URL.
+const pageDates = getGitDates('src/pages/nicotine-pouches/legal-status.astro');
+
+const SHORT_ANSWER = "No law bans nicotine pouches by name, but there is no legal way to sell them. FSSAI does not allow nicotine in food products, and in August 2026 the Drugs Technical Advisory Board advised against approving any new nicotine formulation. In September 2026 the Health Ministry told states to act against sellers.";
 
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Are Nicotine Pouches Legal in India?',
+  headline: 'Are Nicotine Pouches Legal in India? (2026)',
   datePublished: pageDates.published,
   dateModified: pageDates.modified,
   author: { '@type': 'Organization', name: 'Association of Vapers India' },
 };
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [{
+    '@type': 'Question',
+    name: 'Are nicotine pouches legal in India?',
+    acceptedAnswer: { '@type': 'Answer', text: SHORT_ANSWER },
+  }],
+};
 ---
 <Base
-  title="Are Nicotine Pouches Legal in India?"
-  description="No law names or bans nicotine pouches in India — but a two-agency regulatory freeze between FSSAI's food rules and CDSCO's drug rules has closed every lawful route to sell them, as of September 2026."
+  title="Are Nicotine Pouches Legal in India? (2026)"
+  rawTitle={true}
+  description="No law bans nicotine pouches in India, but FSSAI's food rules and a DTAB drug-approval freeze together leave no legal way to sell them — and since September 2026, states are enforcing that."
   image="/og/india-law.png"
   wide={true}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 
   <section class="breakout pouch-hero">
     <div class="breakout-inner">
       <p class="eyebrow">Updated {formatDate(pageDates.modified)}</p>
       <h1>Are nicotine pouches legal in India?</h1>
-      <p class="pouch-hero-sub">Short answer: no law bans them by name — but as of September 2026, there's no lawful way to sell one either. Here's the two-agency freeze that did it.</p>
+      <p class="pouch-hero-sub">No law bans them by name — but since September 2026, there's no legal way to sell one.</p>
     </div>
   </section>
 
@@ -46,29 +54,24 @@ const articleLd = {
       By Association of Vapers India · Last reviewed {formatDate(pageDates.modified)}
       <span class="authority-note">· This is AVI's understanding of the regulatory position, not formal legal advice.</span>
     </p>
-    <p class="short-answer">
-      <strong>Are nicotine pouches legal in India? No single law says so either way.</strong>
-      Nicotine pouches and snus aren't named or banned by any Act of
-      Parliament. But two separate regulators have each closed their own
-      route to market — together, that adds up to no lawful pathway to
-      sell one at all, as of September 2026.
-    </p>
+    <p class="short-answer">{SHORT_ANSWER}</p>
 
+    <h2><Icon name="document" /> Why there's no legal route</h2>
     <div class="pouch-timeline">
       <div class="pouch-step">
         <Icon name="document" />
         <h3>No route as a food</h3>
-        <p>Nicotine pouches contain no tobacco leaf, so COTPA — the law covering products like khaini and gutka — doesn't apply. That pushes them to the Food Safety and Standards Authority of India (FSSAI), whose Regulation 2.3.4 bars nicotine as an ingredient in any consumable food product.</p>
+        <p>Nicotine pouches contain no tobacco leaf, so COTPA — the law covering products like khaini and gutka — doesn't apply. That pushes them to the Food Safety and Standards Authority of India (FSSAI), whose <a href="https://cdsco.gov.in/opencms/resources/UploadCDSCOWeb/2018/UploadCommitteeFiles/Minutes%20of%2094TH%20DTAB%20dated%2027.08.2026.pdf" target="_blank" rel="noopener">Regulation 2.3.4</a> bars nicotine as an ingredient in any consumable food product.</p>
       </div>
       <div class="pouch-step">
         <Icon name="scale" />
         <h3>No route as a drug — 27 August 2026</h3>
-        <p>The other legal home for a purified-nicotine product is as a drug: the Indian Pharmacopoeia lists nicotine as an Active Pharmaceutical Ingredient, so CDSCO treats a new nicotine product as a "new drug" needing clinical trials and therapeutic approval. The Drugs Technical Advisory Board (DTAB) recommended against approving any new nicotine formulations — closing that door too.</p>
+        <p>The other legal home for a purified-nicotine product is as a drug: the Indian Pharmacopoeia lists nicotine as an Active Pharmaceutical Ingredient, so CDSCO treats a new nicotine product as a "new drug" needing clinical trials and therapeutic approval. The Drugs Technical Advisory Board (DTAB) <a href="https://cdsco.gov.in/opencms/resources/UploadCDSCOWeb/2018/UploadCommitteeFiles/Minutes%20of%2094TH%20DTAB%20dated%2027.08.2026.pdf" target="_blank" rel="noopener">recommended against approving</a> any new nicotine formulations — closing that door too.</p>
       </div>
       <div class="pouch-step">
         <Icon name="shield" />
         <h3>Enforcement follows — 19 September 2026</h3>
-        <p>The Union Health Ministry directed states to act against nicotine-pouch sales, <a href="https://retail.economictimes.indiatimes.com/amp/news/food-entertainment/personal-care-pet-supplies-liquor/india-orders-crackdown-on-nicotine-pouches-citing-health-risks-letter-shows/134496424" target="_blank" rel="noopener">reported by ET Retail</a> days later, citing a letter to states. AVI is reviewing the order's actual text and the states' enforcement directions before taking a litigation position. No Act of Parliament changed — the freeze above is what the enforcement rests on.</p>
+        <p>The Union Health Ministry directed states to act against nicotine-pouch sales, <a href="https://retail.economictimes.indiatimes.com/amp/news/food-entertainment/personal-care-pet-supplies-liquor/india-orders-crackdown-on-nicotine-pouches-citing-health-risks-letter-shows/134496424" target="_blank" rel="noopener">reported by ET Retail</a> days later, citing a letter to states. No Act of Parliament changed — the freeze above is what the enforcement rests on.</p>
       </div>
     </div>
 
@@ -79,7 +82,7 @@ const articleLd = {
       into "drug" classification despite no manufacturer making a
       therapeutic claim for it. No nicotine pouch is sold in India as a
       cessation aid; they're marketed as consumer products, the same as
-      abroad. <a href="/india/law/#nicotine-pouches-and-snus">Full sourcing on /india/law/ →</a>
+      abroad.
     </p>
 
     <h2><Icon name="chart" /> The evidence, set against what stays legal</h2>
@@ -98,24 +101,14 @@ const articleLd = {
       </div>
     </div>
 
-    <h2><Icon name="document" /> What this means practically</h2>
-    <p>
-      This page doesn't sell, advertise or facilitate access to nicotine
-      pouches or any other product — AVI's advocacy is aimed at changing
-      how this freeze is applied through evidence and engagement with
-      regulators, not circumventing it. Brand names, specific
-      formulations, prices and sellers are deliberately absent from this
-      page and the rest of this site.
-    </p>
-
     <div class="pouch-related">
-      <a href="/india/law/#nicotine-pouches-and-snus" class="related-card">
-        <h3>The law, in full →</h3>
-        <p>Every source behind the FSSAI and DTAB mechanism, plus e-cigarettes and NRT for contrast.</p>
+      <a href="/nicotine-pouches/" class="related-card">
+        <h3>Nicotine pouches in India →</h3>
+        <p>The section hub: legal status, safety, and what AVI wants to see change.</p>
       </a>
-      <a href="/india/smokeless-tobacco/" class="related-card">
-        <h3>India's smokeless tobacco users →</h3>
-        <p>The harm reduction case for the roughly 200 million Indians who use gutka, khaini or other SLT.</p>
+      <a href="/nicotine-pouches/safety/" class="related-card">
+        <h3>Are they safer than smoking or gutka? →</h3>
+        <p>What the FDA's own review found, and what isn't known yet.</p>
       </a>
     </div>
   </div>
@@ -134,18 +127,28 @@ const articleLd = {
       padding: 3.25rem 0 2.75rem;
     }
     .pouch-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
-    .pouch-hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 38rem; margin: 0; }
+    .pouch-hero-sub { color: var(--paper-2); font-size: 1.05rem; max-width: 38rem; margin: 0; }
 
     .pouch-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
     .page-authority { font-size: 0.82rem; color: var(--muted); margin: 0 0 1.1rem; }
     .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
     @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
-    .pouch-timeline { display: grid; gap: 1.25rem; margin: 0 0 1.75rem; }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      margin: 2.25rem 0 1rem;
+    }
+    h2:first-of-type { margin-top: 1.75rem; }
+    h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--green); flex-shrink: 0; }
+
+    .pouch-timeline { display: grid; gap: 1.1rem; margin: 0 0 1.5rem; }
     .pouch-step {
       background: #fff;
       border: 1px solid var(--line);
-      border-left: 4px solid var(--green);
-      border-radius: 0 8px 8px 0;
+      border-radius: 12px;
       padding: 1.25rem 1.5rem;
     }
     .pouch-step :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--green-deep); margin-bottom: 0.6rem; }
@@ -154,21 +157,12 @@ const articleLd = {
 
     .split-note {
       background: var(--paper-2);
-      border-left: 3px solid var(--green);
+      border-radius: 8px;
       padding: 0.9rem 1.1rem;
       font-size: 0.9rem;
       color: var(--muted);
-      margin: 0 0 2.25rem;
+      margin: 0 0 2rem;
     }
-
-    h2 {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 1.25rem;
-      margin: 2.5rem 0 1rem;
-    }
-    h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--green); flex-shrink: 0; }
 
     .pouch-compare {
       display: grid;
@@ -176,12 +170,10 @@ const articleLd = {
       gap: 1.25rem;
       margin: 1.5rem 0;
     }
-    .pouch-col { border-radius: 8px; padding: 1.1rem 1.25rem 1.25rem; border: 1px solid var(--line); }
+    .pouch-col { border-radius: 12px; padding: 1.1rem 1.25rem 1.25rem; border: 1px solid var(--line); background: #fff; }
     .pouch-col p { font-size: 0.9rem; line-height: 1.6; margin: 0; color: var(--ink); }
     .pouch-col .split-label { margin-bottom: 0.6rem; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; }
-    .pouch-fda { background: #eef6f1; border-color: #cfe4d7; }
     .pouch-fda .split-label { color: var(--green-deep); }
-    .pouch-slt { background: #fbf1ec; border-color: #ecd3c4; }
     .pouch-slt .split-label { color: var(--rust); }
     .pouch-slt strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--rust); }
     @media (max-width: 640px) {
@@ -201,7 +193,7 @@ const articleLd = {
       text-decoration: none;
       color: inherit;
       background: var(--paper-2);
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }

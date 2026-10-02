@@ -58,7 +58,7 @@ function displayStatementDate(d: Date): string {
 
 // Item 7's WhatsApp button on the "Know your rights" card — a plain
 // wa.me share-intent link, same convention as ShareButtons.astro.
-const kyrShareUrl = `${new URL('/india/law/', Astro.site).toString()}#know-your-rights`;
+const kyrShareUrl = new URL('/india/police/', Astro.site).toString();
 const kyrWaText = "Know your rights: possession of an e-cigarette is not banned under India's PECA law.";
 const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrShareUrl}`)}`;
 ---
@@ -159,7 +159,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       <p class="kyr-foot">No provision in PECA makes personal use or possession an offence. Penalties apply only to the commercial acts above. · <strong>vapeindia.org/india/law</strong></p>
     </div>
     <div class="kyr-actions">
-      <a class="btn btn-primary" href="/india/law/#know-your-rights">Read the full legal breakdown →</a>
+      <a class="btn btn-primary" href="/india/police/">Read the full legal breakdown →</a>
       <a class="btn btn-secondary" href="/report-harassment/">Report an incident →</a>
     </div>
     {/* docs/tasks/08-homepage.md item 7 — a WhatsApp share button for this
@@ -186,7 +186,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         <h2>Stopped by police over your vape? Use and possession are not banned.</h2>
         <p>PECA bans the sale of e-cigarettes, not carrying or using one. If an officer tells you otherwise, this page has the receipts — and a place to report what happened.</p>
         <div class="rights-cta-links">
-          <a class="btn btn-primary" href="/india/law/#know-your-rights">Know your rights →</a>
+          <a class="btn btn-primary" href="/india/police/">Know your rights →</a>
           <a class="btn btn-secondary" href="/report-harassment/">Report an incident →</a>
         </div>
       </div>

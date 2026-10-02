@@ -1,0 +1,207 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { getHarassmentStats } from '../../lib/harassment-stats';
+import { getGitDates, formatDate } from '../../lib/git-dates';
+import { PECA_BANNED, PECA_NOT_BANNED } from '../../data/peca';
+
+// Extracted from /india/law/#know-your-rights (legal pages rework,
+// 2026-10-02) into its own page — that section had grown into most of
+// the law page's length. law.astro now keeps a short pointer section at
+// the same #know-your-rights id, linking here. Every internal link that
+// used to point at /india/law/#know-your-rights now points at /india/police/
+// directly (see faq.astro).
+const hStats = await getHarassmentStats();
+const pageDates = getGitDates('src/pages/india/police.astro');
+
+const SHORT_ANSWER = "Police cannot fine or arrest you just for using or carrying a vape. PECA punishes selling and other business acts, not personal use. There is no on-the-spot fine for vaping, so a demand for cash is a bribe.";
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Stopped by Police for Vaping in India? Know Your Rights',
+  datePublished: pageDates.published,
+  dateModified: pageDates.modified,
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [{
+    '@type': 'Question',
+    name: 'Can police fine or arrest me for vaping in India?',
+    acceptedAnswer: { '@type': 'Answer', text: SHORT_ANSWER },
+  }],
+};
+---
+<Base
+  title="Stopped by Police for Vaping in India? Know Your Rights"
+  rawTitle={true}
+  description="Police cannot fine or arrest you for using or carrying a vape in India. What PECA actually bans, what to do if you're stopped, and how to report it."
+  image="/og/india-law.png"
+  wide={true}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
+  <section class="breakout police-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Updated {formatDate(pageDates.modified)}</p>
+      <h1>Stopped by police for vaping? Know your rights</h1>
+    </div>
+  </section>
+
+  <div class="police-body">
+    <p class="page-authority">
+      By Association of Vapers India · Last reviewed {formatDate(pageDates.modified)}
+      <span class="authority-note">· This is AVI's understanding of the law, not formal legal advice.</span>
+    </p>
+    <p class="short-answer">{SHORT_ANSWER}</p>
+
+    <div class="rights-card">
+      <div class="banned-split">
+        <div class="banned-col banned-yes">
+          <p class="split-label"><Icon name="close" /> Banned under PECA</p>
+          <ul>
+            {PECA_BANNED.map((item) => <li>{item.label}</li>)}
+          </ul>
+        </div>
+        <div class="banned-col banned-no">
+          <p class="split-label"><Icon name="check" /> Not banned</p>
+          <ul>
+            {PECA_NOT_BANNED.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p class="rights-card-note">
+        Flights are different: airport security bans vapes in all
+        baggage. <a href="/india/flights/">Read the flight rules →</a>
+      </p>
+    </div>
+
+    <h2><Icon name="megaphone" /> If you're stopped</h2>
+    <ol class="tips-list">
+      <li>Stay calm and polite — make your case with information, not an argument on the street.</li>
+      <li>Ask for the officer's name, badge/service number and station. A genuine officer gives this without hesitation.</li>
+      <li>Ask exactly which law and section you've violated. There isn't one for personal use or possession.</li>
+      <li>Never hand over cash "to settle it." Indian law has no on-the-spot cash fine here — that's a bribe or a scam, not a penalty.</li>
+      <li>If they push to confiscate your device or detain you, ask to go to the station and for a written seizure memo.</li>
+      <li>Record audio or video if you can safely do so. Just asking "do you mind if I record this?" often de-escalates it on its own.</li>
+      <li><a href="/report-harassment/">Report what happened</a> afterwards — note the time, location and any badge numbers when you do. Two minutes, anonymous by default, and it feeds AVI's advocacy and litigation.</li>
+    </ol>
+
+    <h2><Icon name="document" /> It happens</h2>
+    <ul class="cases-list">
+      <li>
+        <strong>Bengaluru, 2023.</strong> Two constables were dismissed from service for extorting a vaper over a device the law doesn't ban carrying. <a href="https://timesofindia.indiatimes.com/city/bengaluru/2-constables-dismissed-over-extortion/articleshow/98846356.cms" target="_blank" rel="noopener">Times of India →</a>
+      </li>
+      <li>
+        <strong>Mumbai.</strong> A fake police officer was arrested for demanding ₹50,000 from a woman vaping in an auto-rickshaw — a con that only works because "it's banned" sounds plausible. <a href="https://www.freepressjournal.in/amp/mumbai/mumbai-police-arrest-fake-cop-for-demanding-50000-from-woman-smoking-e-cigarette-in-auto-2-others-held" target="_blank" rel="noopener">Free Press Journal →</a>
+      </li>
+    </ul>
+
+    <div class="report-counter">
+      <Icon name="chart" />
+      <p>
+        {hStats.visible ? (
+          <>
+            <strong>{hStats.total}</strong> harassment report{hStats.total === 1 ? '' : 's'} logged so far{hStats.totalAmount > 0 ? ` — ₹${hStats.totalAmount.toLocaleString('en-IN')} demanded or paid in total.` : '.'}
+          </>
+        ) : (
+          <>
+            Tracker launched October 2026 — AVI's earlier <a href="/campaigns/#2020-2023-airport-confiscation-reports">2020–23 crowdsourced form</a> documented <strong>60</strong> airport confiscations nationwide.
+          </>
+        )}
+      </p>
+    </div>
+
+    <a href="/report-harassment/" class="btn btn-rust-outline report-btn">
+      <Icon name="megaphone" /> Report it
+    </a>
+
+    <p class="rights-note">
+      This is AVI's understanding of the law, not formal legal advice —
+      consult a lawyer for an active legal matter. But the facts above —
+      what PECA's text says, and what the government has itself stated — <a href="/india/law/">are public record →</a>
+    </p>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      margin: 0 0 0.75rem;
+    }
+    .police-hero { background: var(--green-deep); padding: 3.25rem 0 2.75rem; }
+    .police-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); max-width: 42rem; }
+
+    .police-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+    .page-authority { font-size: 0.82rem; color: var(--muted); margin: 0 0 1.1rem; }
+    .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
+    @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
+
+    .rights-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 0 0 2.25rem;
+    }
+    .banned-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .banned-col { border-radius: 8px; padding: 1.1rem 1.25rem 1.25rem; border: 1px solid var(--line); background: var(--paper-2); }
+    .banned-col ul { margin: 0; padding-left: 1.15rem; }
+    .banned-col li { font-size: 0.9rem; line-height: 1.6; }
+    .split-label { display: flex; align-items: center; gap: 0.45rem; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 0.75rem; }
+    .split-label :global(svg) { width: 1.05rem; height: 1.05rem; }
+    .banned-yes .split-label { color: var(--rust); }
+    .banned-yes .split-label :global(svg) { color: var(--rust); }
+    .banned-no .split-label { color: var(--green-deep); }
+    .banned-no .split-label :global(svg) { color: var(--green); }
+    .rights-card-note { margin: 1.1rem 0 0; font-size: 0.88rem; color: var(--muted); }
+    @media (max-width: 640px) { .banned-split { grid-template-columns: 1fr; } }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+      margin: 2.25rem 0 1rem;
+    }
+    h2 :global(svg) { width: 1.25rem; height: 1.25rem; color: var(--green); flex-shrink: 0; }
+
+    .tips-list { background: var(--paper-2); border-radius: 12px; padding: 1.25rem 1.25rem 1.25rem 2.4rem; margin: 0 0 1.5rem; }
+    .tips-list li { margin-bottom: 0.65rem; line-height: 1.55; }
+    .tips-list li:last-child { margin-bottom: 0; }
+
+    .cases-list { list-style: none; margin: 0 0 1.75rem; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+    .cases-list li { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.92rem; line-height: 1.55; }
+
+    .report-counter {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--paper-2);
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      margin: 0 0 1.5rem;
+    }
+    .report-counter :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green-deep); flex-shrink: 0; }
+    .report-counter p { margin: 0; font-size: 0.92rem; color: var(--ink); }
+    .report-counter a { font-weight: 600; }
+
+    .report-btn { font-size: 1.05rem; padding: 0.9rem 2rem; margin: 0 0 2rem; }
+
+    .rights-note {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--muted);
+      border-left: 3px solid var(--line);
+      padding-left: 1rem;
+      margin-top: 1.5rem;
+    }
+  </style>
+</Base>

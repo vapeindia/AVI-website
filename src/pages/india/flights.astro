@@ -1,0 +1,152 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { getGitDates, formatDate } from '../../lib/git-dates';
+
+// New page, legal pages rework (2026-10-02) — the flight-ban material
+// used to be one FAQ answer and a litigation-page link; this is now a
+// citable page of its own. Confiscation figures match the sourcing
+// already on src/content/campaigns/2020-2023-airport-confiscation-reports.md
+// and src/content/litigation/delhi-bcas-flight-ban.md exactly.
+const pageDates = getGitDates('src/pages/india/flights.astro');
+
+const SHORT_ANSWER = "Not at present. The Bureau of Civil Aviation Security bans e-cigarettes in both cabin and checked baggage on flights in India, and security staff confiscate them. AVI is challenging the rule in the Delhi High Court, where judgment was reserved on 15 September 2026.";
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Can You Carry a Vape on a Flight in India? (2026)',
+  datePublished: pageDates.published,
+  dateModified: pageDates.modified,
+  author: { '@type': 'Organization', name: 'Association of Vapers India' },
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [{
+    '@type': 'Question',
+    name: 'Can you carry a vape on a flight in India?',
+    acceptedAnswer: { '@type': 'Answer', text: SHORT_ANSWER },
+  }],
+};
+---
+<Base
+  title="Can You Carry a Vape on a Flight in India? (2026)"
+  rawTitle={true}
+  description="No — the Bureau of Civil Aviation Security bans e-cigarettes in cabin and checked baggage on Indian flights, and confiscates them. AVI is challenging the ban in the Delhi High Court."
+  image="/og/india-law.png"
+  wide={true}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
+  <section class="breakout flights-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow">Updated {formatDate(pageDates.modified)}</p>
+      <h1>Can you carry a vape on a flight in India?</h1>
+    </div>
+  </section>
+
+  <div class="flights-body">
+    <p class="page-authority">
+      By Association of Vapers India · Last reviewed {formatDate(pageDates.modified)}
+      <span class="authority-note">· This is AVI's understanding of the rule, not formal legal advice.</span>
+    </p>
+    <p class="short-answer">{SHORT_ANSWER}</p>
+
+    <p class="import-note">
+      <Icon name="shield" /> <strong>Arriving in India?</strong> PECA also
+      bans importing e-cigarettes, so a device brought into the country
+      can be seized — a separate basis from the flight rule above.
+    </p>
+
+    <h2><Icon name="chart" /> 60 confiscations, documented</h2>
+    <p>
+      From January 2020 — days after the flight ban took effect — AVI ran
+      a public confiscation-report form. Over three years it logged
+      <strong>60 incidents</strong> nationwide, heaviest out of Mumbai and
+      Delhi, with 70% of respondents willing to join a legal challenge.
+      That record is what led AVI to identify and brief the two
+      petitioners now named in its case against the ban. <a href="/campaigns/#2020-2023-airport-confiscation-reports">Read the full report →</a>
+    </p>
+
+    <p>
+      AVI is running that case today — retaining counsel, supplying the
+      research behind the arguments, and reviewing every submission.
+      Judgment was reserved on 15 September 2026. <a href="/litigation/delhi-bcas-flight-ban/">The case, in full →</a>
+    </p>
+
+    <div class="flights-related">
+      <a href="/india/police/" class="related-card">
+        <h3>Stopped on the ground? →</h3>
+        <p>Flights are a separate rule — personal use and possession elsewhere aren't banned.</p>
+      </a>
+      <a href="/india/law/" class="related-card">
+        <h3>Vaping law, in full →</h3>
+        <p>What PECA actually bans, and what it doesn't.</p>
+      </a>
+    </div>
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      margin: 0 0 0.75rem;
+    }
+    .flights-hero { background: var(--green-deep); padding: 3.25rem 0 2.75rem; }
+    .flights-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); max-width: 42rem; }
+
+    .flights-body { max-width: var(--max-w); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
+    .page-authority { font-size: 0.82rem; color: var(--muted); margin: 0 0 1.1rem; }
+    .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
+    @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
+
+    .import-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: var(--paper-2);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin: 0 0 2rem;
+    }
+    .import-note :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--green-deep); flex-shrink: 0; margin-top: 0.15rem; }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+    }
+    h2 :global(svg) { width: 1.25rem; height: 1.25rem; color: var(--green); flex-shrink: 0; }
+
+    .flights-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--line);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-2);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

@@ -2,100 +2,47 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import DecorativeRings from '../../components/DecorativeRings.astro';
+
+// Rebuilt as a lean, ~300-word hub (legal pages rework, 2026-10-02) — was
+// a longer "crisis being managed backwards" essay; that detail still
+// lives on the pages this one now just points to.
+const CARDS = [
+  { href: '/india/law/', icon: 'scale', title: 'The law', desc: "What PECA bans, and what it doesn't." },
+  { href: '/india/police/', icon: 'shield', title: 'Police & your rights', desc: 'Stopped over vaping? Know your rights.' },
+  { href: '/india/flights/', icon: 'document', title: 'Flights', desc: 'Can you carry a vape on a flight?' },
+  { href: '/nicotine-pouches/', icon: 'leaf', title: 'Nicotine pouches', desc: 'Legal status, safety, and what AVI wants.' },
+  { href: '/india/smokeless-tobacco/', icon: 'heart', title: 'Smokeless tobacco', desc: 'The harm reduction case for 200 million SLT users.' },
+  { href: '/india/rti-replies/', icon: 'quote', title: 'RTI replies', desc: "What the government admitted it doesn't know." },
+  { href: '/litigation/', icon: 'megaphone', title: 'Litigation', desc: 'The court cases AVI has fought since 2017.' },
+] as const;
 ---
-<Base title="India" description="The vaping situation in India: the scale of tobacco use, what PECA actually bans, the litigation record and the evidence, all in one place." wide={true}>
+<Base title="Vaping and Tobacco in India" description="Tobacco kills nearly 13.5 lakh Indians a year. The law, your rights with police and at airports, nicotine pouches, smokeless tobacco and AVI's litigation — all in one place." wide={true}>
   <section class="breakout india-hero">
     <DecorativeRings class="india-rings" />
     <div class="breakout-inner">
       <p class="eyebrow">Tobacco harm reduction in India</p>
-      <h1>A market larger than any other — and none of it regulated for harm reduction</h1>
+      <h1>Vaping and tobacco in India</h1>
       <p class="hero-sub">
-        India has more tobacco users than any country outside China, split
-        across smoking and smokeless tobacco in a way most global tobacco
-        policy doesn't account for. Here's where the numbers, the law and
-        the litigation currently stand.
+        Tobacco kills nearly 13.5 lakh Indians every year. Nearly 27 crore
+        adults use it: about 10 crore smoke and 20 crore use gutka, khaini
+        or other smokeless tobacco, and some do both. Cigarettes and bidis
+        are sold everywhere. The safer alternatives are banned.
+      </p>
+      <p class="hero-sources">
+        Sources: <a href="https://www.who.int/india/health-topics/tobacco" target="_blank" rel="noopener">WHO India</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">GATS-2, 2016-17</a>
       </p>
     </div>
   </section>
 
-  <section class="ground-section">
-    <div class="ground-intro">
-      <p class="eyebrow">The bigger picture</p>
-      <h2>A crisis being managed backwards</h2>
-    </div>
-    <div class="ground-grid">
-      <div class="ground-block">
-        <h3>The scale of it</h3>
-        <p>
-          India has more tobacco users than any country outside China —
-          roughly <strong>100 million</strong> smokers and <strong>200 million</strong> smokeless
-          tobacco (SLT) users. Nationally, <strong>9.3–10.4%</strong> of adults smoke, and SLT
-          breaks down to smoking-only 7.23%, SLT-only 17.94%, dual use
-          3.44% — not the single habit most tobacco policy assumes (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10263025/" target="_blank" rel="noopener">GATS-2, 2016-17</a>). <a href="/india/smokeless-tobacco/">The harm reduction case for SLT users →</a>
-        </p>
-      </div>
-      <div class="ground-block">
-        <h3>Bans that close the off-ramp</h3>
-        <p>
-          PECA, 2019 bans e-cigarettes outright — production, sale, import,
-          advertisement. Nicotine pouches and snus have no lawful sale
-          pathway either. Removing the lower-risk alternative doesn't make
-          nicotine use disappear — it removes the off-ramp, pushing
-          existing users toward an unregulated illicit market instead. <a href="/india/law/">The
-          law, in full →</a>
-        </p>
-      </div>
-      <div class="ground-block">
-        <h3>A government invested in the status quo</h3>
-        <p>
-          The state regulating this market isn't a neutral referee — it's
-          a shareholder in it. LIC, SUUTI and other public-sector insurers
-          together hold roughly 28% of India's largest cigarette maker (<a href="https://theprint.in/india/governance/govt-has-banned-vapes-but-owns-28-of-itc-indias-biggest-cigarette-maker/293547/" target="_blank" rel="noopener">The
-          Print, 2023</a>). A government profiting this directly from
-          cigarette sales has little incentive to let a genuinely
-          lower-risk competitor in.
-        </p>
-      </div>
-      <div class="ground-block">
-        <h3>Research and even discussion, restricted</h3>
-        <p>
-          In December 2023, the National Medical Commission directed
-          doctors to secure Health Ministry approval before researching
-          e-cigarettes or heated tobacco at all (<a href="https://www.tribuneindia.com/news/india/refrain-from-doing-research-on-e-cigarettes-obtain-prior-permission-from-ministry-nmc-to-doctors-572837" target="_blank" rel="noopener">The Tribune</a>). Even policy
-          discussion hasn't been spared: a 2023 panel that named nothing
-          specific was branded "promotion" by the Health Ministry anyway.
-        </p>
-      </div>
-    </div>
-  </section>
-
   <section class="path-section">
-    <h2>Four ways into this section</h2>
     <div class="path-grid">
-      <a class="path-card path-green" href="/india/law/">
-        <Icon name="scale" />
-        <h3>Current law</h3>
-        <p>What PECA and related rules actually say today — for e-cigarettes, nicotine pouches, and NRT for contrast.</p>
-        <span class="path-cta">Read the law →</span>
-      </a>
-      <a class="path-card path-rust" href="/litigation/">
-        <Icon name="document" />
-        <h3>Litigation</h3>
-        <p>The legal challenges to state and national bans AVI has organised and fought since 2017, and their outcomes.</p>
-        <span class="path-cta">See the cases →</span>
-      </a>
-      <a class="path-card path-gold" href="/science/">
-        <Icon name="chart" />
-        <h3>Evidence library</h3>
-        <p>The published research behind AVI's position, including India-specific studies on smoking and SLT use.</p>
-        <span class="path-cta">Browse the evidence →</span>
-      </a>
-      <a class="path-card path-rust" href="/submissions/">
-        <Icon name="megaphone" />
-        <h3>Submissions to policymakers</h3>
-        <p>Letters, rebuttals and calls to action AVI has sent directly to India's health ministry and Parliament.</p>
-        <span class="path-cta">Read the submissions →</span>
-      </a>
+      {CARDS.map((c) => (
+        <a class="path-card" href={c.href}>
+          <Icon name={c.icon} />
+          <h2>{c.title}</h2>
+          <p>{c.desc}</p>
+        </a>
+      ))}
     </div>
   </section>
 
@@ -105,14 +52,12 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--green-deep);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
-
     .india-hero {
       background: var(--green-deep);
-      color: #f4f1e6;
-      padding: 4rem 0 3.5rem;
+      padding: 3.5rem 0 3rem;
       position: relative;
       overflow: hidden;
     }
@@ -128,55 +73,32 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
       color: var(--paper);
       opacity: 0.3;
     }
-    .india-hero .eyebrow { color: var(--paper); }
     .india-hero h1 {
       color: #fff;
       font-size: clamp(1.9rem, 3.8vw, 2.7rem);
-      max-width: 42rem;
+      max-width: 36rem;
       margin: 0 0 1.1rem;
       position: relative;
     }
-    .hero-sub { color: #cdd6cf; max-width: 38rem; font-size: 1.05rem; margin: 0; position: relative; }
+    .hero-sub { color: var(--paper-2); max-width: 38rem; font-size: 1.05rem; line-height: 1.6; margin: 0 0 0.85rem; position: relative; }
+    .hero-sources { color: var(--paper-2); font-size: 0.82rem; margin: 0; position: relative; opacity: 0.9; }
+    .hero-sources a { color: var(--paper-2); text-decoration: underline; }
 
-    .ground-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 0; }
-    .ground-intro { max-width: 40rem; margin: 0 auto 2.25rem; text-align: center; }
-    .ground-intro h2 { margin: 0; font-size: 1.6rem; }
-    .ground-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 2.5rem; }
-    .ground-block h3 { margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--green-deep); }
-    .ground-block p { margin: 0; font-size: 0.92rem; line-height: 1.65; color: var(--ink); }
-    .ground-block p a { color: var(--green-deep); text-decoration: underline; text-decoration-color: var(--line); }
-    @media (max-width: 780px) {
-      .ground-grid { grid-template-columns: 1fr; gap: 1.75rem; }
-    }
-
-    .path-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3.5rem 1.5rem 4rem; }
-    .path-section h2 { text-align: center; margin: 0 0 2.25rem; font-size: 1.5rem; }
-    .path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15.5rem, 100%), 1fr)); gap: 1.75rem; }
+    .path-section { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(14.5rem, 100%), 1fr)); gap: 1.5rem; }
     .path-card {
       display: block;
       background: #fff;
-      border-radius: 6px;
-      padding: 1.75rem 1.5rem;
-      border-top: 4px solid;
-      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.5rem 1.4rem;
       text-decoration: none;
       color: inherit;
+      transition: transform 0.15s ease;
     }
-    .path-card :global(svg) { width: 2rem; height: 2rem; margin-bottom: 1rem; }
-    .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
-    .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
-    .path-cta { font-weight: 600; font-size: 0.9rem; }
-    .path-green { border-color: var(--green); }
-    .path-green :global(svg) { color: var(--green); }
-    .path-green .path-cta { color: var(--green-deep); }
-    .path-gold { border-color: var(--green); }
-    .path-gold :global(svg) { color: var(--green); }
-    .path-gold .path-cta { color: var(--green-deep); }
-    .path-rust { border-color: var(--rust); }
-    .path-rust :global(svg) { color: var(--rust); }
-    .path-rust .path-cta { color: var(--rust); }
-    @media (max-width: 780px) {
-      .path-grid { grid-template-columns: 1fr; }
-    }
+    .path-card:hover { transform: translateY(-2px); }
+    .path-card :global(svg) { width: 1.7rem; height: 1.7rem; color: var(--green); margin-bottom: 0.85rem; }
+    .path-card h2 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+    .path-card p { color: var(--muted); font-size: 0.88rem; margin: 0; line-height: 1.5; }
   </style>
 </Base>

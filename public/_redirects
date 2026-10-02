@@ -17,6 +17,9 @@
 /india/legal/          /litigation/                     301
 /india/litigation/*    /litigation/:splat              301
 /india/action/         /india/law/                      301
+# Nicotine pouches got their own section 2026-10-02 — legal status moved
+# out from under /india/ to /nicotine-pouches/legal-status/.
+/india/nicotine-pouches/ /nicotine-pouches/legal-status/ 301
 /contact-us/           /press/                          301
 /join-us/              /contribute/                     301
 /donate/               /contribute/                     301

@@ -22,7 +22,19 @@ Yes. It is the burning of tobacco — not the nicotine — that causes most smok
 
 ## Are nicotine pouches or snus legal in India?
 
-No law names or bans nicotine pouches, but as of September 2026 there is no lawful route to sell them either — a two-agency regulatory freeze, not an Act of Parliament. Nicotine pouches contain no tobacco leaf, so COTPA doesn't cover them and they fall to FSSAI, whose Regulation 2.3.4 bars nicotine as a food ingredient. The only other legal route — as a drug — was closed when the Drugs Technical Advisory Board (DTAB) recommended on 27 August 2026 that no new nicotine formulations be approved; CDSCO and the Union Health Ministry have since issued enforcement directives, and states are seizing stock. AVI's position: this rests on the same jurisdictional overreach courts rejected for e-cigarettes in 2019, since no nicotine pouch is marketed in India as a cessation drug. Full detail at https://vapeindia.org/india/law.
+No law names or bans nicotine pouches, but as of September 2026 there is no lawful route to sell them either — a two-agency regulatory freeze, not an Act of Parliament. Nicotine pouches contain no tobacco leaf, so COTPA doesn't cover them and they fall to FSSAI, whose Regulation 2.3.4 bars nicotine as a food ingredient. The only other legal route — as a drug — was closed when the Drugs Technical Advisory Board (DTAB) recommended on 27 August 2026 that no new nicotine formulations be approved; CDSCO and the Union Health Ministry have since issued enforcement directives, and states are seizing stock. AVI's position: this rests on the same jurisdictional overreach courts rejected for e-cigarettes in 2019, since no nicotine pouch is marketed in India as a cessation drug. Full detail at https://vapeindia.org/nicotine-pouches/legal-status.
+
+## Are nicotine pouches safer than smoking or gutka?
+
+Yes. They carry far less risk than smoking because nothing is burned, and far less than gutka or khaini because they contain no tobacco leaf. In 2026 the US FDA allowed some pouches to be marketed as lowering the risk of mouth cancer, heart disease, lung cancer and stroke compared with cigarettes. They still contain addictive nicotine and can irritate the gums, and use among young people is a documented concern in recent research. Full detail at https://vapeindia.org/nicotine-pouches/safety.
+
+## Can police fine or arrest someone for vaping in India?
+
+No. PECA punishes selling and other business acts, not personal use — there is no on-the-spot fine for vaping, so a demand for cash is a bribe, not a penalty. Full detail at https://vapeindia.org/india/police.
+
+## Can you carry a vape on a flight in India?
+
+Not at present. The Bureau of Civil Aviation Security bans e-cigarettes in both cabin and checked baggage on flights in India and confiscates them — a separate rule from PECA. AVI is challenging it in the Delhi High Court, where judgment was reserved on 15 September 2026. Full detail at https://vapeindia.org/india/flights.
 
 ## Core pages
 
@@ -31,8 +43,11 @@ No law names or bans nicotine pouches, but as of September 2026 there is no lawf
 - [If You Smoke](https://vapeindia.org/quit): The evidence on switching from cigarettes to lower-risk nicotine alternatives.
 - [For Policymakers](https://vapeindia.org/policy): The regulatory and financial case for India to regulate, not ban, safer nicotine products — with international comparisons.
 - [Science / Evidence Library](https://vapeindia.org/science): A continuously updated library of tobacco harm reduction research.
-- [India](https://vapeindia.org/india): The scale of India's tobacco-use crisis and why prohibition-only policy is failing.
+- [India](https://vapeindia.org/india): The scale of India's tobacco-use crisis, and a hub to the law, police, flights, nicotine pouches, smokeless tobacco and litigation pages.
 - [The Law in India](https://vapeindia.org/india/law): What is and isn't actually banned under PECA today — including personal use and possession, which are not banned.
+- [Police & Your Rights](https://vapeindia.org/india/police): What to do if stopped by police over vaping, and documented cases of harassment.
+- [Flights](https://vapeindia.org/india/flights): Why e-cigarettes are confiscated at Indian airports, and AVI's ongoing court challenge.
+- [Nicotine Pouches](https://vapeindia.org/nicotine-pouches): Hub for nicotine pouches in India — legal status, safety, and what AVI wants to see change.
 - [RTI Replies](https://vapeindia.org/india/rti-replies): Government responses under India's Right to Information Act on the evidence (or lack of it) behind the ENDS ban.
 - [Campaigns](https://vapeindia.org/campaigns): Protests, seminars and delegations AVI has organised since 2017.
 - [Submissions to Policymakers](https://vapeindia.org/submissions): AVI's formal letters and rebuttals sent to India's government and Parliament.

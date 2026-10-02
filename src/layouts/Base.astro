@@ -84,7 +84,7 @@ const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
 // governs them is India-specific.
 function activeGroup(p: string): 'evidence' | 'india' | 'advocacy' | null {
   if (p === '/quit' || p === '/faq' || p.startsWith('/science')) return 'evidence';
-  if (p.startsWith('/india') || p === '/policy' || p.startsWith('/litigation')) return 'india';
+  if (p.startsWith('/india') || p.startsWith('/nicotine-pouches') || p === '/policy' || p.startsWith('/litigation')) return 'india';
   if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press')) return 'advocacy';
   return null;
 }
@@ -633,7 +633,9 @@ const group = activeGroup(path);
         <div class="dropdown-menu">
           <a href="/india/" class:list={{ active: path === '/india' }}>Overview</a>
           <a href="/india/law/" class:list={{ active: path === '/india/law' }}>Law</a>
-          <a href="/india/nicotine-pouches/" class:list={{ active: path === '/india/nicotine-pouches' }}>Nicotine Pouches</a>
+          <a href="/india/police/" class:list={{ active: path === '/india/police' }}>Police &amp; Your Rights</a>
+          <a href="/india/flights/" class:list={{ active: path === '/india/flights' }}>Flights</a>
+          <a href="/nicotine-pouches/" class:list={{ active: path.startsWith('/nicotine-pouches') }}>Nicotine Pouches</a>
           <a href="/litigation/" class:list={{ active: path.startsWith('/litigation') }}>Litigation</a>
           <a href="/india/rti-replies/" class:list={{ active: path === '/india/rti-replies' }}>RTI Replies</a>
           <a href="/policy/" class:list={{ active: path === '/policy' }}>Policy</a>
