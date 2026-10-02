@@ -5,27 +5,21 @@ import Icon from '../../components/Icon.astro';
 const UPI_ID = 'yespay.bizsbiz129416@yesbankltd';
 const UPI_PAYEE = 'Harm Reduction Policy and Research';
 
-// Per Samrat (2026-10-02, then narrowed 2026-10-02): just the one Google
-// Pay button, using the NPCI-standard `upi://pay` link — Google Pay
-// registers itself to handle this scheme, so it opens directly.
+// Per Samrat (2026-10-02, then narrowed, then tightened 2026-10-02): just
+// the one Google Pay button, using the NPCI-standard `upi://pay` link —
+// Google Pay registers itself to handle this scheme, so it opens directly.
 const upiPayLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE)}&cu=INR&tn=${encodeURIComponent('AVI contribution')}`;
 
-// Reference amounts (₹300–₹2,000 per Samrat) — not tied to specific costs,
-// since none were given to attach; mentioned in plain text only, not as
-// separate buttons/chips (per Samrat's follow-up).
-const SUGGESTED_AMOUNTS = [300, 500, 1000, 2000];
-const suggestedAmountsText = SUGGESTED_AMOUNTS.map((a) => `₹${a.toLocaleString('en-IN')}`).join(', ');
+// Reference range (₹300–₹2,000 per Samrat) — not tied to specific costs,
+// since none were given to attach; kept as one short range, not a list of
+// individual amounts, per the "fewest words possible" request.
+const SUGGESTED_RANGE = '₹300–₹2,000';
 
-// This is AVI's first fundraising cycle through this account, so there's
-// no real prior-year breakdown to show — rather than say that, Samrat
-// asked this space instead state the two things that are true and durable
-// regardless of how new the account is: nobody draws a salary, and funds
-// go to four specific kinds of work (each linked below).
 const FUND_USES = [
-  { label: 'Litigation', href: '/litigation/', desc: "Court cases AVI has organised and directed against India's ENDS bans since 2017." },
-  { label: 'Representations to policymakers', href: '/submissions/', desc: 'Direct, evidence-based cases for regulation over prohibition, sent to policymakers.' },
-  { label: 'Rebutting misinformation', href: '/india/law/', desc: 'Correcting the record on what the law actually bans — and what it doesn’t.' },
-  { label: 'Media & public awareness campaigns', href: '/campaigns/', desc: "Protests, seminars and public campaigns taking this case beyond the courtroom." },
+  { label: 'Litigation', href: '/litigation/' },
+  { label: 'Policy representations', href: '/submissions/' },
+  { label: 'Rebutting misinformation', href: '/india/law/' },
+  { label: 'Public awareness', href: '/campaigns/' },
 ];
 ---
 <Base title="Contribute" description="Support AVI's tobacco harm reduction and vaping advocacy work in India — litigation, evidence review and policy work funded by individual contributions." wide={true}>
@@ -33,50 +27,11 @@ const FUND_USES = [
     <div class="breakout-inner">
       <p class="eyebrow">Fund independent advocacy</p>
       <h1>Contribute</h1>
-      <p class="contrib-sub">
-        AVI's advocacy — litigation, evidence review, and public correction
-        of misinformation — is funded by individual contributions, not by
-        industry. Contributions are received and accounted for through{' '}
-        <strong>Harm Reduction Policy &amp; Research (HRPR)</strong>,
-        an MCA-registered company, recorded as company income, audited
-        annually and taxed accordingly.
-      </p>
-      <p class="contrib-note">
-        <strong>Contributions are not tax-deductible.</strong> HRPR does not
-        hold 80G status, so no tax receipt can be issued against your
-        contribution.
-      </p>
     </div>
   </section>
 
   <div class="contrib-body">
     <section class="c-section">
-      <div class="section-head">
-        <Icon name="shield" />
-        <h2>Who can contribute</h2>
-      </div>
-      <p class="lead">
-        We can currently accept contributions only from <strong>Indian
-        residents, and Indian citizens living abroad remitting from their
-        own funds</strong>. Foreign nationals and foreign-registered entities
-        cannot contribute directly to this fund — Indian law (FCRA, 2010)
-        restricts unregistered organisations from accepting contributions of
-        foreign origin, and HRPR does not hold FCRA registration.
-      </p>
-      <p class="lead">
-        If you represent an institution abroad interested in supporting
-        specific research or policy work, please write to{' '}
-        <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a> —
-        this can be structured as commissioned project work, which is
-        handled separately.
-      </p>
-    </section>
-
-    <section class="c-section">
-      <div class="section-head">
-        <Icon name="heart" />
-        <h2>How to contribute</h2>
-      </div>
       <div class="how-grid">
         <div class="how-card">
           <h3>UPI</h3>
@@ -86,15 +41,20 @@ const FUND_USES = [
             width="220"
             height="239"
           />
-          <div class="upi-app-row">
-            <a class="btn btn-primary upi-pay-btn" href={upiPayLink}>Pay with Google Pay →</a>
-          </div>
-          <p class="upi-app-note">Opens Google Pay with AVI's details filled in — just confirm the amount. Any amount helps; {suggestedAmountsText} are a few reference points.</p>
-          <div class="upi-actions">
+          <div class="upi-action-row">
+            <a class="gpay-btn" href={upiPayLink} aria-label="Pay with Google Pay">
+              <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+                <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+                <path fill="#FBBC05" d="M11.69 28.18A13.93 13.93 0 0 1 10.9 24c0-1.45.25-2.86.7-4.18v-5.7H4.34A21.93 21.93 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"/>
+                <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+              </svg>
+              <span>Pay</span>
+            </a>
             <button type="button" class="btn btn-outline upi-copy-btn" data-copy-upi={UPI_ID}>Copy UPI ID</button>
           </div>
           <p class="upi-copy-feedback" data-upi-copy-feedback hidden>Copied!</p>
-          <p class="upi-autopay-note">Want to give monthly? Most UPI apps let you set up AutoPay to this ID yourself — look for "Set up AutoPay" or "Schedule payment" when paying this UPI ID in Google Pay, PhonePe or Paytm.</p>
+          <p class="upi-footnote">Suggested: {SUGGESTED_RANGE}. For monthly giving, set up AutoPay to this ID in your UPI app.</p>
         </div>
         <div class="how-card">
           <h3>Bank transfer</h3>
@@ -110,30 +70,39 @@ const FUND_USES = [
       </div>
     </section>
 
-    <section class="c-section">
+    <section class="c-section notes-section">
       <div class="section-head">
-        <Icon name="chart" />
-        <h2>Where the money goes</h2>
+        <Icon name="document" />
+        <h2>Notes</h2>
       </div>
-      <p class="lead">
-        AVI runs lean by design: <strong>no AVI functionary draws a
-        salary — everyone works as a volunteer.</strong> There's no paid
-        administrative layer standing between a contribution and the work
-        it goes toward. Contributions fund four kinds of work directly:
-      </p>
-      <div class="funds-related">
-        {FUND_USES.map((f) => (
-          <a href={f.href} class="related-card">
-            <h3>{f.label} →</h3>
-            <p>{f.desc}</p>
-          </a>
-        ))}
+      <div class="notes-grid">
+        <div class="note">
+          <h3>Who can contribute</h3>
+          <p>Indian residents, and Indian citizens abroad remitting their own funds. Foreign nationals and entities can't contribute directly (FCRA, 2010) — for overseas support, email <a href="mailto:contact@vapeindia.org">contact@vapeindia.org</a>.</p>
+        </div>
+        <div class="note">
+          <h3>Tax</h3>
+          <p>Not tax-deductible — HRPR doesn't hold 80G status.</p>
+        </div>
+        <div class="note">
+          <h3>Accounting</h3>
+          <p>Received through <strong>Harm Reduction Policy &amp; Research (HRPR)</strong>, an MCA-registered company — recorded as company income, audited and taxed accordingly.</p>
+        </div>
+        <div class="note note-wide">
+          <h3>Where it goes</h3>
+          <p>No AVI functionary draws a salary — every contribution funds:</p>
+          <div class="funds-related">
+            {FUND_USES.map((f) => (
+              <a href={f.href} class="related-card">{f.label} →</a>
+            ))}
+          </div>
+        </div>
       </div>
       <p class="testimonials-link">
-        <a href="/testimonials/">Read stories from people this work has already helped →</a>
+        <a href="/testimonials/">Read stories this work has helped →</a>
       </p>
       <p class="testimonials-link">
-        <a href="/campaigns/#get-involved">Not able to contribute funds? See other ways to help →</a>
+        <a href="/campaigns/#get-involved">Can't give funds? See other ways to help →</a>
       </p>
     </section>
 
@@ -153,19 +122,16 @@ const FUND_USES = [
       background-size: cover;
       background-position: center;
       color: #f4f1e6;
-      padding: 3.5rem 0 3rem;
+      padding: 3rem 0 2.5rem;
     }
-    .contrib-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
-    .contrib-sub { color: #cdd6cf; max-width: 46rem; font-size: 1.03rem; margin: 0 0 1rem; }
-    .contrib-note { color: #f4e0c8; max-width: 46rem; font-size: 0.92rem; margin: 0; }
+    .contrib-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
 
-    .contrib-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .c-section { margin-bottom: 3.5rem; }
+    .contrib-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .c-section { margin-bottom: 3rem; }
     .c-section:last-child { margin-bottom: 0; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
     .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
-    .lead { font-size: 0.95rem; max-width: 46rem; color: var(--ink); line-height: 1.65; margin: 0 0 1rem; }
 
     .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr)); gap: 1.5rem; max-width: 42rem; }
     .how-card {
@@ -176,36 +142,60 @@ const FUND_USES = [
     }
     .how-card h3 { margin: 0 0 1rem; font-size: 1.05rem; }
     .how-card img { display: block; border-radius: 4px; margin-bottom: 0.85rem; max-width: 100%; height: auto; }
-    .upi-app-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.5rem; }
-    .upi-pay-btn { font-weight: 600; font-size: 0.86rem; }
-    .upi-app-note { margin: 0 0 1rem; font-size: 0.78rem; color: var(--muted); }
-    .upi-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-    .upi-actions .btn { cursor: pointer; font: inherit; font-weight: 600; font-size: 0.86rem; }
+
+    .upi-action-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+    .gpay-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      height: 2.6rem;
+      padding: 0 1.1rem;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      color: #3c4043;
+      font-family: "Google Sans", Roboto, Arial, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .gpay-btn svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
+    .upi-actions, .upi-action-row .btn { cursor: pointer; font: inherit; font-weight: 600; font-size: 0.86rem; }
     .upi-copy-feedback { margin: 0.6rem 0 0; font-size: 0.82rem; font-weight: 600; color: var(--accent-dark); }
-    .upi-autopay-note { margin: 0.9rem 0 0; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 0.9rem; }
+    .upi-footnote { margin: 0.9rem 0 0; font-size: 0.78rem; color: var(--muted); }
+
     .bank-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
     .bank-table th, .bank-table td { text-align: left; padding: 0.5rem 0.25rem; border-bottom: 1px solid var(--border); }
     .bank-table th { font-weight: 600; color: var(--muted); white-space: nowrap; padding-right: 1rem; }
 
-    .funds-related {
+    .notes-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
-      margin: 1.5rem 0 1.25rem;
     }
-    .related-card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
+    .note {
       background: var(--paper-alt);
       border-radius: 8px;
-      padding: 1.25rem 1.4rem;
-      transition: transform 0.15s ease;
+      padding: 1.1rem 1.25rem;
     }
-    .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
-    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
-    .testimonials-link { font-weight: 600; font-size: 0.95rem; margin: 0; }
+    .note-wide { grid-column: 1 / -1; }
+    .note h3 { margin: 0 0 0.4rem; font-size: 0.92rem; color: var(--accent-dark); }
+    .note p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    .funds-related { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.75rem; }
+    .related-card {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--accent-dark);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .testimonials-link { font-weight: 600; font-size: 0.95rem; margin: 1.25rem 0 0; }
   </style>
 
   <script>
