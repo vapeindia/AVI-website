@@ -65,26 +65,24 @@ const typeLabel: Record<string, string> = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .sub-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .sub-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
     .sub-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0; }
-    .sub-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .sub-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .sub-sub a:hover { color: #fff; }
 
     .sub-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(24rem, 100%), 1fr)); gap: 1.5rem; }
     .sub-card {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.5rem 1.6rem 1.6rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
@@ -100,15 +98,15 @@ const typeLabel: Record<string, string> = {
       border-radius: 99px;
       color: #fff;
     }
-    .type-letter .type-badge { background: var(--accent); }
+    .type-letter .type-badge { background: var(--green); }
     .type-rebuttal .type-badge { background: var(--rust); }
-    .type-call-to-action .type-badge { background: var(--gold-dark); }
+    .type-call-to-action .type-badge { background: var(--green-deep); }
 
     .sub-card h2 { margin: 0 0 0.3rem; font-size: 1.12rem; line-height: 1.35; }
     .recipient { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .summary { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; }
 
-    .read-link { display: inline-block; margin-top: 0.25rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-dark); }
+    .read-link { display: inline-block; margin-top: 0.25rem; font-size: 0.88rem; font-weight: 600; color: var(--green-deep); }
 
     .sub-related {
       display: grid;
@@ -116,19 +114,19 @@ const typeLabel: Record<string, string> = {
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

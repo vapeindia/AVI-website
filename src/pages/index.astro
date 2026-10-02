@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
 import ShareButtons from '../components/ShareButtons.astro';
 import { getCollection } from 'astro:content';
 import { getHarassmentStats } from '../lib/harassment-stats';
@@ -117,19 +116,19 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
           <Icon name="heart" />
           <h3>If you smoke, or use toxic SLT</h3>
           <p>See the evidence on lower-risk ways to keep using nicotine, and how people have quit combustible tobacco successfully with them.</p>
-          <a class="path-btn" href="/quit/">I want to quit smoking →</a>
+          <a class="btn path-btn" href="/quit/">I want to quit smoking →</a>
         </div>
         <div class="path-card path-gold">
           <Icon name="scale" />
           <h3>Policymakers</h3>
           <p>The global policy case for tobacco harm reduction — what's working elsewhere, what isn't, and what it means for India.</p>
-          <a class="path-btn" href="/policy/">Policy data →</a>
+          <a class="btn path-btn" href="/policy/">Policy data →</a>
         </div>
         <div class="path-card path-rust">
           <Icon name="megaphone" />
           <h3>Media</h3>
           <p>AVI has been quoted, interviewed and bylined on tobacco harm reduction in India for over a decade. We're always available for comment.</p>
-          <a class="path-btn" href="/press/">Press resources →</a>
+          <a class="btn path-btn" href="/press/">Press resources →</a>
         </div>
       </div>
     </div>
@@ -161,7 +160,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     </div>
     <div class="kyr-actions">
       <a class="btn btn-primary" href="/india/law/#know-your-rights">Read the full legal breakdown →</a>
-      <a class="btn btn-outline" href="/report-harassment/">Report an incident →</a>
+      <a class="btn btn-secondary" href="/report-harassment/">Report an incident →</a>
     </div>
     {/* docs/tasks/08-homepage.md item 7 — a WhatsApp share button for this
         card specifically (this is the content people actually screenshot
@@ -177,9 +176,6 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         </svg>
         Share on WhatsApp
       </a>
-      <div class="kyr-newsletter">
-        <NewsletterSignup id="kyr-card" compact={true} />
-      </div>
     </div>
   </section>
 
@@ -191,7 +187,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         <p>PECA bans the sale of e-cigarettes, not carrying or using one. If an officer tells you otherwise, this page has the receipts — and a place to report what happened.</p>
         <div class="rights-cta-links">
           <a class="btn btn-primary" href="/india/law/#know-your-rights">Know your rights →</a>
-          <a class="btn btn-outline" href="/report-harassment/">Report an incident →</a>
+          <a class="btn btn-secondary" href="/report-harassment/">Report an incident →</a>
         </div>
       </div>
       {hStats.visible ? (
@@ -240,7 +236,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
         <h2>Ten years of AVI, 2016–2026</h2>
         <p>Every court filing, submission, campaign and statement AVI's public record carries a date for, in one place.</p>
       </div>
-      <a class="btn btn-outline" href="/about/timeline/">See the full timeline →</a>
+      <a class="btn btn-secondary" href="/about/timeline/">See the full timeline →</a>
     </div>
   </section>
 
@@ -307,7 +303,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
           <h2 id="watch-title">{latestVideo.title}</h2>
           <p id="watch-summary">{latestVideo.summary}</p>
           <div class="watch-links">
-            <a class="btn btn-outline" id="watch-cta" href={latestVideo.url} target="_blank" rel="noopener">Watch on YouTube →</a>
+            <a class="btn btn-secondary" id="watch-cta" href={latestVideo.url} target="_blank" rel="noopener">Watch on YouTube →</a>
             <a href="/media/">More videos →</a>
           </div>
         </div>
@@ -390,13 +386,12 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
           ? <a href="/testimonials/">Read {testimonialCount}+ stories from people it's helped →</a>
           : <a href="/testimonials/">Read their stories →</a>}
       </p>
-      <a class="btn btn-gold" href="/contribute/">Support this work →</a>
+      <a class="btn btn-primary" href="/contribute/">Support this work →</a>
     </div>
   </section>
 
   <section class="breakout stay-connected">
     <div class="breakout-inner stay-connected-inner">
-      <NewsletterSignup id="homepage" />
       <div class="stay-connected-share">
         <p class="sc-share-label">Know someone who should see this?</p>
         <ShareButtons title="Association of Vapers India — tobacco harm reduction advocacy for India" />
@@ -410,10 +405,10 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.75rem;
     }
-    .eyebrow-light { color: var(--gold-light); }
+    .eyebrow-light { color: var(--paper); }
 
     /* Hero */
     .hero-v2 { background: var(--paper); padding: 2.25rem 0 1.75rem; }
@@ -433,10 +428,10 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
     }
     .hero-v2 h1 {
-      color: var(--ink-black);
+      color: var(--ink);
       font-size: clamp(2.1rem, 3.8vw, 3rem);
       margin: 0 0 1.25rem;
     }
@@ -452,7 +447,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     /* India's figures (item 3) sit beside the global ones, each group with
        its own label and source line, rather than merged into one
        undifferentiated row of five numbers. */
-    .hero-stats-group { padding-top: 1.1rem; border-top: 1px solid var(--border); }
+    .hero-stats-group { padding-top: 1.1rem; border-top: 1px solid var(--line); }
     .hero-stats-group + .hero-stats-group { padding-top: 0.9rem; border-top: none; }
     .hero-stats-label {
       margin: 0 0 0.5rem;
@@ -472,7 +467,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       display: block;
       font-family: var(--font-serif);
       font-size: 1.7rem;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       line-height: 1;
       white-space: nowrap;
     }
@@ -508,13 +503,12 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       .hero-photo-wrap figure { flex: 1 1 auto; min-height: 0; }
       .hero-photo-wrap img { height: 100%; aspect-ratio: auto; }
     }
+    /* Caption sits below the photo, not laid over it. */
     .hero-photo-wrap .photo-tag {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      background: rgba(18,19,15,0.72);
-      color: #fff;
+      display: block;
+      color: var(--muted);
       font-size: 0.8rem;
-      padding: 0.55rem 0.9rem;
+      padding: 0.5rem 0 0;
       margin: 0;
     }
     .hero-photo-caption { margin: 0.85rem 0 0; font-size: 0.88rem; color: var(--muted); font-style: italic; }
@@ -537,38 +531,28 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .path-card {
       background: #fff;
-      border-radius: 6px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.4rem 1.3rem;
-      border-top: 4px solid;
-      box-shadow: 0 1px 3px rgba(20,25,20,0.06);
     }
     .path-card :global(svg) { width: 1.75rem; height: 1.75rem; margin-bottom: 0.75rem; }
     .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
     .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.1rem; }
+    /* Same button everywhere (per Samrat, 2026-10-02) — this is a .btn
+       .btn-primary, just block-width to fill the card. Icon colour below
+       is emphasis on the card itself, not a button colour. */
     .path-btn {
-      display: inline-block;
+      display: block;
       width: 100%;
       text-align: center;
       box-sizing: border-box;
-      font-weight: 700;
-      font-size: 0.88rem;
-      text-decoration: none;
+      background: var(--green);
       color: #fff !important;
-      padding: 0.65rem 1rem;
-      border-radius: 999px;
     }
-    .path-green { border-color: var(--accent); }
-    .path-green :global(svg) { color: var(--accent); }
-    .path-green .path-btn { background: var(--accent); }
-    .path-green .path-btn:hover { background: var(--accent-dark); }
-    .path-gold { border-color: var(--gold); }
-    .path-gold :global(svg) { color: var(--gold); }
-    .path-gold .path-btn { background: var(--gold); }
-    .path-gold .path-btn:hover { background: var(--gold-dark); }
-    .path-rust { border-color: var(--rust); }
+    .path-btn:hover { background: var(--green-deep); }
+    .path-green :global(svg) { color: var(--green); }
+    .path-gold :global(svg) { color: var(--green); }
     .path-rust :global(svg) { color: var(--rust); }
-    .path-rust .path-btn { background: var(--rust); }
-    .path-rust .path-btn:hover { background: var(--rust-dark); }
     @media (max-width: 780px) {
       .path-grid { grid-template-columns: 1fr; }
     }
@@ -587,7 +571,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .kyr-card {
       width: 100%;
       max-width: 26rem;
-      background: var(--ink-black);
+      background: var(--ink);
       color: #fff;
       border-radius: 18px;
       padding: 1.75rem 1.6rem;
@@ -601,18 +585,18 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.6rem;
     }
     .kyr-headline { font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.3; margin: 0 0 1.5rem; }
-    .kyr-headline strong { color: var(--gold-light); }
+    .kyr-headline strong { color: var(--paper); }
     .kyr-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1.5rem; }
     .kyr-col { border-radius: 10px; padding: 0.9rem 1rem; }
     .kyr-banned { background: rgba(179,85,46,0.18); border: 1px solid rgba(179,85,46,0.4); }
     .kyr-notbanned { background: rgba(47,138,114,0.2); border: 1px solid rgba(47,138,114,0.45); }
     .kyr-col-label { display: block; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
     .kyr-banned .kyr-col-label { color: #f0b48f; }
-    .kyr-notbanned .kyr-col-label { color: var(--gold-light); }
+    .kyr-notbanned .kyr-col-label { color: var(--paper); }
     .kyr-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
     .kyr-col li { font-size: 0.84rem; line-height: 1.4; }
     .kyr-col li small { opacity: 0.7; font-size: 0.78em; }
@@ -626,7 +610,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       gap: 1rem;
       margin-top: 1.5rem;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
       width: 100%;
       max-width: 26rem;
     }
@@ -644,8 +628,6 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     }
     .kyr-whatsapp:hover { background: #1f7d35; color: #fff; }
     .kyr-whatsapp svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
-    .kyr-newsletter { width: 100%; }
-    .kyr-newsletter :global(.newsletter-signup) { max-width: none; }
     @media (max-width: 480px) {
       .kyr-card { padding: 1.4rem 1.25rem; border-radius: 14px; }
       .kyr-headline { font-size: 1.3rem; }
@@ -653,9 +635,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
 
     /* Know your rights CTA */
     .rights-cta {
-      background: linear-gradient(160deg, rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f7ede6;
       padding: 2rem 0;
     }
@@ -670,8 +650,8 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .rights-cta-copy h2 { color: #fff; margin: 0 0 0.65rem; font-size: clamp(1.3rem, 2.8vw, 1.7rem); line-height: 1.3; }
     .rights-cta-copy p { color: #f0e3da; font-size: 0.95rem; line-height: 1.55; max-width: 34rem; margin: 0 0 1.25rem; }
     .rights-cta-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .rights-cta .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
-    .rights-cta .btn-outline:hover { border-color: #fff; color: #fff; }
+    .rights-cta .btn-secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+    .rights-cta .btn-secondary:hover { border-color: #fff; color: #fff; }
     .rights-cta-stat {
       display: flex;
       flex-direction: column;
@@ -697,9 +677,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
 
     /* What does AVI do */
     .what-we-do {
-      background: linear-gradient(rgba(18,60,49,0.92), rgba(18,60,49,0.92)), url('/images/backgrounds/mountain-sunrise.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #fff;
       padding: 2.25rem 0;
     }
@@ -719,7 +697,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .wwd-tabs a:hover { background: rgba(255,255,255,0.22); color: #fff; }
 
     /* Ten years of AVI — teaser strip, item 5 */
-    .timeline-strip { background: var(--paper-alt); padding: 1.75rem 0; margin-top: 1.5rem; }
+    .timeline-strip { background: var(--paper-2); padding: 1.75rem 0; margin-top: 1.5rem; }
     .timeline-strip-inner {
       display: flex;
       justify-content: space-between;
@@ -727,7 +705,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       gap: 1.5rem;
       flex-wrap: wrap;
     }
-    .timeline-strip :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--gold-dark); margin-bottom: 0.5rem; }
+    .timeline-strip :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green-deep); margin-bottom: 0.5rem; }
     .timeline-strip h2 { margin: 0 0 0.35rem; font-size: 1.25rem; }
     .timeline-strip p { margin: 0; max-width: 32rem; color: var(--muted); font-size: 0.92rem; }
     .timeline-strip .btn { flex-shrink: 0; }
@@ -735,15 +713,15 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     /* In the news — a short, title+publisher-only list of third-party
        coverage (item 4), nested under "Latest from AVI" rather than its
        own tabbed block. */
-    .in-the-news { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
+    .in-the-news { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
     .itn-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
     .itn-label { margin: 0; font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
     .itn-all { font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
     .itn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
     .itn-list li {
       background: #fff;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--gold);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--green);
       border-radius: 6px;
       padding: 0.55rem 0.9rem;
     }
@@ -759,7 +737,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       color: var(--ink);
       margin-bottom: 0.15rem;
     }
-    .itn-list a:hover { color: var(--accent); }
+    .itn-list a:hover { color: var(--green); }
     .itn-list span { font-size: 0.78rem; color: var(--muted); }
 
     /* Latest from AVI — AVI's own statements, now the primary homepage
@@ -777,9 +755,8 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .latest-avi-card {
       display: block;
       background: #fff;
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--accent-dark);
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.1rem 1.25rem 1.25rem;
       text-decoration: none;
       color: inherit;
@@ -798,7 +775,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .latest-avi-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); }
+    .latest-avi-link { font-size: 0.85rem; font-weight: 600; color: var(--green-deep); }
 
     /* Watch strip */
     .watch-strip { max-width: var(--max-w-wide); margin: 1.5rem auto 0; padding: 0 1.5rem; }
@@ -808,7 +785,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
       gap: 1.5rem;
       align-items: center;
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.15rem;
     }
@@ -832,9 +809,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
 
     /* Donate */
     .donate-pitch {
-      background: linear-gradient(rgba(125,58,31,0.88), rgba(179,85,46,0.92)), url('/images/campaigns/chennai-protest.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #fff;
       padding: 1.5rem 0;
       margin-top: 1.5rem;
@@ -845,7 +820,7 @@ const kyrWaHref = `https://wa.me/?text=${encodeURIComponent(`${kyrWaText} ${kyrS
     .donate-pitch a:not(.btn) { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
 
     /* Stay connected: email signup + share, item 1 and item 5 */
-    .stay-connected { background: var(--paper-alt); padding: 2.25rem 0; margin-top: 1.5rem; }
+    .stay-connected { background: var(--paper-2); padding: 2.25rem 0; margin-top: 1.5rem; }
     .stay-connected-inner {
       display: grid;
       grid-template-columns: 1.2fr auto;

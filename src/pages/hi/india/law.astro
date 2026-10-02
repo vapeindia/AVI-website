@@ -119,13 +119,11 @@ const hiUrl = new URL('/hi/india/law/', Astro.site).toString();
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .law-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
-      background-size: cover;
-      background-position: center 60%;
+      background: var(--green-deep);
       padding: 3.25rem 0 2.75rem;
     }
     .law-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
@@ -135,9 +133,7 @@ const hiUrl = new URL('/hi/india/law/', Astro.site).toString();
     .page-note { font-size: 0.9rem; color: var(--muted); }
 
     .rights-section {
-      background: linear-gradient(160deg, rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f7ede6;
       padding: 2.75rem 0 3rem;
       border-top: 4px solid var(--rust);

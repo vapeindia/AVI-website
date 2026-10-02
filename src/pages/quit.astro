@@ -50,7 +50,7 @@ const faqLd = {
   </section>
 
   <div class="quit-body">
-    <p class="direct-answer">
+    <p class="short-answer">
       <strong>Is vaping safer than smoking? Yes.</strong> It is the burning of
       tobacco — not the nicotine — that causes most smoking-related disease,
       and vaping involves no combustion. Cochrane's living review found
@@ -184,7 +184,7 @@ const faqLd = {
         AVI's advocacy is aimed at winning <em>legal, regulated</em> access
         through evidence and litigation, not circumventing the law.
       </p>
-      <a class="btn btn-outline" href="/india/law/">Read the full legal position →</a>
+      <a class="btn btn-secondary" href="/india/law/">Read the full legal position →</a>
     </section>
 
     <div class="quit-related">
@@ -205,46 +205,33 @@ const faqLd = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .hero {
-      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
-      background-size: cover;
-      background-position: center 70%;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 4rem 0 3.5rem;
     }
     .hero-inner { max-width: 48rem; }
     .hero h1 { color: #fff; font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin: 0 0 1.1rem; }
     .hero-sub { color: #cdd6cf; font-size: 1.05rem; margin: 0; }
-    .hero-sub a { color: var(--gold-light); }
+    .hero-sub a { color: var(--paper); }
 
-    .quit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-    .direct-answer {
-      max-width: 46rem;
-      font-size: 1.02rem;
-      line-height: 1.6;
-      background: var(--paper-alt);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      padding: 1.1rem 1.4rem;
-      margin: 0 0 2.25rem;
-    }
-    .adults-note {
+    .quit-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }    .adults-note {
       max-width: 46rem;
       font-size: 0.88rem;
       font-style: italic;
       color: var(--muted);
-      border-left: 3px solid var(--gold);
+      border-left: 3px solid var(--green);
       padding-left: 1rem;
       margin: 0 0 2rem;
     }
     .quitline-list { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 1rem; max-width: 46rem; }
     .quitline-list li {
       padding: 1rem 1.25rem;
-      background: var(--paper-alt);
-      border-left: 3px solid var(--accent);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       font-size: 0.94rem;
       line-height: 1.6;
     }
@@ -256,24 +243,24 @@ const faqLd = {
       gap: 0.5rem 0.75rem;
       margin-bottom: 3rem;
       padding-bottom: 1.75rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--line);
     }
     .toc-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-right: 0.25rem; }
     .page-toc a {
       font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
-      color: var(--accent-dark);
-      background: var(--paper-alt);
+      color: var(--green-deep);
+      background: var(--paper-2);
       padding: 0.4rem 0.85rem;
       border-radius: 99px;
       white-space: nowrap;
     }
-    .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
+    .page-toc a:hover { background: var(--paper); color: var(--ink); }
     .q-section { margin-bottom: 3.5rem; scroll-margin-top: 1.5rem; }
     .q-section:last-child { margin-bottom: 0; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
 
     .evidence-grid {
@@ -284,7 +271,7 @@ const faqLd = {
     }
     .evidence-card {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.4rem 1.5rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
@@ -297,8 +284,8 @@ const faqLd = {
     .principles-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; max-width: 46rem; }
     .principles-list li {
       padding: 1rem 1.25rem;
-      background: var(--paper-alt);
-      border-left: 3px solid var(--gold);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       font-size: 0.94rem;
       line-height: 1.6;
     }
@@ -315,19 +302,19 @@ const faqLd = {
       gap: 1.25rem;
       margin-top: 1rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

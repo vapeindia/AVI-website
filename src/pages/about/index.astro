@@ -202,14 +202,14 @@ const rtiHighlights = [
 
   <style>
     .leader-card {
-      background: var(--paper-alt);
-      border-left: 4px solid var(--accent);
+      background: var(--paper-2);
+      border-left: 4px solid var(--green);
       border-radius: 0 8px 8px 0;
       padding: 1.5rem 1.75rem;
       margin: 1.25rem 0 2rem;
     }
     .leader-text h3 { margin: 0 0 0.2rem; font-size: 1.25rem; }
-    .leader-role { margin: 0 0 1rem; font-size: 0.88rem; font-weight: 600; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.03em; }
+    .leader-role { margin: 0 0 1rem; font-size: 0.88rem; font-weight: 600; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.03em; }
     .leader-text p { font-size: 0.95rem; line-height: 1.65; }
 
     .timeline {
@@ -222,9 +222,8 @@ const rtiHighlights = [
       display: flex;
       flex-direction: column;
       background: #fff;
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--accent);
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.25rem 1.4rem;
       text-decoration: none;
       color: inherit;
@@ -232,10 +231,10 @@ const rtiHighlights = [
       transition: transform 0.15s ease;
     }
     .timeline-card:hover { transform: translateY(-2px); }
-    .timeline-card :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .timeline-card :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--green); margin-bottom: 0.75rem; }
     .timeline-card h3 { margin: 0 0 0.5rem; font-size: 1rem; line-height: 1.35; color: var(--ink); }
     .timeline-card p { margin: 0 0 1rem; font-size: 0.86rem; color: var(--muted); line-height: 1.55; flex-grow: 1; }
-    .timeline-link { font-size: 0.84rem; font-weight: 600; color: var(--accent-dark); }
+    .timeline-link { font-size: 0.84rem; font-weight: 600; color: var(--green-deep); }
 
     .rti-highlight-grid {
       display: grid;
@@ -244,11 +243,11 @@ const rtiHighlights = [
       margin: 1.25rem 0 1.5rem;
     }
     .rti-highlight-card {
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
     }
-    .rti-highlight-card :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--gold-dark); margin-bottom: 0.6rem; }
+    .rti-highlight-card :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--green-deep); margin-bottom: 0.6rem; }
     .rti-authority { display: block; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.4rem; }
     .rti-highlight-card p { margin: 0; font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
 
@@ -261,7 +260,7 @@ const rtiHighlights = [
     }
     .board-list li {
       padding: 0.75rem 1rem;
-      border-left: 2px solid var(--accent);
+      border-left: 2px solid var(--green);
       font-size: 0.92rem;
       color: var(--muted);
     }
@@ -273,11 +272,11 @@ const rtiHighlights = [
       gap: 1.5rem 2.5rem;
       margin: 2rem 0;
       padding: 1.5rem 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
     .stat-row > div { display: flex; align-items: center; gap: 0.6rem; }
-    .stat-row :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); flex-shrink: 0; }
+    .stat-row :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--green); flex-shrink: 0; }
     .stat-row strong { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); }
     .stat-row span { font-size: 0.85rem; color: var(--muted); }
     @media (max-width: 480px) {
@@ -290,7 +289,7 @@ const rtiHighlights = [
       gap: 1.5rem;
       margin: 1.5rem 0;
     }
-    .what-we-do-grid :global(svg) { width: 1.75rem; height: 1.75rem; color: var(--accent); margin-bottom: 0.5rem; }
+    .what-we-do-grid :global(svg) { width: 1.75rem; height: 1.75rem; color: var(--green); margin-bottom: 0.5rem; }
     .what-we-do-grid h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
     .what-we-do-grid p { margin: 0; font-size: 0.9rem; color: var(--muted); }
     @media (max-width: 640px) {
@@ -303,19 +302,19 @@ const rtiHighlights = [
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

@@ -22,3 +22,12 @@ export function getGitDates(filePath: string, fallback = new Date().toISOString(
     return { published: fallback, modified: fallback };
   }
 }
+
+/** "2026-10-02" -> "2 October 2026" — for visible page text. JSON-LD/schema
+ * fields should keep the raw ISO string; only use this where a date is
+ * shown to a reader. */
+export function formatDate(isoDate: string): string {
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return isoDate;
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+}

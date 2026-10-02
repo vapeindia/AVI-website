@@ -205,13 +205,11 @@ const substanceLabel: Record<string, string> = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.75rem;
     }
     .science-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
-      background-size: cover;
-      background-position: center 25%;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
@@ -224,9 +222,9 @@ const substanceLabel: Record<string, string> = {
     .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
 
     .disclaimer {
-      background: var(--paper-alt);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--gold);
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--green);
       border-radius: 6px;
       padding: 1rem 1.25rem;
       font-size: 0.85rem;
@@ -245,21 +243,21 @@ const substanceLabel: Record<string, string> = {
     }
     .topline-card {
       display: block;
-      background: var(--paper-alt);
-      border-left: 3px solid var(--accent);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       border-radius: 4px;
       padding: 1.1rem 1.25rem;
       text-decoration: none;
       color: inherit;
     }
-    .topline-card h3 { margin: 0 0 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--accent-dark); }
+    .topline-card h3 { margin: 0 0 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--green-deep); }
     .topline-card p { margin: 0; font-size: 0.88rem; color: var(--ink); line-height: 1.55; }
     .topline-more { font-size: 0.82rem; color: var(--muted); max-width: 46rem; }
 
     .reading-section { margin-bottom: 3.5rem; }
     .reading-list { max-width: 46rem; padding-left: 1.25rem; margin: 0; }
     .reading-list li { font-size: 0.92rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.6rem; }
-    .reading-list a { color: var(--accent-dark); font-weight: 600; }
+    .reading-list a { color: var(--green-deep); font-weight: 600; }
 
     .science-grid {
       display: grid;
@@ -268,7 +266,7 @@ const substanceLabel: Record<string, string> = {
     }
     .science-card {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.4rem 1.5rem 1.5rem;
       display: flex;
@@ -285,18 +283,18 @@ const substanceLabel: Record<string, string> = {
       padding: 0.2rem 0.55rem;
       border-radius: 99px;
       color: #fff;
-      background: var(--accent);
+      background: var(--green);
     }
     .science-card h3 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
     .science-card h3 a { color: var(--ink); text-decoration: none; }
-    .science-card h3 a:hover { color: var(--accent); }
+    .science-card h3 a:hover { color: var(--green); }
     .byline { margin: 0 0 0.6rem; font-size: 0.8rem; color: var(--muted); }
     .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
     .tag {
       font-size: 0.72rem;
       font-weight: 600;
-      color: var(--gold-dark);
-      background: var(--paper-alt);
+      color: var(--green-deep);
+      background: var(--paper-2);
       padding: 0.15rem 0.5rem;
       border-radius: 4px;
     }
@@ -312,16 +310,16 @@ const substanceLabel: Record<string, string> = {
       gap: 0.5rem;
       font-weight: 600;
       font-size: 0.92rem;
-      color: var(--accent-dark);
-      background: var(--paper-alt);
-      border: 1px solid var(--border);
+      color: var(--green-deep);
+      background: var(--paper-2);
+      border: 1px solid var(--line);
       border-radius: 999px;
       padding: 0.6rem 1.25rem;
     }
     .science-archive summary::-webkit-details-marker { display: none; }
     .science-archive summary::after { content: '▾'; font-size: 0.75em; display: inline-block; transition: transform 0.15s ease; }
     .science-archive[open] summary::after { transform: rotate(180deg); }
-    .science-archive summary:hover { border-color: var(--accent); }
+    .science-archive summary:hover { border-color: var(--green); }
     .archive-grid { margin-top: 1.5rem; }
 
     .science-related {
@@ -330,19 +328,19 @@ const substanceLabel: Record<string, string> = {
       gap: 1.25rem;
       margin-top: 3rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

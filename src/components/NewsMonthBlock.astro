@@ -184,7 +184,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
 
   .month-toggle, .week-toggle {
     background: #fff;
-    border: 1px solid var(--border);
+    border: 1px solid var(--line);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -192,7 +192,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     cursor: pointer;
     list-style: none;
     padding: 1.25rem 1.5rem;
-    background: var(--paper-alt);
+    background: var(--paper-2);
   }
   .month-toggle summary::-webkit-details-marker,
   .week-toggle summary::-webkit-details-marker { display: none; }
@@ -203,22 +203,22 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     margin-top: 0.6rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--accent-dark);
+    color: var(--green-deep);
   }
   .month-toggle[open] summary::after,
   .week-toggle[open] summary::after { content: "Hide breakdown ▴"; }
 
   .summary-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-  .summary-head h2 { margin: 0; font-size: 1.35rem; color: var(--accent-dark); }
-  .summary-head h3 { margin: 0; font-size: 1.15rem; color: var(--accent-dark); }
+  .summary-head h2 { margin: 0; font-size: 1.35rem; color: var(--green-deep); }
+  .summary-head h3 { margin: 0; font-size: 1.15rem; color: var(--green-deep); }
   .count-tag { font-size: 0.78rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
 
   .digest-text.monthly, .digest-text.weekly { margin: 0.6rem 0 0; font-weight: 500; background: none; border: none; padding: 0; }
 
-  .nested-block { padding: 0.25rem 1.5rem 1.5rem; border-top: 1px solid var(--border); }
+  .nested-block { padding: 0.25rem 1.5rem 1.5rem; border-top: 1px solid var(--line); }
   .nested-block > .week-toggle,
   .nested-block > .week-open { margin-top: 1.25rem; }
-  .nested-block .month-toggle, .nested-block .week-toggle { background: var(--paper-alt); }
+  .nested-block .month-toggle, .nested-block .week-toggle { background: var(--paper-2); }
   .nested-block .week-toggle summary { background: #fff; }
 
   .week-open { display: block; }
@@ -229,14 +229,14 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     display: flex;
     align-items: baseline;
     gap: 0.75rem;
-    border-bottom: 2px solid var(--border);
+    border-bottom: 2px solid var(--line);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
   }
-  .day-heading h4 { margin: 0; font-size: 1.05rem; color: var(--accent-dark); }
+  .day-heading h4 { margin: 0; font-size: 1.05rem; color: var(--green-deep); }
   .digest-text {
-    background: var(--paper-alt);
-    border-left: 3px solid var(--accent);
+    background: var(--paper-2);
+    border-left: 3px solid var(--green);
     padding: 0.9rem 1.25rem;
     font-size: 0.92rem;
     line-height: 1.6;
@@ -251,7 +251,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     list-style: none;
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--accent-dark);
+    color: var(--green-deep);
     padding: 0.3rem 0;
   }
   .articles-toggle summary::-webkit-details-marker { display: none; }
@@ -266,7 +266,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
   }
   .news-card {
     background: #fff;
-    border: 1px solid var(--border);
+    border: 1px solid var(--line);
     border-radius: 8px;
     padding: 1.4rem 1.5rem 1.5rem;
     display: flex;
@@ -283,15 +283,15 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     border-radius: 99px;
     color: #fff;
   }
-  .topic-policy .topic-badge { background: var(--accent); }
+  .topic-policy .topic-badge { background: var(--green); }
   .topic-litigation .topic-badge { background: var(--rust); }
-  .topic-science .topic-badge { background: var(--accent-dark); }
+  .topic-science .topic-badge { background: var(--green-deep); }
   .topic-industry .topic-badge,
   .topic-other .topic-badge { background: var(--muted); }
 
   .news-card h5 { margin: 0 0 0.3rem; font-size: 1.03rem; line-height: 1.35; }
   .news-card h5 a { color: var(--ink); text-decoration: none; }
-  .news-card h5 a:hover { color: var(--accent); }
+  .news-card h5 a:hover { color: var(--green); }
   .source { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
   .gist { font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin: 0 0 1rem; flex-grow: 1; }
   .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }

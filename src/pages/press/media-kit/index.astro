@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Icon from '../../../components/Icon.astro';
 import { getCollection } from 'astro:content';
 import { rtiReplies } from '../../../data/rti-replies';
+import logo from '../../../assets/images/avi-logo.png';
 
 // Every count below is computed from live site data, not hand-maintained —
 // see the content/newsroom brief, item 2.
@@ -61,10 +63,10 @@ const topics = [
 
   <h2>Logo</h2>
   <div class="logo-block">
-    <img src="/images/avi-logo.png" width="140" height="140" alt="Association of Vapers India logo" />
+    <Image src={logo} width={140} height={140} alt="Association of Vapers India logo" />
     <div>
       <p>AVI's logo mark, transparent PNG background.</p>
-      <a class="btn btn-outline" href="/images/avi-logo.png" target="_blank" rel="noopener">Open full size →</a>
+      <a class="btn btn-secondary" href="/images/avi-logo.png" target="_blank" rel="noopener">Open full size →</a>
     </div>
   </div>
 
@@ -106,12 +108,12 @@ const topics = [
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.4rem;
     }
     .boilerplate {
-      background: var(--paper-alt);
-      border-left: 3px solid var(--accent);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       padding: 1rem 1.25rem;
       margin: 0;
       font-size: 0.95rem;
@@ -129,9 +131,9 @@ const topics = [
       align-items: center;
       gap: 0.6rem;
       padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--line);
     }
-    .glance-card :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); flex-shrink: 0; }
+    .glance-card :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--green); flex-shrink: 0; }
     .glance-card strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--ink); }
     .glance-card span { font-size: 0.85rem; color: var(--muted); }
     .glance-note { font-size: 0.82rem; color: var(--muted); }
@@ -144,7 +146,7 @@ const topics = [
       display: flex;
       align-items: center;
       gap: 1.25rem;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.5rem;
       margin: 1rem 0 1.5rem;
@@ -170,19 +172,19 @@ const topics = [
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

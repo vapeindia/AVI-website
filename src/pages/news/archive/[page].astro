@@ -49,20 +49,18 @@ const nextHref = pageNum < totalPages ? `/news/archive/${pageNum + 1}/` : null;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.75rem;
     }
     .archive-hero {
-      background: linear-gradient(rgba(18,60,49,0.85), rgba(18,60,49,0.93)), url('/images/backgrounds/open-sky.jpg');
-      background-size: cover;
-      background-position: center 70%;
+      background: var(--green-deep);
       color: #fff;
       padding: 3rem 0 2.5rem;
     }
-    .archive-hero .eyebrow { color: var(--gold-light); }
+    .archive-hero .eyebrow { color: var(--paper); }
     .archive-hero h1 { color: #fff; margin: 0 0 0.75rem; font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
     .archive-sub { color: #cfe0d8; font-size: 1rem; margin: 0; }
-    .archive-sub a { color: var(--gold-light); }
+    .archive-sub a { color: var(--paper); }
 
     .archive-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.25rem 1.5rem 4rem; }
 
@@ -73,19 +71,19 @@ const nextHref = pageNum < totalPages ? `/news/archive/${pageNum + 1}/` : null;
       gap: 1rem;
       margin-top: 2rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .pager-link {
       font-weight: 600;
       font-size: 0.92rem;
-      color: var(--accent-dark);
+      color: var(--green-deep);
       text-decoration: none;
-      background: var(--paper-alt);
-      border: 1px solid var(--border);
+      background: var(--paper-2);
+      border: 1px solid var(--line);
       border-radius: 999px;
       padding: 0.6rem 1.2rem;
     }
-    .pager-link:hover { border-color: var(--accent); }
+    .pager-link:hover { border-color: var(--green); }
     .pager-disabled { opacity: 0.4; pointer-events: none; }
     .pager-count { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
   </style>

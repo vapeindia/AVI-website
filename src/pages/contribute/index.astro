@@ -51,7 +51,7 @@ const FUND_USES = [
               </svg>
               <span>Pay</span>
             </a>
-            <button type="button" class="btn btn-outline upi-copy-btn" data-copy-upi={UPI_ID}>Copy UPI ID</button>
+            <button type="button" class="btn btn-secondary upi-copy-btn" data-copy-upi={UPI_ID}>Copy UPI ID</button>
           </div>
           <p class="upi-copy-feedback" data-upi-copy-feedback hidden>Copied!</p>
           <p class="upi-footnote">Suggested: {SUGGESTED_RANGE}. For monthly giving, set up AutoPay to this ID in your UPI app.</p>
@@ -121,13 +121,11 @@ const FUND_USES = [
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .contrib-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3rem 0 2.5rem;
     }
@@ -137,13 +135,13 @@ const FUND_USES = [
     .c-section { margin-bottom: 3rem; }
     .c-section:last-child { margin-bottom: 0; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
 
     .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr)); gap: 1.5rem; max-width: 42rem; }
     .how-card {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.5rem;
     }
@@ -169,11 +167,11 @@ const FUND_USES = [
     }
     .gpay-btn svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
     .upi-actions, .upi-action-row .btn { cursor: pointer; font: inherit; font-weight: 600; font-size: 0.86rem; }
-    .upi-copy-feedback { margin: 0.6rem 0 0; font-size: 0.82rem; font-weight: 600; color: var(--accent-dark); }
+    .upi-copy-feedback { margin: 0.6rem 0 0; font-size: 0.82rem; font-weight: 600; color: var(--green-deep); }
     .upi-footnote { margin: 0.9rem 0 0; font-size: 0.78rem; color: var(--muted); }
 
     .bank-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .bank-table th, .bank-table td { text-align: left; padding: 0.5rem 0.25rem; border-bottom: 1px solid var(--border); }
+    .bank-table th, .bank-table td { text-align: left; padding: 0.5rem 0.25rem; border-bottom: 1px solid var(--line); }
     .bank-table th { font-weight: 600; color: var(--muted); white-space: nowrap; padding-right: 1rem; }
 
     .notes-grid {
@@ -183,20 +181,20 @@ const FUND_USES = [
       max-width: 42rem;
     }
     .note {
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.1rem 1.25rem;
     }
-    .note h3 { margin: 0 0 0.4rem; font-size: 0.92rem; color: var(--accent-dark); }
+    .note h3 { margin: 0 0 0.4rem; font-size: 0.92rem; color: var(--green-deep); }
     .note p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
     .funds-related { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.75rem; }
     .fund-chip {
       display: inline-block;
       text-decoration: none;
-      color: var(--accent-dark);
+      color: var(--green-deep);
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 999px;
       padding: 0.4rem 0.9rem;
       font-size: 0.82rem;
@@ -213,13 +211,13 @@ const FUND_USES = [
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .cta-card:hover { transform: translateY(-2px); }
-    .cta-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .cta-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .cta-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 

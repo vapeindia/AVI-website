@@ -23,12 +23,8 @@ interface Props {
 const { id, compact = false } = Astro.props;
 ---
 <div class={compact ? 'newsletter-signup compact' : 'newsletter-signup'}>
-  {!compact && (
-    <>
-      <h2 class="ns-heading">Get AVI's updates</h2>
-      <p class="ns-sub">Policy wins, court dates and campaign calls-to-action — straight to your inbox, nothing else.</p>
-    </>
-  )}
+  {!compact && <h2 class="ns-heading">Get AVI's updates</h2>}
+  <p class="ns-sub">Court dates, policy wins and calls to action. A few emails a month at most. Unsubscribe any time.</p>
   <form class="ns-form" data-ns-form>
     <div class="ns-fields">
       <label class="sr-only" for={`ns-email-${id}`}>Email address</label>
@@ -39,7 +35,7 @@ const { id, compact = false } = Astro.props;
     </div>
 
     <details class="ns-privacy">
-      <summary>What this means for your data</summary>
+      <summary>How we use your data</summary>
       <p>
         We'll use your email only to send AVI's own updates — policy wins,
         court dates and campaign calls-to-action, typically no more than a
@@ -55,7 +51,7 @@ const { id, compact = false } = Astro.props;
     </details>
     <label class="ns-consent">
       <input type="checkbox" name="consent" required />
-      I agree to receive these emails and have read how AVI will use my data.
+      I agree to receive AVI emails.
     </label>
 
     <!-- Honeypot: real visitors never see or fill this in. -->
@@ -85,11 +81,11 @@ const { id, compact = false } = Astro.props;
       font: inherit;
       font-size: 0.92rem;
       padding: 0.55rem 0.7rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 4px;
       background: var(--paper);
     }
-    .ns-fields input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .ns-fields input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
     .ns-fields button { flex: 0 0 auto; border: none; cursor: pointer; white-space: nowrap; }
     .ns-fields button:disabled { opacity: 0.6; cursor: default; }
 
@@ -104,7 +100,7 @@ const { id, compact = false } = Astro.props;
     }
 
     .ns-privacy { margin: 0.35rem 0 0.6rem; font-size: 0.82rem; }
-    .ns-privacy summary { cursor: pointer; color: var(--accent-dark); font-weight: 600; }
+    .ns-privacy summary { cursor: pointer; color: var(--green-deep); font-weight: 600; }
     .ns-privacy p { margin: 0.5rem 0 0; color: var(--muted); line-height: 1.55; max-width: 32rem; }
     .ns-consent {
       display: flex;
@@ -118,8 +114,8 @@ const { id, compact = false } = Astro.props;
     .ns-consent input { margin-top: 0.2rem; }
     .hp { position: absolute; left: -9999px; }
     .ns-status { margin: 0.6rem 0 0; font-size: 0.85rem; }
-    .ns-status[data-state="ok"] { color: var(--accent-dark); }
-    .ns-status[data-state="err"] { color: #a3342a; }
+    .ns-status[data-state="ok"] { color: var(--green-deep); }
+    .ns-status[data-state="err"] { color: var(--rust); }
 
     /* Compact (footer) variant: one tight row, no heading/sub, smaller text. */
     .newsletter-signup.compact { max-width: 28rem; margin: 0 0 0.75rem; }

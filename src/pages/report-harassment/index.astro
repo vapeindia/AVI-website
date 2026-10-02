@@ -230,25 +230,23 @@ const CITIES = [
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .eyebrow :global(svg) { width: 1.05rem; height: 1.05rem; }
     .rh-hero {
-      background: linear-gradient(rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .rh-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .rh-sub { color: #f0e3da; max-width: 46rem; font-size: 1.03rem; line-height: 1.6; margin: 0; }
-    .rh-sub a { color: var(--gold-light); text-decoration: underline; }
+    .rh-sub a { color: var(--paper); text-decoration: underline; }
     .rh-sub a:hover { color: #fff; }
 
     .rh-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
 
     .stats-section { margin-bottom: 3.5rem; }
@@ -261,12 +259,12 @@ const CITIES = [
     }
     .stat-card {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       text-align: center;
     }
-    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 1.9rem; color: var(--rust-dark); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 1.9rem; color: var(--rust); line-height: 1; margin-bottom: 0.4rem; }
     .stat-card span { font-size: 0.82rem; color: var(--muted); }
     @media (max-width: 780px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -277,7 +275,7 @@ const CITIES = [
     .city-list { list-style: none; margin: 0; padding: 0; }
     .city-list li { display: grid; grid-template-columns: 6rem 1fr 2rem; align-items: center; gap: 0.6rem; margin-bottom: 0.45rem; font-size: 0.85rem; }
     .city-name { color: var(--ink); }
-    .city-bar { display: block; height: 0.55rem; background: var(--paper-alt); border-radius: 999px; overflow: hidden; }
+    .city-bar { display: block; height: 0.55rem; background: var(--paper-2); border-radius: 999px; overflow: hidden; }
     .city-bar-fill { display: block; height: 100%; background: var(--rust); border-radius: 999px; }
     .city-count { text-align: right; color: var(--muted); font-weight: 600; }
 
@@ -295,7 +293,7 @@ const CITIES = [
       flex-direction: column;
       gap: 0.4rem;
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.1rem 1.25rem;
       text-decoration: none;
@@ -308,7 +306,7 @@ const CITIES = [
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.03em;
-      color: var(--accent-dark);
+      color: var(--green-deep);
     }
     .proof-desc { font-size: 0.88rem; line-height: 1.5; color: var(--ink); }
 
@@ -316,7 +314,7 @@ const CITIES = [
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
 
     .rh-privacy { max-width: 46rem; margin: 0 0 1.75rem; font-size: 0.88rem; }
-    .rh-privacy summary { cursor: pointer; font-weight: 600; color: var(--accent-dark); }
+    .rh-privacy summary { cursor: pointer; font-weight: 600; color: var(--green-deep); }
     .rh-privacy-body { margin-top: 0.75rem; display: grid; gap: 0.75rem; }
     .rh-privacy-body p { margin: 0; color: var(--muted); line-height: 1.6; }
 
@@ -324,7 +322,7 @@ const CITIES = [
 
     .rh-form {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.75rem 2rem;
       max-width: 40rem;
@@ -337,8 +335,8 @@ const CITIES = [
     fieldset.field { border: none; padding: 0; margin: 0 0 1.1rem; }
     .check-row { display: flex; align-items: flex-start; gap: 0.5rem; font-weight: 400 !important; font-size: 0.9rem; margin-bottom: 0.5rem; }
     .check-row input { margin-top: 0.2rem; }
-    .willing-row { background: var(--paper-alt); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.1rem; }
-    .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .willing-row { background: var(--paper-2); border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1.1rem; }
+    .form-divider { border: none; border-top: 1px solid var(--line); margin: 1.5rem 0; }
     .hp { position: absolute; left: -9999px; }
     textarea, input[type="text"], input[type="email"], input[type="number"], input[type="date"], select {
       width: 100%;
@@ -346,15 +344,15 @@ const CITIES = [
       font: inherit;
       font-size: 0.95rem;
       padding: 0.6rem 0.7rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 4px;
       background: var(--paper);
     }
-    textarea:focus, input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    textarea:focus, input:focus, select:focus { outline: 2px solid var(--green); outline-offset: 1px; }
     .rh-form button[type="submit"] { margin-top: 0.25rem; border: none; cursor: pointer; }
     .rh-form button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
     #rh-status { margin: 0.85rem 0 0; font-size: 0.88rem; }
-    #rh-status[data-state="ok"] { color: var(--accent-dark); }
+    #rh-status[data-state="ok"] { color: var(--green-deep); }
     #rh-status[data-state="err"] { color: #a3342a; }
 
     .rh-related {
@@ -362,19 +360,19 @@ const CITIES = [
       grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 

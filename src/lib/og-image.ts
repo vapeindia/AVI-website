@@ -58,7 +58,7 @@ export async function generateOgImage(title: string): Promise<Buffer> {
                       {
                         type: 'span',
                         props: {
-                          style: { fontSize: 18, color: '#7fc4a8' },
+                          style: { fontSize: 18, color: '#faf6ec' },
                           children: 'Tobacco harm reduction advocacy',
                         },
                       },
@@ -86,7 +86,7 @@ export async function generateOgImage(title: string): Promise<Buffer> {
           {
             type: 'div',
             props: {
-              style: { display: 'flex', fontSize: 22, color: '#7fc4a8' },
+              style: { display: 'flex', fontSize: 22, color: '#faf6ec' },
               children: 'vapeindia.org',
             },
           },

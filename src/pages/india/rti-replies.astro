@@ -95,20 +95,18 @@ import { rtiReplies } from '../../data/rti-replies';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.75rem;
     }
     .rti-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .rti-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 46rem; }
     .rti-sub { color: #cdd6cf; max-width: 44rem; font-size: 1rem; margin: 0 0 1rem; }
     .rti-sub:last-child { margin-bottom: 0; }
-    .rti-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .rti-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .rti-sub a:hover { color: #fff; }
 
     .rti-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 1.5rem; }
@@ -121,13 +119,12 @@ import { rtiReplies } from '../../data/rti-replies';
       display: flex;
       flex-direction: column;
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.5rem 1.5rem 1.6rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
-      border-top: 4px solid var(--accent);
     }
-    .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--green); margin-bottom: 0.75rem; }
     .rti-card h2 { margin: 0 0 0.3rem; font-size: 1.05rem; line-height: 1.35; }
     .jurisdiction { margin: 0 0 1.1rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
     .rti-dates { margin: -0.6rem 0 1.1rem; font-size: 0.76rem; color: var(--muted); }
@@ -139,7 +136,7 @@ import { rtiReplies } from '../../data/rti-replies';
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.4rem;
     }
     .qa-block ul { margin: 0; padding-left: 1.1rem; font-size: 0.87rem; line-height: 1.5; }
@@ -148,8 +145,8 @@ import { rtiReplies } from '../../data/rti-replies';
     .findings li { color: var(--ink); }
     .questions li { color: var(--muted); }
 
-    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-dark); margin-top: auto; padding-top: 0.5rem; }
-    .read-link.external { color: var(--gold-dark); }
+    .read-link { font-size: 0.85rem; font-weight: 600; color: var(--green-deep); margin-top: auto; padding-top: 0.5rem; }
+    .read-link.external { color: var(--green-deep); }
 
     .rti-footnote {
       max-width: 44rem;
@@ -157,7 +154,7 @@ import { rtiReplies } from '../../data/rti-replies';
       font-size: 0.82rem;
       color: var(--muted);
       line-height: 1.6;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
       padding-top: 1.5rem;
     }
 
@@ -171,13 +168,13 @@ import { rtiReplies } from '../../data/rti-replies';
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

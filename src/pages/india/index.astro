@@ -105,14 +105,12 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.75rem;
     }
 
     .india-hero {
-      background: linear-gradient(rgba(18,19,15,0.8), rgba(18,19,15,0.92)), url('/images/backgrounds/green-hills-india.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 4rem 0 3.5rem;
       position: relative;
@@ -127,10 +125,10 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
       height: 30rem;
       max-width: 55vw;
       max-height: 55vw;
-      color: var(--gold-light);
+      color: var(--paper);
       opacity: 0.3;
     }
-    .india-hero .eyebrow { color: var(--gold-light); }
+    .india-hero .eyebrow { color: var(--paper); }
     .india-hero h1 {
       color: #fff;
       font-size: clamp(1.9rem, 3.8vw, 2.7rem);
@@ -144,9 +142,9 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
     .ground-intro { max-width: 40rem; margin: 0 auto 2.25rem; text-align: center; }
     .ground-intro h2 { margin: 0; font-size: 1.6rem; }
     .ground-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 2.5rem; }
-    .ground-block h3 { margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--accent-dark); }
+    .ground-block h3 { margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--green-deep); }
     .ground-block p { margin: 0; font-size: 0.92rem; line-height: 1.65; color: var(--ink); }
-    .ground-block p a { color: var(--accent-dark); text-decoration: underline; text-decoration-color: var(--border); }
+    .ground-block p a { color: var(--green-deep); text-decoration: underline; text-decoration-color: var(--line); }
     @media (max-width: 780px) {
       .ground-grid { grid-template-columns: 1fr; gap: 1.75rem; }
     }
@@ -168,15 +166,15 @@ import DecorativeRings from '../../components/DecorativeRings.astro';
     .path-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
     .path-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
     .path-cta { font-weight: 600; font-size: 0.9rem; }
-    .path-green { border-color: var(--accent); }
-    .path-green :global(svg) { color: var(--accent); }
-    .path-green .path-cta { color: var(--accent-dark); }
-    .path-gold { border-color: var(--gold); }
-    .path-gold :global(svg) { color: var(--gold); }
-    .path-gold .path-cta { color: var(--gold-dark); }
+    .path-green { border-color: var(--green); }
+    .path-green :global(svg) { color: var(--green); }
+    .path-green .path-cta { color: var(--green-deep); }
+    .path-gold { border-color: var(--green); }
+    .path-gold :global(svg) { color: var(--green); }
+    .path-gold .path-cta { color: var(--green-deep); }
     .path-rust { border-color: var(--rust); }
     .path-rust :global(svg) { color: var(--rust); }
-    .path-rust .path-cta { color: var(--rust-dark); }
+    .path-rust .path-cta { color: var(--rust); }
     @media (max-width: 780px) {
       .path-grid { grid-template-columns: 1fr; }
     }

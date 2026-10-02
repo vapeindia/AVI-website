@@ -130,24 +130,22 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .test-hero {
-      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .test-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .test-sub { color: #cdd6cf; max-width: 44rem; font-size: 1.03rem; margin: 0; }
-    .test-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .test-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .test-sub a:hover { color: #fff; }
 
     .test-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
     .section-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.65rem; margin-bottom: 1.25rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
     .section-head p { margin: 0.15rem 0 0; flex-basis: 100%; font-size: 0.8rem; color: var(--muted); }
 
@@ -167,7 +165,7 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
 
     .test-form {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.75rem 2rem;
       max-width: 40rem;
@@ -184,15 +182,15 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       font: inherit;
       font-size: 0.95rem;
       padding: 0.6rem 0.7rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 4px;
       background: var(--paper);
     }
-    textarea:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    textarea:focus, input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
     .test-form button[type="submit"] { margin-top: 0.25rem; border: none; cursor: pointer; }
     .test-form button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
     #testimonial-status { margin: 0.85rem 0 0; font-size: 0.88rem; }
-    #testimonial-status[data-state="ok"] { color: var(--accent-dark); }
+    #testimonial-status[data-state="ok"] { color: var(--green-deep); }
     #testimonial-status[data-state="err"] { color: #a3342a; }
 
     .quotes-section { margin-bottom: 3.5rem; }
@@ -203,8 +201,8 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
     }
     .quote-card {
       background: #fff;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--gold);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--green);
       border-radius: 8px;
       padding: 1.4rem 1.5rem;
       margin: 0;
@@ -219,19 +217,19 @@ const items = (await getCollection('testimonials', ({ data }) => data.reviewed))
       grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 

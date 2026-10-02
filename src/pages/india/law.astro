@@ -2,10 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
-import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import { getHarassmentStats } from '../../lib/harassment-stats';
-import { getGitDates } from '../../lib/git-dates';
+import { getGitDates, formatDate } from '../../lib/git-dates';
 import { PECA_ACT, PECA_BANNED, PECA_NOT_BANNED, PECA_SECTIONS, pecaBannedSentence, PECA_TRANSPORT_DRAFT } from '../../data/peca';
 
 // Definition clause (3(d)) split on blank lines, same pattern the Act text
@@ -87,7 +86,7 @@ const faqLd = {
   <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <section class="breakout law-hero">
     <div class="breakout-inner">
-      <p class="eyebrow">As of today</p>
+      <p class="eyebrow">Updated {formatDate(lawDates.modified)}</p>
       <h1>Is vaping banned in India?</h1>
       <p class="law-hero-sub">Short answer: no — not for personal use. Here's exactly what the law bans, and what it doesn't.</p>
     </div>
@@ -95,11 +94,11 @@ const faqLd = {
 
   <div class="law-body">
     <p class="page-authority">
-      By Association of Vapers India · Last reviewed {lawDates.modified}
+      By Association of Vapers India · Last reviewed {formatDate(lawDates.modified)}
       {REVIEWED_BY && <> · Reviewed by {REVIEWED_BY}</>}
       <span class="authority-note">· This is AVI's understanding of the law, not formal legal advice.</span>
     </p>
-    <p class="direct-answer">
+    <p class="short-answer">
       <strong>Is vaping banned in India? No — not for personal use.</strong> India's
       Prohibition of Electronic Cigarettes Act, 2019 (PECA) bans the
       {pecaBannedSentence()} of
@@ -402,10 +401,6 @@ const faqLd = {
       </p>
     </div>
 
-    <div class="law-newsletter">
-      <NewsletterSignup id="india-law" />
-    </div>
-
     <div class="law-related">
       <a href="/report-harassment/" class="related-card">
         <h3>Report harassment →</h3>
@@ -424,13 +419,11 @@ const faqLd = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .law-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/open-sky.jpg');
-      background-size: cover;
-      background-position: center 60%;
+      background: var(--green-deep);
       padding: 3.25rem 0 2.75rem;
     }
     .law-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
@@ -440,14 +433,14 @@ const faqLd = {
     .primary-source {
       max-width: var(--max-w);
       margin-top: 1.5rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1rem 1.25rem;
-      background: var(--paper-alt);
+      background: var(--paper-2);
     }
-    .primary-source summary { cursor: pointer; font-weight: 600; color: var(--accent-dark); }
+    .primary-source summary { cursor: pointer; font-weight: 600; color: var(--green-deep); }
     .source-note { font-size: 0.82rem; color: var(--muted); margin: 0.9rem 0 1.2rem; }
-    .source-note a { color: var(--accent-dark); }
+    .source-note a { color: var(--green-deep); }
     .act-section { margin: 1.3rem 0; }
     .act-section h4 { margin: 0 0 0.5rem; font-size: 0.95rem; }
     .act-section pre {
@@ -456,7 +449,7 @@ const faqLd = {
       font-size: 0.88rem;
       line-height: 1.6;
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 6px;
       padding: 0.9rem 1.1rem;
       margin: 0;
@@ -472,22 +465,11 @@ const faqLd = {
     .cite {
       font-size: 0.7em;
       font-weight: 600;
-      color: var(--accent-dark);
+      color: var(--green-deep);
       text-decoration: none;
       opacity: 0.75;
     }
     .cite:hover { opacity: 1; text-decoration: underline; }
-    .direct-answer {
-      max-width: var(--max-w);
-      font-size: 1.02rem;
-      line-height: 1.6;
-      background: var(--paper-alt);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      padding: 1.1rem 1.4rem;
-      margin: 0 0 2.25rem;
-    }
-
     .status-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -513,13 +495,13 @@ const faqLd = {
     }
     .status-banned { border-color: var(--rust); }
     .status-banned :global(svg) { color: var(--rust); }
-    .status-banned .status-tag { color: var(--rust-dark); }
-    .status-blocked { border-color: var(--gold); }
-    .status-blocked :global(svg) { color: var(--gold); }
-    .status-blocked .status-tag { color: var(--gold-dark); }
-    .status-legal { border-color: var(--accent); }
-    .status-legal :global(svg) { color: var(--accent); }
-    .status-legal .status-tag { color: var(--accent-dark); }
+    .status-banned .status-tag { color: var(--rust); }
+    .status-blocked { border-color: var(--green); }
+    .status-blocked :global(svg) { color: var(--green); }
+    .status-blocked .status-tag { color: var(--green-deep); }
+    .status-legal { border-color: var(--green); }
+    .status-legal :global(svg) { color: var(--green); }
+    .status-legal .status-tag { color: var(--green-deep); }
     @media (max-width: 780px) {
       .status-grid { grid-template-columns: 1fr; }
     }
@@ -533,11 +515,11 @@ const faqLd = {
       margin: 2.5rem 0 1rem;
     }
     .law-prose h2:first-child { margin-top: 0; }
-    .law-prose h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--accent); flex-shrink: 0; }
+    .law-prose h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--green); flex-shrink: 0; }
     .law-prose h3 { font-size: 1.05rem; margin: 2rem 0 0.85rem; }
     .callout-note {
-      background: var(--paper-alt);
-      border-left: 3px solid var(--gold);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       padding: 1rem 1.25rem;
       font-size: 0.9rem;
       font-style: italic;
@@ -555,7 +537,7 @@ const faqLd = {
     .banned-col {
       border-radius: 8px;
       padding: 1.1rem 1.25rem 1.25rem;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
     }
     .banned-col ul { margin: 0; padding-left: 1.15rem; }
     .banned-col li { font-size: 0.9rem; line-height: 1.6; }
@@ -572,13 +554,13 @@ const faqLd = {
       margin: 0 0 0.75rem;
     }
     .split-label :global(svg) { width: 1.05rem; height: 1.05rem; }
-    .banned-yes .split-label { color: var(--rust-dark); }
+    .banned-yes .split-label { color: var(--rust); }
     .banned-yes .split-label :global(svg) { color: var(--rust); }
-    .banned-no .split-label { color: var(--accent-dark); }
-    .banned-no .split-label :global(svg) { color: var(--accent); }
+    .banned-no .split-label { color: var(--green-deep); }
+    .banned-no .split-label :global(svg) { color: var(--green); }
     .split-note {
-      background: var(--paper-alt);
-      border-left: 3px solid var(--accent);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       padding: 0.9rem 1.1rem;
       font-size: 0.9rem;
       color: var(--muted);
@@ -596,14 +578,14 @@ const faqLd = {
       gap: 1.25rem;
       margin: 1.5rem 0;
     }
-    .pouch-col { border-radius: 8px; padding: 1.1rem 1.25rem 1.25rem; border: 1px solid var(--border); }
+    .pouch-col { border-radius: 8px; padding: 1.1rem 1.25rem 1.25rem; border: 1px solid var(--line); }
     .pouch-col p { font-size: 0.9rem; line-height: 1.6; margin: 0; color: var(--ink); }
     .pouch-col .split-label { margin-bottom: 0.6rem; }
     .pouch-fda { background: #eef6f1; border-color: #cfe4d7; }
-    .pouch-fda .split-label { color: var(--accent-dark); }
+    .pouch-fda .split-label { color: var(--green-deep); }
     .pouch-slt { background: #fbf1ec; border-color: #ecd3c4; }
-    .pouch-slt .split-label { color: var(--rust-dark); }
-    .pouch-slt strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--rust-dark); }
+    .pouch-slt .split-label { color: var(--rust); }
+    .pouch-slt strong { font-family: var(--font-serif); font-size: 1.3rem; color: var(--rust); }
     @media (max-width: 640px) {
       .pouch-compare { grid-template-columns: 1fr; }
     }
@@ -622,7 +604,7 @@ const faqLd = {
     .rebuttal-timeline li {
       counter-increment: rebuttal;
       position: relative;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 0.9rem 1.1rem 0.9rem 3rem;
       font-size: 0.92rem;
@@ -636,7 +618,7 @@ const faqLd = {
       width: 1.4rem;
       height: 1.4rem;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--green);
       color: #fff;
       font-size: 0.8rem;
       font-weight: 700;
@@ -649,9 +631,7 @@ const faqLd = {
     /* Know your rights — deliberately loud: full-bleed, photo band with a
        dark overlay, so it reads as a distinct reference, not more prose. */
     .rights-section {
-      background: linear-gradient(160deg, rgba(125,58,31,0.88), rgba(18,19,15,0.93) 75%), url('/images/backgrounds/protest-jantar-mantar.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f7ede6;
       padding: 2.75rem 0 3rem;
       border-top: 4px solid var(--rust);
@@ -695,7 +675,7 @@ const faqLd = {
       align-items: center;
       gap: 0.5rem;
       background: #fff;
-      color: var(--rust-dark);
+      color: var(--rust);
       border: none;
       border-radius: 999px;
       font-size: 0.88rem;
@@ -772,7 +752,6 @@ const faqLd = {
     }
 
     .law-share { margin: 1.25rem 0 1.75rem; }
-    .law-newsletter { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
 
     .law-related {
       display: grid;
@@ -780,19 +759,19 @@ const faqLd = {
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

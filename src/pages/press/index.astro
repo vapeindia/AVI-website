@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import { getCollection, render } from 'astro:content';
 
 // Unreviewed drafts (committed as `reviewed: false` — see content/newsroom
@@ -210,10 +209,6 @@ function displayDate(d: Date): string {
       )}
     </section>
 
-    <div class="press-newsletter">
-      <NewsletterSignup id="press" />
-    </div>
-
     <div class="press-related">
       <a href="/litigation/" class="related-card">
         <h3>Litigation →</h3>
@@ -265,19 +260,17 @@ function displayDate(d: Date): string {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-dark);
+      color: var(--green-deep);
       margin: 0 0 0.75rem;
     }
     .press-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 3.5rem 0 3rem;
     }
     .press-hero h1 { color: #fff; margin: 0 0 1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
     .press-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.05rem; margin: 0 0 1.75rem; }
-    .press-sub a { color: var(--gold-light); }
+    .press-sub a { color: var(--paper); }
     .press-contact {
       display: flex;
       flex-wrap: wrap;
@@ -287,7 +280,7 @@ function displayDate(d: Date): string {
       max-width: 42rem;
     }
     .contact-label { display: block; font-size: 0.78rem; color: #9fada2; margin-bottom: 0.3rem; }
-    .press-contact a { color: var(--gold-light); font-weight: 600; text-decoration: none; }
+    .press-contact a { color: var(--paper); font-weight: 600; text-decoration: none; }
 
     .press-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 0; }
 
@@ -303,15 +296,15 @@ function displayDate(d: Date): string {
       font-weight: 600;
       color: var(--muted);
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 999px;
       padding: 0.5rem 1.1rem;
       cursor: pointer;
       transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
     }
     .filter-chip span { opacity: 0.65; font-weight: 500; margin-left: 0.2rem; }
-    .filter-chip:hover { border-color: var(--accent); color: var(--ink); }
-    .filter-chip.active { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+    .filter-chip:hover { border-color: var(--green); color: var(--ink); }
+    .filter-chip.active { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
     .filter-chip.active span { opacity: 0.85; }
 
     .press-section + .press-section { margin-top: 3.5rem; }
@@ -326,7 +319,7 @@ function displayDate(d: Date): string {
     }
     .press-card {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.4rem 1.5rem 1.5rem;
       display: flex;
@@ -344,15 +337,15 @@ function displayDate(d: Date): string {
       border-radius: 99px;
       color: #fff;
     }
-    .type-coverage .type-badge { background: var(--accent); }
-    .type-interview .type-badge { background: var(--gold); }
+    .type-coverage .type-badge { background: var(--green); }
+    .type-interview .type-badge { background: var(--green); }
     .type-op-ed .type-badge { background: var(--rust); }
-    .type-press-release .type-badge { background: var(--accent-dark); }
+    .type-press-release .type-badge { background: var(--green-deep); }
     .type-quote .type-badge { background: var(--muted); }
 
     .press-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; line-height: 1.35; }
     .press-card h3 a { color: inherit; text-decoration: none; }
-    .press-card h3 a:hover { color: var(--accent-dark); text-decoration: underline; }
+    .press-card h3 a:hover { color: var(--green-deep); text-decoration: underline; }
     .outlet { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .gist {
       font-size: 0.88rem;
@@ -367,7 +360,7 @@ function displayDate(d: Date): string {
     }
     .gist :global(p) { margin: 0 0 0.6rem; }
     .gist :global(p:last-child) { margin-bottom: 0; }
-    .gist :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--border); }
+    .gist :global(a) { color: inherit; text-decoration: underline; text-decoration-color: var(--line); }
     .read-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-top: auto; }
     .pending-link { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: auto; }
 
@@ -380,43 +373,36 @@ function displayDate(d: Date): string {
       gap: 0.5rem;
       font-weight: 600;
       font-size: 0.92rem;
-      color: var(--accent-dark);
-      background: var(--paper-alt);
-      border: 1px solid var(--border);
+      color: var(--green-deep);
+      background: var(--paper-2);
+      border: 1px solid var(--line);
       border-radius: 999px;
       padding: 0.6rem 1.25rem;
     }
     .press-archive summary::-webkit-details-marker { display: none; }
     .press-archive summary::after { content: '▾'; font-size: 0.75em; display: inline-block; transition: transform 0.15s ease; }
     .press-archive[open] summary::after { transform: rotate(180deg); }
-    .press-archive summary:hover { border-color: var(--accent); }
+    .press-archive summary:hover { border-color: var(--green); }
     .archive-grid { margin-top: 1.5rem; }
-
-    .press-newsletter {
-      margin-top: 2.5rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
-    }
-
     .press-related {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
       gap: 1.25rem;
       margin-top: 1rem;
       padding: 2.5rem 0 4rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

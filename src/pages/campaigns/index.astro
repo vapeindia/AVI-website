@@ -192,13 +192,11 @@ const sizeBySrc = new Map(sizeEntries);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .camp-hero {
-      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 4rem 0 3.5rem;
       position: relative;
@@ -213,17 +211,17 @@ const sizeBySrc = new Map(sizeEntries);
       height: 28rem;
       max-width: 50vw;
       max-height: 50vw;
-      color: var(--gold-light);
+      color: var(--paper);
       opacity: 0.25;
     }
     .camp-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.8vw, 2.7rem); max-width: 44rem; position: relative; }
     .camp-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0; position: relative; }
-    .camp-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .camp-sub a { color: var(--paper); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
     .camp-sub a:hover { color: #fff; }
 
     /* Featured: the six-city protest, pulled out of the grid */
-    .camp-featured { background: var(--paper-alt); padding: 2.5rem 0; }
-    .camp-featured .eyebrow { color: var(--gold-dark); }
+    .camp-featured { background: var(--paper-2); padding: 2.5rem 0; }
+    .camp-featured .eyebrow { color: var(--green-deep); }
     .camp-featured h2 { margin: 0 0 0.6rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
     .feat-summary { color: var(--muted); max-width: 46rem; margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.55; }
     .feat-photo-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
@@ -255,23 +253,16 @@ const sizeBySrc = new Map(sizeEntries);
     .camp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr)); gap: 1.75rem; }
     .camp-card {
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.6rem 1.7rem 1.75rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
-      border-top: 4px solid var(--rust);
       scroll-margin-top: 1.5rem;
     }
     .camp-card:target {
-      outline: 2px solid var(--gold);
+      outline: 2px solid var(--green);
       outline-offset: 2px;
     }
-    .type-protest { border-top-color: var(--rust); }
-    .type-seminar { border-top-color: var(--accent); }
-    .type-delegation { border-top-color: var(--gold); }
-    .type-press-conference { border-top-color: var(--accent-light); }
-    .type-digital-mobilisation { border-top-color: var(--gold-dark); }
-    .type-research-drive { border-top-color: var(--accent-dark); }
 
     .card-top { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
     .card-top :global(svg) { width: 1.4rem; height: 1.4rem; color: var(--rust); }
@@ -303,7 +294,7 @@ const sizeBySrc = new Map(sizeEntries);
       cursor: pointer;
       font-size: 0.88rem;
       font-weight: 600;
-      color: var(--accent-dark);
+      color: var(--green-deep);
       list-style: none;
     }
     details summary::-webkit-details-marker { display: none; }
@@ -312,7 +303,7 @@ const sizeBySrc = new Map(sizeEntries);
     .full-text {
       margin-top: 1rem;
       padding-top: 1rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
       font-size: 0.9rem;
       line-height: 1.7;
       color: var(--ink);
@@ -322,11 +313,11 @@ const sizeBySrc = new Map(sizeEntries);
 
     .c-section { margin: 0 0 3.5rem; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.1rem; }
-    .section-head :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--green); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.35rem; }
     .lead { font-size: 0.95rem; max-width: 46rem; color: var(--ink); line-height: 1.65; margin: 0 0 1.5rem; }
 
-    .materials-section { padding-top: 2.5rem; border-top: 1px solid var(--border); }
+    .materials-section { padding-top: 2.5rem; border-top: 1px solid var(--line); }
     .materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); gap: 1.25rem; }
     .material-card {
       position: relative;
@@ -350,9 +341,9 @@ const sizeBySrc = new Map(sizeEntries);
     .materials-submit {
       margin-top: 1.75rem;
       max-width: 46rem;
-      background: var(--paper-alt);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--gold);
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--green);
       border-radius: 6px;
       padding: 1.1rem 1.4rem;
     }
@@ -362,7 +353,7 @@ const sizeBySrc = new Map(sizeEntries);
     .materials-submit li { margin-bottom: 0.35rem; }
     .materials-submit li:last-child { margin-bottom: 0; }
 
-    .involve-section { padding-top: 1rem; border-top: 1px solid var(--border); }
+    .involve-section { padding-top: 1rem; border-top: 1px solid var(--line); }
     .involve-link { display: inline-block; }
     .involve-related { font-size: 0.9rem; margin: 1.5rem 0 0; }
   </style>

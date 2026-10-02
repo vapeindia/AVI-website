@@ -260,7 +260,7 @@ import Icon from '../components/Icon.astro';
           research, India-specific data, and international precedent in more
           depth.
         </p>
-        <a class="btn btn-gold" href="/press/">Contact us →</a>
+        <a class="btn btn-primary" href="/press/">Contact us →</a>
       </div>
     </section>
 
@@ -282,14 +282,12 @@ import Icon from '../components/Icon.astro';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
-    .eyebrow-light { color: var(--gold-light); }
+    .eyebrow-light { color: var(--paper); }
     .hero {
-      background: linear-gradient(rgba(18,19,15,0.82), rgba(18,19,15,0.93)), url('/images/backgrounds/open-field.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #f4f1e6;
       padding: 4rem 0 3.5rem;
     }
@@ -305,23 +303,23 @@ import Icon from '../components/Icon.astro';
       gap: 0.5rem 0.75rem;
       margin-bottom: 3rem;
       padding-bottom: 1.75rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--line);
     }
     .toc-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-right: 0.25rem; }
     .page-toc a {
       font-size: 0.85rem;
       font-weight: 600;
       text-decoration: none;
-      color: var(--accent-dark);
-      background: var(--paper-alt);
+      color: var(--green-deep);
+      background: var(--paper-2);
       padding: 0.4rem 0.85rem;
       border-radius: 99px;
       white-space: nowrap;
     }
-    .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
+    .page-toc a:hover { background: var(--paper); color: var(--ink); }
     .p-section { margin-bottom: 3.75rem; scroll-margin-top: 1.5rem; }
     .section-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
-    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--accent); flex-shrink: 0; }
+    .section-head :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--green); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.4rem; }
     .lead { font-size: 1rem; max-width: 50rem; margin: 0 0 1.5rem; }
     .see-more { display: inline-block; font-weight: 600; font-size: 0.9rem; text-decoration: none; margin: 0.5rem 0 0; }
@@ -330,33 +328,30 @@ import Icon from '../components/Icon.astro';
 
     .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: 1.5rem; margin-bottom: 1.25rem; }
     .stat-card {
-      background: var(--accent-dark);
+      background: var(--green-deep);
       color: #fff;
       border-radius: 8px;
       padding: 1.5rem;
     }
-    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 2.4rem; color: var(--gold-light); line-height: 1; margin-bottom: 0.5rem; }
+    .stat-card strong { display: block; font-family: var(--font-serif); font-size: 2.4rem; color: var(--paper); line-height: 1; margin-bottom: 0.5rem; }
     .stat-card span { font-size: 0.85rem; color: #cfe0d8; line-height: 1.5; }
 
     .country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr)); gap: 1.5rem; }
     .country-card {
       background: #fff;
-      border: 1px solid var(--border);
-      border-top: 4px solid var(--accent);
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.4rem 1.5rem;
       box-shadow: 0 1px 3px rgba(20,25,20,0.05);
     }
-    .country-card-warn { border-top-color: var(--rust); }
     .country-card h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
     .country-card p { margin: 0 0 0.85rem; font-size: 0.9rem; line-height: 1.55; color: var(--ink); }
     .country-card a { font-size: 0.85rem; font-weight: 600; text-decoration: none; }
 
     .innco-block {
       background: #fff;
-      border: 1px solid var(--border);
-      border-top: 4px solid var(--accent);
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 1.75rem 2rem;
       max-width: 52rem;
       margin-bottom: 1.75rem;
@@ -366,7 +361,7 @@ import Icon from '../components/Icon.astro';
     .innco-quote {
       margin: 0 0 1.5rem;
       padding: 0.25rem 0 0.25rem 1.25rem;
-      border-left: 3px solid var(--gold);
+      border-left: 3px solid var(--green);
       font-family: var(--font-serif);
       font-size: 1.05rem;
       font-style: italic;
@@ -382,17 +377,15 @@ import Icon from '../components/Icon.astro';
     .backing-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; max-width: 50rem; }
     .backing-list li {
       padding: 1rem 1.25rem;
-      background: var(--paper-alt);
-      border-left: 3px solid var(--gold);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       font-size: 0.94rem;
       line-height: 1.65;
     }
     .backing-list a { font-weight: 600; margin-left: 0.35rem; white-space: nowrap; }
 
     .invite-band {
-      background: linear-gradient(rgba(179,85,46,0.9), rgba(179,85,46,0.92)), url('/images/backgrounds/green-hills-india.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       color: #fff;
       padding: 3.75rem 0;
       margin-top: 0;
@@ -410,13 +403,13 @@ import Icon from '../components/Icon.astro';
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>

@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import PullQuote from '../../components/PullQuote.astro';
-import { getGitDates } from '../../lib/git-dates';
+import { getGitDates, formatDate } from '../../lib/git-dates';
 
 // New page, content/faq-and-guides item 3 — "AVI's most distinctive
 // argument and nobody owns it in search." Built entirely from facts
@@ -42,10 +42,10 @@ const articleLd = {
 
   <div class="slt-body">
     <p class="page-authority">
-      By Association of Vapers India · Last reviewed {pageDates.modified}
+      By Association of Vapers India · Last reviewed {formatDate(pageDates.modified)}
       <span class="authority-note">· This is AVI's reading of the evidence, not medical or legal advice.</span>
     </p>
-    <p class="direct-answer">
+    <p class="short-answer">
       <strong>India has roughly 200 million smokeless-tobacco users — gutka, khaini and other products chewed or held in the mouth — against around 100 million smokers.</strong>
       Most global tobacco policy, and most of the harm reduction movement,
       is built around cigarettes. India's larger tobacco problem isn't
@@ -141,13 +141,11 @@ const articleLd = {
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--gold-light);
+      color: var(--paper);
       margin: 0 0 0.75rem;
     }
     .slt-hero {
-      background: linear-gradient(rgba(18,19,15,0.85), rgba(18,19,15,0.93)), url('/images/backgrounds/green-hills-india.jpg');
-      background-size: cover;
-      background-position: center;
+      background: var(--green-deep);
       padding: 3.25rem 0 2.75rem;
     }
     .slt-hero h1 { color: #fff; margin: 0 0 0.85rem; font-size: clamp(1.8rem, 3.4vw, 2.5rem); max-width: 48rem; }
@@ -157,16 +155,6 @@ const articleLd = {
     .page-authority { font-size: 0.82rem; color: var(--muted); margin: 0 0 1.1rem; }
     .authority-note { display: block; margin-top: 0.2rem; font-style: italic; }
     @media (min-width: 640px) { .authority-note { display: inline; margin-top: 0; } }
-    .direct-answer {
-      font-size: 1.02rem;
-      line-height: 1.6;
-      background: var(--paper-alt);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      padding: 1.1rem 1.4rem;
-      margin: 0 0 2.25rem;
-    }
-
     h2 {
       display: flex;
       align-items: center;
@@ -175,19 +163,19 @@ const articleLd = {
       margin: 2.5rem 0 1rem;
     }
     h2:first-of-type { margin-top: 0; }
-    h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--accent); flex-shrink: 0; }
+    h2 :global(svg) { width: 1.3rem; height: 1.3rem; color: var(--green); flex-shrink: 0; }
 
     .split-note {
-      background: var(--paper-alt);
-      border-left: 3px solid var(--accent);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       padding: 0.9rem 1.1rem;
       font-size: 0.9rem;
       color: var(--muted);
       margin: 1rem 0 1.75rem;
     }
     .callout-note {
-      background: var(--paper-alt);
-      border-left: 3px solid var(--gold);
+      background: var(--paper-2);
+      border-left: 3px solid var(--green);
       padding: 1rem 1.25rem;
       font-size: 0.9rem;
       font-style: italic;
@@ -201,19 +189,19 @@ const articleLd = {
       gap: 1.25rem;
       margin-top: 2.5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--line);
     }
     .related-card {
       display: block;
       text-decoration: none;
       color: inherit;
-      background: var(--paper-alt);
+      background: var(--paper-2);
       border-radius: 8px;
       padding: 1.25rem 1.4rem;
       transition: transform 0.15s ease;
     }
     .related-card:hover { transform: translateY(-2px); }
-    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green-deep); }
     .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
   </style>
 </Base>
