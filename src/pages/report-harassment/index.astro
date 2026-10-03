@@ -27,82 +27,13 @@ const CITIES = [
   </section>
 
   <div class="rh-body">
-    <section class="stats-section">
-      <div class="section-head">
-        <Icon name="chart" />
-        <h2>What's been reported so far</h2>
-      </div>
-      {stats.total === 0 ? (
-        <p class="stats-empty">No reports yet — be the first. Every field below except the incident details is used only as an anonymous number in this count.</p>
-      ) : (
-        <>
-          <div class="stats-grid">
-            <div class="stat-card"><strong>{stats.total}</strong><span>reports logged</span></div>
-            <div class="stat-card"><strong>₹{stats.totalAmount.toLocaleString('en-IN')}</strong><span>total demanded or paid</span></div>
-            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>devices never returned</span></div>
-          </div>
-          {stats.topCities.length > 0 && (
-            <div class="city-breakdown">
-              <p class="city-breakdown-label">Reports by city</p>
-              <ul class="city-list">
-                {stats.topCities.map(({ city, count }) => (
-                  <li>
-                    <span class="city-name">{city}</span>
-                    <span class="city-bar"><span class="city-bar-fill" style={`width:${Math.max(8, Math.round((count / stats.topCities[0].count) * 100))}%`}></span></span>
-                    <span class="city-count">{count}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </>
-      )}
-      <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
-    </section>
-
-    <section class="proof-section">
-      <div class="section-head">
-        <Icon name="megaphone" />
-        <h2>You're not the only one</h2>
-      </div>
-      <p class="proof-note">
-        A small sample of accounts other vapers have already shared publicly, on Reddit — not part of the count above, since this tracker only counts reports submitted directly through the form below. If any of this sounds familiar, add your own — it's what turns "someone online said" into evidence AVI can actually use.
-      </p>
-      <div class="proof-grid">
-        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1m2yc0b/vaped_near_office_at_malad_mindspace_cop_demanded/" target="_blank" rel="noopener">
-          <span class="proof-city">Mumbai</span>
-          <span class="proof-desc">Vaping near a Malad office, an officer demanded ₹25,000 and took ₹2,000 cash after checking the poster's phone and bank balance.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/xyqk9q/the_police_did_this_to_me_and_a_friend_last_night/" target="_blank" rel="noopener">
-          <span class="proof-city">Bangalore</span>
-          <span class="proof-desc">Two friends paid ₹20,000 after officers found photos on their phones and used them as leverage.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/12j3nkr/got_slapped_by_a_cop_for_vape_in_indiranagar/" target="_blank" rel="noopener">
-          <span class="proof-city">Bangalore</span>
-          <span class="proof-desc">Stopped and slapped by an officer over a vape in Indiranagar — the thread went on to draw a 3,400-vote poll on India's vaping ban.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/delhi/comments/1jka9ai/police_action_on_carrying_vape_in_delhi_metro/" target="_blank" rel="noopener">
-          <span class="proof-city">Delhi</span>
-          <span class="proof-desc">A vape found in a passenger's purse by CISF on the Delhi Metro was handed over to Delhi Police.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1g3fl3x/encounter_with_a_suspicious_cop_over_a_vape_in/" target="_blank" rel="noopener">
-          <span class="proof-city">Mumbai</span>
-          <span class="proof-desc">A separate stop by a "suspicious cop" over a vape, recounted in detail on r/mumbai.</span>
-        </a>
-        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1wfi8i9/is_smoking_cigarettes_not_common_in_mumbai/" target="_blank" rel="noopener">
-          <span class="proof-city">Mumbai</span>
-          <span class="proof-desc">Commenters describe officers charging up to ₹1,500 — well above the ₹200 COTPA cap for public smoking — or simply seizing the device, specifically when it's a vape.</span>
-        </a>
-      </div>
-    </section>
-
     <section class="form-section">
       <div class="section-head">
         <Icon name="document" />
         <h2>Report an incident</h2>
       </div>
       <p class="form-note">
-        City, date and what happened are published only as anonymous numbers above — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note.
+        City, date and what happened are published only as anonymous numbers below — never as an individual story. Everything below the divider (email, extra details) is <strong>optional</strong>, kept private, and never committed to this site's public code — it only reaches AVI directly, and only if you say yes to being contacted or leave a note.
       </p>
 
       <form id="rh-form" class="rh-form">
@@ -186,6 +117,75 @@ const CITIES = [
         <button type="submit" class="btn btn-primary">Submit report</button>
         <p id="rh-status" role="status"></p>
       </form>
+    </section>
+
+    <section class="stats-section">
+      <div class="section-head">
+        <Icon name="chart" />
+        <h2>What's been reported so far</h2>
+      </div>
+      {stats.total === 0 ? (
+        <p class="stats-empty">No reports yet — be the first. Every field below except the incident details is used only as an anonymous number in this count.</p>
+      ) : (
+        <>
+          <div class="stats-grid">
+            <div class="stat-card"><strong>{stats.total}</strong><span>reports logged</span></div>
+            <div class="stat-card"><strong>₹{stats.totalAmount.toLocaleString('en-IN')}</strong><span>total demanded or paid</span></div>
+            <div class="stat-card"><strong>{stats.notReturnedCount}</strong><span>devices never returned</span></div>
+          </div>
+          {stats.topCities.length > 0 && (
+            <div class="city-breakdown">
+              <p class="city-breakdown-label">Reports by city</p>
+              <ul class="city-list">
+                {stats.topCities.map(({ city, count }) => (
+                  <li>
+                    <span class="city-name">{city}</span>
+                    <span class="city-bar"><span class="city-bar-fill" style={`width:${Math.max(8, Math.round((count / stats.topCities[0].count) * 100))}%`}></span></span>
+                    <span class="city-count">{count}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </>
+      )}
+      <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
+    </section>
+
+    <section class="proof-section">
+      <div class="section-head">
+        <Icon name="megaphone" />
+        <h2>You're not the only one</h2>
+      </div>
+      <p class="proof-note">
+        A small sample of accounts other vapers have already shared publicly, on Reddit — not part of the count above, since this tracker only counts reports submitted directly through the form below. If any of this sounds familiar, add your own — it's what turns "someone online said" into evidence AVI can actually use.
+      </p>
+      <div class="proof-grid">
+        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1m2yc0b/vaped_near_office_at_malad_mindspace_cop_demanded/" target="_blank" rel="noopener">
+          <span class="proof-city">Mumbai</span>
+          <span class="proof-desc">Vaping near a Malad office, an officer demanded ₹25,000 and took ₹2,000 cash after checking the poster's phone and bank balance.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/xyqk9q/the_police_did_this_to_me_and_a_friend_last_night/" target="_blank" rel="noopener">
+          <span class="proof-city">Bangalore</span>
+          <span class="proof-desc">Two friends paid ₹20,000 after officers found photos on their phones and used them as leverage.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/12j3nkr/got_slapped_by_a_cop_for_vape_in_indiranagar/" target="_blank" rel="noopener">
+          <span class="proof-city">Bangalore</span>
+          <span class="proof-desc">Stopped and slapped by an officer over a vape in Indiranagar — the thread went on to draw a 3,400-vote poll on India's vaping ban.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/delhi/comments/1jka9ai/police_action_on_carrying_vape_in_delhi_metro/" target="_blank" rel="noopener">
+          <span class="proof-city">Delhi</span>
+          <span class="proof-desc">A vape found in a passenger's purse by CISF on the Delhi Metro was handed over to Delhi Police.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1g3fl3x/encounter_with_a_suspicious_cop_over_a_vape_in/" target="_blank" rel="noopener">
+          <span class="proof-city">Mumbai</span>
+          <span class="proof-desc">A separate stop by a "suspicious cop" over a vape, recounted in detail on r/mumbai.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1wfi8i9/is_smoking_cigarettes_not_common_in_mumbai/" target="_blank" rel="noopener">
+          <span class="proof-city">Mumbai</span>
+          <span class="proof-desc">Commenters describe officers charging up to ₹1,500 — well above the ₹200 COTPA cap for public smoking — or simply seizing the device, specifically when it's a vape.</span>
+        </a>
+      </div>
     </section>
 
     <section class="rh-related">
