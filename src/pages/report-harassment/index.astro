@@ -60,6 +60,42 @@ const CITIES = [
       <p class="stats-note">Numbers update automatically as reports come in — no manual review sits between a submission and this count, since nothing identifying is ever collected in the fields that feed it. Tracker live since October 2026 — counts start from there, not from AVI's earlier confiscation reports.</p>
     </section>
 
+    <section class="proof-section">
+      <div class="section-head">
+        <Icon name="megaphone" />
+        <h2>You're not the only one</h2>
+      </div>
+      <p class="proof-note">
+        A small sample of accounts other vapers have already shared publicly, on Reddit — not part of the count above, since this tracker only counts reports submitted directly through the form below. If any of this sounds familiar, add your own — it's what turns "someone online said" into evidence AVI can actually use.
+      </p>
+      <div class="proof-grid">
+        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1m2yc0b/vaped_near_office_at_malad_mindspace_cop_demanded/" target="_blank" rel="noopener">
+          <span class="proof-city">Mumbai</span>
+          <span class="proof-desc">Vaping near a Malad office, an officer demanded ₹25,000 and took ₹2,000 cash after checking the poster's phone and bank balance.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/xyqk9q/the_police_did_this_to_me_and_a_friend_last_night/" target="_blank" rel="noopener">
+          <span class="proof-city">Bangalore</span>
+          <span class="proof-desc">Two friends paid ₹20,000 after officers found photos on their phones and used them as leverage.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/bangalore/comments/12j3nkr/got_slapped_by_a_cop_for_vape_in_indiranagar/" target="_blank" rel="noopener">
+          <span class="proof-city">Bangalore</span>
+          <span class="proof-desc">Stopped and slapped by an officer over a vape in Indiranagar — the thread went on to draw a 3,400-vote poll on India's vaping ban.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/delhi/comments/1jka9ai/police_action_on_carrying_vape_in_delhi_metro/" target="_blank" rel="noopener">
+          <span class="proof-city">Delhi</span>
+          <span class="proof-desc">A vape found in a passenger's purse by CISF on the Delhi Metro was handed over to Delhi Police.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1vkf1re/felt_scammed_by_lonavala_police_over_a_quarter_of/" target="_blank" rel="noopener">
+          <span class="proof-city">Lonavala</span>
+          <span class="proof-desc">A bribe was demanded by police over a vape and a small hookah found in a car boot, late at night.</span>
+        </a>
+        <a class="proof-card" href="https://www.reddit.com/r/mumbai/comments/1g3fl3x/encounter_with_a_suspicious_cop_over_a_vape_in/" target="_blank" rel="noopener">
+          <span class="proof-city">Mumbai</span>
+          <span class="proof-desc">A separate stop by a "suspicious cop" over a vape, recounted in detail on r/mumbai.</span>
+        </a>
+      </div>
+    </section>
+
     <section class="form-section">
       <div class="section-head">
         <Icon name="document" />
@@ -225,6 +261,35 @@ const CITIES = [
     .city-count { text-align: right; color: var(--muted); font-weight: 600; }
 
     .stats-note { max-width: 40rem; color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }
+
+    .proof-section { margin-bottom: 3.5rem; }
+    .proof-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+      gap: 1.1rem;
+    }
+    .proof-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .proof-card:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(20,25,20,0.08); }
+    .proof-city {
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--accent-dark);
+    }
+    .proof-desc { font-size: 0.88rem; line-height: 1.5; color: var(--ink); }
 
     .form-section { margin-bottom: 3.5rem; }
     .form-note { max-width: 46rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.5rem; }
