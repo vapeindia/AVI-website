@@ -1,0 +1,86 @@
+[
+  {
+    "date": "2026-10-03T03:54:44.751Z",
+    "feed": "news",
+    "title": "Verity gets A certificate in India: 23 seconds cut from Anne Hathaway-Dakota Johnson's ...",
+    "url": "https://www.thestatesman.com/entertainment/hollywood/verity-gets-a-certificate-in-india-23-seconds-cut-from-anne-hathaway-dakota-johnsons-intimate-scenes-1503645804.html",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.396Z",
+    "feed": "news",
+    "title": "Chewing Tobacco's Toll: 251K - Newser",
+    "url": "https://www.newser.com/story/397417/researchers-estimate-global-toll-of-chewing-tobacco.html",
+    "reason": "promotional-language pattern /\\b\\d+\\s?k\\b/i"
+  },
+  {
+    "date": "2026-10-03T03:54:47.397Z",
+    "feed": "news",
+    "title": "Big Shoutout to Meth",
+    "url": "https://filtermag.org/big-shoutout-to-meth/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.397Z",
+    "feed": "news",
+    "title": "We Need to Focus on Violence Against Women Who Use Drugs",
+    "url": "https://filtermag.org/violence-against-women-who-use-drugs/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.397Z",
+    "feed": "news",
+    "title": "A Statement About Filter",
+    "url": "https://filtermag.org/a-statement-about-filter/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.398Z",
+    "feed": "news",
+    "title": "The Drug War Myths People Still Believe",
+    "url": "https://filtermag.org/drug-war-myths/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.398Z",
+    "feed": "news",
+    "title": "Federal Bill Would Add SUD Category to Dislocated Worker Grant Eligibility",
+    "url": "https://filtermag.org/workforce-recovery-resilience-act/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.399Z",
+    "feed": "news",
+    "title": "Groups Press Congress Over Impending Hemp Ban",
+    "url": "https://filtermag.org/groups-press-congress-over-impending-hemp-ban/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.399Z",
+    "feed": "news",
+    "title": "SAMHSA Reframes National Drug Use Survey, Leaves Fentanyl Problem Intact",
+    "url": "https://filtermag.org/samhsa-2025-national-drug-use-health-survey-fentanyl/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:47.399Z",
+    "feed": "news",
+    "title": "MOTAA 2.0 Is Not Real Methadone Reform",
+    "url": "https://filtermag.org/motaa-2-0-methadone-reform/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-03T03:54:48.425Z",
+    "feed": "news",
+    "title": "Vapers Digest 30th September",
+    "url": "https://vapers.org.uk/vapers-digest-30th-september-3/",
+    "reason": "promotional-language pattern /\\bflavou?rs?\\b/i"
+  },
+  {
+    "date": "2026-10-03T03:54:56.961Z",
+    "feed": "news",
+    "title": "Nearly a Year After QLS’s Abuja Event, Nigeria’s Harm Reduction Conversation Continues",
+    "url": "https://quitlikesweden.org/nearly-a-year-after-qlss-abuja-event-nigerias-harm-reduction-conversation-continues/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  }
+]
