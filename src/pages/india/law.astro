@@ -66,28 +66,26 @@ const articleLd = {
   <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <section class="breakout law-hero">
     <div class="breakout-inner">
-      <p class="eyebrow">As of today</p>
+      <p class="eyebrow">Is vaping legal in India?</p>
       <h1>The law in India, as it stands</h1>
+      <p class="hero-sub">
+        No provision anywhere in PECA makes personal use or possession an
+        offence. First-offence penalties — up to a year's imprisonment and a
+        ₹1 lakh fine — attach only to commercial acts like sale, production
+        and import. See <a href="#know-your-rights">Know your rights</a> below if you've been told otherwise.
+      </p>
     </div>
   </section>
 
   <div class="law-body">
     <nav class="page-toc" aria-label="On this page">
       <span class="toc-label">On this page:</span>
-      <a href="#quick-summary">Use &amp; possession</a>
       <a href="#e-cigarettes">E-cigarettes &amp; vaping</a>
       <a href="#transport">"Transport," explained</a>
       <a href="#nicotine-pouches">Nicotine pouches</a>
       <a href="#nrt">NRT, for contrast</a>
       <a href="#know-your-rights">Know your rights</a>
     </nav>
-
-    <p class="split-note" id="quick-summary">
-      No provision anywhere in PECA makes personal use or possession an
-      offence. First-offence penalties — up to a year's imprisonment and a
-      ₹1 lakh fine — attach only to commercial acts like sale, production
-      and import. See <a href="#know-your-rights">Know your rights</a> below if you've been told otherwise.
-    </p>
 
     <div class="status-grid">
       <div class="status-card status-banned">
@@ -430,7 +428,9 @@ const articleLd = {
       background-position: center 60%;
       padding: 3.25rem 0 2.75rem;
     }
-    .law-hero h1 { color: #fff; margin: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .law-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+    .law-hero .hero-sub { color: #cdd6cf; font-size: 1.05rem; max-width: 42rem; margin: 0; }
+    .law-hero .hero-sub a { color: var(--gold-light); }
 
     .law-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
 
