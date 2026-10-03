@@ -6,8 +6,6 @@ import { getHarassmentStats } from '../../lib/harassment-stats';
 
 const hStats = await getHarassmentStats();
 
-const QUICK_SUMMARY = "Vaping is legal to use and possess in India. The Prohibition of Electronic Cigarettes Act, 2019 bans only the sale, import, manufacture and advertisement of e-cigarettes — not personal use. Nicotine pouches aren't named in any ban, but have no lawful route to sale either, blocked by food and import rules rather than a specific law.";
-
 const faqLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -76,7 +74,7 @@ const articleLd = {
   <div class="law-body">
     <nav class="page-toc" aria-label="On this page">
       <span class="toc-label">On this page:</span>
-      <a href="#quick-summary">Quick summary</a>
+      <a href="#quick-summary">Use &amp; possession</a>
       <a href="#e-cigarettes">E-cigarettes &amp; vaping</a>
       <a href="#transport">"Transport," explained</a>
       <a href="#nicotine-pouches">Nicotine pouches</a>
@@ -84,14 +82,12 @@ const articleLd = {
       <a href="#know-your-rights">Know your rights</a>
     </nav>
 
-    <blockquote class="quote-box" id="quick-summary">
-      <p class="quote-label">Quotable summary</p>
-      <p class="quote-text">{QUICK_SUMMARY}</p>
-      <footer>
-        <cite>— Association of Vapers India</cite>
-        <button type="button" class="btn btn-outline quote-copy-btn" data-copy-text={QUICK_SUMMARY} data-default-label="Copy quote">Copy quote</button>
-      </footer>
-    </blockquote>
+    <p class="split-note" id="quick-summary">
+      No provision anywhere in PECA makes personal use or possession an
+      offence. First-offence penalties — up to a year's imprisonment and a
+      ₹1 lakh fine — attach only to commercial acts like sale, production
+      and import. See <a href="#know-your-rights">Know your rights</a> below if you've been told otherwise.
+    </p>
 
     <div class="status-grid">
       <div class="status-card status-banned">
@@ -141,12 +137,6 @@ const articleLd = {
           </ul>
         </div>
       </div>
-      <p class="split-note">
-        No provision anywhere in PECA makes personal use or possession an
-        offence. First-offence penalties — up to a year's imprisonment and a
-        ₹1 lakh fine — attach only to the commercial acts on the left. See <a href="#know-your-rights">Know your rights</a> below if you've been
-        told otherwise.
-      </p>
 
       <h3>Where the "it's banned" claim comes from — and why it's wrong</h3>
       <p>
@@ -164,20 +154,53 @@ const articleLd = {
 
       <h3 id="transport">What about "transport"?</h3>
       <p>
-        PECA's list of banned business activities also includes the word
-        "transport." Taken on its own, that word could be stretched to mean
-        carrying your own vape counts as a crime too.
+        PECA's list of banned business activities includes the word
+        "transport," and taken on its own, that word could be stretched to
+        cover a vaper carrying their own device. <strong>It doesn't apply to
+        personal use</strong> — AVI's reading, argued to the Delhi High
+        Court, is that "transport" here means moving stock for a business,
+        the same way a law banning "the transport of goods for sale"
+        wouldn't stop you carrying your own shopping home.
       </p>
-      <p>
-        AVI doesn't read it that way. "Transport" sits in a list of business
-        words — produce, manufacture, import, export, sell, distribute — so
-        it should mean moving stock for a business, the same way a law
-        banning "the transport of goods for sale" wouldn't stop you carrying
-        your own shopping home. AVI has made this argument to the Delhi High
-        Court in its case over the flight ban, and it matches what the
-        government has itself said elsewhere: personal use and possession
-        aren't offences under PECA.
-      </p>
+
+      <details class="primary-source">
+        <summary>The full argument — for policymakers, lawyers and police officers</summary>
+        <p>
+          Section 4 of PECA bans "transport" without the words "for sale"
+          attached to it — that qualifier only appears in Section 5, about
+          disposing of stock that already existed when the Act commenced,
+          not as a condition on Section 4 itself. Read in isolation,
+          "transport" could be stretched to describe a vaper carrying their
+          own device from one room to another.
+        </p>
+        <p>
+          This isn't just a website's gloss on the Act — it's the argument
+          AVI's own counsel has put to the Delhi High Court in the ongoing
+          flight-ban case. Every other word in the same list — produce,
+          manufacture, import, export, sell, distribute — is a link in a
+          commercial supply chain, so "transport" should take its meaning
+          from the company it keeps, under a doctrine of statutory
+          interpretation called <em>noscitur a sociis</em> ("a word is known
+          by the company it keeps"), rather than standing alone. Section 5,
+          the Act's only other operative prohibition, speaks of "stock" —
+          trade inventory, not personal belongings.
+        </p>
+        <p>
+          That reading isn't just AVI's own: it matches the government's
+          own contemporaneous conduct — the Health Ministry's 2019 public
+          statement, the Home Ministry's circular (point C) confirming
+          personal possession for personal use is not an offence, and the
+          Health Minister's own assurance to Parliament, all predating or
+          shortly following the Act's commencement.
+        </p>
+        <p>
+          This is AVI's litigation position in a case where judgment is
+          reserved — not yet a court's ruling. No judge has accepted or
+          rejected this specific reading of "transport," and the Act's text
+          doesn't itself carve out personal transport the way it's silent on
+          personal use and possession elsewhere.
+        </p>
+      </details>
 
     </div>
   </div>
@@ -298,8 +321,6 @@ const articleLd = {
         setTimeout(() => { btn.textContent = defaultLabel; }, 2000);
       });
     }
-    const quoteCopyBtn = document.querySelector('.quote-copy-btn');
-    bindCopyButton(quoteCopyBtn, () => quoteCopyBtn?.dataset.copyText ?? '');
     bindCopyButton(document.querySelector('.cite-copy-btn'), () => document.getElementById('cite-text')?.textContent ?? '');
   </script>
 
@@ -435,29 +456,7 @@ const articleLd = {
     }
     .page-toc a:hover { background: var(--gold-light); color: var(--ink); }
 
-    /* Short, lift-able summary with a copy button — for anyone (a
-       journalist, a researcher) who wants an exact, attributable sentence
-       rather than having to paraphrase the page themselves. */
-    .quote-box {
-      max-width: var(--max-w);
-      margin: 0 0 2.5rem;
-      padding: 1.5rem 1.75rem;
-      background: var(--paper-alt);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-    }
-    .quote-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--accent-dark);
-      margin: 0 0 0.6rem;
-    }
-    .quote-text { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.5; margin: 0 0 1rem; color: var(--ink); }
-    .quote-box footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .quote-box cite { font-size: 0.85rem; color: var(--muted); font-style: normal; }
-    .quote-copy-btn, .cite-copy-btn { font-size: 0.82rem; padding: 0.45rem 1rem; flex-shrink: 0; }
+    .cite-copy-btn { font-size: 0.82rem; padding: 0.45rem 1rem; flex-shrink: 0; }
 
     .cite-box {
       max-width: var(--max-w);
@@ -572,6 +571,23 @@ const articleLd = {
       color: var(--muted);
       margin: 0 0 1.75rem;
     }
+
+    /* Expandable deep-dive — used for the full transport argument and the
+       Act's verbatim text, so the main flow stays short while a reader who
+       wants full rigor (a lawyer, a policymaker, an officer) can open it. */
+    .primary-source {
+      max-width: var(--max-w);
+      margin: 1.25rem 0 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      background: var(--paper-alt);
+    }
+    .primary-source summary { cursor: pointer; font-weight: 600; color: var(--accent-dark); }
+    .primary-source p { font-size: 0.92rem; line-height: 1.6; }
+    .primary-source p:first-of-type { margin-top: 1rem; }
+    .primary-source p:last-child { margin-bottom: 0; }
+
     @media (max-width: 640px) {
       .banned-split { grid-template-columns: 1fr; }
     }
