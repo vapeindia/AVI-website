@@ -128,7 +128,8 @@ function fmtRange(start: Date, end?: Date) {
       </div>
       <p class="lead">
         Ready-to-post graphics from AVI's campaigns — save any of these and
-        share them on your own social media. No permission needed.
+        share them on your own social media. No permission needed. For more
+        THR shareables beyond AVI's own, see <a href="https://vaep.info/SHAREABLES/" target="_blank" rel="noopener">vaep.info/SHAREABLES</a>.
       </p>
       <div class="materials-grid">
         {materials.map((m) => (
@@ -311,6 +312,7 @@ function fmtRange(start: Date, end?: Date) {
     .section-head :global(svg) { width: 1.5rem; height: 1.5rem; color: var(--accent); flex-shrink: 0; }
     .section-head h2 { margin: 0; font-size: 1.35rem; }
     .lead { font-size: 0.95rem; max-width: 46rem; color: var(--ink); line-height: 1.65; margin: 0 0 1.5rem; }
+    .lead a { color: var(--accent-dark); text-decoration: underline; }
 
     .materials-section { padding-top: 2.5rem; border-top: 1px solid var(--border); }
     .materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); gap: 1.25rem; }
