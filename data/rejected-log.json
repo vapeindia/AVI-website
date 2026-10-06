@@ -215,5 +215,110 @@
     "title": "Nearly a Year After QLS’s Abuja Event, Nigeria’s Harm Reduction Conversation Continues",
     "url": "https://quitlikesweden.org/nearly-a-year-after-qlss-abuja-event-nigerias-harm-reduction-conversation-continues/",
     "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:07.497Z",
+    "feed": "news",
+    "title": "Verity Receives 26 Seconds of CBFC Cuts Ahead of India Release, Gets 'A' Rating",
+    "url": "https://in.ign.com/verity/273341/verity-receives-26-seconds-of-cbfc-cuts-ahead-of-india-release-gets-a-rating",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:07.499Z",
+    "feed": "news",
+    "title": "Exclusive: AIR Global's vape pod, key technology win major industry awards",
+    "url": "https://in.investing.com/news/stock-market-news/exclusive-air-globals-vape-pod-key-technology-win-major-industry-awards-5618365",
+    "reason": "promotional-language pattern /\\bpods?\\b/i"
+  },
+  {
+    "date": "2026-10-06T03:46:07.501Z",
+    "feed": "news",
+    "title": "The Cornell case made me ask my sons — what would you have done?",
+    "url": "https://indianexpress.com/article/opinion/columns/the-cornell-case-made-me-ask-my-sons-what-would-you-have-done-10907701/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:07.501Z",
+    "feed": "news",
+    "title": "The cancer risks you breathe, chew and drink: Oncologist shares why India cannot ignore ...",
+    "url": "https://timesofindia.indiatimes.com/health/the-cancer-risks-you-breathe-chew-and-drink-oncologist-shares-why-india-cannot-ignore-tobacco-alcohol-and-air-pollution/articleshow/134687125.cms",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.664Z",
+    "feed": "news",
+    "title": "Big Shoutout to Meth",
+    "url": "https://filtermag.org/big-shoutout-to-meth/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.664Z",
+    "feed": "news",
+    "title": "We Need to Focus on Violence Against Women Who Use Drugs",
+    "url": "https://filtermag.org/violence-against-women-who-use-drugs/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.665Z",
+    "feed": "news",
+    "title": "A Statement About Filter",
+    "url": "https://filtermag.org/a-statement-about-filter/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.665Z",
+    "feed": "news",
+    "title": "The Drug War Myths People Still Believe",
+    "url": "https://filtermag.org/drug-war-myths/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.666Z",
+    "feed": "news",
+    "title": "Federal Bill Would Add SUD Category to Dislocated Worker Grant Eligibility",
+    "url": "https://filtermag.org/workforce-recovery-resilience-act/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.666Z",
+    "feed": "news",
+    "title": "Groups Press Congress Over Impending Hemp Ban",
+    "url": "https://filtermag.org/groups-press-congress-over-impending-hemp-ban/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.667Z",
+    "feed": "news",
+    "title": "SAMHSA Reframes National Drug Use Survey, Leaves Fentanyl Problem Intact",
+    "url": "https://filtermag.org/samhsa-2025-national-drug-use-health-survey-fentanyl/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.667Z",
+    "feed": "news",
+    "title": "MOTAA 2.0 Is Not Real Methadone Reform",
+    "url": "https://filtermag.org/motaa-2-0-methadone-reform/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
+  },
+  {
+    "date": "2026-10-06T03:46:08.668Z",
+    "feed": "news",
+    "title": "Vapers Digest 30th September",
+    "url": "https://vapers.org.uk/vapers-digest-30th-september-3/",
+    "reason": "promotional-language pattern /\\bflavou?rs?\\b/i"
+  },
+  {
+    "date": "2026-10-06T03:46:08.668Z",
+    "feed": "news",
+    "title": "Alabama brings vaping under its indoor smoking ban and taxes e-liquids by the milliliter",
+    "url": "https://www.vapingpost.com/2026/10/05/alabama-brings-vaping-under-its-indoor-smoking-ban-and-taxes-e-liquids-by-the-milliliter/",
+    "reason": "promotional-language pattern /\\be-?liquids?\\b/i"
+  },
+  {
+    "date": "2026-10-06T03:46:08.669Z",
+    "feed": "news",
+    "title": "Nearly a Year After QLS’s Abuja Event, Nigeria’s Harm Reduction Conversation Continues",
+    "url": "https://quitlikesweden.org/nearly-a-year-after-qlss-abuja-event-nigerias-harm-reduction-conversation-continues/",
+    "reason": "no tobacco/nicotine/vaping term in title or snippet"
   }
 ]
