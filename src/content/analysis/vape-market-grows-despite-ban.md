@@ -23,7 +23,7 @@ So the debate over India's vape ban needs a reset. Indians vape. The real questi
 
 [IMARC Group's latest report](https://www.imarcgroup.com/india-e-cigarette-market) puts the growth of India's e-cigarette market at **4.46% a year** to 2034, taking it from USD 2.41 billion in 2026 to USD 3.41 billion. Measured the same way, IMARC puts growth in the [global e-cigarette market](https://www.imarcgroup.com/e-cigarette-market), where vapes are legal in most big countries, at 5.44%. On a like-for-like basis, a banned market is growing within a percentage point of a largely legal one.
 
-Government data points the same way. The Directorate of Revenue Intelligence seized [about 8 lakh e-cigarettes in 2024-25](https://dri.nic.in/writereaddata/smug2025/files/basic-html/page143.html), up from [about 11,000 in 2021-22](https://www.freepressjournal.in/analysis/vaping-ban-exists-only-on-paper). Enforcement agencies don't seize 70 times more stock from a market that is shrinking.
+Government data points the same way. The Directorate of Revenue Intelligence seized [about 8 lakh e-cigarettes in 2024-25, up from about 11,000 in 2021-22](https://www.freepressjournal.in/analysis/vaping-ban-exists-only-on-paper). Enforcement agencies don't seize 70 times more stock from a market that is shrinking.
 
 ![Bar chart of India's e-cigarette market value: USD 2.30 billion in 2025 and USD 2.41 billion in 2026, forecast to reach USD 3.41 billion by 2034, despite the ban in force since 2019](/images/analysis/india-e-cigarette-market-2026/market-growth.png)
 *Source: [IMARC Group, India E-Cigarette Market Report 2026-2034](https://www.imarcgroup.com/india-e-cigarette-market). Years 2027 to 2033 follow IMARC's forecast growth rate.*
@@ -65,11 +65,11 @@ India isn't the only country to try prohibition, and the record is grim.
 
 - **Thailand**, ban since 2014: e-cigarette users aged 15 and over [rose from about 78,000 in 2021 to more than 400,000 in 2024](https://extranet.who.int/fctcapps/fctcapps/fctc/kh/TIInterference/news/thai-government-crack-down-vaping-user-count-hits-400000).
 - **Brazil**, ban since 2009: an [estimated 5.3 million users](https://www.exame.com/en/paraguay-advances-in-vaping-regulation-and-raises-alarms-in-brazil), while the value of seized vapes nearly tripled between 2023 and 2024.
-- **Mexico**, constitutional ban since 2025: drug cartels, including the Jalisco New Generation Cartel, [have moved into the trade](https://abcnews.go.com/International/wireStory/after-mexico-bans-vapes-cartels-tighten-grip-booming-129728214).
+- **Mexico**, constitutional ban since 2025: drug cartels, including the Jalisco New Generation Cartel, [have moved into the trade](https://www.clickorlando.com/news/world/2026/01/31/after-mexico-bans-vapes-cartels-tighten-their-grip-on-a-booming-market/).
 - **Australia**, pharmacy-only sales since 2024: [about 96% of vapes sold are illegal](https://minister.homeaffairs.gov.au/JulianHill/Pages/speech-national-illicit-tobacco-symposium-19032026.aspx).
 - **Argentina**, ban from 2011 to 2026: [lifted in May 2026](https://filtermag.org/argentina-ends-vape-ban/) after the government acknowledged that 35.5% of secondary school students vaped despite it.
 
-Australia is worth a closer look because no country has tried harder. By 2025, [80% of the nicotine Australians consumed](https://michaelwest.com.au/new-data-lights-up-enormity-of-tobacco-black-market/) came from the black market, up from 12% in 2017, and tobacco excise revenue had halved from its 2019-20 peak.
+Australia is worth a closer look because no country has tried harder. By 2025, [80% of the nicotine Australians consumed](https://www.abc.net.au/news/2026-06-03/abs-estimates-80pc-of-tobacco-used-in-australia-illegal/106756000) came from the black market, up from 12% in 2017, and [tobacco excise revenue had halved from its 2019-20 peak](https://www.2firsts.com/news/australian-tobacco-tax-revenue-plunges-as-illegal-cigarette-sales-soar).
 
 Argentina shows the way out. After 15 years, its government accepted that prohibition had not worked and set up a registry to regulate vapes, heated tobacco and nicotine pouches. Officials argued that rules would curb smuggling and unsafe devices far better than a ban that existed only on paper.
 
@@ -86,7 +86,7 @@ Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore i
 ![Stacked bar chart of the tax a 15 to 20% levy on India's e-cigarette market would raise each year: ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore in 2034, or ₹37,000 to 50,000 crore in total](/images/analysis/india-e-cigarette-market-2026/tax-forgone.png)
 *AVI calculation on [IMARC Group's market forecast](https://www.imarcgroup.com/india-e-cigarette-market), at ₹96 to the US dollar.*
 
-Today that whole ₹22,000 crore trade enriches smugglers and unlicensed sellers, and the exchequer gets nothing. Australia shows where that leads once an untaxed nicotine trade gets big enough to fight over: its illicit tobacco and vape market has been tied to [more than 200 firebombings and at least three killings](https://michaelwest.com.au/?p=434107). In India, the same money could fund quit-smoking services and the kind of awareness campaigns that brought youth vaping down in the US.
+Today that whole ₹22,000 crore trade enriches smugglers and unlicensed sellers, and the exchequer gets nothing. Australia shows where that leads once an untaxed nicotine trade gets big enough to fight over: its illicit tobacco and vape market has been tied to [more than 200 firebombings and at least three killings](https://www.abc.net.au/news/2025-11-06/black-market-cigarettes-cost-australia-4bn-in-one-year/105981786). In India, the same money could fund quit-smoking services and the kind of awareness campaigns that brought youth vaping down in the US.
 
 A legal market would also speed up switching. Cigarette tax would fall as smokers move across, but that is the point of tobacco control: India already loses [₹1.77 lakh crore a year](https://ntcp.mohfw.gov.in/assets/document/surveys-reports-publications/WHO%20study%20on%20Economic%20Costs%20of%20Diseases%20and%20Deaths%20attributable%20to%20tobacco%20use%20in%20India%202017-18.pdf) to tobacco-related disease and death, far more than any tax it collects.
 
