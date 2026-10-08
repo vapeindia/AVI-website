@@ -69,10 +69,12 @@ const articleLd = {
   <p><a href="/analysis">← Back to Analysis</a></p>
   <span class={`topic-pill topic-${item.data.topic}`}>{topicLabel[item.data.topic]}</span>
   <h1>{item.data.title}</h1>
-  <p class="meta">
-    {fmtDate(item.data.date)}
-    {item.data.updatedDate && <> · Updated {fmtDate(item.data.updatedDate)}</>}
-  </p>
+
+  <figure class="hero-figure">
+    <img src={item.data.heroImage.src} alt={item.data.heroImage.alt} />
+    {item.data.heroImage.caption && <figcaption>{item.data.heroImage.caption}</figcaption>}
+  </figure>
+
   <div class="at-a-glance">
     <p class="glance-label"><Icon name="chart" /> At a glance</p>
     <ul>
@@ -80,16 +82,16 @@ const articleLd = {
     </ul>
   </div>
 
-  <p class="lead">{item.data.intro}</p>
-
-  <figure class="hero-figure">
-    <img src={item.data.heroImage.src} alt={item.data.heroImage.alt} />
-    {item.data.heroImage.caption && <figcaption>{item.data.heroImage.caption}</figcaption>}
-  </figure>
-
-  <ShareButtons url={canonicalURL} title={item.data.title} />
+  <div class="dateline-row">
+    <p class="meta">
+      {fmtDate(item.data.date)}
+      {item.data.updatedDate && <> · Updated {fmtDate(item.data.updatedDate)}</>}
+    </p>
+    <ShareButtons url={canonicalURL} title={item.data.title} />
+  </div>
 
   <div class="article-body">
+    <p class="lead">{item.data.intro}</p>
     <Content />
   </div>
 
@@ -128,7 +130,11 @@ const articleLd = {
     .topic-other { background: var(--muted); }
 
     h1 { margin-top: 0.25rem; }
-    .meta { color: var(--muted); margin-top: -0.5rem; font-size: 0.85rem; font-weight: 600; }
+    .meta { color: var(--muted); font-size: 0.85rem; font-weight: 600; margin: 0; }
+
+    .hero-figure { margin: 1.25rem 0 1.5rem; }
+    .hero-figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    .hero-figure figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); text-align: center; }
 
     .at-a-glance {
       background: var(--paper-alt);
@@ -136,7 +142,7 @@ const articleLd = {
       border-left: 4px solid var(--gold);
       border-radius: 6px;
       padding: 1.1rem 1.4rem 1.2rem;
-      margin: 1.25rem 0 1.5rem;
+      margin: 0 0 1.5rem;
     }
     .glance-label {
       display: flex;
@@ -154,13 +160,28 @@ const articleLd = {
     .at-a-glance li { font-size: 0.95rem; line-height: 1.55; color: var(--ink); margin-bottom: 0.4rem; }
     .at-a-glance li:last-child { margin-bottom: 0; }
 
-    .lead { font-size: 1.1rem; line-height: 1.6; color: var(--ink); }
-
-    .hero-figure { margin: 1.5rem 0 2rem; }
-    .hero-figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
-    .hero-figure figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); text-align: center; }
+    .dateline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
 
     .article-body { font-size: 1.02rem; line-height: 1.75; }
+    /* Higher specificity than .article-body :global(p) below, so this
+       wins regardless of stylesheet order. The lead/standfirst reads as
+       distinct from body copy via italics, not just a larger font-size. */
+    .article-body .lead {
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 1.5rem;
+    }
     .article-body :global(h2) { margin-top: 2.3rem; font-size: 1.4rem; }
     .article-body :global(h3) { margin-top: 1.9rem; font-size: 1.15rem; }
     .article-body :global(p) { margin: 0 0 1.1rem; }

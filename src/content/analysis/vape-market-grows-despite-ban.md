@@ -10,8 +10,7 @@ summaryPoints:
   - "A 15 to 20% tax on a legal market would raise up to ₹6,500 crore a year by 2034. Argentina lifted its ban in 2026. India should too."
 heroImage:
   src: "/images/analysis/india-e-cigarette-market-2026/hero.jpg"
-  alt: "Vapers protest India's e-cigarette ban at Jantar Mantar, New Delhi, holding placards that read 'Regulate don't ban' and 'Harm reduction is our right'"
-  caption: "Vapers protest the e-cigarette ban at Jantar Mantar, New Delhi, on 28 September 2019, ten days after it was announced."
+  alt: "A government 'Prohibition Policy / Regulation' document stamped BAN on a desk, overlaid with a rising stock-market growth chart and arrow"
 topic: "policy"
 draft: false
 ---
