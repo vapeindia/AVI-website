@@ -1397,24 +1397,28 @@ in the order given — items 1-2 are bulk content work well suited to a
 long Claude Code session; items 3-4 need the site owner's input first,
 so ask for those early rather than blocking on them at the end.
 
-## Header nav: Testimonials gated behind a count threshold, Analysis takes
-## its old slot (2026-10)
+## Header nav: Testimonials demoted to the "Get Started" dropdown until it
+## graduates to top-level, Analysis takes its old slot (2026-10)
 
 Site-owner instruction: a top-level "Testimonials" nav link looked thin
-with only 2 entries, so it's been removed from both the header and footer
-nav and moved inside the "Get Started" dropdown (alongside If You Smoke /
-For Policymakers — testimonials support the same "thinking about
-switching" reader) — but even there it only renders once
-`TESTIMONIALS_NAV_THRESHOLD` (10, in `src/layouts/Base.astro`) is met.
-Implemented as a live `getCollection('testimonials', reviewed).length`
-check in Base.astro itself (not a hardcoded flag), so it appears
-automatically the day the 10th reviewed testimonial is merged — nothing
-to remember to flip. The `/testimonials` page itself is untouched and
-stays linked from the homepage's donate-pitch section regardless of this
-threshold; this only gates primary-nav *visibility*. Analysis (added
-earlier this month, see the `analysis` collection entry above) now sits
-in the header/footer slot Testimonials vacated — last item before
-Search/Contribute — rather than its original spot right after About.
+with only 2 entries, but it must stay reachable at all times — hiding it
+entirely would cut off the only way visitors discover the submission form
+and grow that count in the first place. So: it lives inside the "Get
+Started" dropdown (alongside If You Smoke / For Policymakers —
+testimonials support the same "thinking about switching" reader)
+*unconditionally* while below `TESTIMONIALS_NAV_THRESHOLD` (10, in
+`src/layouts/Base.astro`), and *also* always in the footer link list
+regardless of the threshold. The threshold only controls a promotion: at
+10+ reviewed entries it graduates to a standalone top-level header link
+(dropping out of the "Get Started" dropdown at that point, so it isn't
+listed in both places) — implemented as a live
+`getCollection('testimonials', reviewed).length` check in Base.astro
+itself, not a flag to remember to flip. Analysis (added earlier this
+month, see the `analysis` collection entry above) sits in the header/
+footer slot Testimonials originally occupied — last item before Search/
+Contribute — rather than its original spot right after About; if/when
+Testimonials graduates it'll appear as an *additional* top-level item
+next to Analysis, not replace it.
 
 ---
 
