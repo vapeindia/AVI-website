@@ -1,0 +1,75 @@
+---
+// Share row for a single Analysis post. WhatsApp first — it's the
+// dominant sharing channel for an Indian audience, ahead of X/Facebook.
+import SocialIcon from './SocialIcon.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  url: string;   // absolute URL
+  title: string;
+}
+const { url, title } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const id = `copy-${Math.random().toString(36).slice(2, 9)}`;
+---
+<div class="share-row">
+  <span class="share-label">Share:</span>
+  <a class="share-btn" href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+    <SocialIcon name="whatsapp" />
+  </a>
+  <a class="share-btn" href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener" aria-label="Share on X" title="Share on X">
+    <SocialIcon name="x" />
+  </a>
+  <a class="share-btn" href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`} target="_blank" rel="noopener" aria-label="Share on Facebook" title="Share on Facebook">
+    <SocialIcon name="facebook" />
+  </a>
+  <a class="share-btn" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`} target="_blank" rel="noopener" aria-label="Share on LinkedIn" title="Share on LinkedIn">
+    <SocialIcon name="linkedin" />
+  </a>
+  <button type="button" class="share-btn share-copy" data-url={url} data-copy-id={id} aria-label="Copy link" title="Copy link">
+    <Icon name="link" />
+  </button>
+  <span class="copy-feedback" id={id} role="status" hidden>Link copied</span>
+</div>
+
+<script>
+  document.querySelectorAll('.share-copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.getAttribute('data-url') || '';
+      const feedbackId = btn.getAttribute('data-copy-id');
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        // Clipboard API unavailable (e.g. non-HTTPS context) — nothing
+        // sensitive here, just skip the feedback rather than throw.
+        return;
+      }
+      const feedback = feedbackId ? document.getElementById(feedbackId) : null;
+      if (!feedback) return;
+      feedback.hidden = false;
+      setTimeout(() => { feedback.hidden = true; }, 1800);
+    });
+  });
+</script>
+
+<style>
+  .share-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .share-label { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: var(--paper-alt);
+    color: var(--accent-dark);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+  .share-btn:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+  .share-btn svg { width: 1.05rem; height: 1.05rem; }
+  .copy-feedback { font-size: 0.8rem; font-weight: 600; color: var(--accent-dark); }
+</style>

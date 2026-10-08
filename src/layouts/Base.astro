@@ -142,6 +142,7 @@ const group = activeGroup(path);
     };
     return <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />;
   })()}
+  <slot name="head" />
   <style is:global>
     :root {
       --ink: #1a211d;
@@ -527,6 +528,7 @@ const group = activeGroup(path);
     </button>
     <nav class="site" id="site-nav">
       <a href="/about" class:list={{ active: path === '/about' }}>About</a>
+      <a href="/analysis" class:list={{ active: path.startsWith('/analysis') }}>Analysis</a>
       <details class="nav-dropdown" class:list={{ active: group === 'start' }}>
         <summary>Get Started</summary>
         <div class="dropdown-menu">
@@ -631,6 +633,7 @@ const group = activeGroup(path);
       </div>
       <nav class="footer-links-flat" aria-label="Footer">
         <a href="/about">About</a>
+        <a href="/analysis">Analysis</a>
         <a href="/quit">If You Smoke</a>
         <a href="/policy">For Policymakers</a>
         <a href="/science">Science</a>

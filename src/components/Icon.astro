@@ -4,7 +4,7 @@
 // a tobacco/nicotine product, per the PECA advertising-risk guard that
 // governs all visual content on this site.
 interface Props {
-  name: 'heart' | 'leaf' | 'shield' | 'scale' | 'document' | 'megaphone' | 'quote' | 'chart' | 'search' | 'menu' | 'close' | 'check' | 'download';
+  name: 'heart' | 'leaf' | 'shield' | 'scale' | 'document' | 'megaphone' | 'quote' | 'chart' | 'search' | 'menu' | 'close' | 'check' | 'download' | 'link';
   class?: string;
 }
 const { name, class: className = '' } = Astro.props;
@@ -23,6 +23,7 @@ const paths: Record<string, string> = {
   close: 'M6 6l12 12M18 6L6 18',
   check: 'M5 13l4 4L19 7',
   download: 'M12 3v12m0 0l-4-4m4 4l4-4M4 19h16',
+  link: 'M9 15l6-6M10 8l1.5-1.5a3 3 0 1 1 4 4L14 12M14 16l-1.5 1.5a3 3 0 1 1-4-4L10 12',
 };
 ---
 <svg

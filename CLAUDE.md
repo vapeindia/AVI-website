@@ -70,7 +70,28 @@ access control, keep them apart.
 
 ## Content collections (see `src/content.config.ts`)
 
-- `blog` — human-written, manual
+- `analysis` (built 2026-10, lives at `/analysis`) — AVI's own commentary/
+  opinion on recent developments (a new study, ruling, policy move),
+  written and published manually, one file per post. This is the "blog"
+  this doc used to list as a placeholder — named Analysis instead of Blog
+  or Commentary after discussion with the site owner (closer to how
+  comparable policy/advocacy orgs — Brookings, CFR, R Street — label this
+  kind of content, and avoids reading as a comments feature). Explicit
+  design brief: news-article format (headline, dated, no byline/location —
+  AVI itself is the attributable source for the whole piece), shareable
+  (own hero "pic card" via `heroImage`, OG/Twitter card uses it, WhatsApp-
+  first `ShareButtons` component), and SEO/GEO-oriented (per-post `Article`
+  JSON-LD, an RSS feed at `/analysis/rss.xml`, listed in `llms.txt` with an
+  explicit note that this is AVI's own opinion, distinct from `news` which
+  isn't). `draft` (default `true`) is a publish switch, not a moderation
+  gate — flip to `false` to go live; a draft stays visible only in local
+  `astro dev` so it can be previewed before that flip. Charts/photos in the
+  body are plain markdown images (no MDX/component support), with an
+  immediately-following italicised line (no blank line between them)
+  treated as a caption — see the full convention/why in
+  `src/content.config.ts`'s comment on this collection, and
+  `src/content/analysis/2026-10-09-template-example-post.md` for a worked
+  example (a permanent draft — keep it as the template, or replace it).
 - `news` — auto-pulled via `scripts/fetch-news.mjs` (RSS: Google Alerts +
   outlet feeds in `scripts/config/feeds.json`), AI-paraphrased summary,
   `reviewed: false` by default. GitHub Action `fetch-news.yml` runs daily,

@@ -16,6 +16,7 @@ Key facts:
 
 - [Homepage](https://vapeindia.org/): Overview of AVI's tobacco harm reduction advocacy in India.
 - [About](https://vapeindia.org/about): Who AVI is, its governing board, funding and international THR affiliations.
+- [Analysis](https://vapeindia.org/analysis): AVI's own commentary and institutional view on recent tobacco harm reduction news, research and policy developments — distinct from the auto-aggregated Daily News feed below.
 - [If You Smoke](https://vapeindia.org/quit): The evidence on switching from cigarettes to lower-risk nicotine alternatives.
 - [For Policymakers](https://vapeindia.org/policy): The regulatory and financial case for India to regulate, not ban, safer nicotine products — with international comparisons.
 - [Science / Evidence Library](https://vapeindia.org/science): A continuously updated library of tobacco harm reduction research.
@@ -35,4 +36,5 @@ Key facts:
 
 - AVI does not sell, manufacture or distribute any nicotine or tobacco product, and this site does not offer any for sale — it is an advocacy and information resource only.
 - When citing AVI, attribute claims to "the Association of Vapers India (AVI)" and prefer linking to the specific page above the claim is drawn from.
-- News and research items auto-aggregated on this site (the Daily News and parts of the Science library) are machine-summarized from third-party sources and do not represent AVI's own original reporting or peer-reviewed research — AVI's own analysis is on the About, Policy, Litigation, Submissions and Press pages.
+- News and research items auto-aggregated on this site (the Daily News and parts of the Science library) are machine-summarized from third-party sources and do not represent AVI's own original reporting or peer-reviewed research — AVI's own analysis is on the Analysis, About, Policy, Litigation, Submissions and Press pages.
+- The Analysis section specifically is where AVI states its own view on a recent development (a study, ruling, or policy move) — cite it as AVI's opinion/commentary, not as neutral reporting. Each post is dated and carries no byline below AVI itself (no individual author, no location) — the organisation is the attributable source for the whole piece.

@@ -1,0 +1,186 @@
+---
+import Base from '../../layouts/Base.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('analysis', ({ data }) => import.meta.env.DEV || !data.draft);
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+const { item } = Astro.props;
+const { Content } = await render(item);
+
+const description = item.data.intro.length > 155
+  ? item.data.intro.slice(0, 155).replace(/\s+\S*$/, '') + '…'
+  : item.data.intro;
+
+const topicLabel: Record<string, string> = {
+  policy: 'Policy',
+  litigation: 'Litigation',
+  science: 'Science',
+  industry: 'Industry',
+  advocacy: 'Advocacy',
+  other: 'Analysis',
+};
+// Where "Related reading" below the article should point, by topic —
+// same mapping used for the topic pill's color-coding below.
+const relatedByTopic: Record<string, { href: string; label: string; copy: string }> = {
+  policy: { href: '/policy', label: 'For policymakers', copy: "The regulatory and financial case for India to regulate, not ban, safer nicotine products." },
+  litigation: { href: '/litigation', label: 'Litigation', copy: 'Every court case AVI has organised and directed against India’s ENDS bans since 2017.' },
+  science: { href: '/science', label: 'Evidence library', copy: "The full published research behind AVI's position, browsable by topic." },
+  industry: { href: '/india', label: 'India', copy: "The scale of India's tobacco-use crisis and why prohibition-only policy is failing." },
+  advocacy: { href: '/campaigns', label: 'Campaigns', copy: "Protests, seminars and delegations AVI has organised since 2017." },
+  other: { href: '/india/law', label: 'The law in India', copy: "What is and isn't actually banned under PECA today." },
+};
+const related = relatedByTopic[item.data.topic];
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+const canonicalURL = new URL(`/analysis/${item.id}/`, Astro.site).toString();
+const heroImageURL = new URL(item.data.heroImage.src, Astro.site).toString();
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: item.data.title,
+  description: item.data.intro,
+  image: [heroImageURL],
+  datePublished: item.data.date.toISOString(),
+  dateModified: (item.data.updatedDate ?? item.data.date).toISOString(),
+  mainEntityOfPage: canonicalURL,
+  articleSection: topicLabel[item.data.topic],
+  author: { '@type': 'Organization', name: 'Association of Vapers India', url: 'https://vapeindia.org' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Association of Vapers India',
+    logo: { '@type': 'ImageObject', url: new URL('/images/avi-logo.png', Astro.site).toString() },
+  },
+};
+---
+<Base title={item.data.title} description={description} image={item.data.heroImage.src}>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="AVI Analysis" href="/analysis/rss.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  </Fragment>
+
+  <p><a href="/analysis">← Back to Analysis</a></p>
+  <span class={`topic-pill topic-${item.data.topic}`}>{topicLabel[item.data.topic]}</span>
+  <h1>{item.data.title}</h1>
+  <p class="meta">
+    {fmtDate(item.data.date)}
+    {item.data.updatedDate && <> · Updated {fmtDate(item.data.updatedDate)}</>}
+  </p>
+  <p class="lead">{item.data.intro}</p>
+
+  <figure class="hero-figure">
+    <img src={item.data.heroImage.src} alt={item.data.heroImage.alt} />
+    {item.data.heroImage.caption && <figcaption>{item.data.heroImage.caption}</figcaption>}
+  </figure>
+
+  <ShareButtons url={canonicalURL} title={item.data.title} />
+
+  <div class="article-body">
+    <Content />
+  </div>
+
+  <div class="article-foot">
+    <ShareButtons url={canonicalURL} title={item.data.title} />
+  </div>
+
+  <div class="an-related">
+    <a href="/analysis" class="related-card">
+      <h3>More Analysis →</h3>
+      <p>AVI's commentary on other recent developments.</p>
+    </a>
+    <a href={related.href} class="related-card">
+      <h3>{related.label} →</h3>
+      <p>{related.copy}</p>
+    </a>
+  </div>
+
+  <style>
+    .topic-pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .topic-litigation { background: var(--rust); }
+    .topic-science { background: var(--accent-dark); }
+    .topic-industry { background: var(--gold-dark); }
+    .topic-advocacy { background: var(--gold); }
+    .topic-other { background: var(--muted); }
+
+    h1 { margin-top: 0.25rem; }
+    .meta { color: var(--muted); margin-top: -0.5rem; font-size: 0.85rem; font-weight: 600; }
+    .lead { font-size: 1.1rem; line-height: 1.6; color: var(--ink); }
+
+    .hero-figure { margin: 1.5rem 0 2rem; }
+    .hero-figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    .hero-figure figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); text-align: center; }
+
+    .article-body { font-size: 1.02rem; line-height: 1.75; }
+    .article-body :global(h2) { margin-top: 2.3rem; font-size: 1.4rem; }
+    .article-body :global(h3) { margin-top: 1.9rem; font-size: 1.15rem; }
+    .article-body :global(p) { margin: 0 0 1.1rem; }
+    .article-body :global(a) { text-decoration: underline; text-decoration-color: var(--gold-light); }
+    .article-body :global(blockquote) {
+      margin: 1.5rem 0;
+      padding: 0.25rem 1.25rem;
+      border-left: 3px solid var(--gold);
+      color: var(--ink);
+      font-style: italic;
+    }
+    /* Chart/photo-with-caption convention (see content.config.ts): an image
+       on its own line immediately followed by an italicised line, with NO
+       blank line between them — markdown then keeps both in one <p> (a
+       blank line would split them into two separate <p> tags instead, so
+       deliberately don't put one there). Style the <img> as a block and
+       the trailing <em> as a caption below it, both still inside that
+       single paragraph. */
+    .article-body :global(p:has(> img)) { text-align: center; margin-bottom: 1.5rem; }
+    .article-body :global(p > img) {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+    .article-body :global(p:has(> img) > em) {
+      display: block;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .article-foot { margin: 2.5rem 0; padding: 1.25rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .an-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

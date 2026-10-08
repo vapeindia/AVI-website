@@ -87,6 +87,17 @@ export const GET: APIRoute = async () => {
     });
   }
 
+  const analysis = await getCollection('analysis', ({ data }) => !data.draft);
+  for (const a of analysis) {
+    items.push({
+      title: a.data.title,
+      url: `/analysis/${a.id}/`,
+      type: 'Analysis',
+      date: a.data.date.toISOString(),
+      snippet: a.data.intro,
+    });
+  }
+
   const testimonials = await getCollection('testimonials', ({ data }) => data.reviewed);
   for (const t of testimonials) {
     items.push({

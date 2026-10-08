@@ -1,0 +1,148 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+// Drafts (default state for a new file) stay visible only in local dev, so
+// an author can preview a piece before flipping `draft: false` to publish —
+// see the `analysis` collection comment in src/content.config.ts.
+const items = (await getCollection('analysis', ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const topicLabel: Record<string, string> = {
+  policy: 'Policy',
+  litigation: 'Litigation',
+  science: 'Science',
+  industry: 'Industry',
+  advocacy: 'Advocacy',
+  other: 'Analysis',
+};
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+<Base
+  title="Analysis"
+  description="AVI's own commentary and analysis on recent tobacco harm reduction news, research and policy developments in India — distinct from our auto-aggregated Daily News feed."
+  wide={true}
+>
+  <section class="breakout an-hero">
+    <div class="breakout-inner">
+      <p class="eyebrow eyebrow-light">AVI's own view</p>
+      <h1>Analysis</h1>
+      <p class="an-sub">
+        Commentary on recent events, written by AVI — our read on what a new
+        study, ruling or policy move actually means for India's tobacco
+        users. This is distinct from <a href="/news">Daily News</a>, which
+        aggregates third-party coverage and carries no AVI position of its
+        own; everything here is AVI's institutional view.
+      </p>
+    </div>
+  </section>
+
+  <div class="an-body">
+    {items.length === 0 ? (
+      <p class="an-empty">Nothing published yet — check back soon.</p>
+    ) : (
+      <div class="an-grid">
+        {items.map((item) => (
+          <a class="an-card" href={`/analysis/${item.id}/`}>
+            {item.data.draft && <span class="draft-pill">Draft — dev preview only</span>}
+            <div class="an-card-img">
+              <img src={item.data.heroImage.src} alt={item.data.heroImage.alt} loading="lazy" />
+              <span class="an-card-topic">{topicLabel[item.data.topic]}</span>
+            </div>
+            <div class="an-card-body">
+              <p class="an-card-date">{fmtDate(item.data.date)}</p>
+              <h2>{item.data.title}</h2>
+              <p class="an-card-dek">{item.data.intro}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <style>
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin: 0 0 0.75rem;
+    }
+    .an-hero {
+      background: linear-gradient(rgba(18,19,15,0.86), rgba(18,19,15,0.93)), url('/images/backgrounds/mountain-sunrise.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f4f1e6;
+      padding: 4rem 0 3.5rem;
+    }
+    .an-hero h1 { color: #fff; margin: 0 0 1.1rem; font-size: clamp(1.9rem, 3.8vw, 2.7rem); }
+    .an-sub { color: #cdd6cf; max-width: 42rem; font-size: 1.03rem; margin: 0; }
+    .an-sub a { color: var(--gold-light); text-decoration: underline; text-decoration-color: rgba(216,169,74,0.4); }
+    .an-sub a:hover { color: #fff; }
+
+    .an-body { max-width: var(--max-w-wide); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .an-empty { color: var(--muted); font-size: 0.95rem; }
+    .an-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr)); gap: 1.75rem; }
+
+    .an-card {
+      display: block;
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 3px rgba(20,25,20,0.05);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .an-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(20,25,20,0.1); }
+
+    .draft-pill {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      z-index: 2;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--rust);
+    }
+    .an-card-img { position: relative; aspect-ratio: 16 / 9; background: var(--paper-alt); }
+    .an-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .an-card-topic {
+      position: absolute;
+      bottom: 0.6rem;
+      left: 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent-dark);
+    }
+    .an-card-body { padding: 1.25rem 1.4rem 1.5rem; }
+    .an-card-date { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+    .an-card-body h2 { margin: 0 0 0.5rem; font-size: 1.15rem; line-height: 1.35; color: var(--ink); }
+    .an-card-dek {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</Base>

@@ -14,6 +14,10 @@ const latestResearch = (await getCollection('research', ({ data }) => data.revie
   .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
+const latestAnalysis = (await getCollection('analysis', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
 const videoData = (await getCollection('videos'))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
   .map((v) => ({
@@ -130,6 +134,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     <div class="feed-tabbar">
       <div class="feed-tabs" role="tablist" aria-label="Latest updates">
         <button type="button" class="feed-tab active" role="tab" aria-selected="true" aria-controls="feed-panel-news" id="feed-tab-news" data-target="news">Latest news</button>
+        <button type="button" class="feed-tab" role="tab" aria-selected="false" aria-controls="feed-panel-analysis" id="feed-tab-analysis" data-target="analysis">AVI analysis</button>
         <button type="button" class="feed-tab" role="tab" aria-selected="false" aria-controls="feed-panel-research" id="feed-tab-research" data-target="research">Evidence library</button>
       </div>
       <a class="feed-all" id="feed-all-link" href="/news">All news →</a>
@@ -140,6 +145,16 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
           <li>
             <a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a>
             <span>{item.data.sourceName}</span>
+          </li>
+        ))}
+      </ul>
+      <ul class="feed-list feed-analysis" id="feed-panel-analysis" role="tabpanel" aria-labelledby="feed-tab-analysis" hidden>
+        {latestAnalysis.length === 0 ? (
+          <li><span>Nothing published yet — check back soon.</span></li>
+        ) : latestAnalysis.map((item) => (
+          <li>
+            <a href={`/analysis/${item.id}/`}>{item.data.title}</a>
+            <span>{item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
           </li>
         ))}
       </ul>
@@ -159,6 +174,7 @@ const testimonialCount = (await getCollection('testimonials', ({ data }) => data
     const feedAllLink = document.getElementById('feed-all-link');
     const feedTargets: Record<string, { panel: string; href: string; label: string }> = {
       news: { panel: 'feed-panel-news', href: '/news', label: 'All news →' },
+      analysis: { panel: 'feed-panel-analysis', href: '/analysis', label: 'All analysis →' },
       research: { panel: 'feed-panel-research', href: '/science', label: 'Full library →' },
     };
     feedTabs.forEach((tab) => {

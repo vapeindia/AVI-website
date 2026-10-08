@@ -91,6 +91,48 @@ const research = defineCollection({
   }),
 });
 
+// AVI's own commentary and analysis — distinct from `news` (auto-aggregated
+// third-party coverage, explicitly disclaimed on /news as not reflecting
+// AVI's views) and `press` (coverage OF AVI by outlets). This is where AVI
+// states its own institutional view on a recent development: a new law, a
+// study, a policy move. Written and published manually, one file per post,
+// no automation. `draft` (default true) is a publish switch the author
+// flips to false when a piece is ready — not a moderation/review gate like
+// `testimonials`' `reviewed`, since there's no bot or visitor submission to
+// vet here, just an author deciding when to go live. getCollection() calls
+// for this collection should filter `!data.draft` (allow drafts through
+// only when `import.meta.env.DEV`, so an author can preview one locally
+// before flipping it) — see src/pages/analysis/index.astro and
+// src/pages/analysis/[...slug].astro for the exact filter.
+//
+// Body convention for images/charts (plain markdown, no MDX/component
+// support): a chart or photo is a markdown image on its own line,
+// immediately followed — NO blank line in between — by an italicised
+// line as its caption. Markdown keeps both in a single <p> when there's
+// no blank line (a blank line would split them into two separate <p>s
+// instead, which the CSS below doesn't target); verified in dev against
+// the actual rendered DOM. src/pages/analysis/[...slug].astro's
+// `.article-body` styles that exact shape — <img> then <em> inside one
+// <p> — as a figure with a centered caption. e.g.:
+//   ![Chart: PECA enforcement actions by state, 2023-2026](/images/analysis/slug/chart1.png)
+//   *Source: RTI replies compiled by AVI, see /india/rti-replies.*
+const analysis = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/analysis' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    updatedDate: z.date().optional(), // set only if substantively revised after publishing
+    intro: z.string().max(300), // standfirst under the headline; doubles as meta description and card dek
+    heroImage: z.object({
+      src: z.string(),
+      alt: z.string(),
+      caption: z.string().optional(),
+    }),
+    topic: z.enum(['policy', 'litigation', 'science', 'industry', 'advocacy', 'other']).default('other'),
+    draft: z.boolean().default(true),
+  }),
+});
+
 // Press coverage OF AVI (distinct from `news`, which is coverage of the topic generally).
 const press = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/press' }),
@@ -248,4 +290,4 @@ const harassmentReports = defineCollection({
   }),
 });
 
-export const collections = { news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos, harassmentReports };
+export const collections = { news, newsDigests, research, press, litigation, testimonials, campaigns, submissions, videos, harassmentReports, analysis };
