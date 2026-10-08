@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local Wrangler (Cloudflare Pages) dev state
+.wrangler/
+
+# local Claude Code agent worktrees/scratch state
+.claude/worktrees/
