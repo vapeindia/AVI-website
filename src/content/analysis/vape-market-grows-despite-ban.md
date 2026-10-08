@@ -4,7 +4,7 @@ date: 2026-10-08
 intro: "New market data shows India's e-cigarette market was worth ₹22,000 crore in 2025 and is still growing, seven years after PECA banned it. The ban hasn't stopped vaping in India. It has handed the trade to a black market that checks no IDs and pays no tax."
 summaryPoints:
   - "India's e-cigarette market was worth USD 2.30 billion (about ₹22,000 crore) in 2025, six years after the ban, according to new IMARC data."
-  - "IMARC forecasts India's banned vape market to grow 4.46% a year to 2034, close to the 5.44% it forecasts for the legal global market."
+  - "IMARC forecasts India's banned vape market to grow 4.46% a year to 2034, close to the 5.44% it forecasts for the global market, where vapes are mostly legal."
   - "North India, the country's smoking heartland, is the biggest e-cigarette market: a sign that smokers are switching."
   - "Studies in Indian schools find vapes easy to get, and most teenagers surveyed didn't know they were banned. Black-market sellers check no IDs."
   - "A 15 to 20% tax on a legal market would raise up to ₹6,500 crore a year by 2034. Argentina lifted its ban in 2026. India should too."
@@ -21,7 +21,9 @@ So the debate over India's vape ban needs a reset. Indians vape. The real questi
 
 ## India's vape market is growing almost as fast as the world's
 
-[IMARC Group's latest report](https://www.imarcgroup.com/india-e-cigarette-market) puts the growth of India's e-cigarette market at **4.46% a year** to 2034, taking it from USD 2.41 billion in 2026 to USD 3.41 billion. That is close to the 5.44% IMARC forecasts for the [global e-cigarette market](https://www.imarcgroup.com/e-cigarette-market), where vapes are legal in most big countries.
+[IMARC Group's latest report](https://www.imarcgroup.com/india-e-cigarette-market) puts the growth of India's e-cigarette market at **4.46% a year** to 2034, taking it from USD 2.41 billion in 2026 to USD 3.41 billion. Measured the same way, IMARC puts growth in the [global e-cigarette market](https://www.imarcgroup.com/e-cigarette-market), where vapes are legal in most big countries, at 5.44%. On a like-for-like basis, a banned market is growing within a percentage point of a largely legal one.
+
+Government data points the same way. The Directorate of Revenue Intelligence seized [about 8 lakh e-cigarettes in 2024-25](https://dri.nic.in/writereaddata/smug2025/files/basic-html/page143.html), up from [about 11,000 in 2021-22](https://www.freepressjournal.in/analysis/vaping-ban-exists-only-on-paper). Enforcement agencies don't seize 70 times more stock from a market that is shrinking.
 
 ![Bar chart of India's e-cigarette market value: USD 2.30 billion in 2025 and USD 2.41 billion in 2026, forecast to reach USD 3.41 billion by 2034, despite the ban in force since 2019](/images/analysis/india-e-cigarette-market-2026/market-growth.png)
 *Source: [IMARC Group, India E-Cigarette Market Report 2026-2034](https://www.imarcgroup.com/india-e-cigarette-market). Years 2027 to 2033 follow IMARC's forecast growth rate.*
