@@ -96,7 +96,15 @@ const research = defineCollection({
 // AVI's views) and `press` (coverage OF AVI by outlets). This is where AVI
 // states its own institutional view on a recent development: a new law, a
 // study, a policy move. Written and published manually, one file per post,
-// no automation. `draft` (default true) is a publish switch the author
+// no automation. Filename (minus `.md`) becomes the URL slug directly —
+// unlike `news`/`research`, deliberately NOT date-prefixed: these are
+// meant to be shared/remembered URLs (/analysis/vape-market-despite-ban/,
+// not /analysis/2026-10-08-india-e-cigarette-market-grows-despite-ban/),
+// and sorting already uses the `date` frontmatter field below, not the
+// filename, so a date prefix buys nothing. Keep it short — a few words
+// capturing the piece's actual subject.
+//
+// `draft` (default true) is a publish switch the author
 // flips to false when a piece is ready — not a moderation/review gate like
 // `testimonials`' `reviewed`, since there's no bot or visitor submission to
 // vet here, just an author deciding when to go live. getCollection() calls

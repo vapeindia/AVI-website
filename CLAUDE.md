@@ -94,8 +94,11 @@ access control, keep them apart.
   immediately-following italicised line (no blank line between them)
   treated as a caption — see the full convention/why in
   `src/content.config.ts`'s comment on this collection, and
-  `src/content/analysis/2026-10-09-template-example-post.md` for a worked
-  example (a permanent draft — keep it as the template, or replace it).
+  `src/content/analysis/template-example-post.md` for a worked example (a
+  permanent draft — keep it as the template, or replace it). Filenames are
+  the URL slug directly and deliberately NOT date-prefixed (unlike
+  `news`/`research`) — keep them short and memorable, e.g.
+  `vape-market-grows-despite-ban.md` → `/analysis/vape-market-grows-despite-ban/`.
 - `news` — auto-pulled via `scripts/fetch-news.mjs` (RSS: Google Alerts +
   outlet feeds in `scripts/config/feeds.json`), AI-paraphrased summary,
   `reviewed: false` by default. GitHub Action `fetch-news.yml` runs daily,
