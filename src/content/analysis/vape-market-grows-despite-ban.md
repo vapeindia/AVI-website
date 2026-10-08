@@ -4,7 +4,7 @@ date: 2026-10-08
 intro: "New market data shows India's e-cigarette market was worth ₹22,000 crore in 2025 and is still growing, seven years after PECA banned it. The ban hasn't stopped vaping in India. It has handed the trade to a black market that checks no IDs and pays no tax."
 summaryPoints:
   - "India's e-cigarette market was worth USD 2.30 billion (about ₹22,000 crore) in 2025, six years after the ban, according to new IMARC data."
-  - "IMARC forecasts India's banned vape market to grow 4.46% a year to 2034, close to the 5.44% it forecasts for the global market, where vapes are mostly legal."
+  - "IMARC forecasts India's banned vape market to grow 4.46% a year to 2034, close to the 5.44% it forecasts for the global market."
   - "North India, the country's smoking heartland, is the biggest e-cigarette market: a sign that smokers are switching."
   - "Studies in Indian schools find vapes easy to get, and most teenagers surveyed didn't know they were banned. Black-market sellers check no IDs."
   - "A 15 to 20% tax on a legal market would raise up to ₹6,500 crore a year by 2034. Argentina lifted its ban in 2026. India should too."
