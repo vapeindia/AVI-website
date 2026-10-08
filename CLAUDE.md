@@ -99,6 +99,11 @@ access control, keep them apart.
   the URL slug directly and deliberately NOT date-prefixed (unlike
   `news`/`research`) — keep them short and memorable, e.g.
   `vape-market-grows-despite-ban.md` → `/analysis/vape-market-grows-despite-ban/`.
+  **Before flipping `draft: false`, check every external link in the
+  post actually works** — see "Standing practice: check every external
+  link before publishing an Analysis post" further down this file for
+  the exact procedure (a real post shipped with 4 dead citations the
+  first time around).
 - `news` — auto-pulled via `scripts/fetch-news.mjs` (RSS: Google Alerts +
   outlet feeds in `scripts/config/feeds.json`), AI-paraphrased summary,
   `reviewed: false` by default. GitHub Action `fetch-news.yml` runs daily,
@@ -1422,6 +1427,42 @@ footer slot Testimonials originally occupied — last item before Search/
 Contribute — rather than its original spot right after About; if/when
 Testimonials graduates it'll appear as an *additional* top-level item
 next to Analysis, not replace it.
+
+## Standing practice: check every external link before publishing an
+## Analysis post (2026-10)
+
+Site-owner instruction, after the first published Analysis post
+("vape-market-grows-despite-ban") turned out to have 4 dead citation
+links out of 28 — caught only when the site owner happened to click one.
+**Before flipping `draft: false` on an Analysis post** (or when asked to
+recheck an already-published one), check every external URL in it:
+
+1. Extract them: `grep -oE '\]\(https?://[^)]+\)' <file> | sed -E 's/^\]\(//; s/\)$//' | sort -u`
+2. Fetch each with a real User-Agent and `-L` to follow redirects:
+   `curl -s -o /dev/null -w "%{http_code}  %{url_effective}\n" -L --max-time 15 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36" "$url"`
+3. **A non-200 from curl is not proof of a dead link** — several sites
+   (seen so far: doaj.org, fda.gov) return 403/404 to bot-like requests
+   while working fine in a real browser. Before treating a non-200 as
+   broken, verify with WebFetch and/or an actual Chrome tab
+   (mcp__claude-in-chrome__navigate + screenshot, or
+   mcp__claude-in-chrome__javascript_tool) — only report/fix it as dead
+   once a real browser confirms it. abcnews.go.com and
+   michaelwest.com.au, by contrast, were confirmed genuinely dead this
+   way (real 404s/redirects-to-404, not bot-blocking).
+4. For each confirmed-dead link, don't just delete it — find a live
+   source that backs the *same specific claim/figure* (WebSearch, then
+   verify the replacement actually states that figure before using it,
+   the way the DRI/ABC-News/2Firsts replacements were confirmed above).
+   Prefer a source already cited elsewhere in the piece for the same
+   fact (merge into one citation) over adding a new outlet where one
+   already covers it.
+5. Rebuild (`npm run build`) and commit only after all fixes are in.
+
+This is a manual check, not an automated CI gate — nothing currently
+runs it on every commit or on a schedule. If that ever becomes worth
+automating (e.g. a periodic link-check across all Analysis posts, not
+just at publish time — pages age and links rot after the fact too),
+that's a new script in `scripts/`, not yet built.
 
 ---
 
