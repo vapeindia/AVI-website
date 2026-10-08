@@ -77,12 +77,18 @@ Argentina shows the way out. After 15 years, its government accepted that prohib
 
 Cigarettes are a ₹2.8 lakh crore market in India. Vapes are about 8% of that. But 8% of a giant is still **₹22,000 crore**, and it grows every year.
 
-Vaping is far less harmful than smoking, so it should be taxed far more lightly. Even so, a modest 15 to 20% tax would raise ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore.
+Since February 2026, cigarettes carry 40% GST plus a new excise of ₹2.05 to ₹8.50 a stick, taking total taxes to [about 53% of the retail price](https://www.outlookbusiness.com/news/excise-duty-hike-on-cigarettes-to-ensure-tax-burden-proportionate-to-health-impact). Bidis, meanwhile, [pay just 18% GST](https://blogs.bmj.com/tc/2026/02/04/indias-tobacco-taxation-reform-2025-26-a-paradigm-shift-with-persisting-disparities/).
+
+Vaping is far less harmful than smoking, so it should be taxed far more lightly. The simplest fix is the standard 18% GST, the same rate as bidis, which works out to about 15% of the retail price. A small excise on each ml of liquid could take that to around 20%, still well under half the cigarette burden. Put vapes in the 40% sin slab instead and the price gap that gets smokers to switch disappears.
+
+Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore.
 
 ![Stacked bar chart of the tax a 15 to 20% levy on India's e-cigarette market would raise each year: ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore in 2034, or ₹37,000 to 50,000 crore in total](/images/analysis/india-e-cigarette-market-2026/tax-forgone.png)
 *AVI calculation on [IMARC Group's market forecast](https://www.imarcgroup.com/india-e-cigarette-market), at ₹96 to the US dollar.*
 
 Today that whole ₹22,000 crore trade enriches smugglers and unlicensed sellers, and the exchequer gets nothing. Australia shows where that leads once an untaxed nicotine trade gets big enough to fight over: its illicit tobacco and vape market has been tied to [more than 200 firebombings and at least three killings](https://michaelwest.com.au/?p=434107). In India, the same money could fund quit-smoking services and the kind of awareness campaigns that brought youth vaping down in the US.
+
+A legal market would also speed up switching. Cigarette tax would fall as smokers move across, but that is the point of tobacco control: India already loses [₹1.77 lakh crore a year](https://ntcp.mohfw.gov.in/assets/document/surveys-reports-publications/WHO%20study%20on%20Economic%20Costs%20of%20Diseases%20and%20Deaths%20attributable%20to%20tobacco%20use%20in%20India%202017-18.pdf) to tobacco-related disease and death, far more than any tax it collects.
 
 ## How India could regulate e-cigarettes instead
 
@@ -92,7 +98,7 @@ A workable vaping law for India would include:
 
 - **Licensed sale only**, with strict age checks and real penalties for selling to minors
 - **Safety standards** for nicotine strength, ingredients, batteries and child-resistant packaging
-- **A risk-proportionate tax**, set well below cigarettes so smokers have a reason to switch
+- **A risk-proportionate tax**: 18% GST, with at most a small excise, keeping vapes far cheaper than cigarettes so smokers have a reason to switch
 - **Track and trace** on every legal device and refill, so illegal stock stands out
 - **Earmarked revenue** for youth prevention and for help to quit aimed at older smokers
 
@@ -122,9 +128,9 @@ By AVI's estimate, a 15 to 20% tax on a legal market would raise ₹3,500 to 4,6
 
 Yes. Vapes don't burn tobacco, the source of most smoking harm, and [Cancer Research UK](https://www.cancerresearchuk.org/about-cancer/causes-of-cancer/smoking-and-cancer/is-vaping-harmful) says regulated e-cigarettes are far less harmful than smoking. The [2025 Cochrane review](https://www.phc.ox.ac.uk/publication/2307686) found high-certainty evidence that nicotine e-cigarettes help more smokers quit than nicotine replacement therapy.
 
-### Which countries have lifted vape bans?
+### Which countries have lifted vape bans or moved to regulate?
 
-Argentina ended its 15-year ban in May 2026 and now regulates e-cigarettes through a national registry.
+Argentina ended its 15-year ban in May 2026 and now regulates e-cigarettes through a national registry. Paraguay has also chosen regulation over prohibition, with a [2025 law](https://www.tobaccocontrollaws.org/laws/law-7508-paraguay) that limits sales to adults through specialist shops and caps nicotine strength.
 
 <script type="application/ld+json">
 {
@@ -158,8 +164,8 @@ Argentina ended its 15-year ban in May 2026 and now regulates e-cigarettes throu
     },
     {
       "@type": "Question",
-      "name": "Which countries have lifted vape bans?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Argentina ended its 15-year ban in May 2026 and now regulates e-cigarettes through a national registry." }
+      "name": "Which countries have lifted vape bans or moved to regulate?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Argentina ended its 15-year ban in May 2026 and now regulates e-cigarettes through a national registry. Paraguay has also chosen regulation over prohibition, with a 2025 law that limits sales to adults through specialist shops and caps nicotine strength." }
     }
   ]
 }
