@@ -81,7 +81,7 @@ Since February 2026, cigarettes carry 40% GST plus a new excise of ₹2.05 to �
 
 Vaping is far less harmful than smoking, so it should be taxed far more lightly. The simplest fix is the standard 18% GST, the same rate as bidis, which works out to about 15% of the retail price. A small excise on each ml of liquid could take that to around 20%, still well under half the cigarette burden. Put vapes in the 40% sin slab instead and the price gap that gets smokers to switch disappears.
 
-Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore (~$360–480 million) in 2026, rising to ₹4,900 to 6,500 crore (~$510–680 million) a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore (~$3.9–5.2 billion).
+Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore (~$360 to 480 million) in 2026, rising to ₹4,900 to 6,500 crore (~$510 to 680 million) a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore (~$3.9 to 5.2 billion).
 
 ![Stacked bar chart of the tax a 15 to 20% levy on India's e-cigarette market would raise each year: ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore in 2034, or ₹37,000 to 50,000 crore in total](/images/analysis/india-e-cigarette-market-2026/tax-forgone.png)
 *AVI calculation on IMARC Group's market forecast, at ₹96 to the US dollar.*
