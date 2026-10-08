@@ -83,7 +83,11 @@ access control, keep them apart.
   first `ShareButtons` component), and SEO/GEO-oriented (per-post `Article`
   JSON-LD, an RSS feed at `/analysis/rss.xml`, listed in `llms.txt` with an
   explicit note that this is AVI's own opinion, distinct from `news` which
-  isn't). `draft` (default `true`) is a publish switch, not a moderation
+  isn't), and an "At a glance" box (`summaryPoints`, required, 2-5 short
+  standalone bullets) rendered above even the intro, for a reader skimming
+  on a phone and for AI answer engines to quote directly — added 2026-10
+  on explicit site-owner request after the section's initial build.
+  `draft` (default `true`) is a publish switch, not a moderation
   gate — flip to `false` to go live; a draft stays visible only in local
   `astro dev` so it can be previewed before that flip. Charts/photos in the
   body are plain markdown images (no MDX/component support), with an

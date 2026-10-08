@@ -2,6 +2,10 @@
 title: "Template: how to write an Analysis post (delete or replace this file)"
 date: 2026-10-09
 intro: "This file demonstrates every part of the Analysis template — headline, intro, hero image, subheads, a chart with caption, a blockquote and hyperlinks. It stays invisible on the live site (draft: true) until replaced."
+summaryPoints:
+  - "This is the \"At a glance\" box — 2 to 5 short bullets a reader skimming on a phone can get the gist from without reading further."
+  - "Each bullet should stand alone: no \"this\"/\"it\" pointing back at a previous one, since an AI answer engine or a skim-reader may surface just one in isolation."
+  - "Replace these with the actual 2-5 key takeaways of the real post before publishing."
 heroImage:
   src: "/images/press-club-bangalore.jpg"
   alt: "Replace this with a real, relevant hero image for the actual post — 1200×630 or wider landscape works best for social-share previews."

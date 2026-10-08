@@ -116,6 +116,15 @@ const research = defineCollection({
 // <p> — as a figure with a centered caption. e.g.:
 //   ![Chart: PECA enforcement actions by state, 2023-2026](/images/analysis/slug/chart1.png)
 //   *Source: RTI replies compiled by AVI, see /india/rti-replies.*
+//
+// `summaryPoints`: the "At a glance" box rendered at the very top of the
+// post (above even the intro) — 2-5 short, standalone bullets a reader
+// skimming on a phone can get the whole gist from without reading further.
+// Each bullet should stand on its own (no "this" / "it" referring back to
+// a previous bullet) since an AI answer engine quoting one in isolation,
+// or a reader who only reads the first bullet, is exactly the use case.
+// Required (not optional) — every post should have one, including the
+// template example.
 const analysis = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/analysis' }),
   schema: z.object({
@@ -123,6 +132,7 @@ const analysis = defineCollection({
     date: z.date(),
     updatedDate: z.date().optional(), // set only if substantively revised after publishing
     intro: z.string().max(300), // standfirst under the headline; doubles as meta description and card dek
+    summaryPoints: z.array(z.string().max(160)).min(2).max(5),
     heroImage: z.object({
       src: z.string(),
       alt: z.string(),
