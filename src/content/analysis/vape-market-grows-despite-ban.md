@@ -3,7 +3,7 @@ title: "New data: e-cigarette use in India keeps growing despite the vape ban"
 date: 2026-10-08
 intro: "New market data shows India's e-cigarette market was worth ₹22,000 crore (about $2.3 billion) in 2025 and is still growing, seven years after PECA banned it. The ban hasn't stopped vaping in India. It has handed the trade to a black market that checks no IDs and pays no tax."
 summaryPoints:
-  - "India's e-cigarette market was worth USD 2.30 billion (about ₹22,000 crore) in 2025, six years after the ban, according to new IMARC data."
+  - "India's e-cigarette market was worth ₹22,000 crore in 2025, six years after the ban, according to new IMARC data."
   - "IMARC forecasts India's banned vape market to grow 4.46% a year to 2034, close to the 5.44% it forecasts for the global market."
   - "North India, the country's smoking heartland, is the biggest e-cigarette market: a sign that smokers are switching."
   - "Studies in Indian schools find vapes easy to get, and most teenagers surveyed didn't know they were banned. Black-market sellers check no IDs."
@@ -75,7 +75,7 @@ Argentina shows the way out. After 15 years, its government accepted that prohib
 
 ## The tax India loses to the vape black market
 
-Cigarettes are a ₹2.8 lakh crore market in India. Vapes are about 8% of that. But 8% of a giant is still **₹22,000 crore (about $2.3 billion)**, and it grows every year.
+Cigarettes are a ₹2.8 lakh crore market in India. Vapes are about 8% of that. But 8% of a giant is still **₹22,000 crore**, and it grows every year.
 
 Since February 2026, cigarettes carry 40% GST plus a new excise of ₹2.05 to ₹8.50 a stick, taking total taxes to [about 53% of the retail price](https://www.outlookbusiness.com/news/excise-duty-hike-on-cigarettes-to-ensure-tax-burden-proportionate-to-health-impact). Bidis, meanwhile, [pay just 18% GST](https://blogs.bmj.com/tc/2026/02/04/indias-tobacco-taxation-reform-2025-26-a-paradigm-shift-with-persisting-disparities/).
 
