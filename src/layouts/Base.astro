@@ -1,6 +1,17 @@
 ---
 import SocialIcon from '../components/SocialIcon.astro';
 import Icon from '../components/Icon.astro';
+import { getCollection } from 'astro:content';
+
+// Testimonials only earns its own nav presence once there's enough social
+// proof to be worth a destination — below that it reads thin. Hidden from
+// both the "Get Started" dropdown and the footer until the count clears
+// this bar; the page itself (/testimonials) stays live and linkable
+// throughout, this only gates its *nav* visibility. Site-owner instruction,
+// 2026-10.
+const TESTIMONIALS_NAV_THRESHOLD = 10;
+const testimonialCount = (await getCollection('testimonials', ({ data }) => data.reviewed)).length;
+const showTestimonialsNav = testimonialCount >= TESTIMONIALS_NAV_THRESHOLD;
 
 interface Props {
   title: string;
@@ -37,7 +48,7 @@ const ogImageURL = new URL(image, Astro.site);
 const rawPath = Astro.url.pathname;
 const path = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
 function activeGroup(p: string): 'start' | 'evidence' | 'advocacy' | 'updates' | null {
-  if (p === '/quit' || p === '/policy') return 'start';
+  if (p === '/quit' || p === '/policy' || p === '/testimonials') return 'start';
   if (p.startsWith('/science') || p === '/india' || p === '/india/law') return 'evidence';
   if (p.startsWith('/campaigns') || p === '/submissions' || p.startsWith('/press') || p === '/india/rti-replies' || p.startsWith('/litigation') || p === '/report-harassment') return 'advocacy';
   if (p.startsWith('/news') || p.startsWith('/media')) return 'updates';
@@ -528,12 +539,14 @@ const group = activeGroup(path);
     </button>
     <nav class="site" id="site-nav">
       <a href="/about" class:list={{ active: path === '/about' }}>About</a>
-      <a href="/analysis" class:list={{ active: path.startsWith('/analysis') }}>Analysis</a>
       <details class="nav-dropdown" class:list={{ active: group === 'start' }}>
         <summary>Get Started</summary>
         <div class="dropdown-menu">
           <a href="/quit" class:list={{ active: path === '/quit' }}>If You Smoke</a>
           <a href="/policy" class:list={{ active: path === '/policy' }}>For Policymakers</a>
+          {showTestimonialsNav && (
+            <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
+          )}
         </div>
       </details>
       <details class="nav-dropdown" class:list={{ active: group === 'evidence' }}>
@@ -561,7 +574,7 @@ const group = activeGroup(path);
           <a href="/media" class:list={{ active: path.startsWith('/media') }}>Our Media</a>
         </div>
       </details>
-      <a href="/testimonials" class:list={{ active: path === '/testimonials' }}>Testimonials</a>
+      <a href="/analysis" class:list={{ active: path.startsWith('/analysis') }}>Analysis</a>
       <a href="/search" class="nav-search" class:list={{ active: path === '/search' }} aria-label="Search"><Icon name="search" /><span class="nav-search-label">Search</span></a>
       <a href="/contribute" class="nav-contribute">Contribute</a>
     </nav>
@@ -633,9 +646,9 @@ const group = activeGroup(path);
       </div>
       <nav class="footer-links-flat" aria-label="Footer">
         <a href="/about">About</a>
-        <a href="/analysis">Analysis</a>
         <a href="/quit">If You Smoke</a>
         <a href="/policy">For Policymakers</a>
+        {showTestimonialsNav && <a href="/testimonials">Testimonials</a>}
         <a href="/science">Science</a>
         <a href="/india">India</a>
         <a href="/campaigns">Campaigns</a>
@@ -646,7 +659,7 @@ const group = activeGroup(path);
         <a href="/report-harassment">Report Harassment</a>
         <a href="/news">Daily News</a>
         <a href="/media">Our Media</a>
-        <a href="/testimonials">Testimonials</a>
+        <a href="/analysis">Analysis</a>
         <a href="/contribute">Contribute</a>
         <a href="/search">Search</a>
       </nav>

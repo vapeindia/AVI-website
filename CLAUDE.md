@@ -1397,6 +1397,25 @@ in the order given — items 1-2 are bulk content work well suited to a
 long Claude Code session; items 3-4 need the site owner's input first,
 so ask for those early rather than blocking on them at the end.
 
+## Header nav: Testimonials gated behind a count threshold, Analysis takes
+## its old slot (2026-10)
+
+Site-owner instruction: a top-level "Testimonials" nav link looked thin
+with only 2 entries, so it's been removed from both the header and footer
+nav and moved inside the "Get Started" dropdown (alongside If You Smoke /
+For Policymakers — testimonials support the same "thinking about
+switching" reader) — but even there it only renders once
+`TESTIMONIALS_NAV_THRESHOLD` (10, in `src/layouts/Base.astro`) is met.
+Implemented as a live `getCollection('testimonials', reviewed).length`
+check in Base.astro itself (not a hardcoded flag), so it appears
+automatically the day the 10th reviewed testimonial is merged — nothing
+to remember to flip. The `/testimonials` page itself is untouched and
+stays linked from the homepage's donate-pitch section regardless of this
+threshold; this only gates primary-nav *visibility*. Analysis (added
+earlier this month, see the `analysis` collection entry above) now sits
+in the header/footer slot Testimonials vacated — last item before
+Search/Contribute — rather than its original spot right after About.
+
 ---
 
 
