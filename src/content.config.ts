@@ -125,6 +125,11 @@ const research = defineCollection({
 //   ![Chart: PECA enforcement actions by state, 2023-2026](/images/analysis/slug/chart1.png)
 //   *Source: RTI replies compiled by AVI, see /india/rti-replies.*
 //
+// Section break: a plain markdown `---` (on its own line, blank lines
+// before and after) renders as a short centered rule — use it to mark a
+// deliberate break within the body, e.g. between the main argument and a
+// trailing FAQ block. Styled in src/pages/analysis/[...slug].astro.
+//
 // `summaryPoints`: the "At a glance" box rendered at the very top of the
 // post (above even the intro) — 2-5 short, standalone bullets a reader
 // skimming on a phone can get the whole gist from without reading further.

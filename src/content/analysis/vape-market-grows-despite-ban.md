@@ -106,6 +106,8 @@ Yes, some black market will survive under regulation. That's no argument for a b
 
 Seven years on, PECA has given India the worst of both worlds: a ₹22,000 crore e-cigarette market that keeps growing, with no age checks, no safety standards and no tax. Argentina took 15 years to admit its ban had failed. India shouldn't wait that long.
 
+---
+
 ## Vaping in India: quick answers
 
 ### Is vaping legal in India?

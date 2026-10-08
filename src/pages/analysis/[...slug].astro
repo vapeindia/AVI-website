@@ -206,6 +206,16 @@ const articleLd = {
       color: var(--ink);
       font-style: italic;
     }
+    /* A section break within the body — e.g. marking the end of the main
+       argument before an FAQ block — rendered from a plain markdown `---`.
+       A short centered rule reads as a deliberate break, not a stray
+       default-styled <hr>. */
+    .article-body :global(hr) {
+      border: none;
+      border-top: 2px solid var(--border);
+      width: 4rem;
+      margin: 2.75rem auto;
+    }
     /* Chart/photo-with-caption convention (see content.config.ts): an image
        on its own line immediately followed by an italicised line, with NO
        blank line between them — markdown then keeps both in one <p> (a
