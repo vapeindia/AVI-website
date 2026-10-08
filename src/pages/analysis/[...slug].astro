@@ -95,6 +95,19 @@ const articleLd = {
     <Content />
   </div>
 
+  <script>
+    // External citation/source links in the body open in a new tab;
+    // internal links (relative paths like /india/law/) stay in-tab, same
+    // as normal site navigation. Done client-side rather than via a
+    // markdown rehype plugin so it's scoped to this template only, not a
+    // site-wide astro.config.mjs change affecting every other
+    // collection's rendered body (research/litigation/press/campaigns).
+    document.querySelectorAll('.article-body a[href^="http"]').forEach((a) => {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    });
+  </script>
+
   <div class="article-foot">
     <ShareButtons url={canonicalURL} title={item.data.title} />
   </div>
