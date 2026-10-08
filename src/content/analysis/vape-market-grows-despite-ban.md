@@ -1,7 +1,7 @@
 ---
 title: "New data: e-cigarette use in India keeps growing despite the vape ban"
 date: 2026-10-08
-intro: "New market data shows India's e-cigarette market was worth ₹22,000 crore in 2025 and is still growing, seven years after PECA banned it. The ban hasn't stopped vaping in India. It has handed the trade to a black market that checks no IDs and pays no tax."
+intro: "New market data shows India's e-cigarette market was worth ₹22,000 crore (~$2.3 billion) in 2025 and is still growing, seven years after PECA banned it. The ban hasn't stopped vaping in India. It has handed the trade to a black market that checks no IDs and pays no tax."
 summaryPoints:
   - "India's e-cigarette market was worth USD 2.30 billion (about ₹22,000 crore) in 2025, six years after the ban, according to new IMARC data."
   - "IMARC forecasts India's banned vape market to grow 4.46% a year to 2034, close to the 5.44% it forecasts for the global market."
@@ -75,20 +75,20 @@ Argentina shows the way out. After 15 years, its government accepted that prohib
 
 ## The tax India loses to the vape black market
 
-Cigarettes are a ₹2.8 lakh crore market in India. Vapes are about 8% of that. But 8% of a giant is still **₹22,000 crore**, and it grows every year.
+Cigarettes are a ₹2.8 lakh crore market in India. Vapes are about 8% of that. But 8% of a giant is still **₹22,000 crore (~$2.3 billion)**, and it grows every year.
 
 Since February 2026, cigarettes carry 40% GST plus a new excise of ₹2.05 to ₹8.50 a stick, taking total taxes to [about 53% of the retail price](https://www.outlookbusiness.com/news/excise-duty-hike-on-cigarettes-to-ensure-tax-burden-proportionate-to-health-impact). Bidis, meanwhile, [pay just 18% GST](https://blogs.bmj.com/tc/2026/02/04/indias-tobacco-taxation-reform-2025-26-a-paradigm-shift-with-persisting-disparities/).
 
 Vaping is far less harmful than smoking, so it should be taxed far more lightly. The simplest fix is the standard 18% GST, the same rate as bidis, which works out to about 15% of the retail price. A small excise on each ml of liquid could take that to around 20%, still well under half the cigarette burden. Put vapes in the 40% sin slab instead and the price gap that gets smokers to switch disappears.
 
-Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore.
+Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore (~$360–480 million) in 2026, rising to ₹4,900 to 6,500 crore (~$510–680 million) a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore (~$3.9–5.2 billion).
 
 ![Stacked bar chart of the tax a 15 to 20% levy on India's e-cigarette market would raise each year: ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore in 2034, or ₹37,000 to 50,000 crore in total](/images/analysis/india-e-cigarette-market-2026/tax-forgone.png)
 *AVI calculation on IMARC Group's market forecast, at ₹96 to the US dollar.*
 
 Today that whole ₹22,000 crore trade enriches smugglers and unlicensed sellers, and the exchequer gets nothing. Australia shows where that leads once an untaxed nicotine trade gets big enough to fight over: its illicit tobacco and vape market has been tied to [more than 200 firebombings and at least three killings](https://www.abc.net.au/news/2025-11-06/black-market-cigarettes-cost-australia-4bn-in-one-year/105981786). In India, the same money could fund quit-smoking services and the kind of awareness campaigns that brought youth vaping down in the US.
 
-A legal market would also speed up switching. Cigarette tax would fall as smokers move across, but that is the point of tobacco control: India already loses [₹1.77 lakh crore a year](https://ntcp.mohfw.gov.in/assets/document/surveys-reports-publications/WHO%20study%20on%20Economic%20Costs%20of%20Diseases%20and%20Deaths%20attributable%20to%20tobacco%20use%20in%20India%202017-18.pdf) to tobacco-related disease and death, far more than any tax it collects.
+A legal market would also speed up switching. Cigarette tax would fall as smokers move across, but that is the point of tobacco control: India already loses [₹1.77 lakh crore a year (~$18.4 billion)](https://ntcp.mohfw.gov.in/assets/document/surveys-reports-publications/WHO%20study%20on%20Economic%20Costs%20of%20Diseases%20and%20Deaths%20attributable%20to%20tobacco%20use%20in%20India%202017-18.pdf) to tobacco-related disease and death, far more than any tax it collects.
 
 ## How India could regulate e-cigarettes instead
 
