@@ -26,12 +26,12 @@ So the debate over India's vape ban needs a reset. Indians vape. The real questi
 Government data points the same way. The Directorate of Revenue Intelligence seized [about 8 lakh e-cigarettes in 2024-25, up from about 11,000 in 2021-22](https://www.freepressjournal.in/analysis/vaping-ban-exists-only-on-paper). Enforcement agencies don't seize 70 times more stock from a market that is shrinking.
 
 ![Bar chart of India's e-cigarette market value: USD 2.30 billion in 2025 and USD 2.41 billion in 2026, forecast to reach USD 3.41 billion by 2034, despite the ban in force since 2019](/images/analysis/india-e-cigarette-market-2026/market-growth.png)
-*Source: [IMARC Group, India E-Cigarette Market Report 2026-2034](https://www.imarcgroup.com/india-e-cigarette-market). Years 2027 to 2033 follow IMARC's forecast growth rate.*
+*Source: IMARC Group, India E-Cigarette Market Report 2026-2034. Years 2027 to 2033 follow IMARC's forecast growth rate.*
 
 Meanwhile India's [legal cigarette market](https://imarcgroup.com/india-cigarette-market), worth USD 29.22 billion in 2025, is forecast to grow 9.5% a year. The ban has done nothing to slow the deadliest way to use nicotine. It has only driven a far safer one underground.
 
 ![Bar chart comparing forecast annual growth from 2026 to 2034: India's banned e-cigarette market 4.46%, the global e-cigarette market 5.44% and India's legal cigarette market 9.50%](/images/analysis/india-e-cigarette-market-2026/growth-compared.png)
-*Source: IMARC Group market reports for [India e-cigarettes](https://www.imarcgroup.com/india-e-cigarette-market), [global e-cigarettes](https://www.imarcgroup.com/e-cigarette-market) and [India cigarettes](https://imarcgroup.com/india-cigarette-market), 2026.*
+*Source: IMARC Group market reports for India e-cigarettes, global e-cigarettes and India cigarettes, 2026.*
 
 How does a banned market keep growing? Largely online. IMARC estimates that 36% of sales happen online, and its report counts 83 online stores selling e-cigarettes into India, 49 of them Indian. Even IMARC's analysts conclude that the ban "paradoxically undermines policy objectives" by stripping away the oversight that could keep vapes safe and out of young hands.
 
@@ -47,7 +47,7 @@ The people most likely to get the risk wrong are older smokers, who have the mos
 
 ## Vaping in India is highest where smoking is highest
 
-North India is the country's biggest e-cigarette market, with [30% of national sales](https://www.imarcgroup.com/india-e-cigarette-market). It is also the heartland of smoking, with [34% of the legal cigarette market](https://imarcgroup.com/india-cigarette-market). And while tobacco users in western and central India mostly chew, men in the north who use tobacco [mostly smoke it](https://www.dataforindia.com/data-bytes/the-usage-of-tobacco-is-much-higher-in-indias-central-and-eastern-states/).
+North India is the country's biggest e-cigarette market, with 30% of national sales. It is also the heartland of smoking, with 34% of the legal cigarette market. And while tobacco users in western and central India mostly chew, men in the north who use tobacco [mostly smoke it](https://www.dataforindia.com/data-bytes/the-usage-of-tobacco-is-much-higher-in-indias-central-and-eastern-states/).
 
 Vaping clusters where cigarette smoking clusters. That's the pattern you'd expect if e-cigarettes are replacing cigarettes rather than recruiting new users, and IMARC itself credits the north's lead partly to smokers switching from cigarettes. Tobacco is also the largest flavour segment, at 35% of sales, the natural choice for a smoker making the switch.
 
@@ -84,7 +84,7 @@ Vaping is far less harmful than smoking, so it should be taxed far more lightly.
 Even at those modest rates, a legal market would raise ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore a year by 2034. Over nine years, that adds up to ₹37,000 to 50,000 crore.
 
 ![Stacked bar chart of the tax a 15 to 20% levy on India's e-cigarette market would raise each year: ₹3,500 to 4,600 crore in 2026, rising to ₹4,900 to 6,500 crore in 2034, or ₹37,000 to 50,000 crore in total](/images/analysis/india-e-cigarette-market-2026/tax-forgone.png)
-*AVI calculation on [IMARC Group's market forecast](https://www.imarcgroup.com/india-e-cigarette-market), at ₹96 to the US dollar.*
+*AVI calculation on IMARC Group's market forecast, at ₹96 to the US dollar.*
 
 Today that whole ₹22,000 crore trade enriches smugglers and unlicensed sellers, and the exchequer gets nothing. Australia shows where that leads once an untaxed nicotine trade gets big enough to fight over: its illicit tobacco and vape market has been tied to [more than 200 firebombings and at least three killings](https://www.abc.net.au/news/2025-11-06/black-market-cigarettes-cost-australia-4bn-in-one-year/105981786). In India, the same money could fund quit-smoking services and the kind of awareness campaigns that brought youth vaping down in the US.
 
@@ -114,7 +114,7 @@ Selling is banned, using is not. PECA bans making, importing, exporting, selling
 
 ### How big is the e-cigarette market in India?
 
-About USD 2.30 billion, or roughly ₹22,000 crore, in 2025, according to [IMARC Group](https://www.imarcgroup.com/india-e-cigarette-market). IMARC forecasts growth of 4.46% a year, taking the market to USD 3.41 billion by 2034.
+About USD 2.30 billion, or roughly ₹22,000 crore, in 2025, according to IMARC Group. IMARC forecasts growth of 4.46% a year, taking the market to USD 3.41 billion by 2034.
 
 ### Has the vape ban reduced vaping in India?
 
@@ -126,7 +126,7 @@ By AVI's estimate, a 15 to 20% tax on a legal market would raise ₹3,500 to 4,6
 
 ### Are e-cigarettes safer than cigarettes?
 
-Yes. Vapes don't burn tobacco, the source of most smoking harm, and [Cancer Research UK](https://www.cancerresearchuk.org/about-cancer/causes-of-cancer/smoking-and-cancer/is-vaping-harmful) says regulated e-cigarettes are far less harmful than smoking. The [2025 Cochrane review](https://www.phc.ox.ac.uk/publication/2307686) found high-certainty evidence that nicotine e-cigarettes help more smokers quit than nicotine replacement therapy.
+Yes. Vapes don't burn tobacco, the source of most smoking harm, and Cancer Research UK says regulated e-cigarettes are far less harmful than smoking. The 2025 Cochrane review found high-certainty evidence that nicotine e-cigarettes help more smokers quit than nicotine replacement therapy.
 
 ### Which countries have lifted vape bans or moved to regulate?
 
