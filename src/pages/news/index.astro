@@ -141,6 +141,31 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
               const dayCount = wblock.days.length;
               const itemCount = wblock.days.reduce((n, d) => n + d.items.length, 0);
               const weekly = wblock.weekly;
+              // The still-forming week (no weekly digest yet, weekly===null)
+              // is rendered as `week-open` below -- its days should NOT be
+              // individually collapsed, since that's the most-wanted content
+              // on the page and forcing a click-to-reveal per day (for up to
+              // a week straight) was the actual UX complaint. Once a week
+              // has folded behind its own week-toggle <details>, the
+              // visitor has already opted into "show breakdown" at the week
+              // level, so per-day collapsing inside that archived view is
+              // fine -- this flag only changes the current week.
+              const showArticlesOpen = !weekly;
+              const ArticleGrid = (day: typeof wblock.days[number]) => (
+                <div class="news-grid">
+                  {day.items.map((item) => (
+                    <article class={`news-card topic-${item.data.topic}`}>
+                      <div class="card-top">
+                        <span class="topic-badge">{topicLabel[item.data.topic]}</span>
+                      </div>
+                      <h5><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h5>
+                      <p class="source">{item.data.sourceName}</p>
+                      <p class="gist">{item.data.summary}</p>
+                      <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
+                    </article>
+                  ))}
+                </div>
+              );
               const DayList = (
                 <>
                   {wblock.days.map((day) => (
@@ -152,22 +177,14 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
                       {dailyDigestByDate.has(day.dateKey) && (
                         <p class="digest-text">{dailyDigestByDate.get(day.dateKey)}</p>
                       )}
-                      <details class="articles-toggle">
-                        <summary>Show {day.items.length} {day.items.length === 1 ? 'article' : 'articles'}</summary>
-                        <div class="news-grid">
-                          {day.items.map((item) => (
-                            <article class={`news-card topic-${item.data.topic}`}>
-                              <div class="card-top">
-                                <span class="topic-badge">{topicLabel[item.data.topic]}</span>
-                              </div>
-                              <h5><a href={item.data.sourceUrl} target="_blank" rel="noopener">{item.data.title}</a></h5>
-                              <p class="source">{item.data.sourceName}</p>
-                              <p class="gist">{item.data.summary}</p>
-                              <a class="read-link" href={item.data.sourceUrl} target="_blank" rel="noopener">Read the original →</a>
-                            </article>
-                          ))}
-                        </div>
-                      </details>
+                      {showArticlesOpen ? (
+                        ArticleGrid(day)
+                      ) : (
+                        <details class="articles-toggle">
+                          <summary>Show {day.items.length} {day.items.length === 1 ? 'article' : 'articles'}</summary>
+                          {ArticleGrid(day)}
+                        </details>
+                      )}
                     </div>
                   ))}
                 </>
@@ -386,7 +403,7 @@ const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateSt
     .articles-toggle summary::-webkit-details-marker { display: none; }
     .articles-toggle summary::before { content: "▸ "; }
     .articles-toggle[open] summary::before { content: "▾ "; }
-    .articles-toggle .news-grid { margin-top: 1rem; }
+    .day-group .news-grid { margin-top: 1rem; }
 
     .news-grid {
       display: grid;
