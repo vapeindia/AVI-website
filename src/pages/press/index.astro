@@ -5,19 +5,27 @@ import { getCollection, render } from 'astro:content';
 const all = (await getCollection('press'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-// Media coverage: independent outlets writing about AVI, interviewing it, or
-// running its byline — as distinct from AVI's own issued statements below.
-const coverage = all.filter((item) => ['coverage', 'interview', 'op-ed'].includes(item.data.type));
-// AVI's own public statements and quotes, mostly distributed via PR agencies.
+// In the news: independent outlets covering or interviewing AVI — the
+// clearest form of third-party validation, since neither the words nor the
+// decision to publish them was AVI's.
+const inTheNews = all.filter((item) => ['coverage', 'interview'].includes(item.data.type));
+// Op-eds: AVI's own byline, but published at an independent outlet's
+// editorial discretion — external validation of a different kind.
+const opEds = all.filter((item) => item.data.type === 'op-ed');
+// Press releases & statements: AVI's own words, self-issued via PR agencies —
+// not independently validated, but the primary record of AVI's positions.
 const statements = all.filter((item) => ['press-release', 'quote'].includes(item.data.type));
 
 async function withBody(items: typeof all) {
   return Promise.all(items.map(async (item) => ({ item, Content: (await render(item)).Content })));
 }
-const coverageWithBody = await withBody(coverage);
+const inTheNewsWithBody = await withBody(inTheNews);
+const opEdsWithBody = await withBody(opEds);
 const statementsWithBody = await withBody(statements);
-const featuredCoverage = coverageWithBody.slice(0, 4);
-const restCoverage = coverageWithBody.slice(4);
+const featuredNews = inTheNewsWithBody.slice(0, 4);
+const restNews = inTheNewsWithBody.slice(4);
+const featuredOpEds = opEdsWithBody.slice(0, 4);
+const restOpEds = opEdsWithBody.slice(4);
 const featuredStatements = statementsWithBody.slice(0, 4);
 const restStatements = statementsWithBody.slice(4);
 
@@ -42,10 +50,11 @@ const typeLabel: Record<string, string> = {
         reduction as public health policy — see our <a href="/science">evidence library</a>. For over a decade, AVI has
         been instrumental in furthering that debate in India: quoted,
         interviewed and bylined in outlets from Deccan Chronicle and Outlook
-        India to trade press like 2Firsts and Filter. Below is that
-        independent coverage, alongside AVI's own public statements, letters
-        and rebuttals — headline and gist first, so you don't have to open
-        every link to know what it says. We're always available to provide
+        India to trade press like 2Firsts and Filter. Below, that record is
+        split three ways — coverage where independent outlets wrote about or
+        interviewed AVI, op-eds AVI wrote at an outlet's invitation, and
+        AVI's own press releases and statements — headline and gist first,
+        so you don't have to open every link to know what it says. We're always available to provide
         further insight for a story, including where it means balancing
         views on the other side of this debate.
       </p>
@@ -65,11 +74,11 @@ const typeLabel: Record<string, string> = {
   <div class="press-body">
     <section class="press-section">
       <div class="section-head">
-        <h2>Media coverage</h2>
-        <p>Independent reporting, interviews and bylined op-eds — not written or issued by AVI.</p>
+        <h2>AVI in the news</h2>
+        <p>Independent reporting and interviews where AVI is quoted or featured — neither the words nor the decision to publish were AVI's.</p>
       </div>
       <div class="press-grid">
-        {featuredCoverage.map(({ item, Content }) => (
+        {featuredNews.map(({ item, Content }) => (
           <article class={`press-card type-${item.data.type}`}>
             <div class="card-top">
               <span class="type-badge">{typeLabel[item.data.type]}</span>
@@ -86,11 +95,59 @@ const typeLabel: Record<string, string> = {
           </article>
         ))}
       </div>
-      {restCoverage.length > 0 && (
+      {restNews.length > 0 && (
         <details class="press-archive">
-          <summary>Show {restCoverage.length} more</summary>
+          <summary>Show {restNews.length} more</summary>
           <div class="press-grid archive-grid">
-          {restCoverage.map(({ item, Content }) => (
+          {restNews.map(({ item, Content }) => (
+            <article class={`press-card type-${item.data.type}`}>
+              <div class="card-top">
+                <span class="type-badge">{typeLabel[item.data.type]}</span>
+                <time datetime={item.data.date.toISOString()}>
+                  {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+              </div>
+              <h3><a href={`/press/${item.id}/`}>{item.data.title}</a></h3>
+              <p class="outlet">{item.data.outlet}</p>
+              <div class="gist"><Content /></div>
+              {(item.data.url || item.data.archivePdf)
+                ? <a class="read-link" href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">Read the original →</a>
+                : <span class="pending-link">Source: AVI press archive (not yet linked online)</span>}
+            </article>
+          ))}
+          </div>
+        </details>
+      )}
+    </section>
+
+    <section class="press-section">
+      <div class="section-head">
+        <h2>Op-eds</h2>
+        <p>Articles written by AVI, published at the invitation and editorial discretion of independent outlets.</p>
+      </div>
+      <div class="press-grid">
+        {featuredOpEds.map(({ item, Content }) => (
+          <article class={`press-card type-${item.data.type}`}>
+            <div class="card-top">
+              <span class="type-badge">{typeLabel[item.data.type]}</span>
+              <time datetime={item.data.date.toISOString()}>
+                {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+            <h3><a href={`/press/${item.id}/`}>{item.data.title}</a></h3>
+            <p class="outlet">{item.data.outlet}</p>
+            <div class="gist"><Content /></div>
+            {(item.data.url || item.data.archivePdf)
+              ? <a class="read-link" href={item.data.url || item.data.archivePdf} target="_blank" rel="noopener">Read the original →</a>
+              : <span class="pending-link">Source: AVI press archive (not yet linked online)</span>}
+          </article>
+        ))}
+      </div>
+      {restOpEds.length > 0 && (
+        <details class="press-archive">
+          <summary>Show {restOpEds.length} more</summary>
+          <div class="press-grid archive-grid">
+          {restOpEds.map(({ item, Content }) => (
             <article class={`press-card type-${item.data.type}`}>
               <div class="card-top">
                 <span class="type-badge">{typeLabel[item.data.type]}</span>
