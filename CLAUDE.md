@@ -178,13 +178,50 @@ access control, keep them apart.
   titles (e.g. three separate "Banning e-cigarettes could harm public
   health" releases exist, attributed to HRPR, CHRA and "AVI warns Haryana
   Government" respectively — same template, different events, different
-  dates). Still untriaged from this archive: the ambiguous bucket
-  (~20-25 files that could be new or duplicate), the probably-wrong-
-  collection bucket (2 "Letter to MPs" files that read like `submissions`
-  not `press`; Chandigarh protest photos that read like `campaigns`),
-  and a CAPHRA-titled release that needs the standard CAPHRA-sensitivity
-  framing (AVI left CAPHRA Oct 2023 — see "Who this is for" at the top
-  of this file) if it's ever published, not a straight republish.
+  dates).
+
+  **2026-10 archive pass, round 2** (now 80 entries): worked through the
+  ~20-file ambiguous bucket the same way — open every file, check both
+  title and date against the live site before concluding new vs
+  duplicate. Much higher hit rate this round: **8 of ~20 were genuinely
+  new**, mostly because two AVI press cycles turned out to involve
+  several sequential, same-topic releases days apart that round 1's
+  filename triage had collapsed into one assumed event:
+  - The August-September 2018 reaction to the Centre's advisory asking
+    states to ban ENDS produced *three* releases on consecutive-ish
+    days, not one: `2018-consumers-pan-central-advisory` (29 Aug, media
+    version of the same-day formal letter already in `submissions` —
+    confirmed genuinely different documents, not a duplicate, by
+    reading both in full), `2018-centre-protecting-tobacco-industry`
+    (30 Aug, the stock-price-rally follow-up), and
+    `2018-public-health-experts-blast-ban-plan` (5 Sept, a third release
+    quoting independent experts rather than AVI's own directors).
+  - The September 2019 ordinance fight produced `2019-avi-slams-ordinance`
+    (3 Sept, pre-ordinance) and `2019-ego-issue-ordinance` (10 Sept) in
+    addition to the already-covered 16/26 Sept releases — four distinct
+    releases over 3.5 weeks, not two.
+  - The September 2020 one-year-anniversary "Black Day" protest produced
+    *three* distinct documents, not the two already on the site:
+    `2020-pre-event-one-year-protest` (16 Sept, advance notice) plus
+    `2020-vapers-unite-protest-one-year` (18 Sept, a post-event recap
+    with its own distinct quote cast — Sweanor, Stimson, Pingal Khan,
+    Kamal Mordani, Angeles Muntadas — different from either already-
+    covered quote sheet).
+  Also resolved via a crude PowerShell strings-extraction (binary .doc
+  files can't use the zip-based docx trick, but
+  `[System.Text.Encoding]::GetEncoding("Windows-1252").GetString($bytes)`
+  + a regex for 6+-char printable runs pulls clean paragraph text out of
+  the readable fragments, ignoring the OLE binary noise around it — no
+  need for antiword or a conversion tool).
+  Also confirmed: 3 identical copies of one file ("AVI_Madras High court
+  hearing on e-cig (1/2/3).docx") are byte-for-byte the same release, not
+  3 different hearings as round 1 worried — already covered.
+  Still untriaged: the probably-wrong-collection bucket (2 "Letter to
+  MPs" files that read like `submissions` not `press`; Chandigarh
+  protest photos that read like `campaigns`), and a CAPHRA-titled
+  release that needs the standard CAPHRA-sensitivity framing (AVI left
+  CAPHRA Oct 2023 — see "Who this is for" at the top of this file) if
+  it's ever published, not a straight republish.
 - `litigation` — one entry per court case. Source material is the Drive
   "CASE" folder (87 files: actual court orders, PILs, affidavits, RTI
   replies across Karnataka, J&K, Delhi, Bombay HC, Kolkata HC, and more).
