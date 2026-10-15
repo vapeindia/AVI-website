@@ -32,24 +32,30 @@
 /subscribe-now/                          /contribute                                       301
 /thanks-for-payment/                     /contribute                                       301
 /enquiry-form/                           /press                                            301
+/hindu-rebuttal/                         /press/2024-hindu-rebuttal                       301
+/delhi-high-court-hearing-on-21st-august/ /press/2018-delhi-hc-hear-traders               301
+/nicotine-not-to-be-blamed-for-smoking-related-death/     /press/2018-tar-is-the-killer-not-nicotine   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-2/   /press/2018-tar-is-the-killer-not-nicotine   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-3/   /press/2018-tar-is-the-killer-not-nicotine   301
+/nicotine-not-to-be-blamed-for-smoking-related-death-4/   /press/2018-tar-is-the-killer-not-nicotine   301
+/nicotine-not-to-be-blamed-for-smoking/                   /press/2018-tar-is-the-killer-not-nicotine   301
 
-# --- Old press/news posts — no per-article page exists on the new site
-# (the press collection renders as one index, not individual pages), so
-# these land on the section index rather than a specific article. Still
-# beats a 404 for anyone following a 2016-2020 citation. ---
-/hindu-rebuttal/                                                                                                                 /press   301
-/delhi-high-court-hearing-on-21st-august/                                                                                        /press   301
+# --- Old press/news posts that couldn't be confidently matched to one
+# specific entry (2026-10 pass, after press got individual pages at
+# /press/<slug>/ — see CLAUDE.md's SEO/GEO pass section): either too
+# generic a slug to mean one article (e.g. /skarora/, /you-ken-rebuttal/,
+# /shadowreport/), or a plausible-but-not-confirmed match that would risk
+# sending a citation to the wrong piece (e.g. the four "rajasthan..."
+# verdict-welcomed slugs look topically close to
+# 2019-rajasthan-study-welcomed.md but describe a court verdict, not a
+# government study announcement — left unmapped rather than guessed).
+# Land on the section index instead — still beats a 404. ---
 /avi-counters-on-e-cig-ban/                                                                                                      /press   301
 /avi-requests-rajasthan-govt-to-regulate-vaping/                                                                                 /press   301
 /rajasthan-courts-verdict-welocmed-by-consumers/                                                                                 /press   301
 /rajasthan-courts-verdict-welocmed-by-consumers-2/                                                                               /press   301
 /rajasthan-courts-verdict-welocmed-by-consumer-group/                                                                            /press   301
 /rajasthan-courts-verdict-welocmed-by-consumer-group-2/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death/                                                                            /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-2/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-3/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking-related-death-4/                                                                          /press   301
-/nicotine-not-to-be-blamed-for-smoking/                                                                                          /press   301
 /centraladvisory/                                                                                                                /submissions   301
 /all-coverages/                                                                                                                  /press   301
 /skarora/                                                                                                                        /press   301

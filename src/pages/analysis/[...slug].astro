@@ -71,7 +71,7 @@ const articleLd = {
   <h1>{item.data.title}</h1>
 
   <figure class="hero-figure">
-    <img src={item.data.heroImage.src} alt={item.data.heroImage.alt} />
+    <img src={item.data.heroImage.src} alt={item.data.heroImage.alt} width="1200" height="630" />
     {item.data.heroImage.caption && <figcaption>{item.data.heroImage.caption}</figcaption>}
   </figure>
 
@@ -146,7 +146,11 @@ const articleLd = {
     .meta { color: var(--muted); font-size: 0.85rem; font-weight: 600; margin: 0; }
 
     .hero-figure { margin: 1.25rem 0 1.5rem; }
-    .hero-figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    /* aspect-ratio matches the width="1200" height="630" attrs above (the
+       documented recommended hero-image ratio) -- together these reserve
+       the right box before the image loads, regardless of a given post's
+       actual file dimensions, preventing layout shift. */
+    .hero-figure img { width: 100%; height: auto; aspect-ratio: 1200 / 630; border-radius: 10px; display: block; object-fit: cover; }
     .hero-figure figcaption { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); text-align: center; }
 
     .at-a-glance {

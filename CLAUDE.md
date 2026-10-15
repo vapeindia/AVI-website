@@ -1520,6 +1520,70 @@ conversation if picking this up again): `FAQPage` schema on `/india/law`,
 `/quit`, `/policy` (item 5 of that list); a Wikidata/Wikipedia entry for
 AVI; `width`/`height` on `<img>` tags site-wide for CLS.
 
+## Follow-up pass on the remaining SEO/GEO items (2026-10)
+
+Site owner asked to "do them all" on the four deliberately-skipped items
+above. Three got done, one is out of scope for Claude to do directly:
+
+- **`/india/law` already had full `FAQPage` JSON-LD** (5 Q&As, plus an
+  `Article` schema) — turned out to already be done, nothing to add.
+- **`/quit` and `/policy`**: checked for Q&A-shaped headings to build
+  schema from — neither has any (both are thematic/evidence sections:
+  country case studies, categories of evidence, not questions).
+  **Deliberately did not add `FAQPage` markup here** — Google's
+  structured-data guidelines require marked-up content to actually be
+  visible on the page in question form; bolting fake FAQ schema onto
+  prose that isn't phrased as Q&A risks a manual action for spammy
+  structured data, which would hurt SEO rather than help it. Doing this
+  properly means first restructuring parts of those pages' content into
+  visible question form, which is a real content-editing task, not a
+  markup-only one — not done, flagged for the site owner to decide on
+  rather than assumed.
+- **`width`/`height` on images**: audited every `<img>` tag site-wide
+  first. Nearly all of them already sit inside a CSS `aspect-ratio`-
+  constrained box (`.an-card-img`, `.hero-photo-wrap img`,
+  `.watch-thumb img`, `.spotlight-thumb img`, `.thumb img`,
+  `.feat-photo-grid img` etc.) — CSS `aspect-ratio` is the modern
+  equivalent of width/height attributes for preventing layout shift, and
+  is actually the *more* correct choice for a responsive-width grid cell
+  (a hardcoded width/height pair on a flexible-width container would
+  misrepresent its actual aspect ratio). So most of these were already
+  fine. Two spots genuinely had no sizing hint and got fixed: the
+  Analysis post hero image (`src/pages/analysis/[...slug].astro` — added
+  `width="1200" height="630"` plus a matching `aspect-ratio: 1200/630` +
+  `object-fit: cover` in the CSS, so any future post's hero image,
+  whatever its real file dimensions, still reserves a consistent box
+  before it loads) and the AVI logo in the header/footer
+  (`src/layouts/Base.astro` — `width="500" height="500"`, its actual
+  file size, since the CSS there is `height: Npx; width: auto` with
+  nothing to establish the intrinsic ratio otherwise).
+- **~24 `/press` fallback redirects** in `public/_redirects`: researched
+  each against the press collection (grepping for matching keywords/
+  dates, reading candidate files' full content before committing to a
+  match). Found 3 confident ones — `/hindu-rebuttal/` →
+  `2024-hindu-rebuttal`; `/delhi-high-court-hearing-on-21st-august/` →
+  `2018-delhi-hc-hear-traders` (filed date 2018-08-21, exact match);
+  the 5 `/nicotine-not-to-be-blamed-for-smoking...` slug variants →
+  `2018-tar-is-the-killer-not-nicotine` (same underlying release, old
+  WordPress commonly aliased one post under several slugs). Left the
+  rest unmapped rather than guess: the four "rajasthan...verdict
+  welcomed" slugs look topically close to `2019-rajasthan-study-welcomed`
+  but describe a *court verdict*, while that entry is about a
+  *government study announcement* — different enough not to force it;
+  `/skarora/`, `/you-ken-rebuttal/`, `/shadowreport/`,
+  `/avi-counters-on-e-cig-ban/`, `/avi-requests-rajasthan-govt-to-regulate-vaping/`
+  and the 4 Hindi-slug URLs had no confident match in any collection at
+  all (checked press, submissions, litigation) — still redirect to the
+  generic `/press` fallback, which beats a 404.
+- **Wikidata/Wikipedia entry for AVI**: not done, and not something
+  Claude should attempt directly — it's not a codebase change, requires
+  a real Wikidata/Wikipedia account, and creating an entry about your
+  own organisation without disclosure runs into conflict-of-interest
+  norms on both platforms. If the site owner wants this, the right path
+  is for them (or someone unaffiliated) to create/edit it directly,
+  citing independent sources — Claude can help draft the claims/
+  citations list if asked, but shouldn't submit the edit itself.
+
 ---
 
 
