@@ -216,12 +216,63 @@ access control, keep them apart.
   Also confirmed: 3 identical copies of one file ("AVI_Madras High court
   hearing on e-cig (1/2/3).docx") are byte-for-byte the same release, not
   3 different hearings as round 1 worried — already covered.
-  Still untriaged: the probably-wrong-collection bucket (2 "Letter to
-  MPs" files that read like `submissions` not `press`; Chandigarh
-  protest photos that read like `campaigns`), and a CAPHRA-titled
-  release that needs the standard CAPHRA-sensitivity framing (AVI left
-  CAPHRA Oct 2023 — see "Who this is for" at the top of this file) if
-  it's ever published, not a straight republish.
+  **2026-10 archive pass, round 3 ("the rest")** — closed out every
+  remaining bucket, zero new entries this round (all correctly
+  excluded):
+  - The 2 "Letter to MPs" PDFs (English/Hindi, 16 Sept 2020) are the
+    same letter already published as
+    `submissions/2020-09-16-letter-to-mps-one-year-of-ban.md` —
+    confirmed by reading the full English PDF text against the live
+    submission. No action needed.
+  - The Chandigarh protest photos and the two
+    "Press Release_AVI Chandigarh (2)/(3).docx" files are the same
+    24 Oct 2018 Punjab-ban event already covered by
+    `press/2018-punjab-ban-chandigarh.md` (confirmed by reading (2)
+    in full — identical release, HRPR/AVI joint statement, same
+    quotes). Not a separate campaign; photos not used.
+  - "QUOTE by Samrat Chowdhery on 18th Sept protest.docx" is a
+    standalone quote-sheet for the Sept 2020 Black Day anniversary,
+    undated within the doc but content-matches the already-covered
+    18 Sept quote compilations — not a distinct release.
+  - "AVI-GoI.docx" is an undated general ENDS-policy position paper
+    (28% ITC stake, Rs 30,000cr tax vs Rs 150,000cr mortality cost,
+    gateway-theory rebuttal). Its talking points already appear
+    verbatim across multiple published press/submissions entries
+    (`2019-avi-slams-ordinance`, `2019-ordinance-regressive`,
+    `submissions/2019-11-08-public-comments-on-ecigarette-bill`) —
+    reads like source boilerplate reused across releases, not a
+    standalone statement with its own news hook. Not published.
+  - "Request for appointment letter _ Health Secretary of Karnataka"
+    — filename says Karnataka, actual letter is addressed to Tamil
+    Nadu's Principal Secretary of Health (another filename/content
+    mismatch). Either way it's a private meeting request, not a
+    public statement — doesn't belong on the site.
+  - "Press Invite_AVI Delhi press conference.doc" — logistics, not a
+    statement. Not published.
+  - "Draft Intermediaries Guideline Rules under Section 79 of IT Act,
+    India.pdf" — this is the Government of India's own draft rules
+    document (what AVI's IT Act submission was responding to), not
+    AVI content. Not published.
+  - CAPHRA-titled release ("Big coalition urges India's health
+    ministry...", 12 Mar 2020): read in full — it's CAPHRA's own
+    coalition statement (no AVI quotes, AVI not named), merely
+    distributed through AVI's PR contact. Given AVI's Oct 2023 CAPHRA
+    departure, publishing a CAPHRA-authored release under AVI's press
+    archive would misrepresent whose statement it is — **not
+    published; flagged to site owner rather than decided unilaterally**.
+  - Re-checked the previously-flagged "possible duplicate" INNCO-
+    President entries: `2020-samrat-chowdhery-innco-president` (AVI's
+    own release, 1 Jul) and `2020-week-pti-innco-appointment` (The
+    Week/PTI wire pickup, 2 Jul, `type: coverage`) are correctly
+    distinct — each entry's body already explicitly notes it's
+    separate from the other. Not a duplicate; no fix needed.
+
+  **Archive migration is now complete**: all ~189 files across the
+  7-part Google Drive export have been triaged (rounds 1–3). 10 new
+  press entries were added across rounds 1–2; round 3 added none but
+  confirmed nothing was missed. One item remains an open decision for
+  the site owner (the CAPHRA release) rather than something to
+  auto-resolve.
 - `litigation` — one entry per court case. Source material is the Drive
   "CASE" folder (87 files: actual court orders, PILs, affidavits, RTI
   replies across Karnataka, J&K, Delhi, Bombay HC, Kolkata HC, and more).
