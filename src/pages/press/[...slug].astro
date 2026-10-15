@@ -95,6 +95,12 @@ if (item.data.url) articleLd.isBasedOn = item.data.url;
     .meta { color: var(--muted); margin-top: -0.5rem; font-size: 0.85rem; font-weight: 600; }
     .press-body { font-size: 1rem; line-height: 1.7; margin-top: 1.5rem; }
     .press-body :global(p) { margin: 0 0 1.1rem; }
+    .press-body :global(hr) {
+      border: none;
+      border-top: 2px solid var(--border);
+      width: 4rem;
+      margin: 2rem auto;
+    }
 
     .original-link { font-weight: 600; margin-top: 1rem; }
     .pending-link { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 1rem; }

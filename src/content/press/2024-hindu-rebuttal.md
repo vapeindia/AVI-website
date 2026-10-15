@@ -3,11 +3,50 @@ title: "AVI response to editorial in The Hindu"
 date: 2024-08-30
 outlet: "AVI statement"
 type: "op-ed"
+archivePdf: "/archive/press/2024-hindu-rebuttal.pdf"
 ---
 
-AVI's referenced rebuttal to a 26 August 2024 opinion piece by clinical
-psychologist Bhavna Barmi, which the piece argued overstated vaping harms
-and mischaracterised gateway-effect evidence. AVI's response addresses teen
-uptake data, the "common liability" model versus the gateway theory, and
-the effect of prohibition on the availability of unregulated disposable
-devices to minors.
+AVI's detailed, referenced letter to the editor responding to an [opinion piece published in The Hindu](https://www.thehindu.com/sci-tech/health/new-age-gateway-devices-the-latest-health-threat/article68566282.ece) on 24 August 2024, "New-age gateway devices, the new health threat," written by clinical psychologist Bhavna Barmi. AVI argues the piece exaggerates vaping harms with unsupported claims and misrepresents data, fuelling anti-vaping hysteria, and calls for a pragmatic discussion that also weighs the needs of India's 270 million adult tobacco users, of whom 100 million smoke. The full text follows.
+
+---
+
+Respected Editor of The Hindu,
+
+We are writing to correct the misinformation in an opinion piece published in the editorial page of The Hindu on 24/08/2024, titled "New-age gateway devices, the new health threat."
+
+The author begins by making a bold insinuation that vaping is more harmful than smoking, but rather than provide evidence for it, veers off into the rise in adolescent vaping and other scientifically incorrect claims such as the gateway effect, EVALI deaths and nicotine dependence. In this letter we provide a detailed rebuttal for these claims and request a pragmatic and balanced discourse on this sensitive issue.
+
+At the outset, we would like to clarify that we are by no means insensitive to the youth uptake of vaping and fully endorse well-conceived measures to prevent initiation of nicotine use. What we seek is a non-hysterical discussion that also balances the needs of over 100 million smokers in India, dying at the rate of a million per year, whose lives can be saved by incentivising switch to less harmful nicotine alternatives.
+
+The most robust scientific evidence available today has found e-cigarettes to be not only significantly less harmful than smoking — endorsed by the world's top health and regulatory bodies from the USFDA, erstwhile Public Health England and Health Canada to the WHO — but they are also far more effective than nicotine replacement therapies such as gums and patches in helping smokers quit. Globally, about 100 million smokers have switched in under a decade.
+
+**There is no gateway effect.** The author claims vaping leads to uptake of smoking among teens. The claim may sound intuitive but is far from fact. The gateway theory has been debunked in a lot of recent scientific research and is also not borne out by population data, as teen smoking rates have been plummeting to record lows (under 1%) in the US, UK, New Zealand and across the West despite a rise in teen vaping in these nations. So where is the gateway? The more plausible explanation is the "common liability" model — teens who are likely to vape are as likely to smoke or indulge in other risky behaviours. Vaping is therefore diverting such teens from the far more deadly smoking, which should be considered a public health win.
+
+The author claims vaping is being taken up by children between 10 and 20 years old. What she skips mentioning is that in India the age of initiation of tobacco use, which includes the deadliest forms such as bidis and khaini (not e-cigarettes), has been steadily falling and now averages around age 10, according to the Global Youth Tobacco Survey (GYTS) published by the Union health ministry. The survey also found "ever use" of e-cigarettes — which is by no means an indicator of addiction — to be 2.8%. This does not support the author's claim of "a new pandemic" of e-cigarette use among adolescents in India.
+
+E-cigarette use, especially among teens, is concentrated among the affluent class in our country, who can afford to both avail the expensive remedial services provided by the author, as well as to buy vaping devices from the black market. For most Indians, including those who smoke, vaping remains out of reach despite an ineffective ban.
+
+The prohibition has, in fact, been a major facilitator of teen use: a) the government has surrendered control to the black market, which has no scruples in selling to minors, b) after the ban, due to ease in smuggling, there has been a proliferation of disposable devices, which are easier for teens to access — the British Medical Association has recently sought their ban for this reason, though experts have suggested opting for better regulation instead — and c) India's ban has also created an "allure of the forbidden" for these products among youth.
+
+Meanwhile, adult smokers who could have benefitted by switching to less harmful and potentially life-saving alternatives have been denied legal access, as well as consumer protection against substandard products, while increasing criminality in our society and causing major loss in tax revenue.
+
+**Misrepresenting US teen vaping data.** The author presents unquantified statistics to fan anti-vaping hysteria. A comprehensive review by 15 past presidents of the Society for Research on Nicotine and Tobacco (SRNT), among the world's leading and most respected organisations dedicated to nicotine and tobacco research, found teen vaping is infrequent, experimental, and that "the evidence of the percentage of kids becoming addicted to nicotine by vaping is much smaller than popularly believed." The author presents the figures without mentioning that the CDC's definition of "current use" is "determined by respondents indicating that they have used a tobacco product on at least 1 day during the past 30 days." This is not an indicator of dependence, more likely of experimentation.
+
+The most notable finding from the 2023 US statistics is in fact a whopping 61% decline in teen vaping since 2019 — from 27.5% in 2019 to 7.7% in 2023. This adds credence to the experimentation aspect of teen vaping, as well as shows that the issue can be addressed with targeted regulation and sensitisation programmes. Further, when adjusted for regular use, which is one-fourth of "current users," the percentage of 21 million US teens using e-cigarettes daily is 1.9%, of whom too, as the SRNT ex-presidents note, most are current smokers. This is hardly "a new pandemic." These use patterns are mirrored in the UK, where regular use remains low, is concentrated among teens who smoke or have in the past, and use among never-smokers is declining, most likely due to awareness and regulatory efforts.
+
+Also worth noting is that overall nicotine and tobacco use is declining in the US, which does not support the claim that e-cigarettes are "hooking a new generation to nicotine." The correct conclusion to draw is that vaping, a far less harmful (and less addictive — more on this below) alternative to smoking, is replacing smoking, most rapidly among the young population, who have always been early adopters across the product and technology spectrum. This warrants nuanced discussion rather than a "reefer madness" response.
+
+**Exaggerated, false claims about vaping harms.** The author states e-cigarettes lead to lung damage. This is a specious claim for two reasons: a) nothing is risk-free, even breathing city air, nor has anyone said e-cigarettes are without risk; however, while science is still evolving around these novel products, e-cigarettes are currently not linked to cancer and research has not identified any serious harms to the lungs from vaping nicotine by non-smoking adults in the short-to-medium term. On the other hand, there is good evidence that lung health improves in smokers who switch to vaping, and lung cancer risk from vaping is estimated to be 50,000 times less than from smoking. This is significant when two-thirds of smokers die from smoking — 8 million globally and nearly a million in India every year.
+
+The author also cites EVALI as a deadly consequence of vaping. This is again a debunked claim, as the CDC itself has noted the deaths due to this condition were from illicit cannabis vapes adulterated with Vitamin E acetate, a thinning agent which cannot be used in nicotine e-cigarettes. To associate EVALI with them, four years after the CDC has even stopped monitoring the condition, is outright spreading of misinformation.
+
+**Vaping is not more addictive than smoking.** The author cites a 2022 study by Dr Stanton Glantz, an anti-vaping activist whose research has been called out for poor scientific standards and fudging data, which has also led to a retraction. This study uses NYTS data from 2014-21 to examine frequency of different tobacco product use, age of initiation, and indicators of dependence. Time to first use can't reliably be used to compare the prevalence of dependence across users of different products, and other recent studies on youth that have used a 30-minute cutoff show there hasn't been much increase in nicotine dependence. In any case, the finding that a majority of those who want to use within five minutes of waking are using e-cigarettes (versus all other products combined) reflects a larger prevalence of vaping versus smoking in this group, rather than higher dependence.
+
+Overall, there is a large body of evidence that vaping is less addictive than smoking, in major part due to the absence of the hundreds of additives tobacco companies use to make their cigarettes "hit faster and harder." Nicotine by itself is neither a carcinogen nor that habit-forming. Medically licenced nicotine gums and patches are approved for long-term use by the WHO, as well as our health ministry, on the basis that their dependence potential is low. Lastly, the author claims e-cigarettes contain nicotine "at levels that are difficult to achieve with cigarettes." This is another outright falsehood, and these myths have been busted in unambiguous language by the UK's National Health Service (NHS) on its website.
+
+Finally, while remaining sensitive to e-cigarette use among rich kids and supporting measures to prevent nicotine uptake among them, we would like to point out that **the real public health crisis** in India is that nearly a million children are using toxic smoked and chewed tobacco products — more than 50,000 are taking their first puff of a cigarette or beedi every day, our tobacco control measures are not working, tobacco products have become cheaper over the past decade, and tobacco use is rising among women, who are most susceptible to adverse outcomes. In this context, we feel it is vital to adopt harm reduction policies that help our 270 million tobacco users move down the continuum of risk through product substitution.
+
+Regards,
+
+Samrat Chowdhery
+Director, AVI
