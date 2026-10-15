@@ -145,6 +145,46 @@ access control, keep them apart.
   don't re-open files already confirmed as duplicates (noted in the
   session that did this pass); prioritise titles that don't obviously match
   any of the 59 existing entries' subjects.
+
+  **2026-10 archive pass, round 1** (now 72 entries): re-surveyed the
+  archive, now found at `AAA-Vaping-20260903T021013Z-1-*/AAA-Vaping/AVI/
+  AVI Board/AVI Outreach/Press releases/` in the parent folder (one level
+  up from this repo) — 109 unique filenames, 102 actual documents after
+  excluding photos, ~75 distinct releases after collapsing Drive's own
+  `(1)/(2)/(3)` revision-numbering of the same file. Triaged by filename
+  first (fast but unreliable — see below), then opened the ~15 files
+  that looked most promising. **Critical finding: filename-based
+  triage was wrong far more often than right.** Of 15 opened, only 2
+  were genuinely new (`2018-chennai-tn-opposes-ban.md`,
+  `2020-gogate-indian-express-evidence-is-clear.md` — a second, distinct
+  Gogate Indian Express piece, not the same as the already-covered
+  "Vaping: The way forward..." one). The other 13: 9 were the exact same
+  release as an existing entry, just reached via a differently-worded
+  filename or an early draft with a different working title (e.g. "GFN
+  speech press release" → already-covered "Tobacco companies benefit
+  from India's policy..."; "Press Release_3000 vapers petition PM on
+  ENDS" → actually the Maharashtra-ban release, not a PM petition, per
+  its real content); 1 was a formal government submission, not a press
+  release — "AVI response to proposed E-cigarette Bill.pdf" is the exact
+  same letter as `submissions/2019-11-08-public-comments-on-ecigarette-bill.md`
+  (same Nov 8 2019 date); **2 were not AVI's own content at all** — a
+  vHealth-by-Aetna COVID-19 telemedicine release and an Iowa Attorney
+  General's office World No Tobacco Day release, both apparently shared
+  via the same PR agency (Brands2Life) and swept into AVI's folder by
+  accident, not AVI statements. **Takeaway for continuing this**: always
+  open the actual file and check it against the live site's title *and
+  date*, never just the filename — a title match alone isn't sufficient
+  either, since two different releases can share near-identical boilerplate
+  titles (e.g. three separate "Banning e-cigarettes could harm public
+  health" releases exist, attributed to HRPR, CHRA and "AVI warns Haryana
+  Government" respectively — same template, different events, different
+  dates). Still untriaged from this archive: the ambiguous bucket
+  (~20-25 files that could be new or duplicate), the probably-wrong-
+  collection bucket (2 "Letter to MPs" files that read like `submissions`
+  not `press`; Chandigarh protest photos that read like `campaigns`),
+  and a CAPHRA-titled release that needs the standard CAPHRA-sensitivity
+  framing (AVI left CAPHRA Oct 2023 — see "Who this is for" at the top
+  of this file) if it's ever published, not a straight republish.
 - `litigation` — one entry per court case. Source material is the Drive
   "CASE" folder (87 files: actual court orders, PILs, affidavits, RTI
   replies across Karnataka, J&K, Delhi, Bombay HC, Kolkata HC, and more).
