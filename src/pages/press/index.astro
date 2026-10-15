@@ -53,9 +53,42 @@ function outletName(raw: string): string | null {
   return raw.replace(/\s*\(via [^)]+\)/i, '').trim();
 }
 
+// Rough importance ranking for the "featured in" boxes — global wire
+// services and major mastheads first, trade/regional press after. Anything
+// not listed here falls back to alphabetical order, after the ranked ones.
+const outletRank = [
+  'Reuters',
+  'The Guardian (AFP wire)',
+  'Deutsche Welle (Deutsch Aktuell / Video-Thema)',
+  'The Times of India',
+  'The Times of India (Bangalore)',
+  'The Financial Express',
+  'Quartz',
+  'ET HealthWorld (The Economic Times)',
+  'Moneycontrol',
+  'The Indian Express',
+  'The Quint',
+  'ThePrint',
+  'Outlook India',
+  'Deccan Chronicle',
+  'Tobacco Reporter',
+  'The Week (PTI wire)',
+  'Filter',
+  'Filter (by Alex Norcia)',
+  '2Firsts',
+];
+
 function uniqueOutlets(items: typeof all): string[] {
   const names = items.map((item) => outletName(item.data.outlet)).filter((n): n is string => !!n);
-  return [...new Set(names)].sort((a, b) => a.localeCompare(b));
+  const unique = [...new Set(names)];
+  return unique.sort((a, b) => {
+    const ra = outletRank.indexOf(a);
+    const rb = outletRank.indexOf(b);
+    const ia = ra === -1 ? Infinity : ra;
+    const ib = rb === -1 ? Infinity : rb;
+    if (ia !== ib) return ia - ib;
+    return a.localeCompare(b);
+  });
 }
 const newsOutlets = uniqueOutlets(inTheNews);
 const opEdOutlets = uniqueOutlets(opEds);
