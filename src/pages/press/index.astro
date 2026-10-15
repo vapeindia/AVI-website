@@ -36,6 +36,29 @@ const typeLabel: Record<string, string> = {
   'press-release': 'Press release',
   quote: 'Quote',
 };
+
+// Best-effort extraction of a clean outlet/publication name from the
+// free-text `outlet` field, for the "featured in" summary boxes. Returns
+// null when the field doesn't actually name a publication (e.g. "Authored
+// op-ed by Samrat Chowdhery" with no outlet given) — those are excluded.
+function outletName(raw: string): string | null {
+  if (/^(AVI|HRPR)(\/[A-Z]+)?\s+(statement|press release)/i.test(raw.trim())) return null;
+  let m = raw.match(/,?\s+for\s+(.+)$/i);
+  if (m) return m[1].trim();
+  m = raw.match(/,?\s+on\s+(Medium)$/i);
+  if (m) return m[1].trim();
+  m = raw.match(/^([^,]+),\s*authored by/i);
+  if (m) return m[1].trim();
+  if (/^Authored (op-ed|article)(\s+by\s+[^,(]+)?(\s*\([^)]*\))?$/i.test(raw.trim())) return null;
+  return raw.replace(/\s*\(via [^)]+\)/i, '').trim();
+}
+
+function uniqueOutlets(items: typeof all): string[] {
+  const names = items.map((item) => outletName(item.data.outlet)).filter((n): n is string => !!n);
+  return [...new Set(names)].sort((a, b) => a.localeCompare(b));
+}
+const newsOutlets = uniqueOutlets(inTheNews);
+const opEdOutlets = uniqueOutlets(opEds);
 ---
 <Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." wide={true}>
   <Fragment slot="head">
@@ -77,6 +100,12 @@ const typeLabel: Record<string, string> = {
         <h2>AVI in the news</h2>
         <p>Independent reporting and interviews where AVI is quoted or featured — neither the words nor the decision to publish were AVI's.</p>
       </div>
+      {newsOutlets.length > 0 && (
+        <div class="outlet-box">
+          <span class="outlet-box-label">Featured in</span>
+          <span class="outlet-list">{newsOutlets.join(' · ')}</span>
+        </div>
+      )}
       <div class="press-grid">
         {featuredNews.map(({ item, Content }) => (
           <article class={`press-card type-${item.data.type}`}>
@@ -125,6 +154,12 @@ const typeLabel: Record<string, string> = {
         <h2>Op-eds</h2>
         <p>Articles written by AVI, published at the invitation and editorial discretion of independent outlets.</p>
       </div>
+      {opEdOutlets.length > 0 && (
+        <div class="outlet-box">
+          <span class="outlet-box-label">Published in</span>
+          <span class="outlet-list">{opEdOutlets.join(' · ')}</span>
+        </div>
+      )}
       <div class="press-grid">
         {featuredOpEds.map(({ item, Content }) => (
           <article class={`press-card type-${item.data.type}`}>
@@ -263,6 +298,28 @@ const typeLabel: Record<string, string> = {
     .section-head { margin-bottom: 1.75rem; }
     .section-head h2 { margin: 0 0 0.35rem; font-size: 1.5rem; }
     .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .outlet-box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 0.6rem;
+      background: var(--paper-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.86rem;
+    }
+    .outlet-box-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-dark);
+      flex-shrink: 0;
+    }
+    .outlet-list { color: var(--muted); line-height: 1.6; }
 
     .press-grid {
       display: grid;
