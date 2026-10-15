@@ -1,8 +1,7 @@
 ---
 title: "AVI response to editorial in The Hindu"
 date: 2024-08-30
-outlet: "The Hindu"
-url: "https://vapeindia.org/hindu-rebuttal/"
+outlet: "AVI statement"
 type: "op-ed"
 ---
 
