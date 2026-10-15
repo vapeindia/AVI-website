@@ -593,9 +593,14 @@ Still needed, roughly in priority order:
    `sitemap.xml` are now covered: specific matches where a confident
    mapping existed (e.g. `/pil-karnataka/` → the Karnataka litigation
    detail page, `/share-your-vaping-experience/` → `/testimonials`), a
-   `/press` fallback for old individual posts (the press collection has no
-   per-article pages on the new site, so this is the best available
-   landing spot, not a deep link), `/` for WordPress account-system pages
+   `/press` fallback for old individual posts (true at the time — the
+   press collection had no per-article pages on the new site, so this
+   was the best available landing spot, not a deep link. **Stale as of
+   2026-10**: press now has individual pages at `/press/<slug>/`, see
+   the SEO/GEO pass section below — the ~24 old URLs still redirecting
+   to the blanket `/press` fallback could now point at a specific entry
+   instead, but that's an unmapped follow-up, not done here), `/` for
+   WordPress account-system pages
    and pages with no new-site equivalent, and `/blocks/*` (5 URLs)
    deliberately left unredirected — those are Gutenberg reusable-block
    storage, never real public pages. Verified programmatically against the
@@ -1463,6 +1468,57 @@ runs it on every commit or on a schedule. If that ever becomes worth
 automating (e.g. a periodic link-check across all Analysis posts, not
 just at publish time — pages age and links rot after the fact too),
 that's a new script in `scripts/`, not yet built.
+
+## SEO/GEO pass: press detail pages, JSON-LD on litigation/science, RSS
+## everywhere, collapsible FAQ (2026-10)
+
+Site-owner asked for suggestions to improve SEO/GEO, then asked to build
+the top items. What changed:
+
+- **`press` now has individual pages** (`src/pages/press/[...slug].astro`,
+  new — press previously had only an index listing, no per-item URL).
+  Each card on `/press` now links its headline to its own AVI page
+  (`/press/<slug>/`); the external "Read the original →" link is kept
+  alongside it, not replaced. The new page's `Article` JSON-LD describes
+  *AVI's own catalogue entry* about the coverage (author/publisher =
+  AVI), not a claim to republish the original piece — `isBasedOn` points
+  at the outlet URL when one exists. Same reasoning applies to the new
+  JSON-LD on `litigation`/`science` detail pages (both already had their
+  own pages, just no structured data) — don't change this to claim AVI
+  *authored* third-party research or a court's ruling.
+- **RSS feeds added for `news`, `science`, `litigation`, `press`**
+  (`src/pages/<section>/rss.xml.js`), matching the hand-rolled pattern
+  `analysis/rss.xml.js` already established (no `@astrojs/rss`
+  dependency). `news`' feed links out to each item's original
+  `sourceUrl` (matching the index page's own behaviour — these are
+  third-party links, not AVI pages); `science` synthesises a pubDate
+  from `year` the same way `search-index.json.ts` already does, since
+  `research` has no full date field. Each section's index page (and, for
+  litigation/science, the detail page too) got a
+  `<link rel="alternate" type="application/rss+xml">` tag via `Base`'s
+  `head` named slot.
+- **Collapsible FAQ**: Analysis posts' FAQ entries are now authored as
+  raw-HTML `<details class="faq-item"><summary>Question</summary>` blocks
+  (a blank line after `<summary>` and before `</details>` is what makes
+  remark treat the inner text as real markdown instead of swallowing it
+  as raw HTML — same trick GitHub's own README renderer relies on;
+  verified against the actual rendered DOM that an inline link inside an
+  answer still becomes a real `<a>`). Styled in
+  `src/pages/analysis/[...slug].astro` (`.article-body :global(details.faq-item)`
+  etc.) as native, no-JS, keyboard-accessible accordions — collapsed by
+  default, answer stays in the DOM either way so crawlers/AI engines see
+  it regardless of visual state. The `FAQPage` JSON-LD block at the end
+  of the post is unchanged and unrelated — keep authoring both; one is
+  for structured-data parsers, the other for human readers. Full
+  convention documented in `content.config.ts`'s comment on the
+  `analysis` collection. Retrofitted onto the one published post
+  (`vape-market-grows-despite-ban.md`); the template example post has no
+  FAQ section to convert (FAQ is optional per post, not mandatory).
+
+Deliberately not done in this pass (see the SEO/GEO suggestions
+conversation if picking this up again): `FAQPage` schema on `/india/law`,
+`/quit`, `/policy` (item 5 of that list); a Wikidata/Wikipedia entry for
+AVI; `width`/`height` on `<img>` tags site-wide for CLS.
 
 ---
 

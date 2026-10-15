@@ -130,6 +130,26 @@ const research = defineCollection({
 // deliberate break within the body, e.g. between the main argument and a
 // trailing FAQ block. Styled in src/pages/analysis/[...slug].astro.
 //
+// Collapsible FAQ entries: raw HTML `<details class="faq-item">`, with a
+// BLANK LINE after `<summary>` and before `</details>` — that blank line
+// is what makes remark treat the inner text as markdown (links, bold,
+// etc. all still work) rather than swallowing it as part of the raw HTML
+// block. This is the same trick GitHub's own README renderer relies on
+// for collapsible sections; verified here against the actual rendered
+// DOM, same as the other raw-HTML conventions on this page. e.g.:
+//   <details class="faq-item">
+//   <summary>Is vaping legal in India?</summary>
+//
+//   Selling is banned, using is not. [More on the law](/india/law/).
+//
+//   </details>
+// Native <details>/<summary> — no JS, keyboard-accessible, and the
+// answer stays in the DOM (so crawlers/AI engines still see it) even
+// while visually collapsed. Still pair this with the FAQPage JSON-LD
+// block at the end of the post (see the example post) — the two are
+// independent and both matter: JSON-LD for structured-data parsers,
+// the visible <details> markup for everyone else.
+//
 // `summaryPoints`: the "At a glance" box rendered at the very top of the
 // post (above even the intro) — 2-5 short, standalone bullets a reader
 // skimming on a phone can get the whole gist from without reading further.

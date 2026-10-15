@@ -1,0 +1,123 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('press');
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+const { item } = Astro.props;
+const { Content } = await render(item);
+
+const typeLabel: Record<string, string> = {
+  coverage: 'Coverage',
+  interview: 'Interview',
+  'op-ed': 'Op-ed',
+  'press-release': 'Press release',
+  quote: 'Quote',
+};
+const description = `${typeLabel[item.data.type]} — ${item.data.outlet}, ${item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}.`;
+const canonicalURL = new URL(`/press/${item.id}/`, Astro.site).toString();
+const originalURL = item.data.url || item.data.archivePdf;
+
+// This page is AVI's own catalogue entry describing a piece of press
+// coverage, not a republication of the original -- so the Article schema
+// describes AVI's entry (author/publisher = AVI), with `isBasedOn`
+// pointing at the actual outlet piece when a live link exists.
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: item.data.title,
+  description,
+  datePublished: item.data.date.toISOString(),
+  mainEntityOfPage: canonicalURL,
+  articleSection: typeLabel[item.data.type],
+  author: { '@type': 'Organization', name: 'Association of Vapers India', url: 'https://vapeindia.org' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Association of Vapers India',
+    logo: { '@type': 'ImageObject', url: new URL('/images/avi-logo.png', Astro.site).toString() },
+  },
+};
+if (item.data.url) articleLd.isBasedOn = item.data.url;
+---
+<Base title={item.data.title} description={description}>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="AVI Press &amp; Media Coverage" href="/press/rss.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  </Fragment>
+
+  <p><a href="/press">← Back to Press</a></p>
+  <span class={`type-pill type-${item.data.type}`}>{typeLabel[item.data.type]}</span>
+  <h1>{item.data.title}</h1>
+  <p class="meta">
+    {item.data.outlet} · {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+  </p>
+
+  <div class="press-body">
+    <Content />
+  </div>
+
+  {originalURL
+    ? <p class="original-link"><a href={originalURL} target="_blank" rel="noopener">Read the original →</a></p>
+    : <p class="pending-link">Source: AVI press archive (not yet linked online)</p>}
+
+  <div class="press-related">
+    <a href="/press" class="related-card">
+      <h3>All press &amp; media coverage →</h3>
+      <p>Independent reporting on AVI, and AVI's own public statements.</p>
+    </a>
+    <a href="/litigation" class="related-card">
+      <h3>Litigation →</h3>
+      <p>The court cases behind much of this coverage.</p>
+    </a>
+  </div>
+
+  <style>
+    .type-pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      color: #fff;
+      background: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .type-interview { background: var(--gold); }
+    .type-op-ed { background: var(--rust); }
+    .type-press-release { background: var(--accent-dark); }
+    .type-quote { background: var(--muted); }
+
+    h1 { margin-top: 0.25rem; }
+    .meta { color: var(--muted); margin-top: -0.5rem; font-size: 0.85rem; font-weight: 600; }
+    .press-body { font-size: 1rem; line-height: 1.7; margin-top: 1.5rem; }
+    .press-body :global(p) { margin: 0 0 1.1rem; }
+
+    .original-link { font-weight: 600; margin-top: 1rem; }
+    .pending-link { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 1rem; }
+
+    .press-related {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper-alt);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.15s ease;
+    }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--accent-dark); }
+    .related-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  </style>
+</Base>

@@ -110,29 +110,47 @@ Seven years on, PECA has given India the worst of both worlds: a ₹22,000 crore
 
 ## Vaping in India: quick answers
 
-### Is vaping legal in India?
+<details class="faq-item">
+<summary>Is vaping legal in India?</summary>
 
 Selling is banned, using is not. PECA bans making, importing, exporting, selling, distributing and advertising e-cigarettes, and storing or transporting them for sale, with up to a year in jail and a ₹1 lakh fine for a first offence. No provision in PECA makes personal use or possession an offence. [More on the law](/india/law/).
 
-### How big is the e-cigarette market in India?
+</details>
+
+<details class="faq-item">
+<summary>How big is the e-cigarette market in India?</summary>
 
 About USD 2.30 billion, or roughly ₹22,000 crore, in 2025, according to IMARC Group. IMARC forecasts growth of 4.46% a year, taking the market to USD 3.41 billion by 2034.
 
-### Has the vape ban reduced vaping in India?
+</details>
+
+<details class="faq-item">
+<summary>Has the vape ban reduced vaping in India?</summary>
 
 No. E-cigarettes are still sold online, by tobacconists and through informal networks, and the market keeps growing. North India is the largest regional market, with 30% of sales.
 
-### How much tax does India lose because of the vape ban?
+</details>
+
+<details class="faq-item">
+<summary>How much tax does India lose because of the vape ban?</summary>
 
 By AVI's estimate, a 15 to 20% tax on a legal market would raise ₹3,500 to 4,600 crore in 2026 and up to ₹6,500 crore a year by 2034, or ₹37,000 to 50,000 crore over nine years.
 
-### Are e-cigarettes safer than cigarettes?
+</details>
+
+<details class="faq-item">
+<summary>Are e-cigarettes safer than cigarettes?</summary>
 
 Yes. Vapes don't burn tobacco, the source of most smoking harm, and Cancer Research UK says regulated e-cigarettes are far less harmful than smoking. The 2025 Cochrane review found high-certainty evidence that nicotine e-cigarettes help more smokers quit than nicotine replacement therapy.
 
-### Which countries have lifted vape bans or moved to regulate?
+</details>
+
+<details class="faq-item">
+<summary>Which countries have lifted vape bans or moved to regulate?</summary>
 
 Argentina ended its 15-year ban in May 2026 and now regulates e-cigarettes through a national registry. Paraguay has also chosen regulation over prohibition, with a [2025 law](https://www.tobaccocontrollaws.org/laws/law-7508-paraguay) that limits sales to adults through specialist shops and caps nicotine strength.
+
+</details>
 
 <script type="application/ld+json">
 {

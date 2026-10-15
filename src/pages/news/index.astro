@@ -95,6 +95,9 @@ const shortFmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'short', da
 const monthFmt = (key: string) => new Date(`${key}-01T00:00:00Z`).toLocaleDateString('en-IN', { year: 'numeric', month: 'long' });
 ---
 <Base title="Daily News" description="Current developments on tobacco harm reduction, vaping and nicotine pouch regulation relevant to India." wide={true}>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="AVI Daily News" href="/news/rss.xml" />
+  </Fragment>
   <section class="breakout news-hero">
     <div class="breakout-inner">
       <p class="eyebrow">Updated as it happens</p>

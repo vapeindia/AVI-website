@@ -30,6 +30,9 @@ const typeLabel: Record<string, string> = {
 };
 ---
 <Base title="Press" description="Independent media coverage of AVI, and AVI's own public statements, letters and rebuttals — headline and gist, not just a list of links." wide={true}>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="AVI Press &amp; Media Coverage" href="/press/rss.xml" />
+  </Fragment>
   <section class="breakout press-hero">
     <div class="breakout-inner">
       <p class="eyebrow">A decade in the press</p>
@@ -74,7 +77,7 @@ const typeLabel: Record<string, string> = {
                 {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
               </time>
             </div>
-            <h3>{item.data.title}</h3>
+            <h3><a href={`/press/${item.id}/`}>{item.data.title}</a></h3>
             <p class="outlet">{item.data.outlet}</p>
             <div class="gist"><Content /></div>
             {(item.data.url || item.data.archivePdf)
@@ -95,7 +98,7 @@ const typeLabel: Record<string, string> = {
                   {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
                 </time>
               </div>
-              <h3>{item.data.title}</h3>
+              <h3><a href={`/press/${item.id}/`}>{item.data.title}</a></h3>
               <p class="outlet">{item.data.outlet}</p>
               <div class="gist"><Content /></div>
               {(item.data.url || item.data.archivePdf)
@@ -122,7 +125,7 @@ const typeLabel: Record<string, string> = {
                 {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
               </time>
             </div>
-            <h3>{item.data.title}</h3>
+            <h3><a href={`/press/${item.id}/`}>{item.data.title}</a></h3>
             <p class="outlet">{item.data.outlet}</p>
             <div class="gist"><Content /></div>
             {(item.data.url || item.data.archivePdf)
@@ -143,7 +146,7 @@ const typeLabel: Record<string, string> = {
                   {item.data.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
                 </time>
               </div>
-              <h3>{item.data.title}</h3>
+              <h3><a href={`/press/${item.id}/`}>{item.data.title}</a></h3>
               <p class="outlet">{item.data.outlet}</p>
               <div class="gist"><Content /></div>
               {(item.data.url || item.data.archivePdf)
@@ -236,6 +239,8 @@ const typeLabel: Record<string, string> = {
     .type-quote .type-badge { background: var(--muted); }
 
     .press-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; line-height: 1.35; }
+    .press-card h3 a { color: var(--ink); text-decoration: none; }
+    .press-card h3 a:hover { color: var(--accent-dark); text-decoration: underline; }
     .outlet { margin: 0 0 0.75rem; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
     .gist {
       font-size: 0.88rem;

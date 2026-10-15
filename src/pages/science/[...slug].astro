@@ -11,8 +11,31 @@ const { Content } = await render(item);
 const description = item.data.brief.length > 155
   ? item.data.brief.slice(0, 155).replace(/\s+\S*$/, '') + '…'
   : item.data.brief;
+const canonicalURL = new URL(`/science/${item.id}/`, Astro.site).toString();
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: item.data.title,
+  description: item.data.brief,
+  mainEntityOfPage: canonicalURL,
+  articleSection: 'Science',
+  datePublished: new Date(Date.UTC(item.data.year, 0, 1)).toISOString(),
+  author: { '@type': 'Organization', name: 'Association of Vapers India', url: 'https://vapeindia.org' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Association of Vapers India',
+    logo: { '@type': 'ImageObject', url: new URL('/images/avi-logo.png', Astro.site).toString() },
+  },
+};
+if (item.data.doi) articleLd.isBasedOn = `https://doi.org/${item.data.doi}`;
+else if (item.data.pubmedId) articleLd.isBasedOn = `https://pubmed.ncbi.nlm.nih.gov/${item.data.pubmedId}`;
 ---
 <Base title={item.data.title} description={description}>
+  <Fragment slot="head">
+    <link rel="alternate" type="application/rss+xml" title="AVI Science / Evidence Library" href="/science/rss.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  </Fragment>
+
   <p><a href="/science">← Back to research library</a></p>
   <span class="study-pill">{item.data.studyType}</span>
   <h1>{item.data.title}</h1>
